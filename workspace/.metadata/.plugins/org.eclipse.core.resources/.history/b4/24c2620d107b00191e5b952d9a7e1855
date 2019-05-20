@@ -1,0 +1,51 @@
+# messages_es.properties
+#
+# Copyright (C) 2019 Universidad de Sevilla
+# 
+# The use of this project is hereby constrained to the conditions of the 
+# TDG Licence, a copy of which you may download from 
+# http://www.tdg-seville.info/License.html
+
+
+position = Puesto
+
+position.save = Guardar
+position.delete = Borrar
+position.cancel = Cancelar
+
+position.display = Mostrar
+position.edit = Editar
+position.back = Volver
+position.save.final = Guardar como final
+position.confirm.delete = Borrar
+position.cancelled = Cancelar
+position.apply = Aplicar
+position.audit = Revisar
+
+position.title = Titulo
+position.description = Descripción
+position.deadline = Fecha final
+position.profileRequired = Perfil Requerido
+position.technologiesRequired = Tecnologías Requeridas
+position.salary = Salario
+position.ticker = Ticker
+position.skillsRequired = Habilidades requeridas
+position.company = Compañia
+position.isDraft = Estado
+position.isCancelled = Cancelado
+position.problem.display = Problemas
+position.problems = Problemas
+position.sponsor = Patrocina
+position.sponsored = Puesto patrocinado por:
+
+problems.error.notAllow = Problemas no encontrados
+position.audit.list = Lista revisiones
+
+position.commit.error = Error en la ejecución de la petición
+position.notAllowed = No tienes acceso a esta página
+
+not.cancelled.it.is = No cancelado
+cancelled.it.is = Cancelada
+
+final.it.is = Final
+not.final.it.is = Borrador

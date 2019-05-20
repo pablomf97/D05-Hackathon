@@ -1,0 +1,19 @@
+package domain;
+
+import java.util.Date;
+
+public class Review extends DomainEntity{
+
+	//Attributes
+	
+	private String title;
+	private String body;
+	private Double rating;
+	private Date creationDate;
+	private boolean isDraft;
+	private String status;
+	private String rejectReason;
+	private Critic critic;
+	
+	//Getters
+}

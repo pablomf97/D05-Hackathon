@@ -1,0 +1,16 @@
+package domain;
+
+import java.sql.Date;
+
+import javax.persistence.Access;
+import javax.persistence.AccessType;
+import javax.persistence.Entity;
+
+@Entity
+@Access(AccessType.PROPERTY)
+public class Message extends DomainEntity{
+
+	//Attributes
+	Date sendMoment;
+	
+}

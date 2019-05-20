@@ -1,0 +1,29 @@
+package domain;
+
+import java.util.Map;
+
+import javax.persistence.Access;
+import javax.persistence.AccessType;
+import javax.persistence.Entity;
+
+@Entity
+@Access(AccessType.PROPERTY)
+public class Saga extends DomainEntity{
+
+	//Attributes
+	
+	private Map<String,String> title;
+	
+	//Getters and setters
+	
+	public Map<String, String> getTitle() {
+		return title;
+	}
+
+	public void setTitle(Map<String, String> title) {
+		this.title = title;
+	}
+	
+	
+	
+}

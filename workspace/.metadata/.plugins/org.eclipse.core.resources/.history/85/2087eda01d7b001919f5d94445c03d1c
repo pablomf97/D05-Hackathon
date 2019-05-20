@@ -1,0 +1,28 @@
+package domain;
+
+import javax.persistence.Access;
+import javax.persistence.AccessType;
+import javax.persistence.Entity;
+
+@Entity
+@Access(AccessType.PROPERTY)
+public class Critic extends Actor{
+
+	//Attributes
+	
+	private Curricula curricula;
+
+	//Getters and setters
+	
+	
+	public Curricula getCurricula() {
+		return curricula;
+	}
+
+	public void setCurricula(Curricula curricula) {
+		this.curricula = curricula;
+	}
+	
+	
+	
+}

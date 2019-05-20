@@ -1,0 +1,94 @@
+package domain;
+
+import java.util.Date;
+
+import org.hibernate.validator.constraints.NotBlank;
+
+public class Review extends DomainEntity{
+
+	//Attributes
+	
+	private String title;
+	private String body;
+	private Double rating;
+	private Date creationDate;
+	private boolean isDraft;
+	private String status;
+	private String rejectReason;
+	private Critic critic;
+	private Moderator moderator;
+	private Film film;
+	
+	
+	//Getters and setters
+	
+	@NotBlank
+	public String getTitle() {
+		return title;
+	}
+	public void setTitle(String title) {
+		this.title = title;
+	}
+	
+	@NotBlank
+	public String getBody() {
+		return body;
+	}
+	public void setBody(String body) {
+		this.body = body;
+	}
+	
+	@Range(min=0,max=10)
+	public Double getRating() {
+		return rating;
+	}
+	public void setRating(Double rating) {
+		this.rating = rating;
+	}
+	public Date getCreationDate() {
+		return creationDate;
+	}
+	public void setCreationDate(Date creationDate) {
+		this.creationDate = creationDate;
+	}
+	public boolean isDraft() {
+		return isDraft;
+	}
+	public void setDraft(boolean isDraft) {
+		this.isDraft = isDraft;
+	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
+	public String getRejectReason() {
+		return rejectReason;
+	}
+	public void setRejectReason(String rejectReason) {
+		this.rejectReason = rejectReason;
+	}
+	public Critic getCritic() {
+		return critic;
+	}
+	public void setCritic(Critic critic) {
+		this.critic = critic;
+	}
+	public Moderator getModerator() {
+		return moderator;
+	}
+	public void setModerator(Moderator moderator) {
+		this.moderator = moderator;
+	}
+	public Film getFilm() {
+		return film;
+	}
+	public void setFilm(Film film) {
+		this.film = film;
+	}
+	
+	
+	
+	
+}

@@ -1,0 +1,41 @@
+package domain;
+
+import javax.persistence.Access;
+import javax.persistence.AccessType;
+import javax.persistence.Entity;
+
+
+@Entity
+@Access(AccessType.PROPERTY)
+public class Visualization extends DomainEntity{
+
+	//Attributes
+	
+	private String siteName;
+	private String link;
+	private Double price;
+	
+	//Getters and setters
+	
+	@NotBlank
+	public String getSiteName() {
+		return siteName;
+	}
+	public void setSiteName(String siteName) {
+		this.siteName = siteName;
+	}
+	public String getLink() {
+		return link;
+	}
+	public void setLink(String link) {
+		this.link = link;
+	}
+	public Double getPrice() {
+		return price;
+	}
+	public void setPrice(Double price) {
+		this.price = price;
+	}
+	
+	
+}
