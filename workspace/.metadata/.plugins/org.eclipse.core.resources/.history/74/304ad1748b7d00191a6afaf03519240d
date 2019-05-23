@@ -1,0 +1,55 @@
+package domain;
+
+import java.util.Collection;
+import java.util.Map;
+
+import javax.persistence.Access;
+import javax.persistence.AccessType;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.validation.Valid;
+
+@Entity
+@Access(AccessType.PROPERTY)
+public class Position extends DomainEntity{
+	
+	//Attributes
+	
+	private Map<String,String> name;
+	private Position parentPosition;
+	private Collection<Position> childPositions;
+	
+	//Getters and setters
+	
+	@ElementCollection
+	public Map<String, String> getName() {
+		return name;
+	}
+
+	public void setName(Map<String, String> name) {
+		this.name = name;
+	}
+	
+	@Valid
+	@ManyToOne(optional = true)
+	public Position getParentPosition() {
+		return parentPosition;
+	}
+
+	public void setParentPosition(Position parentPosition) {
+		this.parentPosition = parentPosition;
+	}
+	
+	@Valid
+	@ManyToMany
+	public Collection<Position> getChildPositions() {
+		return childPositions;
+	}
+
+	public void setChildPositions(Collection<Position> childPositions) {
+		this.childPositions = childPositions;
+	}
+	
+}

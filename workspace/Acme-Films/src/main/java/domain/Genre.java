@@ -6,8 +6,7 @@ import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-
-import org.hibernate.validator.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Access(AccessType.PROPERTY)
@@ -19,7 +18,7 @@ public class Genre extends DomainEntity{
 
 	//Getters and setters
 
-	@NotBlank
+	@NotNull
 	@ElementCollection
 	public Map<String, String> getName() {
 		return name;

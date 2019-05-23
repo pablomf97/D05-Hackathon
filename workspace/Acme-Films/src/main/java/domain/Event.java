@@ -20,7 +20,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Access(AccessType.PROPERTY)
-public class Event extends DomainEntity{
+public class Event extends DomainEntity{ 
 
 	//Attributes
 	

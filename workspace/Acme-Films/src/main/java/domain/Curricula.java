@@ -17,7 +17,7 @@ public class Curricula extends DomainEntity{
 	//Attributes
 	private Collection<MiscellaneousData> miscellaneousData;
 	private Collection<EducationData> educationData;
-	private Collection<ProfessionalData> ProfessionalData;
+	private Collection<ProfessionalData> professionalData;
 	private PersonalData personalData;
 	
 	//Getters and setters
@@ -43,10 +43,10 @@ public class Curricula extends DomainEntity{
 	@Valid
 	@OneToMany(cascade= CascadeType.ALL)
 	public Collection<ProfessionalData> getProfessionalData() {
-		return ProfessionalData;
+		return professionalData;
 	}
 	public void setProfessionalData(Collection<ProfessionalData> professionalData) {
-		ProfessionalData = professionalData;
+		this.professionalData = professionalData;
 	}
 	
 	@Valid

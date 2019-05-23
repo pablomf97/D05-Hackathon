@@ -1,10 +1,13 @@
 package domain;
 
+import java.util.Collection;
 import java.util.Date;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
+import javax.validation.Valid;
 import javax.validation.constraints.Past;
 
 @Entity
@@ -17,6 +20,7 @@ public class Finder extends DomainEntity{
 	private Double minimumRating;
 	private Double maximumRating;
 	private Date searchMoment;
+	private Collection<Film> results;
 	
 	//Getters and setters
 	
@@ -51,6 +55,15 @@ public class Finder extends DomainEntity{
 	}
 	public void setSearchMoment(Date searchMoment) {
 		this.searchMoment = searchMoment;
+	}
+	
+	@Valid
+	@ManyToMany
+	public Collection<Film> getResults() {
+		return results;
+	}
+	public void setResults(Collection<Film> results) {
+		this.results = results;
 	}
 	
 	

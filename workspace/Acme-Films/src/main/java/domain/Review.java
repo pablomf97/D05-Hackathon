@@ -2,6 +2,9 @@ package domain;
 
 import java.util.Date;
 
+import javax.persistence.Access;
+import javax.persistence.AccessType;
+import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -14,7 +17,9 @@ import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.Range;
 import org.springframework.format.annotation.DateTimeFormat;
 
-public class Review extends DomainEntity{
+@Entity
+@Access(AccessType.PROPERTY)
+public class Review extends DomainEntity{ 
 
 	//Attributes
 	
@@ -66,10 +71,10 @@ public class Review extends DomainEntity{
 	public void setCreationDate(Date creationDate) {
 		this.creationDate = creationDate;
 	}
-	public boolean isDraft() {
+	public boolean getIsDraft() {
 		return isDraft;
 	}
-	public void setDraft(boolean isDraft) {
+	public void setIsDraft(boolean isDraft) {
 		this.isDraft = isDraft;
 	}
 	@Pattern(regexp="^PENDING|ACCEPTED|REJECTED$")

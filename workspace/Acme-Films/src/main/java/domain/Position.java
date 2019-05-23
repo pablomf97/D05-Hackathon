@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Access(AccessType.PROPERTY)
@@ -23,6 +24,7 @@ public class Position extends DomainEntity{
 	
 	//Getters and setters
 	
+	@NotNull
 	@ElementCollection
 	public Map<String, String> getName() {
 		return name;

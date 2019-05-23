@@ -18,7 +18,7 @@ import org.hibernate.validator.constraints.Range;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
-@Access(AccessType.PROPERTY)
+@Access(AccessType.PROPERTY) 
 public class Comment extends DomainEntity{
 
 	//Attributes
