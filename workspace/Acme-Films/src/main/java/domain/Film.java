@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
@@ -46,6 +47,7 @@ public class Film extends DomainEntity{
 	//Getters and setters
 	
 	@NotBlank
+	@ElementCollection
 	public Map<String, String> getTitle() {
 		return title;
 	}
@@ -54,6 +56,7 @@ public class Film extends DomainEntity{
 	}
 	
 	@NotBlank
+	@ElementCollection
 	public Map<String, String> getSynopsis() {
 		return synopsis;
 	}

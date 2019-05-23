@@ -1,5 +1,65 @@
 package domain;
 
-public class Curricula {
+import java.util.Collection;
 
+import javax.persistence.Access;
+import javax.persistence.AccessType;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.validation.Valid;
+
+@Entity
+@Access(AccessType.PROPERTY)
+public class Curricula extends DomainEntity{
+	
+	//Attributes
+	private Collection<MiscellaneousData> miscellaneousData;
+	private Collection<EducationData> educationData;
+	private Collection<ProfessionalData> ProfessionalData;
+	private PersonalData personalData;
+	
+	//Getters and setters
+	
+	@Valid
+	@OneToMany(cascade= CascadeType.ALL)
+	public Collection<MiscellaneousData> getMiscellaneousData() {
+		return miscellaneousData;
+	}
+	public void setMiscellaneousData(Collection<MiscellaneousData> miscellaneousData) {
+		this.miscellaneousData = miscellaneousData;
+	}
+	
+	@Valid
+	@OneToMany(cascade= CascadeType.ALL)
+	public Collection<EducationData> getEducationData() {
+		return educationData;
+	}
+	public void setEducationData(Collection<EducationData> educationData) {
+		this.educationData = educationData;
+	}
+	
+	@Valid
+	@OneToMany(cascade= CascadeType.ALL)
+	public Collection<ProfessionalData> getProfessionalData() {
+		return ProfessionalData;
+	}
+	public void setProfessionalData(Collection<ProfessionalData> professionalData) {
+		ProfessionalData = professionalData;
+	}
+	
+	@Valid
+	@OneToOne(cascade = CascadeType.ALL, optional = false)
+	public PersonalData getPersonalData() {
+		return personalData;
+	}
+	public void setPersonalData(PersonalData personalData) {
+		this.personalData = personalData;
+	}
+	
+	
+	
+	
+	
 }

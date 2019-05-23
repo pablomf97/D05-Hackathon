@@ -1,0 +1,475 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- * PopulateDatabase.xml * * Copyright (C) 2019 Universidad de Sevilla 
+	* * The use of this project is hereby constrained to the conditions of the 
+	* TDG Licence, a copy of which you may download from http://www.tdg-seville.info/License.html -->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!------------------------------- User accounts ------------------------------------------------------>
+	
+	<bean id="userAdmin1" class="security.UserAccount">
+		<property name="username" value="admin" />
+		<property name="password" value="21232f297a57a5a743894a0e4a801fc3" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="ADMIN" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="userModerator1" class="security.UserAccount">
+		<property name="username" value="moderator1" />
+		<property name="password" value="38caf4a470117125b995f7ce53e6e6b9" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="MODERATOR" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="userSponsor1" class="security.UserAccount">
+		<property name="username" value="sponsor1" />
+		<property name="password" value="42c63ad66d4dc07ed17753772bef96d6" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="SPONSOR" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+
+	<!-------------------------------- Social profiles --------------------------------->
+
+	<bean id="socialProfileAdmin1" class="domain.SocialProfile">
+		<property name="nick" value="predator" />
+		<property name="socialNetwork" value="Twitter" />
+		<property name="link" value="https://twitter.com/predator?lang=es" />
+
+	</bean>
+
+	<bean id="socialProfileModerator1" class="domain.SocialProfile">
+		<property name="nick" value="Rodet3" />
+		<property name="socialNetwork" value="Facebook" />
+		<property name="link" value="https://facebook.com/Rodet3?lang=es" />
+
+	</bean>
+
+	<bean id="socialProfileSponsor1" class="domain.SocialProfile">
+		<property name="nick" value="3p1c" />
+		<property name="socialNetwork" value="Tinder" />
+		<property name="link" value="https://tinder.com/3p1c?lang=es" />
+
+	</bean>
+
+	<!----------------------------------- ADMINISTRATOR ---------------------------->
+
+	<bean id="administrator1" class="domain.Administrator">
+		<property name="name" value="José" />
+		<property name="surname" value="Gamiz Redondo" />
+		<property name="nickName" value="cramersito" />
+		<property name="VAT" value="ES12345678" />
+		<property name="photo"
+			value="https://ih1.redbubble.net/image.376305132.3400/flat,550x550,075,f.u1.jpg" />
+		<property name="email" value="josgamred@mail.com" />
+		<property name="phoneNumber" value="+34611987654" />
+		<property name="address" value="C/ Atlántica sex, 1 (Málaga)" />
+		<property name="userAccount" ref="userModerator1" />
+		<property name="isSpammer" value="false" />
+		<property name="socialProfile">
+			<list>
+				<ref bean="socialProfileModerator1" />
+			</list>
+		</property>
+		<property name="messageBoxes">
+			<list>
+				<ref bean="inBoxAdmin1" />
+				<ref bean="outBoxAdmin1" />
+				<ref bean="spamBoxAdmin1" />
+				<ref bean="trashBoxAdmin1" />
+				<ref bean="notificationBoxAdmin1" />
+			</list>
+		</property>
+	</bean>
+
+	<!----------------------------------- MODERATOR -------------------------------->
+
+	<bean id="moderator1" class="domain.Moderator">
+		<property name="name" value="Pepe" />
+		<property name="surname" value="Viyuela" />
+		<property name="nickName" value="rodetin" />
+		<property name="VAT" value="ES12345678" />
+		<property name="photo"
+			value="https://ih1.redbubble.net/image.376305132.3400/flat,550x550,075,f.u1.jpg" />
+		<property name="email" value="pepito@mail.com" />
+		<property name="phoneNumber" value="+34611987654" />
+		<property name="address" value="C/ Atlántica sex, 1 (Málaga)" />
+		<property name="userAccount" ref="userAdmin1" />
+		<property name="isSpammer" value="false" />
+		<property name="socialProfile">
+			<list>
+				<ref bean="socialProfileAdmin1" />
+			</list>
+		</property>
+		<property name="messageBoxes">
+			<list>
+				<ref bean="inBoxModerator1" />
+				<ref bean="outBoxModerator1" />
+				<ref bean="spamBoxModerator1" />
+				<ref bean="trashBoxModerator1" />
+				<ref bean="notificationBoxModerator1" />
+			</list>
+		</property>
+	</bean>
+
+	<!----------------------------------- SPONSOR -------------------------------->
+
+	<bean id="sponsor1" class="domain.Sponsor">
+		<property name="name" value="Amancio" />
+		<property name="surname" value="Ortega" />
+		<property name="nickName" value="$$Amancio$$" />
+		<property name="VAT" value="ES12345678" />
+		<property name="photo"
+			value="https://ih1.redbubble.net/image.376305132.3400/flat,550x550,075,f.u1.jpg" />
+		<property name="email" value="money@mail.com" />
+		<property name="phoneNumber" value="+34611987654" />
+		<property name="address" value="C/ Atlántica sex, 1 (Málaga)" />
+		<property name="userAccount" ref="userAdmin1" />
+		<property name="isSpammer" value="false" />
+		<property name="socialProfile">
+			<list>
+				<ref bean="socialProfileSponsor1" />
+			</list>
+		</property>
+		<property name="messageBoxes">
+			<list>
+				<ref bean="inBoxSponsor1" />
+				<ref bean="outBoxSponsor1" />
+				<ref bean="spamBoxSponsor1" />
+				<ref bean="trashBoxSponsor1" />
+				<ref bean="notificationBoxSponsor1" />
+			</list>
+		</property>
+
+	</bean>
+
+	<!-------------------------------- MESSAGE BOXES -------------------------->
+	
+	<!-- ADMIN 1 -->
+	<bean id="inBoxAdmin1" class="domain.MessageBox">
+		<property name="name" value="In box" />
+		<property name="isPredefined" value="true" />
+		<property name="parentMessageBox">
+			<null />
+		</property>
+		<property name="messages">
+			<list>
+				<null />
+			</list>
+		</property>
+		<property name="childMessageBoxes">
+			<list>
+				<null />
+			</list>
+
+		</property>
+
+
+	</bean>
+
+	<bean id="spamBoxAdmin1" class="domain.MessageBox">
+		<property name="name" value="Spam box" />
+		<property name="isPredefined" value="true" />
+		<property name="parentMessageBox">
+			<null />
+		</property>
+		<property name="messages">
+			<list>
+				<null />
+			</list>
+		</property>
+		<property name="childMessageBoxes">
+			<list>
+				<null />
+			</list>
+
+		</property>
+	</bean>
+
+	<bean id="outBoxAdmin1" class="domain.MessageBox">
+		<property name="name" value="Out box" />
+		<property name="isPredefined" value="true" />
+		<property name="parentMessageBox">
+			<null />
+		</property>
+		<property name="messages">
+			<list>
+				<null />
+			</list>
+		</property>
+		<property name="childMessageBoxes">
+			<list>
+				<null />
+			</list>
+
+		</property>
+
+
+	</bean>
+
+	<bean id="trashBoxAdmin1" class="domain.MessageBox">
+		<property name="name" value="Trash box" />
+		<property name="isPredefined" value="true" />
+		<property name="parentMessageBox">
+			<null />
+		</property>
+		<property name="messages">
+			<list>
+				<null />
+			</list>
+		</property>
+		<property name="childMessageBoxes">
+			<list>
+				<null />
+			</list>
+
+		</property>
+
+	</bean>
+
+	<bean id="notificationBoxAdmin1" class="domain.MessageBox">
+		<property name="name" value="Notification box" />
+		<property name="isPredefined" value="true" />
+		<property name="parentMessageBox">
+			<null />
+		</property>
+		<property name="messages">
+			<list>
+				<null />
+			</list>
+		</property>
+		<property name="childMessageBoxes">
+			<list>
+				<null />
+			</list>
+
+		</property>
+
+	</bean>
+
+	<!-- SPONSOR 1 -->
+
+	<bean id="inBoxSponsor1" class="domain.MessageBox">
+		<property name="name" value="In box" />
+		<property name="isPredefined" value="true" />
+		<property name="parentMessageBox">
+			<null />
+		</property>
+		<property name="messages">
+			<list>
+				<null />
+			</list>
+		</property>
+		<property name="childMessageBoxes">
+			<list>
+				<null />
+			</list>
+
+		</property>
+
+
+	</bean>
+
+	<bean id="spamBoxSponsor1" class="domain.MessageBox">
+		<property name="name" value="Spam box" />
+		<property name="isPredefined" value="true" />
+		<property name="parentMessageBox">
+			<null />
+		</property>
+		<property name="messages">
+			<list>
+				<null />
+			</list>
+		</property>
+		<property name="childMessageBoxes">
+			<list>
+				<null />
+			</list>
+
+		</property>
+	</bean>
+
+	<bean id="outBoxSponsor1" class="domain.MessageBox">
+		<property name="name" value="Out box" />
+		<property name="isPredefined" value="true" />
+		<property name="parentMessageBox">
+			<null />
+		</property>
+		<property name="messages">
+			<list>
+				<null />
+			</list>
+		</property>
+		<property name="childMessageBoxes">
+			<list>
+				<null />
+			</list>
+
+		</property>
+
+
+	</bean>
+
+	<bean id="trashBoxSponsor1" class="domain.MessageBox">
+		<property name="name" value="Trash box" />
+		<property name="isPredefined" value="true" />
+		<property name="parentMessageBox">
+			<null />
+		</property>
+		<property name="messages">
+			<list>
+				<null />
+			</list>
+		</property>
+		<property name="childMessageBoxes">
+			<list>
+				<null />
+			</list>
+
+		</property>
+
+	</bean>
+
+	<bean id="notificationBoxSponsor1" class="domain.MessageBox">
+		<property name="name" value="Notification box" />
+		<property name="isPredefined" value="true" />
+		<property name="parentMessageBox">
+			<null />
+		</property>
+		<property name="messages">
+			<list>
+				<null />
+			</list>
+		</property>
+		<property name="childMessageBoxes">
+			<list>
+				<null />
+			</list>
+
+		</property>
+
+	</bean>
+	
+	<!--  MODERATOR 1 -->
+	
+	<bean id="inBoxModerator1" class="domain.MessageBox">
+		<property name="name" value="In box" />
+		<property name="isPredefined" value="true" />
+		<property name="parentMessageBox">
+			<null />
+		</property>
+		<property name="messages">
+			<list>
+				<null />
+			</list>
+		</property>
+		<property name="childMessageBoxes">
+			<list>
+				<null />
+			</list>
+
+		</property>
+
+
+	</bean>
+
+	<bean id="spamBoxModerator1" class="domain.MessageBox">
+		<property name="name" value="Spam box" />
+		<property name="isPredefined" value="true" />
+		<property name="parentMessageBox">
+			<null />
+		</property>
+		<property name="messages">
+			<list>
+				<null />
+			</list>
+		</property>
+		<property name="childMessageBoxes">
+			<list>
+				<null />
+			</list>
+
+		</property>
+	</bean>
+
+	<bean id="outBoxModerator1" class="domain.MessageBox">
+		<property name="name" value="Out box" />
+		<property name="isPredefined" value="true" />
+		<property name="parentMessageBox">
+			<null />
+		</property>
+		<property name="messages">
+			<list>
+				<null />
+			</list>
+		</property>
+		<property name="childMessageBoxes">
+			<list>
+				<null />
+			</list>
+
+		</property>
+
+
+	</bean>
+
+	<bean id="trashBoxModerator1" class="domain.MessageBox">
+		<property name="name" value="Trash box" />
+		<property name="isPredefined" value="true" />
+		<property name="parentMessageBox">
+			<null />
+		</property>
+		<property name="messages">
+			<list>
+				<null />
+			</list>
+		</property>
+		<property name="childMessageBoxes">
+			<list>
+				<null />
+			</list>
+
+		</property>
+
+	</bean>
+
+	<bean id="notificationBoxModerator1" class="domain.MessageBox">
+		<property name="name" value="Notification box" />
+		<property name="isPredefined" value="true" />
+		<property name="parentMessageBox">
+			<null />
+		</property>
+		<property name="messages">
+			<list>R
+				<null />
+			</list>
+		</property>
+		<property name="childMessageBoxes">
+			<list>
+				<null />
+			</list>
+
+		</property>
+
+	</bean>
+</beans>

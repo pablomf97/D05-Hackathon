@@ -1,11 +1,14 @@
 package domain;
 
+import java.util.Collection;
+
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -33,6 +36,8 @@ public class Actor extends DomainEntity {
 	private String address;
 	private UserAccount userAccount;
 	private boolean isSpammer;
+	private Collection<SocialProfile> socialProfiles;
+	private Collection<MessageBox> messageBoxes;
 
 	// Getters and Setters
 
@@ -126,6 +131,27 @@ public class Actor extends DomainEntity {
 	public void setIsSpammer(boolean isSpammer) {
 		this.isSpammer = isSpammer;
 	}
+	
+	@Valid
+	@OneToMany
+	public Collection<SocialProfile> getSocialProfile() {
+		return socialProfiles;
+	}
+
+	public void setSocialProfile(Collection<SocialProfile> socialProfiles) {
+		this.socialProfiles = socialProfiles;
+	}
+	
+	
+	@Valid
+	@OneToMany
+	public Collection<MessageBox> getMessageBoxes() {
+		return messageBoxes;
+	}
+
+	public void setMessageBoxes(Collection<MessageBox> messageBoxes) {
+		this.messageBoxes = messageBoxes;
+	}
 
 	@Override
 	public int hashCode() {
@@ -141,6 +167,8 @@ public class Actor extends DomainEntity {
 		result = prime * result
 				+ ((phoneNumber == null) ? 0 : phoneNumber.hashCode());
 		result = prime * result + ((photo == null) ? 0 : photo.hashCode());
+		result = prime * result
+				+ ((socialProfiles == null) ? 0 : socialProfiles.hashCode());
 		result = prime * result + ((surname == null) ? 0 : surname.hashCode());
 		result = prime * result
 				+ ((userAccount == null) ? 0 : userAccount.hashCode());
@@ -193,6 +221,11 @@ public class Actor extends DomainEntity {
 				return false;
 		} else if (!photo.equals(other.photo))
 			return false;
+		if (socialProfiles == null) {
+			if (other.socialProfiles != null)
+				return false;
+		} else if (!socialProfiles.equals(other.socialProfiles))
+			return false;
 		if (surname == null) {
 			if (other.surname != null)
 				return false;
@@ -212,9 +245,10 @@ public class Actor extends DomainEntity {
 				+ nickName + ", VAT=" + VAT + ", photo=" + photo + ", email="
 				+ email + ", phoneNumber=" + phoneNumber + ", address="
 				+ address + ", userAccount=" + userAccount + ", isSpammer="
-				+ isSpammer + "]";
+				+ isSpammer + ", socialProfile=" + socialProfiles + "]";
 	}
 
+	
 	
 
 	

@@ -4,6 +4,7 @@ import java.util.Map;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 
 import org.hibernate.validator.constraints.NotBlank;
@@ -19,6 +20,7 @@ public class Saga extends DomainEntity{
 	//Getters and setters
 	
 	@NotBlank
+	@ElementCollection
 	public Map<String, String> getTitle() {
 		return title;
 	}

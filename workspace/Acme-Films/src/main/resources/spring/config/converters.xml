@@ -14,16 +14,81 @@
 	<util:list id="converters">
 		<!-- Add your own converters using entries of the following form: <bean 
 			class="converters.Class1ToClass2" /> -->
-	
+		<bean class="converters.ActorToStringConverter" />
+		<bean class="converters.StringToActorConverter" />
+
+		<bean class="converters.AdministratorToStringConverter" />
+		<bean class="converters.StringToAdministratorConverter" />
+
+		<bean class="converters.CommentToStringConverter" />
+		<bean class="converters.StringToCommentConverter" />
+
+		<bean class="converters.CriticToStringConverter" />
+		<bean class="converters.StringToCriticConverter" />
+
+		<bean class="converters.CurriculaToStringConverter" />
+		<bean class="converters.StringToCurriculaConverter" />
+
+		<bean class="converters.EducationDataToStringConverter" />
+		<bean class="converters.StringToEducationDataConverter" />
+
+		<bean class="converters.EventToStringConverter" />
+		<bean class="converters.StringToEventConverter" />
+
+		<bean class="converters.FilmEnthusiastToStringConverter" />
+		<bean class="converters.StringToFilmEnthusiastConverter" />
+
+		<bean class="converters.FilmToStringConverter" />
+		<bean class="converters.StringToFilmConverter" />
+
+		<bean class="converters.FinderToStringConverter" />
+		<bean class="converters.StringToFinderConverter" />
+
+		<bean class="converters.GenreToStringConverter" />
+		<bean class="converters.StringToGenreConverter" />
+
+		<bean class="converters.GroupToStringConverter" />
+		<bean class="converters.StringToGroupConverter" />
+
+		<bean class="converters.MessageToStringConverter" />
+		<bean class="converters.StringToMessageConverter" />
+
+		<bean class="converters.MessageBoxToStringConverter" />
+		<bean class="converters.StringToMessageBoxConverter" />
+
+		<bean class="converters.MiscellaneousDataToStringConverter" />
+		<bean class="converters.StringToMiscellaneousDataConverter" />
+
+		<bean class="converters.ModeratorToStringConverter" />
+		<bean class="converters.StringToModeratorConverter" />
+
+		<bean class="converters.PersonalDataToStringConverter" />
+		<bean class="converters.StringToPersonalDataConverter" />
+
+		<bean class="converters.PersonToStringConverter" />
+		<bean class="converters.StringToPersonConverter" />
+
+		<bean class="converters.PositionToStringConverter" />
+		<bean class="converters.StringToPositionConverter" />
+
+		<bean class="converters.ProfessionalDataToStringConverter" />
+		<bean class="converters.StringToProfessionalDataConverter" />
+
+		<bean class="converters.ReviewToStringConverter" />
+		<bean class="converters.StringToReviewConverter" />
+
+		<bean class="converters.SagaToStringConverter" />
+		<bean class="converters.StringToSagaConverter" />
+
+		<bean class="converters.SponsorToStringConverter" />
+		<bean class="converters.StringToSponsorConverter" />
+
+		<bean class="converters.SponsorshipToStringConverter" />
+		<bean class="converters.StringToSponsorshipConverter" />
+
+		<bean class="converters.VisualizationToStringConverter" />
+		<bean class="converters.StringToVisualizationConverter" />
 
 	</util:list>
-
-
-
-
-
-
-
-
 
 </beans>

@@ -36,19 +36,19 @@ public class Authority implements GrantedAuthority {
 	// Values -----------------------------------------------------------------
 
 	public static final String ADMIN = "ADMIN";
-	public static final String ROOKIE = "ROOKIE";
-	public static final String COMPANY = "COMPANY";
-	public static final String PROVIDER = "PROVIDER";
-	public static final String AUDITOR = "AUDITOR";
+	public static final String CRITIC = "CRITIC";
+	public static final String MODERATOR = "MODERATOR";
+	public static final String FILMENTHUSIAST = "FILMENTHUSIAST";
+	public static final String SPONSOR = "SPONSOR";
 
 	// Attributes -------------------------------------------------------------
 
 	private String authority;
 
 	@NotBlank
-	@Pattern(regexp = "^" + Authority.ADMIN + "|" + Authority.ROOKIE + "|"
-			+ Authority.COMPANY + "|" + Authority.PROVIDER + "|"
-			+ Authority.AUDITOR + "$")
+	@Pattern(regexp = "^" + Authority.ADMIN + "|" + Authority.CRITIC + "|"
+			+ Authority.MODERATOR + "|" + Authority.FILMENTHUSIAST+ "|"
+			+ Authority.SPONSOR + "$")
 	@Override
 	public String getAuthority() {
 		return this.authority;
@@ -69,19 +69,19 @@ public class Authority implements GrantedAuthority {
 		result.add(authority);
 
 		authority = new Authority();
-		authority.setAuthority(Authority.ROOKIE);
+		authority.setAuthority(Authority.CRITIC);
 		result.add(authority);
 
 		authority = new Authority();
-		authority.setAuthority(Authority.COMPANY);
+		authority.setAuthority(Authority.MODERATOR);
 		result.add(authority);
 
 		authority = new Authority();
-		authority.setAuthority(Authority.PROVIDER);
+		authority.setAuthority(Authority.FILMENTHUSIAST);
 		result.add(authority);
 
 		authority = new Authority();
-		authority.setAuthority(Authority.AUDITOR);
+		authority.setAuthority(Authority.SPONSOR);
 		result.add(authority);
 
 		return result;

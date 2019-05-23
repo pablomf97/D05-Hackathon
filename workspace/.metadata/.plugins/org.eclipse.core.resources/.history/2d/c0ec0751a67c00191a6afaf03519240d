@@ -1,0 +1,30 @@
+package domain;
+
+import java.util.Collection;
+import java.util.Date;
+
+import javax.persistence.Access;
+import javax.persistence.AccessType;
+import javax.persistence.Entity;
+
+@Entity
+@Access(AccessType.PROPERTY)
+public class Group extends DomainEntity{
+	
+	//Attributes
+	
+	private String name;
+	private String description;
+	private Date creationDate;
+	private String rejectReason;
+	private boolean isActive;
+	private FilmEnthusiast creator;
+	private Collection<FilmEnthusiast> groupMembers;
+	private Saga sagaAbout;
+	private Film filmAbout;
+	
+	
+	//Getters and Setters
+	
+	
+}

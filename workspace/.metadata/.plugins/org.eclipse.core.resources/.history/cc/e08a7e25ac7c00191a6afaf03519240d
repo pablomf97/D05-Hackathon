@@ -1,0 +1,6 @@
+package domain;
+
+
+public class SystemConfiguration extends DomainEntity{
+
+}
