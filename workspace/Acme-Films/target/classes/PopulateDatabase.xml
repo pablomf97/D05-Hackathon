@@ -279,7 +279,7 @@
 		</property>
 		<property name="messages">
 			<list>
-				<null />
+
 			</list>
 		</property>
 		<property name="childMessageBoxes">
@@ -319,7 +319,10 @@
 		</property>
 		<property name="messages">
 			<list>
-				<null />
+				<ref bean="message1" />
+				<ref bean="message2" />
+				<ref bean="message3" />
+				<ref bean="message4" />
 			</list>
 		</property>
 		<property name="childMessageBoxes">
@@ -382,7 +385,7 @@
 		</property>
 		<property name="messages">
 			<list>
-				<null />
+				<ref bean="message4" />
 			</list>
 		</property>
 		<property name="childMessageBoxes">
@@ -484,7 +487,7 @@
 		</property>
 		<property name="messages">
 			<list>
-				<null />
+				<ref bean="message2" />
 			</list>
 		</property>
 		<property name="childMessageBoxes">
@@ -587,7 +590,7 @@
 		</property>
 		<property name="messages">
 			<list>
-				<null />
+				<ref bean="message1" />
 			</list>
 		</property>
 		<property name="childMessageBoxes">
@@ -627,7 +630,7 @@
 		</property>
 		<property name="messages">
 			<list>
-				<null />
+
 			</list>
 		</property>
 		<property name="childMessageBoxes">
@@ -690,7 +693,7 @@
 		</property>
 		<property name="messages">
 			<list>
-				<null />
+				<ref bean="message3" />
 			</list>
 		</property>
 		<property name="childMessageBoxes">
@@ -892,7 +895,7 @@
 	<bean id="person1" class="domain.Person">
 		<property name="name" value="Matt" />
 		<property name="surname" value="Ross" />
-		<property name="gender" value= "3" />
+		<property name="gender" value="3" />
 		<property name="nationality" value="Greenwich, Connecticut, Estados Unidos" />
 		<property name="birthDate" value="03/01/1970 22:40" />
 		<property name="photo" value="" />
@@ -940,7 +943,7 @@
 		</property>
 		<property name="persons">
 			<list>
-				<ref bean="person1"/>
+				<ref bean="person1" />
 			</list>
 		</property>
 		<property name="sponsorships">
@@ -964,71 +967,228 @@
 		<property name="price" value="12.2" />
 		<property name="film" ref="film1" />
 	</bean>
-	
+
 	<!-- **************************** FORUM **************************** -->
 	<bean id="forum1" class="domain.Forum">
 		<property name="name" value="Fantastic Forum" />
 		<property name="description" value="Forum to talk about Captain Fantastic" />
 		<property name="creationDate" value="12/12/2017 12:12" />
 		<property name="rejectReason" value="" />
-		<property name="creator" ref="filmEnthusiast1"	/>
+		<property name="creator" ref="filmEnthusiast1" />
 		<property name="groupMembers">
 			<list>
-				<ref bean="filmEnthusiast1"/>
+				<ref bean="filmEnthusiast1" />
 			</list>
 		</property>
 		<property name="sagaAbout">
-			<null/>
+			<null />
 		</property>
-		<property name="filmAbout" ref="film1"/>
-		<property name="moderator" ref="moderator1"/>	
-		
+		<property name="filmAbout" ref="film1" />
+		<property name="moderator" ref="moderator1" />
+
 	</bean>
-	
+
 	<!-- **************************** COMMENT **************************** -->
-	
+
 	<bean id="comment1" class="domain.Comment">
-		<property name="publishedMoment" value="12/12/2017 12:12"/>
-		<property name="body" value="Great job by Matt Ross as director."/>
-		<property name="rating" value="8.9"/>
-		<property name="film" ref="film1"/>
-		<property name="forum" ref="forum1"/>
-		
-		
+		<property name="publishedMoment" value="12/12/2017 12:12" />
+		<property name="body" value="Great job by Matt Ross as director." />
+		<property name="rating" value="8.9" />
+		<property name="film" ref="film1" />
+		<property name="forum" ref="forum1" />
+
+
 	</bean>
-	
+
 	<!-- **************************** REVIEW **************************** -->
-	
+
 	<bean id="review1" class="domain.Review">
-		<property name="title" value="Nice film"	/>
-		<property name="body" value="spectacular execution by everyone"	/>
-		<property name="rating" value="8.7"	/>
-		<property name="creationDate" value="12/12/2017 12:12"/>
-		<property name="isDraft" value="true"/>
-		<property name="status" value="PENDING"/>
-		<property name="rejectReason" value=""/>
-		<property name="critic" ref="critic1"/>
-		<property name="moderator" ref="moderator1"/>
-		<property name="film" ref="film1"/>
-		
-		
+		<property name="title" value="Nice film" />
+		<property name="body" value="spectacular execution by everyone" />
+		<property name="rating" value="8.7" />
+		<property name="creationDate" value="12/12/2017 12:12" />
+		<property name="isDraft" value="true" />
+		<property name="status" value="PENDING" />
+		<property name="rejectReason" value="" />
+		<property name="critic" ref="critic1" />
+		<property name="moderator" ref="moderator1" />
+		<property name="film" ref="film1" />
+
+
 	</bean>
-	
+
 	<!-- **************************** EVENT **************************** -->
-	
+
 	<bean id="event1" class="domain.Event">
-		<property name="title" value="Fantastic Event"	/>
-		<property name="address" value="C/Ulia"	/>
-		<property name="description" value="Nice play where argue about the film, and meet with forum's people"	/>
-		<property name="price" value="5.0"	/>
-		<property name="eventDate" value="12/12/2019 12:12"	/>
-		<property name="signinDeadline" value="24/12/2019 12:12"	/>
-		<property name="maximumCapacity" value="50"	/>
+		<property name="title" value="Fantastic Event" />
+		<property name="address" value="C/Ulia" />
+		<property name="description"
+			value="Nice play where argue about the film, and meet with forum's people" />
+		<property name="price" value="5.0" />
+		<property name="eventDate" value="12/12/2019 12:12" />
+		<property name="signinDeadline" value="24/12/2019 12:12" />
+		<property name="maximumCapacity" value="50" />
 		<property name="attenders">
 			<list>
-				<ref bean="filmEnthusiast1"	/>
+				<ref bean="filmEnthusiast1" />
 			</list>
 		</property>
-		<property name="forum" ref="forum1"/>
+		<property name="forum" ref="forum1" />
+	</bean>
+
+	<!-- **************************** CREDITCARD **************************** -->
+
+	<bean id="creditCard1" class="domain.CreditCard">
+		<property name="holder" value="José Gamiz Redondo" />
+		<property name="make" value="VISA" />
+		<property name="number" value="4764042457713154" />
+		<property name="expirationMonth" value="02" />
+		<property name="expirationYear" value="22" />
+		<property name="CVV" value="177" />
+	</bean>
+
+
+	<!-- **************************** SPONSORSHIP **************************** -->
+
+	<bean id="sponsorship1" class="domain.Sponsorship">
+		<property name="title" value="title sponsorship" />
+		<property name="banner"
+			value="https://www.eff.org/files/banner_library/google-spy-eye.png" />
+		<property name="targetPage" value="https://www.sponsorship1.com" />
+		<property name="sponsor" ref="sponsor1" />
+		<property name="creditCard" ref="creditCard1" />
+
+	</bean>
+
+	<!-- **************************** MESSAGE **************************** -->
+
+	<bean id="message1" class="domain.Message">
+		<property name="sendMoment" value="12/12/2016 05:32:14" />
+		<property name="subject" value="Message 1" />
+		<property name="body" value="Message from admin to moderator 1" />
+		<property name="priority" value="LOW" />
+		<property name="tag" value="good" />
+		<property name="messageBoxes">
+			<list>
+				<ref bean="inBoxModerator1" />
+				<ref bean="outBoxAdmin1" />
+			</list>
+		</property>
+		<property name="sender">
+			<ref bean="administrator1" />
+		</property>
+		<property name="receiver">
+
+			<ref bean="moderator1" />
+
+		</property>
+		<property name="isSpam" value="false" />
+		<property name="isFilmCreated" value="false" />
+	</bean>
+
+	<bean id="message2" class="domain.Message">
+		<property name="sendMoment" value="12/12/2016 05:32:14" />
+		<property name="subject" value="Message 2" />
+		<property name="body" value="Message from admin to critic1" />
+		<property name="priority" value="LOW" />
+		<property name="tag" value="good" />
+		<property name="messageBoxes">
+			<list>
+				<ref bean="outBoxAdmin1" />
+				<ref bean="inBoxCritic1" />
+			</list>
+		</property>
+		<property name="sender">
+			<ref bean="administrator1" />
+		</property>
+		<property name="receiver">
+
+			<ref bean="critic1" />
+
+		</property>
+		<property name="isSpam" value="false" />
+		<property name="isFilmCreated" value="false" />
+	</bean>
+
+	<bean id="message3" class="domain.Message">
+		<property name="sendMoment" value="12/12/2016 05:32:14" />
+		<property name="subject" value="Message 3" />
+		<property name="body" value="Message from admin to filmEnthusiast 1" />
+		<property name="priority" value="LOW" />
+		<property name="tag" value="good" />
+		<property name="messageBoxes">
+			<list>
+				<ref bean="outBoxAdmin1" />
+				<ref bean="inBoxFilmEnthusiast1" />
+			</list>
+		</property>
+		<property name="sender">
+			<ref bean="administrator1" />
+		</property>
+		<property name="receiver">
+
+			<ref bean="filmEnthusiast1" />
+
+		</property>
+		<property name="isSpam" value="false" />
+		<property name="isFilmCreated" value="false" />
+	</bean>
+
+	<bean id="message4" class="domain.Message">
+		<property name="sendMoment" value="12/12/2016 05:32:14" />
+		<property name="subject" value="Message 3" />
+		<property name="body" value="Message from admin to sponsor 1" />
+		<property name="priority" value="LOW" />
+		<property name="tag" value="good" />
+		<property name="messageBoxes">
+			<list>
+				<ref bean="outBoxAdmin1" />
+				<ref bean="inBoxSponsor1" />
+			</list>
+		</property>
+		<property name="sender">
+			<ref bean="administrator1" />
+		</property>
+		<property name="receiver">
+
+			<ref bean="sponsor1" />
+
+		</property>
+		<property name="isSpam" value="false" />
+		<property name="isFilmCreated" value="false" />
+	</bean>
+
+	<!-- **********************SYSTEM CONFIGURATION ********************** -->
+
+	<bean id="sysConf" class="domain.SystemConfiguration">
+		<property name="systemName" value="Acme Madrugá" />
+		<property name="welcomeMessage">
+			<util:map id="utilmap04" map-class="java.util.HashMap"
+				key-type="java.lang.String" value-type="java.lang.String">
+				<entry key="Español"
+					value="¡Bienvenidos a Acme
+Films! Tu sitio para compartir opiniones sobre tus peliculas favoritas." />
+				<entry key="English"
+					value="Welcome to Acme Films the site share opinions about your favourite films." />
+			</util:map>
+		</property>
+		<property name="breachNotification">
+			<util:map id="utilmap05" map-class="java.util.HashMap"
+				key-type="java.lang.String" value-type="java.lang.String">
+				<entry key="Español" value="" />
+				<entry key="English" value="" />
+			</util:map>
+		</property>
+		<property name="banner" value="https://image.ibb.co/iuaDgV/Untitled.png" />
+
+
+		<property name="countryCode" value="+034" />
+		<property name="timeResultsCached" value="1" />
+		<property name="maxResults" value="10" />
+		<property name="spamWords"
+			value="sex,viagra,cialis,one million,you've been selected,nigeria,sexo,un millón,un millon,has sido seleccionado" />
+		<property name="VATTax" value="0.21" />
+		<property name="flatRate" value="2.50" />
+
 	</bean>
 </beans>

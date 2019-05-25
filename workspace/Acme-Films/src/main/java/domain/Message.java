@@ -13,6 +13,7 @@ import javax.persistence.TemporalType;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
+import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -30,6 +31,8 @@ public class Message extends DomainEntity{
 	private Actor sender;
 	private Collection<MessageBox> messageBoxes;
 	private boolean isSpam;
+	private boolean isFilmCreated;
+	private String priority;
 	
 	//Getters and Setters
 	
@@ -100,6 +103,20 @@ public class Message extends DomainEntity{
 	}
 	public void setIsSpam(boolean isSpam) {
 		this.isSpam = isSpam;
+	}
+	public boolean getIsFilmCreated() {
+		return isFilmCreated;
+	}
+	public void setIsFilmCreated(boolean filmCreated) {
+		this.isFilmCreated = filmCreated;
+	}
+	
+	@Pattern(regexp="^HIGH|NEUTRAL|LOW")
+	public String getPriority() {
+		return priority;
+	}
+	public void setPriority(String priority) {
+		this.priority = priority;
 	}
 	
 	
