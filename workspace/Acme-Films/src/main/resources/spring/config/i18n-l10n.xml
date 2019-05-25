@@ -12,8 +12,12 @@
 	">
 
 	<util:list id="messages">
-		
-
+		<value>/views/finder/messages</value>
+		<value>/views/master-page/messages</value>
+		<value>/views/misc/messages</value>
+		<value>/views/security/messages</value>
+		<value>/views/welcome/messages</value>
+		<value>/views/terms/messages</value>
 	</util:list>
 
 </beans>

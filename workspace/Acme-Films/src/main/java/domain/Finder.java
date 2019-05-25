@@ -8,7 +8,11 @@ import javax.persistence.AccessType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.validation.Valid;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.Past;
+
+import org.hibernate.validator.constraints.Length;
 
 @Entity
 @Access(AccessType.PROPERTY)
@@ -23,25 +27,31 @@ public class Finder extends DomainEntity{
 	private Collection<Film> results;
 	
 	//Getters and setters
-	
+	@Length(max = 100)
 	public String getKeyWord() {
 		return keyWord;
 	}
 	public void setKeyWord(String keyWord) {
 		this.keyWord = keyWord;
 	}
+	@Min(value = 0L, message = "The value must be positive")
+	@Max(value = 10000L, message = "The value must be positive")
 	public Double getMaximumDuration() {
 		return maximumDuration;
 	}
 	public void setMaximumDuration(Double maximumDuration) {
 		this.maximumDuration = maximumDuration;
 	}
+	@Min(value = 0L, message = "The value must be positive")
+	@Max(value = 10L, message = "The value must be positive")
 	public Double getMinimumRating() {
 		return minimumRating;
 	}
 	public void setMinimumRating(Double minimumRating) {
 		this.minimumRating = minimumRating;
 	}
+	@Min(value = 0L, message = "The value must be positive")
+	@Max(value = 0L, message = "The value must be positive")
 	public Double getMaximumRating() {
 		return maximumRating;
 	}

@@ -1,0 +1,20 @@
+package repositories;
+
+import java.util.Collection;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
+
+import domain.Film;
+import domain.Finder;
+
+@Repository
+public interface FinderRepository extends JpaRepository<Finder, Integer>{
+
+	@Query("select f from Film f, in (f.title) p where p like '%ain%';")
+	Collection<Film> search(String keyWord, Double maximumDuration,Double minimumRating,Double maximumRating);
+	//select f from Film f where '%%' in (value(f.title));
+	//Creo que esta puede valer: select distinct f from Film f, in (f.title) p where p like '%Cap%';
+	//select distinct f from Film f join f.genres m, in (m.name) p where p like '%comedy%';
+}

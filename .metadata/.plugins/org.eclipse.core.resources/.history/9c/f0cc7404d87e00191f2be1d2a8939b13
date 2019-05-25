@@ -1,0 +1,1134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- * PopulateDatabase.xml * * Copyright (C) 2019 Universidad de Sevilla 
+	* * The use of this project is hereby constrained to the conditions of the 
+	* TDG Licence, a copy of which you may download from http://www.tdg-seville.info/License.html -->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!--********************* User accounts ************************************** -->
+
+
+	<bean id="userAdmin1" class="security.UserAccount">
+		<property name="username" value="admin" />
+		<property name="password" value="21232f297a57a5a743894a0e4a801fc3" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="ADMIN" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="userModerator1" class="security.UserAccount">
+		<property name="username" value="moderator1" />
+		<property name="password" value="38caf4a470117125b995f7ce53e6e6b9" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="MODERATOR" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="userSponsor1" class="security.UserAccount">
+		<property name="username" value="sponsor1" />
+		<property name="password" value="42c63ad66d4dc07ed17753772bef96d6" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="SPONSOR" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="userCritic1" class="security.UserAccount">
+		<property name="username" value="critic1" />
+		<property name="password" value="165d185050bab438668aef6faeee3be5" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="CRITIC" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="userFilmEnthusiast1" class="security.UserAccount">
+		<property name="username" value="filmEnthusiast1" />
+		<property name="password" value="a496d6a729316f2e3d6eb3744be7ce53" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="FILMENTHUSIAST" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+
+	<!--************************************** Social profiles ************************************** -->
+
+	<bean id="socialProfileAdmin1" class="domain.SocialProfile">
+		<property name="nick" value="predator" />
+		<property name="socialNetwork" value="Twitter" />
+		<property name="link" value="https://twitter.com/predator?lang=es" />
+
+	</bean>
+
+	<bean id="socialProfileModerator1" class="domain.SocialProfile">
+		<property name="nick" value="Rodet3" />
+		<property name="socialNetwork" value="Facebook" />
+		<property name="link" value="https://facebook.com/Rodet3?lang=es" />
+
+	</bean>
+
+	<bean id="socialProfileSponsor1" class="domain.SocialProfile">
+		<property name="nick" value="3p1c" />
+		<property name="socialNetwork" value="Tinder" />
+		<property name="link" value="https://tinder.com/3p1c?lang=es" />
+
+	</bean>
+
+	<bean id="socialProfileCritic1" class="domain.SocialProfile">
+		<property name="nick" value="Weezy" />
+		<property name="socialNetwork" value="instagram" />
+		<property name="link" value="https://instagram.com/Weezy?lang=es" />
+
+	</bean>
+
+	<bean id="socialProfileFilmEnthusiast1" class="domain.SocialProfile">
+		<property name="nick" value="avatar123" />
+		<property name="socialNetwork" value="instagram" />
+		<property name="link" value="https://instagram.com/avatar123?lang=es" />
+
+	</bean>
+
+	<!--************************************** ADMINISTRATOR ************************************** -->
+
+	<bean id="administrator1" class="domain.Administrator">
+		<property name="name" value="José" />
+		<property name="surname" value="Gamiz Redondo" />
+		<property name="nickName" value="cramersito" />
+		<property name="VAT" value="ES12345678" />
+		<property name="photo"
+			value="https://ih1.redbubble.net/image.376305132.3400/flat,550x550,075,f.u1.jpg" />
+		<property name="email" value="josgamred@mail.com" />
+		<property name="phoneNumber" value="+34611987654" />
+		<property name="address" value="C/ Atlántica sex, 1 (Málaga)" />
+		<property name="userAccount" ref="userModerator1" />
+		<property name="isSpammer" value="false" />
+		<property name="socialProfile">
+			<list>
+				<ref bean="socialProfileModerator1" />
+			</list>
+		</property>
+		<property name="messageBoxes">
+			<list>
+				<ref bean="inBoxAdmin1" />
+				<ref bean="outBoxAdmin1" />
+				<ref bean="spamBoxAdmin1" />
+				<ref bean="trashBoxAdmin1" />
+				<ref bean="notificationBoxAdmin1" />
+			</list>
+		</property>
+	</bean>
+
+	<!--************************************** MODERATOR ************************************** -->
+
+	<bean id="moderator1" class="domain.Moderator">
+		<property name="name" value="Pepe" />
+		<property name="surname" value="Viyuela" />
+		<property name="nickName" value="rodetin" />
+		<property name="VAT" value="ES12345678" />
+		<property name="photo"
+			value="https://ih1.redbubble.net/image.376305132.3400/flat,550x550,075,f.u1.jpg" />
+		<property name="email" value="pepito@mail.com" />
+		<property name="phoneNumber" value="+34611987654" />
+		<property name="address" value="C/ Atlántica sex, 1 (Málaga)" />
+		<property name="userAccount" ref="userAdmin1" />
+		<property name="isSpammer" value="false" />
+		<property name="socialProfile">
+			<list>
+				<ref bean="socialProfileAdmin1" />
+			</list>
+		</property>
+		<property name="messageBoxes">
+			<list>
+				<ref bean="inBoxModerator1" />
+				<ref bean="outBoxModerator1" />
+				<ref bean="spamBoxModerator1" />
+				<ref bean="trashBoxModerator1" />
+				<ref bean="notificationBoxModerator1" />
+			</list>
+		</property>
+	</bean>
+
+	<!--************************************** SPONSOR ************************************** -->
+
+	<bean id="sponsor1" class="domain.Sponsor">
+		<property name="name" value="Amancio" />
+		<property name="surname" value="Ortega" />
+		<property name="nickName" value="$$Amancio$$" />
+		<property name="VAT" value="ES12345678" />
+		<property name="photo"
+			value="https://ih1.redbubble.net/image.376305132.3400/flat,550x550,075,f.u1.jpg" />
+		<property name="email" value="money@mail.com" />
+		<property name="phoneNumber" value="+34611987654" />
+		<property name="address" value="C/ Atlántica sex, 1 (Málaga)" />
+		<property name="userAccount" ref="userSponsor1" />
+		<property name="isSpammer" value="false" />
+		<property name="socialProfile">
+			<list>
+				<ref bean="socialProfileSponsor1" />
+			</list>
+		</property>
+		<property name="messageBoxes">
+			<list>
+				<ref bean="inBoxSponsor1" />
+				<ref bean="outBoxSponsor1" />
+				<ref bean="spamBoxSponsor1" />
+				<ref bean="trashBoxSponsor1" />
+				<ref bean="notificationBoxSponsor1" />
+			</list>
+		</property>
+
+	</bean>
+
+	<!--************************************** FILM ENTHUSIAST ************************************** -->
+
+	<bean id="filmEnthusiast1" class="domain.FilmEnthusiast">
+		<property name="name" value="James" />
+		<property name="surname" value="Cameron" />
+		<property name="nickName" value="Titanic123" />
+		<property name="VAT" value="ES12345678" />
+		<property name="photo"
+			value="https://ih1.redbubble.net/image.376305132.3400/flat,550x550,075,f.u1.jpg" />
+		<property name="email" value="titanic@mail.com" />
+		<property name="phoneNumber" value="+34611987654" />
+		<property name="address" value="C/ Atlántica sex, 1 (Málaga)" />
+		<property name="userAccount" ref="userFilmEnthusiast1" />
+		<property name="isSpammer" value="false" />
+		<property name="socialProfile">
+			<list>
+				<ref bean="socialProfileFilmEnthusiast1" />
+			</list>
+		</property>
+		<property name="messageBoxes">
+			<list>
+				<ref bean="inBoxFilmEnthusiast1" />
+				<ref bean="outBoxFilmEnthusiast1" />
+				<ref bean="spamBoxFilmEnthusiast1" />
+				<ref bean="trashBoxFilmEnthusiast1" />
+				<ref bean="notificationBoxFilmEnthusiast1" />
+			</list>
+		</property>
+		<property name="finder" ref="finder1" />
+
+	</bean>
+
+	<!--************************************** CRITIC ************************************** -->
+
+	<bean id="critic1" class="domain.Critic">
+		<property name="name" value="Antonio" />
+		<property name="surname" value="Bayona" />
+		<property name="nickName" value="Bayonetttta" />
+		<property name="VAT" value="ES12345678" />
+		<property name="photo"
+			value="https://ih1.redbubble.net/image.376305132.3400/flat,550x550,075,f.u1.jpg" />
+		<property name="email" value="jpark@mail.com" />
+		<property name="phoneNumber" value="+34611987654" />
+		<property name="address" value="C/ Atlántica sex, 1 (Málaga)" />
+		<property name="userAccount" ref="userCritic1" />
+		<property name="isSpammer" value="false" />
+		<property name="socialProfile">
+			<list>
+				<ref bean="socialProfileCritic1" />
+			</list>
+		</property>
+		<property name="messageBoxes">
+			<list>
+				<ref bean="inBoxCritic1" />
+				<ref bean="outBoxCritic1" />
+				<ref bean="spamBoxCritic1" />
+				<ref bean="trashBoxCritic1" />
+				<ref bean="notificationBoxCritic1" />
+			</list>
+		</property>
+		<property name="curricula" ref="curricula1">
+
+		</property>
+
+	</bean>
+
+	<!--**************************** MESSAGE BOXES**************************** -->
+
+	<!-- **************************** ADMIN 1 **************************** -->
+	<bean id="inBoxAdmin1" class="domain.MessageBox">
+		<property name="name" value="In box" />
+		<property name="isPredefined" value="true" />
+		<property name="parentMessageBox">
+			<null />
+		</property>
+		<property name="messages">
+			<list>
+				<null />
+			</list>
+		</property>
+		<property name="childMessageBoxes">
+			<list>
+				<null />
+			</list>
+
+		</property>
+
+
+	</bean>
+
+	<bean id="spamBoxAdmin1" class="domain.MessageBox">
+		<property name="name" value="Spam box" />
+		<property name="isPredefined" value="true" />
+		<property name="parentMessageBox">
+			<null />
+		</property>
+		<property name="messages">
+			<list>
+				<null />
+			</list>
+		</property>
+		<property name="childMessageBoxes">
+			<list>
+				<null />
+			</list>
+
+		</property>
+	</bean>
+
+	<bean id="outBoxAdmin1" class="domain.MessageBox">
+		<property name="name" value="Out box" />
+		<property name="isPredefined" value="true" />
+		<property name="parentMessageBox">
+			<null />
+		</property>
+		<property name="messages">
+			<list>
+				<null />
+			</list>
+		</property>
+		<property name="childMessageBoxes">
+			<list>
+				<null />
+			</list>
+
+		</property>
+
+
+	</bean>
+
+	<bean id="trashBoxAdmin1" class="domain.MessageBox">
+		<property name="name" value="Trash box" />
+		<property name="isPredefined" value="true" />
+		<property name="parentMessageBox">
+			<null />
+		</property>
+		<property name="messages">
+			<list>
+				<null />
+			</list>
+		</property>
+		<property name="childMessageBoxes">
+			<list>
+				<null />
+			</list>
+
+		</property>
+
+	</bean>
+
+	<bean id="notificationBoxAdmin1" class="domain.MessageBox">
+		<property name="name" value="Notification box" />
+		<property name="isPredefined" value="true" />
+		<property name="parentMessageBox">
+			<null />
+		</property>
+		<property name="messages">
+			<list>
+				<null />
+			</list>
+		</property>
+		<property name="childMessageBoxes">
+			<list>
+				<null />
+			</list>
+
+		</property>
+
+	</bean>
+
+	<!--**************************** SPONSOR 1 **************************** -->
+
+	<bean id="inBoxSponsor1" class="domain.MessageBox">
+		<property name="name" value="In box" />
+		<property name="isPredefined" value="true" />
+		<property name="parentMessageBox">
+			<null />
+		</property>
+		<property name="messages">
+			<list>
+				<null />
+			</list>
+		</property>
+		<property name="childMessageBoxes">
+			<list>
+				<null />
+			</list>
+
+		</property>
+
+
+	</bean>
+
+	<bean id="spamBoxSponsor1" class="domain.MessageBox">
+		<property name="name" value="Spam box" />
+		<property name="isPredefined" value="true" />
+		<property name="parentMessageBox">
+			<null />
+		</property>
+		<property name="messages">
+			<list>
+				<null />
+			</list>
+		</property>
+		<property name="childMessageBoxes">
+			<list>
+				<null />
+			</list>
+
+		</property>
+	</bean>
+
+	<bean id="outBoxSponsor1" class="domain.MessageBox">
+		<property name="name" value="Out box" />
+		<property name="isPredefined" value="true" />
+		<property name="parentMessageBox">
+			<null />
+		</property>
+		<property name="messages">
+			<list>
+				<null />
+			</list>
+		</property>
+		<property name="childMessageBoxes">
+			<list>
+				<null />
+			</list>
+
+		</property>
+
+
+	</bean>
+
+	<bean id="trashBoxSponsor1" class="domain.MessageBox">
+		<property name="name" value="Trash box" />
+		<property name="isPredefined" value="true" />
+		<property name="parentMessageBox">
+			<null />
+		</property>
+		<property name="messages">
+			<list>
+				<null />
+			</list>
+		</property>
+		<property name="childMessageBoxes">
+			<list>
+				<null />
+			</list>
+
+		</property>
+
+	</bean>
+
+	<bean id="notificationBoxSponsor1" class="domain.MessageBox">
+		<property name="name" value="Notification box" />
+		<property name="isPredefined" value="true" />
+		<property name="parentMessageBox">
+			<null />
+		</property>
+		<property name="messages">
+			<list>
+				<null />
+			</list>
+		</property>
+		<property name="childMessageBoxes">
+			<list>
+				<null />
+			</list>
+
+		</property>
+
+	</bean>
+
+	<!--**************************** SPONSOR 1 **************************** -->
+	<bean id="inBoxCritic1" class="domain.MessageBox">
+		<property name="name" value="In box" />
+		<property name="isPredefined" value="true" />
+		<property name="parentMessageBox">
+			<null />
+		</property>
+		<property name="messages">
+			<list>
+				<null />
+			</list>
+		</property>
+		<property name="childMessageBoxes">
+			<list>
+				<null />
+			</list>
+
+		</property>
+
+
+	</bean>
+
+	<bean id="spamBoxCritic1" class="domain.MessageBox">
+		<property name="name" value="Spam box" />
+		<property name="isPredefined" value="true" />
+		<property name="parentMessageBox">
+			<null />
+		</property>
+		<property name="messages">
+			<list>
+				<null />
+			</list>
+		</property>
+		<property name="childMessageBoxes">
+			<list>
+				<null />
+			</list>
+
+		</property>
+	</bean>
+
+	<bean id="outBoxCritic1" class="domain.MessageBox">
+		<property name="name" value="Out box" />
+		<property name="isPredefined" value="true" />
+		<property name="parentMessageBox">
+			<null />
+		</property>
+		<property name="messages">
+			<list>
+				<null />
+			</list>
+		</property>
+		<property name="childMessageBoxes">
+			<list>
+				<null />
+			</list>
+
+		</property>
+
+
+	</bean>
+
+	<bean id="trashBoxCritic1" class="domain.MessageBox">
+		<property name="name" value="Trash box" />
+		<property name="isPredefined" value="true" />
+		<property name="parentMessageBox">
+			<null />
+		</property>
+		<property name="messages">
+			<list>
+				<null />
+			</list>
+		</property>
+		<property name="childMessageBoxes">
+			<list>
+				<null />
+			</list>
+
+		</property>
+
+	</bean>
+
+	<bean id="notificationBoxCritic1" class="domain.MessageBox">
+		<property name="name" value="Notification box" />
+		<property name="isPredefined" value="true" />
+		<property name="parentMessageBox">
+			<null />
+		</property>
+		<property name="messages">
+			<list>
+				<null />
+			</list>
+		</property>
+		<property name="childMessageBoxes">
+			<list>
+				<null />
+			</list>
+
+		</property>
+
+	</bean>
+
+	<!-- ****************************MODERATOR 1 **************************** -->
+
+	<bean id="inBoxModerator1" class="domain.MessageBox">
+		<property name="name" value="In box" />
+		<property name="isPredefined" value="true" />
+		<property name="parentMessageBox">
+			<null />
+		</property>
+		<property name="messages">
+			<list>
+				<null />
+			</list>
+		</property>
+		<property name="childMessageBoxes">
+			<list>
+				<null />
+			</list>
+
+		</property>
+
+
+	</bean>
+
+	<bean id="spamBoxModerator1" class="domain.MessageBox">
+		<property name="name" value="Spam box" />
+		<property name="isPredefined" value="true" />
+		<property name="parentMessageBox">
+			<null />
+		</property>
+		<property name="messages">
+			<list>
+				<null />
+			</list>
+		</property>
+		<property name="childMessageBoxes">
+			<list>
+				<null />
+			</list>
+
+		</property>
+	</bean>
+
+	<bean id="outBoxModerator1" class="domain.MessageBox">
+		<property name="name" value="Out box" />
+		<property name="isPredefined" value="true" />
+		<property name="parentMessageBox">
+			<null />
+		</property>
+		<property name="messages">
+			<list>
+				<null />
+			</list>
+		</property>
+		<property name="childMessageBoxes">
+			<list>
+				<null />
+			</list>
+
+		</property>
+
+
+	</bean>
+
+	<bean id="trashBoxModerator1" class="domain.MessageBox">
+		<property name="name" value="Trash box" />
+		<property name="isPredefined" value="true" />
+		<property name="parentMessageBox">
+			<null />
+		</property>
+		<property name="messages">
+			<list>
+				<null />
+			</list>
+		</property>
+		<property name="childMessageBoxes">
+			<list>
+				<null />
+			</list>
+
+		</property>
+
+	</bean>
+
+	<bean id="notificationBoxModerator1" class="domain.MessageBox">
+		<property name="name" value="Notification box" />
+		<property name="isPredefined" value="true" />
+		<property name="parentMessageBox">
+			<null />
+		</property>
+		<property name="messages">
+			<list>
+				<null />
+			</list>
+		</property>
+		<property name="childMessageBoxes">
+			<list>
+				<null />
+			</list>
+
+		</property>
+
+	</bean>
+
+	<!-- ****************************FILMENTHUSIAST 1 **************************** -->
+
+	<bean id="inBoxFilmEnthusiast1" class="domain.MessageBox">
+		<property name="name" value="In box" />
+		<property name="isPredefined" value="true" />
+		<property name="parentMessageBox">
+			<null />
+		</property>
+		<property name="messages">
+			<list>
+				<null />
+			</list>
+		</property>
+		<property name="childMessageBoxes">
+			<list>
+				<null />
+			</list>
+
+		</property>
+
+
+	</bean>
+
+	<bean id="spamBoxFilmEnthusiast1" class="domain.MessageBox">
+		<property name="name" value="Spam box" />
+		<property name="isPredefined" value="true" />
+		<property name="parentMessageBox">
+			<null />
+		</property>
+		<property name="messages">
+			<list>
+				<null />
+			</list>
+		</property>
+		<property name="childMessageBoxes">
+			<list>
+				<null />
+			</list>
+
+		</property>
+	</bean>
+
+	<bean id="outBoxFilmEnthusiast1" class="domain.MessageBox">
+		<property name="name" value="Out box" />
+		<property name="isPredefined" value="true" />
+		<property name="parentMessageBox">
+			<null />
+		</property>
+		<property name="messages">
+			<list>
+				<null />
+			</list>
+		</property>
+		<property name="childMessageBoxes">
+			<list>
+				<null />
+			</list>
+
+		</property>
+
+
+	</bean>
+
+	<bean id="trashBoxFilmEnthusiast1" class="domain.MessageBox">
+		<property name="name" value="Trash box" />
+		<property name="isPredefined" value="true" />
+		<property name="parentMessageBox">
+			<null />
+		</property>
+		<property name="messages">
+			<list>
+				<null />
+			</list>
+		</property>
+		<property name="childMessageBoxes">
+			<list>
+				<null />
+			</list>
+
+		</property>
+
+	</bean>
+
+	<bean id="notificationBoxFilmEnthusiast1" class="domain.MessageBox">
+		<property name="name" value="Notification box" />
+		<property name="isPredefined" value="true" />
+		<property name="parentMessageBox">
+			<null />
+		</property>
+		<property name="messages">
+			<list>
+				<null />
+			</list>
+		</property>
+		<property name="childMessageBoxes">
+			<list>
+				<null />
+			</list>
+
+		</property>
+
+	</bean>
+
+	<!-- **************************** CURRICULA **************************** -->
+
+	<bean id="curricula1" class="domain.Curricula">
+		<property name="personalData" ref="personalData1" />
+		<property name="educationData">
+			<list>
+				<ref bean="educationData1" />
+			</list>
+		</property>
+		<property name="miscellaneousData">
+			<ref bean="miscellaneousData1" />
+		</property>
+		<property name="professionalData">
+			<list>
+				<ref bean="professionalData1" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- **************************** PERSONAL DATA **************************** -->
+
+	<bean id="personalData1" class="domain.PersonalData">
+		<property name="githubProfile" value="https://github.com/pabmac" />
+		<property name="linkedIn" value="https://www.linkedin.com/in/pabmac/" />
+		<property name="fullName" value="Alberto Ramírez" />
+		<property name="statement" value="Statement of personalData 1" />
+		<property name="phoneNumber" value="646626167" />
+	</bean>
+
+	<!-- **************************** EDUCATION DATA **************************** -->
+
+	<bean id="educationData1" class="domain.EducationData">
+		<property name="degree" value="Ing. Informatico de Software" />
+		<property name="institution" value="Universidad de Sevilla" />
+		<property name="mark" value="9.99" />
+		<property name="startDate" value="01/09/2011 19:48" />
+		<property name="endDate" value="20/07/2015 11:26" />
+	</bean>
+
+	<!-- **************************** PROFESSIONAL DATA **************************** -->
+
+	<bean id="professionalData1" class="domain.ProfessionalData">
+		<property name="title" value="Ing. Informatico de Software" />
+		<property name="description" value="Universidad de Sevilla" />
+		<property name="startDate" value="01/09/2011 19:48" />
+		<property name="endDate" value="20/07/2015 11:26" />
+	</bean>
+
+	<bean id="miscellaneousData1" class="domain.MiscellaneousData">
+		<property name="text" value="So strange stuffs" />
+		<property name="attachements" value="" />
+	</bean>
+
+
+	<!-- **************************** FINDER **************************** -->
+
+	<bean id="finder1" class="domain.Finder">
+		<property name="searchMoment" value="01/08/2019 19:48" />
+	</bean>
+
+	<!-- **************************** SAGA **************************** -->
+
+	<bean id="saga1" class="domain.Saga">
+		<property name="title" value="Lord of the rings" />
+	</bean>
+
+	<!-- **************************** GENRE **************************** -->
+	<bean id="genre1" class="domain.Genre">
+		<property name="name">
+			<util:map id="utilmap2" map-class="java.util.HashMap"
+				key-type="java.lang.String" value-type="java.lang.String">
+				<entry key="Español" value="Comedia dramatica" />
+				<entry key="English" value="Dramatic comedy" />
+
+			</util:map>
+		</property>
+
+	</bean>
+	<!-- **************************** POSITION **************************** -->
+
+	<bean id="position1" class="domain.Position">
+		<property name="name">
+			<util:map id="utilmap3" map-class="java.util.HashMap"
+				key-type="java.lang.String" value-type="java.lang.String">
+				<entry key="Español" value="Director" />
+				<entry key="English" value="Director" />
+
+			</util:map>
+		</property>
+
+		<property name="parentPosition">
+			<null />
+		</property>
+
+		<property name="childPositions">
+			<list>
+				<null />
+			</list>
+
+		</property>
+
+
+	</bean>
+
+	<!-- **************************** PERSON **************************** -->
+
+	<bean id="person1" class="domain.Person">
+		<property name="name" value="Matt" />
+		<property name="surname" value="Ross" />
+		<property name="gender" value= "3" />
+		<property name="nationality" value="Greenwich, Connecticut, Estados Unidos" />
+		<property name="birthDate" value="03/01/1970 22:40" />
+		<property name="photo" value="" />
+		<property name="positions">
+			<list>
+				<ref bean="position1" />
+			</list>
+		</property>
+
+	</bean>
+
+	<!-- **************************** FILM **************************** -->
+
+	<bean id="film1" class="domain.Film">
+		<property name="title">
+			<util:map id="utilmap0" map-class="java.util.HashMap"
+				key-type="java.lang.String" value-type="java.lang.String">
+				<entry key="Español" value="Capitan Fantastico" />
+				<entry key="English" value="Captain fantastic" />
+
+			</util:map>
+		</property>
+
+		<property name="synopsis">
+			<util:map id="utilmap10" map-class="java.util.HashMap"
+				key-type="java.lang.String" value-type="java.lang.String">
+				<entry key="Español" value="Ben y su esposa Leslie" />
+				<entry key="English" value="Ben and his wife Leslie " />
+
+			</util:map>
+		</property>
+
+		<property name="poster" value="" />
+		<property name="releaseDate" value="08/06/2016 12:12" />
+		<property name="runTime" value="123" />
+		<property name="avgReviewsRating" value="5.6" />
+		<property name="avgCommentsRating" value="2.3" />
+		<property name="ticker" value="08062016-A2J5L3" />
+		<property name="isDraft" value="true" />
+		<property name="moderator" ref="moderator1" />
+		<property name="genres">
+			<list>
+				<ref bean="genre1" />
+			</list>
+		</property>
+		<property name="persons">
+			<list>
+				<ref bean="person1"/>
+			</list>
+		</property>
+		<property name="sponsorships">
+			<list>
+				<null />
+			</list>
+		</property>
+		<property name="sagas">
+			<list>
+				<ref bean="saga1" />
+			</list>
+		</property>
+
+	</bean>
+	
+	<bean id="film2" class="domain.Film">
+		<property name="title">
+			<util:map id="utilmap1" map-class="java.util.HashMap"
+				key-type="java.lang.String" value-type="java.lang.String">
+				<entry key="Español" value="Soy leyenda" />
+				<entry key="English" value="I´m legend" />
+
+			</util:map>
+		</property>
+
+		<property name="synopsis">
+			<util:map id="utilmap12" map-class="java.util.HashMap"
+				key-type="java.lang.String" value-type="java.lang.String">
+				<entry key="Español" value="Apocalipsis zombie" />
+				<entry key="English" value="Apocalypsis zombie " />
+
+			</util:map>
+		</property>
+
+		<property name="poster" value="" />
+		<property name="releaseDate" value="08/09/2016 02:12" />
+		<property name="runTime" value="123" />
+		<property name="avgReviewsRating" value="9.6" />
+		<property name="avgCommentsRating" value="7.3" />
+		<property name="ticker" value="08003416-A2J5L3" />
+		<property name="isDraft" value="true" />
+		<property name="moderator" ref="moderator1" />
+		<property name="genres">
+			<list>
+				<ref bean="genre1" />
+			</list>
+		</property>
+		<property name="persons">
+			<list>
+				<ref bean="person1"/>
+			</list>
+		</property>
+		<property name="sponsorships">
+			<list>
+				<null />
+			</list>
+		</property>
+		<property name="sagas">
+			<list>
+				<ref bean="saga1" />
+			</list>
+		</property>
+
+	</bean>
+	<bean id="film2" class="domain.Film">
+		<property name="title">
+			<util:map id="utilmap123" map-class="java.util.HashMap"
+				key-type="java.lang.String" value-type="java.lang.String">
+				<entry key="Español" value="Lo dejo cuando quiera" />
+				<entry key="English" value="Showtimes for I Can Quit Whenever I Want" />
+
+			</util:map>
+		</property>
+
+		<property name="synopsis">
+			<util:map id="utilmap32" map-class="java.util.HashMap"
+				key-type="java.lang.String" value-type="java.lang.String">
+				<entry key="Español" value="Gran peli" />
+				<entry key="English" value="Great film " />
+
+			</util:map>
+		</property>
+
+		<property name="poster" value="" />
+		<property name="releaseDate" value="08/09/2016 02:12" />
+		<property name="runTime" value="123" />
+		<property name="avgReviewsRating" value="9.6" />
+		<property name="avgCommentsRating" value="7.3" />
+		<property name="ticker" value="08003416-A2J5L3" />
+		<property name="isDraft" value="true" />
+		<property name="moderator" ref="moderator1" />
+		<property name="genres">
+			<list>
+				<ref bean="genre1" />
+			</list>
+		</property>
+		<property name="persons">
+			<list>
+				<ref bean="person1"/>
+			</list>
+		</property>
+		<property name="sponsorships">
+			<list>
+				<null />
+			</list>
+		</property>
+		<property name="sagas">
+			<list>
+				<ref bean="saga1" />
+			</list>
+		</property>
+
+	</bean>
+	
+
+	<!-- **************************** VISUALIZATION **************************** -->
+
+	<bean id="visualization1" class="domain.Visualization">
+		<property name="siteName" value="Cines sur" />
+		<property name="link" value="" />
+		<property name="price" value="12.2" />
+		<property name="film" ref="film1" />
+	</bean>
+	
+	<!-- **************************** FORUM **************************** -->
+	<bean id="forum1" class="domain.Forum">
+		<property name="name" value="Fantastic Forum" />
+		<property name="description" value="Forum to talk about Captain Fantastic" />
+		<property name="creationDate" value="12/12/2017 12:12" />
+		<property name="rejectReason" value="" />
+		<property name="creator" ref="filmEnthusiast1"	/>
+		<property name="groupMembers">
+			<list>
+				<ref bean="filmEnthusiast1"/>
+			</list>
+		</property>
+		<property name="sagaAbout">
+			<null/>
+		</property>
+		<property name="filmAbout" ref="film1"/>
+		<property name="moderator" ref="moderator1"/>	
+		
+	</bean>
+	
+	<!-- **************************** COMMENT **************************** -->
+	
+	<bean id="comment1" class="domain.Comment">
+		<property name="publishedMoment" value="12/12/2017 12:12"/>
+		<property name="body" value="Great job by Matt Ross as director."/>
+		<property name="rating" value="8.9"/>
+		<property name="film" ref="film1"/>
+		<property name="forum" ref="forum1"/>
+		
+		
+	</bean>
+	
+	<!-- **************************** REVIEW **************************** -->
+	
+	<bean id="review1" class="domain.Review">
+		<property name="title" value="Nice film"	/>
+		<property name="body" value="spectacular execution by everyone"	/>
+		<property name="rating" value="8.7"	/>
+		<property name="creationDate" value="12/12/2017 12:12"/>
+		<property name="isDraft" value="true"/>
+		<property name="status" value="PENDING"/>
+		<property name="rejectReason" value=""/>
+		<property name="critic" ref="critic1"/>
+		<property name="moderator" ref="moderator1"/>
+		<property name="film" ref="film1"/>
+		
+		
+	</bean>
+	
+	<!-- **************************** EVENT **************************** -->
+	
+	<bean id="event1" class="domain.Event">
+		<property name="title" value="Fantastic Event"	/>
+		<property name="address" value="C/Ulia"	/>
+		<property name="description" value="Nice play where argue about the film, and meet with forum's people"	/>
+		<property name="price" value="5.0"	/>
+		<property name="eventDate" value="12/12/2019 12:12"	/>
+		<property name="signinDeadline" value="24/12/2019 12:12"	/>
+		<property name="maximumCapacity" value="50"	/>
+		<property name="attenders">
+			<list>
+				<ref bean="filmEnthusiast1"	/>
+			</list>
+		</property>
+		<property name="forum" ref="forum1"/>
+	</bean>
+</beans>

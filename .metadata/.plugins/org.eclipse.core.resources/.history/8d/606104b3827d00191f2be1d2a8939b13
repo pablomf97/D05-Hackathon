@@ -1,0 +1,6 @@
+package services;
+@Transactional
+@Service
+public class FinderService {
+
+}

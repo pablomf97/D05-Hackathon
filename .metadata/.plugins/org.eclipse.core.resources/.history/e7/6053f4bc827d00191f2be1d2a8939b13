@@ -1,0 +1,9 @@
+package services;
+
+import org.springframework.stereotype.Service;
+
+@Transactional
+@Service
+public class FinderService {
+
+}

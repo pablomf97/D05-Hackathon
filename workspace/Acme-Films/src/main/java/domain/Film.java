@@ -6,10 +6,12 @@ import java.util.Map;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
+import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.MapKeyColumn;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.Valid;
@@ -122,7 +124,8 @@ public class Film extends DomainEntity{
 	public void setModerator(Moderator moderator) {
 		this.moderator = moderator;
 	}
-	
+	@Column(name="value")
+    @MapKeyColumn(name="Key")
 	@Valid
 	@ManyToMany
 	public Collection<Genre> getGenres() {
