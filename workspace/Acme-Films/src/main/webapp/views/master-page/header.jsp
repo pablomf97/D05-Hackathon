@@ -209,8 +209,8 @@
 
 
 
-					<security:authorize access="hasRole('ROOKIE')">
-						<li><a href="finder/rookie/search.do"><spring:message
+					<security:authorize access="hasRole('FILMENTHUSIAST')">
+						<li><a href="finder/filmEnthusiast/search.do"><spring:message
 									code="master.page.finder" /></a></li>
 						<li><a href="rookie/export.do"><spring:message
 									code="export" /></a></li>

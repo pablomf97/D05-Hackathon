@@ -8,9 +8,11 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
 import domain.Actor;
+import domain.Critic;
 import domain.Review;
 
 import repositories.ReviewRepository;
@@ -39,7 +41,7 @@ public class ReviewService {
 //		Assert.isTrue(this.actorService.checkAuthority(principal, "CRITIC"), "not.allowed");
 
 		result = new Review();
-
+		//result.setCritic(principal);
 		result.setCreationDate(new Date(System.currentTimeMillis() - 1));
 		result.setStatus("PENDING");
 
@@ -67,9 +69,9 @@ public class ReviewService {
 		Assert.isTrue(review.getId() != 0, "wrong.id");
 //
 //		principal = this.actorService.findByPrincipal();
-//		Assert.isTrue(this.actorService.checkAuthority(principal, "ROOKIE"), "not.allowed");
-//
-//		Assert.isTrue(application.getRookie().equals(principal), "not.allowed");
+//		Assert.isTrue(this.actorService.checkAuthority(principal, "CRITIC"), "not.allowed");
+//		Assert.isTrue(review.getIsDraft()==true);	
+		//Assert.isTrue(review.getCritic().equals((Critic)principal));
 
 		this.reviewRepository.delete(review.getId());
 
@@ -84,17 +86,65 @@ public class ReviewService {
 //		Assert.notNull(principal, "not.allowed");
 //		Assert.notNull(review);
 
-		Assert.isTrue(review.getFilm().getIsDraft()==false);
 		
+		if(review.getId()==0){
+			Assert.isTrue(review.getFilm().getIsDraft()==true);
+			//Assert.isTrue(this.actorService.checkAuthority(principal, "CRITIC");
+			Assert.isTrue(review.getModerator()==null);
+			Assert.isTrue(review.getRejectReason()==null || review.getRejectReason().isEmpty());
+			Assert.isTrue(review.getFilm()!=null);
+			Assert.isTrue(!this.findOne(review.getId()).getStatus().equals("ACCEPTED"));
+			Assert.isTrue(!this.findOne(review.getId()).getStatus().equals("REJECTED"));
+			
+			
+			
+		}else{
+			Assert.isTrue(review.getFilm()!=null);
+			//Assert.isTrue(review.getCritic().equals((Critic)principal));
+			//Puede asignarselo el moderador que quiera o el moderador de esa peli¿?
+			
+			
+		}
 	
 		result = this.reviewRepository.save(review);
 		Assert.notNull(result);
 
 		return result;
 	}
+	
+	
+	// Other business methods -------------------------------
 
+		public Review reconstruct(final Review review, final BindingResult binding) {
+			Review result = this.create();
 
+			if (review.getId() == 0) {
+				result = new Review();
 
+				result.setFilm(review.getFilm());
+
+			} else {
+				final Review orig = this.findOne(review.getId());
+				result.setBody(orig.getBody());
+				result.setCritic(orig.getCritic());
+				result.setModerator(orig.getModerator());
+				result.setFilm(orig.getFilm());
+				result.setCreationDate(orig.getCreationDate());
+				result.setId(orig.getId());
+				result.setIsDraft(orig.getIsDraft());
+				result.setRating(orig.getRating());
+				result.setRejectReason(orig.getRejectReason());
+				result.setTitle(orig.getTitle());
+				
+		
+			}
+
+			this.validator.validate(result, binding);
+
+			return result;
+		}
+
+	
 	
 	
 	
