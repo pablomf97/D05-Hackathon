@@ -1,0 +1,28 @@
+package services;
+
+import java.util.Map;
+
+import domain.SystemConfiguration;
+
+public class SystemConfigurationService {
+	
+	/* Other methods */
+
+	/* Find system configuration */
+	public SystemConfiguration findMySystemConfiguration() {
+		final SystemConfiguration result;
+
+		result = this.systemConfigurationRepository.findSystemConf();
+
+		return result;
+	}
+	
+	/* Find welcome message */
+	public Map<String, String> findWelcomeMessage() {
+		final Map<String, String> result;
+
+		result = this.findMySystemConfiguration().getWelcomeMessage();
+
+		return result;
+	}
+}
