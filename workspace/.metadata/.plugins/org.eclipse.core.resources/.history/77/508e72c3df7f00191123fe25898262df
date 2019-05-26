@@ -1,0 +1,104 @@
+package services;
+
+import java.util.ArrayList;
+import java.util.Date;
+
+import javax.transaction.Transactional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
+import org.springframework.validation.Validator;
+
+import repositories.MessageRepository;
+import domain.Actor;
+import domain.Message;
+import domain.MessageBox;
+
+@Service
+@Transactional
+public class MessageService {
+	
+	//Repository
+	
+	@Autowired
+	private MessageRepository messageRepository;
+	
+	//Services
+	
+	@Autowired
+	private ActorService actorService;
+	
+	@Autowired
+	private Validator validator;
+	
+	@Autowired
+	private MessageBoxService messageBoxService;
+	
+	//CRUD METHODS
+	
+	public Message create(){
+		Message result;
+		Actor principal = this.actorService.findByPrincipal;
+		
+		result.setSendMoment(new Date(System.currentTimeMillis()-1));
+		result.setSender(principal);
+		result.getMessageBoxes().add(this.messageBoxService.findOutBoxActorId(principal.getId()));
+		result.setIsFilmCreated(false);
+		result.setIsSpam(false);
+		
+		return result;
+	}
+	
+	public Message save(final Message message){
+		Message result;
+		Actor principal = this.actorService.findByPrincipal();
+		
+		
+		//Checking sender is the principal
+		Assert.isTrue(message.getSender().getId() == principal.getId(), "Not your message");
+		
+		//Checking receiver is an actor from the system
+		Assert.isTrue(this.actorService.checkAuthority(message.getReceiver(),"CRITIC") ||
+				this.actorService.checkAuthority(message.getReceiver(),"MODERATOR")||
+				this.actorService.checkAuthority(message.getReceiver(),"ADMIN"),
+				this.actorService.checkAuthority(message.getReceiver(),"FILMENTHUSIAST") );
+		
+		//Checking message has got right boxes(inBox from sender, outBox or spamBox from receiver)
+		Assert.isTrue((message.getMessageBoxes().contains(this.messageBoxService.findOutBoxActorId(principal.getId()))&&
+				message.getMessageBoxes().contains(this.messageBoxService.findInBoxActorId(message.getReceiver().getId())))||
+				(message.getMessageBoxes().contains(this.messageBoxService.findOutBoxActorId(principal.getId()))&&
+						message.getMessageBoxes().contains(this.messageBoxService.findSpamBoxActorId(message.getReceiver().getId()))));
+		
+		//Checking spam
+		boolean containsSpam = false;
+		final String[] spamWords = this.systemConfigurationService.findMySystemConfiguration().getSpamWords().split(",");
+		final String[] subject = message.getSubject().split("(¿¡,.-_/!?) ");
+		for (final String word : spamWords) {
+			for (final String titleWord : subject)
+				if (titleWord.toLowerCase().contains(word.toLowerCase())) {
+					containsSpam = true;
+					break;
+				}
+			if (containsSpam) {
+				principal.setIsSpammer(true);
+				break;
+			}
+		}
+		if (!containsSpam) {
+			final String[] body = message.getBody().split("(¿¡,.-_/!?) ");
+			for (final String word : spamWords) {
+				for (final String titleWord : body)
+					if (titleWord.toLowerCase().contains(word.toLowerCase())) {
+						containsSpam = true;
+						break;
+					}
+				if (containsSpam) {
+					principal.setIsSpammer(true);
+					break;
+				}
+			}
+		
+		
+	}
+}
