@@ -1,0 +1,16 @@
+package controllers;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+@Controller
+@RequestMapping(value = "statistics/administrator")
+public class DashboardController extends AbstractController{
+	
+	
+	@Autowired
+	private FinderService finderService;
+	
+	
+
+}
