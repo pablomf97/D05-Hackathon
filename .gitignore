@@ -7,7 +7,7 @@ release.properties
 dependency-reduced-pom.xml
 buildNumber.properties
 .mvn/timing.properties
-**/.metadata
+workspace/.metadata
 Servers/
 Servers2/
 Servers3/
