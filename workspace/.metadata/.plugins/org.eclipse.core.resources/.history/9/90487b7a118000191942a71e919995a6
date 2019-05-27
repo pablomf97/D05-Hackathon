@@ -1,0 +1,96 @@
+package services;
+
+import java.util.ArrayList;
+
+import javax.transaction.Transactional;
+import javax.validation.Validator;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import repositories.MessageBoxRepository;
+import domain.Message;
+import domain.MessageBox;
+
+@Service
+@Transactional
+public class MessageBoxService {
+
+	//Repository
+
+	@Autowired
+	private MessageBoxRepository messageBoxRepository;
+
+	//Services
+
+	@Autowired
+	private ActorService actorService;
+
+	@Autowired
+	private MessageService messageService;
+
+	@Autowired
+	private Validator validator;
+
+
+	//CRUD METHODS
+
+	public MessageBox create(MessageBox parentBox){
+		MessageBox result = new MessageBox();
+
+		if(parentBox == null){
+			result.setIsPredefined(false);
+			result.setMessages(new ArrayList<Message>());
+
+			
+		}else{
+			//Parameter box is parent one
+			
+			result.setIsPredefined(false);
+			result.setMessages(new ArrayList<Message>());
+			parentBox.getChildMessageBoxes().add(result);
+			result.setParentMessageBox(parentBox);
+		}
+
+		return result;
+	}
+	
+	public MessageBox save(final MessageBox messageBox, final MessageBox parentBox){
+		
+	}
+
+	public MessageBox findOutBoxActorId(int actorId){
+
+		MessageBox result = this.messageBoxRepository.findOutBoxActorId(actorId);
+
+		return result;
+	}
+
+	public MessageBox findInBoxActorId(int actorId){
+
+		MessageBox result = this.messageBoxRepository.findInBoxActorId(actorId);
+
+		return result;
+	}
+	public MessageBox findSpamBoxActorId(int actorId){
+
+		MessageBox result = this.messageBoxRepository.findSpamBoxActorId(actorId);
+
+		return result;
+	}
+
+	public MessageBox findTrashBoxActorId(int actorId){
+
+		MessageBox result = this.messageBoxRepository.findTrashBoxActorId(actorId);
+
+		return result;
+	}
+
+	public MessageBox findNotificationBoxActorId(int actorId){
+
+		MessageBox result = this.messageBoxRepository.findNotificationBoxActorId(actorId);
+
+		return result;
+	}
+
+}

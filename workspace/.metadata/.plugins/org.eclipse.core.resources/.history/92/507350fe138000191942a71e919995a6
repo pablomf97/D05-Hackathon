@@ -1,0 +1,115 @@
+package services;
+
+import java.util.ArrayList;
+
+import javax.transaction.Transactional;
+import javax.validation.Validator;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
+
+import repositories.MessageBoxRepository;
+import domain.Actor;
+import domain.Message;
+import domain.MessageBox;
+
+@Service
+@Transactional
+public class MessageBoxService {
+
+	//Repository
+
+	@Autowired
+	private MessageBoxRepository messageBoxRepository;
+
+	//Services
+
+	@Autowired
+	private ActorService actorService;
+
+	@Autowired
+	private MessageService messageService;
+
+	@Autowired
+	private Validator validator;
+
+
+	//CRUD METHODS
+
+	public MessageBox create(){
+		MessageBox result = new MessageBox();
+
+
+		result.setIsPredefined(false);
+		result.setMessages(new ArrayList<Message>());
+
+
+
+		return result;
+	}
+
+	public MessageBox save(final MessageBox messageBox, final MessageBox parentBox){
+		MessageBox result;
+		Actor principal = this.actorService.findByPrincipal();
+
+		Assert.isTrue(principal.getMessageBoxes().contains(messageBox) ||
+				principal.getMessageBoxes().contains(parentBox));
+
+		Assert.isTrue(messageBox.getIsPredefined() == false);
+
+		if(parentBox == null){
+
+			result = this.messageBoxRepository.save(messageBox);
+
+
+		}else{
+
+			messageBox.setParentMessageBox(parentBox);
+			
+			result = this.messageBoxRepository.save(messageBox);
+			
+			parentBox.getChildMessageBoxes().add(result);
+			
+
+		}
+		
+		return result;
+
+	}
+
+	public MessageBox findOutBoxActorId(int actorId){
+
+		MessageBox result = this.messageBoxRepository.findOutBoxActorId(actorId);
+
+		return result;
+	}
+
+	public MessageBox findInBoxActorId(int actorId){
+
+		MessageBox result = this.messageBoxRepository.findInBoxActorId(actorId);
+
+		return result;
+	}
+	public MessageBox findSpamBoxActorId(int actorId){
+
+		MessageBox result = this.messageBoxRepository.findSpamBoxActorId(actorId);
+
+		return result;
+	}
+
+	public MessageBox findTrashBoxActorId(int actorId){
+
+		MessageBox result = this.messageBoxRepository.findTrashBoxActorId(actorId);
+
+		return result;
+	}
+
+	public MessageBox findNotificationBoxActorId(int actorId){
+
+		MessageBox result = this.messageBoxRepository.findNotificationBoxActorId(actorId);
+
+		return result;
+	}
+
+}
