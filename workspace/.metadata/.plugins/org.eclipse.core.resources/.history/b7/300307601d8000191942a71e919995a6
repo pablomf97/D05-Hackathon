@@ -1,0 +1,37 @@
+package services;
+
+import javax.transaction.Transactional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
+
+import repositories.CommentRepository;
+import domain.Actor;
+import domain.Comment;
+
+@Service
+@Transactional
+public class CommentService {
+	
+	//Repository
+	
+	@Autowired
+	private CommentRepository commentRepository;
+	
+	//Services
+	@Autowired
+	private ActorService actorService;
+	
+	public Comment create(){
+		Comment result = new Comment();
+		
+		Actor principal = this.actorService.findByPrincipal();
+		
+		Assert.isTrue(this.actorService.checkAuthority(principal,"FILMENTHUSIAST"));
+		
+		result.setFilmEnthusiast(principal);
+		
+	}
+}
+
