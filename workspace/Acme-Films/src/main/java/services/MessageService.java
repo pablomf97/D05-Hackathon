@@ -308,7 +308,7 @@ public class MessageService {
 
 
 
-		outBoxAdmin = this.messageBoxService.findByName(principal.getId(), "Out box");
+		outBoxAdmin = this.messageBoxService.findOutBoxActorId(principal.getId());
 		Assert.notNull(outBoxAdmin);
 
 
@@ -316,11 +316,11 @@ public class MessageService {
 		final Message message = new Message();
 		message.setSubject(subject);
 		message.setBody(body);
-		message.setSentMoment(sentMoment);
+		message.setSendMoment(sentMoment);
 		message.setPriority(priority);
-		message.setTags(tags);
+		message.setTag(tags);
 		message.setIsSpam(isSpam);
-		message.setRecipient(principal);
+		message.setReceiver(principal);
 		message.setSender(principal);
 
 		boxes.add(outBoxAdmin);

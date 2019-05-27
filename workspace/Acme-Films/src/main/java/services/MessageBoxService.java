@@ -39,11 +39,13 @@ public class MessageBoxService {
 
 	public MessageBox create(){
 		MessageBox result = new MessageBox();
-
+		
+		Actor principal = this.actorService.findByPrincipal();
+		
 
 		result.setIsPredefined(false);
 		result.setMessages(new ArrayList<Message>());
-
+		principal.getMessageBoxes().add(result);
 
 
 		return result;
@@ -60,6 +62,8 @@ public class MessageBoxService {
 		if(parentBox == null){
 
 			result = this.messageBoxRepository.save(messageBox);
+			
+			principal.getMessageBoxes().add(result);
 
 
 		}else{
@@ -69,7 +73,7 @@ public class MessageBoxService {
 			result = this.messageBoxRepository.save(messageBox);
 
 			parentBox.getChildMessageBoxes().add(result);
-
+			principal.getMessageBoxes().add(result);
 
 		}
 
@@ -106,7 +110,9 @@ public class MessageBoxService {
 
 
 		}
-
+		
+		principal.getMessageBoxes().remove(messageBox);
+		
 		this.messageBoxRepository.delete(messageBox);
 	}
 
@@ -147,31 +153,41 @@ public class MessageBoxService {
 
 	//Other requirements
 	public void initializeDefaultBoxes() {
-
+		
+		Actor principal = this.actorService.findByPrincipal();
+		
 		final MessageBox in = this.create();
 		in.setIsPredefined(true);
 		in.setName("In box");
 		this.save(in,null);
+		principal.getMessageBoxes().add(in);
 
 		final MessageBox trash = this.create();
 		trash.setIsPredefined(true);
 		trash.setName("Trash box");
 		this.save(trash,null);
+		principal.getMessageBoxes().add(trash);
 
 		final MessageBox out = this.create();
 		out.setIsPredefined(true);
 		out.setName("Out box");
 		this.save(out,null);
+		principal.getMessageBoxes().add(out);
+
 
 		final MessageBox spam = this.create();
 		spam.setIsPredefined(true);
 		spam.setName("Spam box");
 		this.save(spam,null);
+		principal.getMessageBoxes().add(spam);
+
 
 		final MessageBox notification = this.create();
 		notification.setIsPredefined(true);
 		notification.setName("Notification box");
 		this.save(notification,null);
+		principal.getMessageBoxes().add(notification);
+
 
 	}
 
