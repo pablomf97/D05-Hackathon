@@ -13,4 +13,7 @@ public interface EventRepository extends JpaRepository<Event, Integer>{
 
 	@Query("select r from Event r where r.maximumCapacity= (select max(r.maximumCapacity)from Event r)")
 	Collection<Event> EventsWithHigeshtMaximumCapacity();
+	
+	@Query("select e From Event e order by e.attenders.size desc")
+	Collection<Event> top3EventsWithMorePeople();
 }
