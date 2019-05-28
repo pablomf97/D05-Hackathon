@@ -13,20 +13,20 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import services.ActorService;
-import services.ModeratorService;
+import services.CriticService;
 import domain.Actor;
-import domain.Moderator;
+import domain.Critic;
 import forms.EditionFormObject;
 import forms.RegisterFormObject;
 
 @Controller
-@RequestMapping("/moderator")
-public class ModeratorController extends AbstractController {
+@RequestMapping("/critic")
+public class CriticController extends AbstractController {
 
 	/* Services */
 
 	@Autowired
-	private ModeratorService moderatorService;
+	private CriticService criticService;
 
 	@Autowired
 	private ActorService actorService;
@@ -35,7 +35,7 @@ public class ModeratorController extends AbstractController {
 
 	/**
 	 * 
-	 * Display moderator
+	 * Display critic
 	 * 
 	 * @params id (optional)
 	 * 
@@ -44,32 +44,32 @@ public class ModeratorController extends AbstractController {
 	@RequestMapping(value = "/display", method = RequestMethod.GET)
 	public ModelAndView display(@RequestParam(required = false) final Integer id) {
 		ModelAndView res;
-		Moderator toDisplay;
-		String requestURI = "moderator/display.do";
+		Critic toDisplay;
+		String requestURI = "critic/display.do";
 		Boolean found = true;
 		Boolean permission;
 
 		try {
 			if (id != null) {
-				toDisplay = (Moderator) this.actorService.findOne(id);
+				toDisplay = (Critic) this.actorService.findOne(id);
 				if (toDisplay == null)
 					found = false;
 				permission = (toDisplay.getId() == this.actorService
 						.findByPrincipal().getId()) ? true : false;
 				requestURI += "?id=" + id;
 			} else {
-				toDisplay = (Moderator) this.actorService.findByPrincipal();
+				toDisplay = (Critic) this.actorService.findByPrincipal();
 				permission = true;
 			}
 
-			res = new ModelAndView("moderator/display");
-			res.addObject("moderator", toDisplay);
+			res = new ModelAndView("critic/display");
+			res.addObject("critic", toDisplay);
 			res.addObject("found", found);
 			res.addObject("requestURI", requestURI);
 			res.addObject("permission", permission);
 		} catch (final Throwable oops) {
 			found = false;
-			res = new ModelAndView("moderator/display");
+			res = new ModelAndView("critic/display");
 			res.addObject("found", found);
 		}
 
@@ -78,12 +78,12 @@ public class ModeratorController extends AbstractController {
 
 	/**
 	 * 
-	 * Register moderator GET
+	 * Register critic GET
 	 * 
 	 * @return ModelAndView
 	 **/
-	@RequestMapping(value = "/administrator/register", method = RequestMethod.GET)
-	public ModelAndView registerNewModerator() {
+	@RequestMapping(value = "/register", method = RequestMethod.GET)
+	public ModelAndView registerNewCritic() {
 		ModelAndView res;
 
 		final RegisterFormObject registerFormObject = new RegisterFormObject();
@@ -96,35 +96,34 @@ public class ModeratorController extends AbstractController {
 
 	/**
 	 * 
-	 * Register moderator POST
+	 * Register critic POST
 	 * 
 	 * @return ModelAndView
 	 **/
-	@RequestMapping(value = "/administrator/register", method = RequestMethod.POST, params = "save")
+	@RequestMapping(value = "/register", method = RequestMethod.POST, params = "save")
 	public ModelAndView register(
 			@Valid final RegisterFormObject registerFormObject,
 			final BindingResult binding) {
 
 		ModelAndView res;
 
-		Moderator moderator = new Moderator();
-		moderator = this.moderatorService.create();
+		Critic critic = new Critic();
+		critic = this.criticService.create();
 
-		moderator = this.moderatorService.reconstruct(registerFormObject,
-				binding);
+		critic = this.criticService.reconstruct(registerFormObject, binding);
 
 		if (binding.hasErrors())
 			res = this.createRegisterModelAndView(registerFormObject);
 		else
 			try {
 
-				this.moderatorService.save(moderator);
+				this.criticService.save(critic);
 
 				res = new ModelAndView("redirect:/");
 
 			} catch (final Throwable oops) {
 				res = this.createRegisterModelAndView(registerFormObject,
-						"moderator.commit.error");
+						"critic.commit.error");
 
 			}
 		return res;
@@ -132,12 +131,12 @@ public class ModeratorController extends AbstractController {
 
 	/**
 	 * 
-	 * Edit moderator GET
+	 * Edit critic GET
 	 * 
 	 * @return ModelAndView
 	 **/
-	@RequestMapping(value = "/moderator/edit", method = RequestMethod.GET)
-	public ModelAndView editModerator() {
+	@RequestMapping(value = "/critic/edit", method = RequestMethod.GET)
+	public ModelAndView editCritic() {
 		ModelAndView res;
 		Actor principal;
 
@@ -152,11 +151,11 @@ public class ModeratorController extends AbstractController {
 
 	/**
 	 * 
-	 * Edit moderator POST
+	 * Edit critic POST
 	 * 
 	 * @return ModelAndView
 	 **/
-	@RequestMapping(value = "/moderator/edit", method = RequestMethod.POST, params = "save")
+	@RequestMapping(value = "/critic/edit", method = RequestMethod.POST, params = "save")
 	public ModelAndView edit(@Valid final EditionFormObject editionFormObject,
 			final BindingResult binding) {
 
@@ -169,23 +168,23 @@ public class ModeratorController extends AbstractController {
 					&& this.actorService.findOne(this.actorService
 							.findByPrincipal().getId()) != null);
 
-			Moderator moderator = new Moderator();
-			moderator = this.moderatorService.create();
+			Critic critic = new Critic();
+			critic = this.criticService.create();
 
-			moderator = this.moderatorService.reconstruct(editionFormObject,
+			critic = this.criticService.reconstruct(editionFormObject,
 					binding);
 
 			if (binding.hasErrors()) {
 				res = this.createEditModelAndView(editionFormObject);
 			} else {
 				try {
-					this.moderatorService.save(moderator);
+					this.criticService.save(critic);
 
 					res = new ModelAndView("redirect:/");
 
 				} catch (Throwable oops) {
 					res = this.createEditModelAndView(editionFormObject,
-							"moderator.commit.error");
+							"critic.commit.error");
 
 				}
 
@@ -215,7 +214,7 @@ public class ModeratorController extends AbstractController {
 			final String messageCode) {
 		ModelAndView result;
 
-		result = new ModelAndView("moderator/register");
+		result = new ModelAndView("critic/register");
 		result.addObject("registerFormObject", registerFormObject);
 		result.addObject("message", messageCode);
 
@@ -236,35 +235,35 @@ public class ModeratorController extends AbstractController {
 			final EditionFormObject editionFormObject, final String messageCode) {
 		ModelAndView result;
 
-		result = new ModelAndView("moderator/edit");
+		result = new ModelAndView("critic/edit");
 		result.addObject("editionFormObject", editionFormObject);
 		result.addObject("message", messageCode);
 
 		return result;
 	}
 
-	@RequestMapping(value = "/moderator/edit", method = RequestMethod.POST, params = "deleteModerator")
-	public ModelAndView deleteModerator(
+	@RequestMapping(value = "/critic/edit", method = RequestMethod.POST, params = "deleteCritic")
+	public ModelAndView deleteCritic(
 			final EditionFormObject editionFormObject,
 			final BindingResult binding, final HttpSession session) {
 		ModelAndView result;
-		Moderator moderator;
+		Critic critic;
 
-		moderator = this.moderatorService.findOne(editionFormObject.getId());
+		critic = this.criticService.findOne(editionFormObject.getId());
 
 		if (binding.hasErrors())
 			result = this.createEditModelAndView(editionFormObject,
-					"moderator.commit.error");
+					"critic.commit.error");
 		else
 			try {
 
-				this.moderatorService.delete(moderator);
+				this.criticService.delete(critic);
 				session.invalidate();
 				result = new ModelAndView("redirect:/welcome/index.do");
 			} catch (final Throwable oops) {
 
 				result = this.createEditModelAndView(editionFormObject,
-						"moderator.commit.error");
+						"critic.commit.error");
 			}
 		return result;
 	}

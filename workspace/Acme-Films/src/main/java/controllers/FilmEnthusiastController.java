@@ -13,20 +13,20 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import services.ActorService;
-import services.ModeratorService;
+import services.FilmEnthusiastService;
 import domain.Actor;
-import domain.Moderator;
+import domain.FilmEnthusiast;
 import forms.EditionFormObject;
 import forms.RegisterFormObject;
 
 @Controller
-@RequestMapping("/moderator")
-public class ModeratorController extends AbstractController {
+@RequestMapping("/filmEnthusiast")
+public class FilmEnthusiastController extends AbstractController {
 
 	/* Services */
 
 	@Autowired
-	private ModeratorService moderatorService;
+	private FilmEnthusiastService filmEnthusiastService;
 
 	@Autowired
 	private ActorService actorService;
@@ -35,7 +35,7 @@ public class ModeratorController extends AbstractController {
 
 	/**
 	 * 
-	 * Display moderator
+	 * Display filmEnthusiast
 	 * 
 	 * @params id (optional)
 	 * 
@@ -44,32 +44,32 @@ public class ModeratorController extends AbstractController {
 	@RequestMapping(value = "/display", method = RequestMethod.GET)
 	public ModelAndView display(@RequestParam(required = false) final Integer id) {
 		ModelAndView res;
-		Moderator toDisplay;
-		String requestURI = "moderator/display.do";
+		FilmEnthusiast toDisplay;
+		String requestURI = "filmEnthusiast/display.do";
 		Boolean found = true;
 		Boolean permission;
 
 		try {
 			if (id != null) {
-				toDisplay = (Moderator) this.actorService.findOne(id);
+				toDisplay = (FilmEnthusiast) this.actorService.findOne(id);
 				if (toDisplay == null)
 					found = false;
 				permission = (toDisplay.getId() == this.actorService
 						.findByPrincipal().getId()) ? true : false;
 				requestURI += "?id=" + id;
 			} else {
-				toDisplay = (Moderator) this.actorService.findByPrincipal();
+				toDisplay = (FilmEnthusiast) this.actorService.findByPrincipal();
 				permission = true;
 			}
 
-			res = new ModelAndView("moderator/display");
-			res.addObject("moderator", toDisplay);
+			res = new ModelAndView("filmEnthusiast/display");
+			res.addObject("filmEnthusiast", toDisplay);
 			res.addObject("found", found);
 			res.addObject("requestURI", requestURI);
 			res.addObject("permission", permission);
 		} catch (final Throwable oops) {
 			found = false;
-			res = new ModelAndView("moderator/display");
+			res = new ModelAndView("filmEnthusiast/display");
 			res.addObject("found", found);
 		}
 
@@ -78,12 +78,12 @@ public class ModeratorController extends AbstractController {
 
 	/**
 	 * 
-	 * Register moderator GET
+	 * Register filmEnthusiast GET
 	 * 
 	 * @return ModelAndView
 	 **/
-	@RequestMapping(value = "/administrator/register", method = RequestMethod.GET)
-	public ModelAndView registerNewModerator() {
+	@RequestMapping(value = "/register", method = RequestMethod.GET)
+	public ModelAndView registerNewFilmEnthusiast() {
 		ModelAndView res;
 
 		final RegisterFormObject registerFormObject = new RegisterFormObject();
@@ -96,35 +96,34 @@ public class ModeratorController extends AbstractController {
 
 	/**
 	 * 
-	 * Register moderator POST
+	 * Register filmEnthusiast POST
 	 * 
 	 * @return ModelAndView
 	 **/
-	@RequestMapping(value = "/administrator/register", method = RequestMethod.POST, params = "save")
+	@RequestMapping(value = "/register", method = RequestMethod.POST, params = "save")
 	public ModelAndView register(
 			@Valid final RegisterFormObject registerFormObject,
 			final BindingResult binding) {
 
 		ModelAndView res;
 
-		Moderator moderator = new Moderator();
-		moderator = this.moderatorService.create();
+		FilmEnthusiast filmEnthusiast = new FilmEnthusiast();
+		filmEnthusiast = this.filmEnthusiastService.create();
 
-		moderator = this.moderatorService.reconstruct(registerFormObject,
-				binding);
+		filmEnthusiast = this.filmEnthusiastService.reconstruct(registerFormObject, binding);
 
 		if (binding.hasErrors())
 			res = this.createRegisterModelAndView(registerFormObject);
 		else
 			try {
 
-				this.moderatorService.save(moderator);
+				this.filmEnthusiastService.save(filmEnthusiast);
 
 				res = new ModelAndView("redirect:/");
 
 			} catch (final Throwable oops) {
 				res = this.createRegisterModelAndView(registerFormObject,
-						"moderator.commit.error");
+						"filmEnthusiast.commit.error");
 
 			}
 		return res;
@@ -132,12 +131,12 @@ public class ModeratorController extends AbstractController {
 
 	/**
 	 * 
-	 * Edit moderator GET
+	 * Edit filmEnthusiast GET
 	 * 
 	 * @return ModelAndView
 	 **/
-	@RequestMapping(value = "/moderator/edit", method = RequestMethod.GET)
-	public ModelAndView editModerator() {
+	@RequestMapping(value = "/filmEnthusiast/edit", method = RequestMethod.GET)
+	public ModelAndView editFilmEnthusiast() {
 		ModelAndView res;
 		Actor principal;
 
@@ -152,11 +151,11 @@ public class ModeratorController extends AbstractController {
 
 	/**
 	 * 
-	 * Edit moderator POST
+	 * Edit filmEnthusiast POST
 	 * 
 	 * @return ModelAndView
 	 **/
-	@RequestMapping(value = "/moderator/edit", method = RequestMethod.POST, params = "save")
+	@RequestMapping(value = "/filmEnthusiast/edit", method = RequestMethod.POST, params = "save")
 	public ModelAndView edit(@Valid final EditionFormObject editionFormObject,
 			final BindingResult binding) {
 
@@ -169,23 +168,23 @@ public class ModeratorController extends AbstractController {
 					&& this.actorService.findOne(this.actorService
 							.findByPrincipal().getId()) != null);
 
-			Moderator moderator = new Moderator();
-			moderator = this.moderatorService.create();
+			FilmEnthusiast filmEnthusiast = new FilmEnthusiast();
+			filmEnthusiast = this.filmEnthusiastService.create();
 
-			moderator = this.moderatorService.reconstruct(editionFormObject,
+			filmEnthusiast = this.filmEnthusiastService.reconstruct(editionFormObject,
 					binding);
 
 			if (binding.hasErrors()) {
 				res = this.createEditModelAndView(editionFormObject);
 			} else {
 				try {
-					this.moderatorService.save(moderator);
+					this.filmEnthusiastService.save(filmEnthusiast);
 
 					res = new ModelAndView("redirect:/");
 
 				} catch (Throwable oops) {
 					res = this.createEditModelAndView(editionFormObject,
-							"moderator.commit.error");
+							"filmEnthusiast.commit.error");
 
 				}
 
@@ -215,7 +214,7 @@ public class ModeratorController extends AbstractController {
 			final String messageCode) {
 		ModelAndView result;
 
-		result = new ModelAndView("moderator/register");
+		result = new ModelAndView("filmEnthusiast/register");
 		result.addObject("registerFormObject", registerFormObject);
 		result.addObject("message", messageCode);
 
@@ -236,35 +235,35 @@ public class ModeratorController extends AbstractController {
 			final EditionFormObject editionFormObject, final String messageCode) {
 		ModelAndView result;
 
-		result = new ModelAndView("moderator/edit");
+		result = new ModelAndView("filmEnthusiast/edit");
 		result.addObject("editionFormObject", editionFormObject);
 		result.addObject("message", messageCode);
 
 		return result;
 	}
 
-	@RequestMapping(value = "/moderator/edit", method = RequestMethod.POST, params = "deleteModerator")
-	public ModelAndView deleteModerator(
+	@RequestMapping(value = "/filmEnthusiast/edit", method = RequestMethod.POST, params = "deleteFilmEnthusiast")
+	public ModelAndView deleteFilmEnthusiast(
 			final EditionFormObject editionFormObject,
 			final BindingResult binding, final HttpSession session) {
 		ModelAndView result;
-		Moderator moderator;
+		FilmEnthusiast filmEnthusiast;
 
-		moderator = this.moderatorService.findOne(editionFormObject.getId());
+		filmEnthusiast = this.filmEnthusiastService.findOne(editionFormObject.getId());
 
 		if (binding.hasErrors())
 			result = this.createEditModelAndView(editionFormObject,
-					"moderator.commit.error");
+					"filmEnthusiast.commit.error");
 		else
 			try {
 
-				this.moderatorService.delete(moderator);
+				this.filmEnthusiastService.delete(filmEnthusiast);
 				session.invalidate();
 				result = new ModelAndView("redirect:/welcome/index.do");
 			} catch (final Throwable oops) {
 
 				result = this.createEditModelAndView(editionFormObject,
-						"moderator.commit.error");
+						"filmEnthusiast.commit.error");
 			}
 		return result;
 	}

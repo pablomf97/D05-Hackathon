@@ -43,17 +43,24 @@
 
 		<security:authorize access="isAnonymous()">
 
+
+
+		</security:authorize>
+
+		<security:authorize access="isAnonymous()">
 			<!-- Sign up -->
 			<li><a class="fNiv"><spring:message
 						code="master.page.singup" /></a>
 				<ul>
 					<li class="arrow"></li>
-
+					<li><a href="sponsor/register.do"><spring:message
+								code="master.page.register.sponsor" /></a></li>
+					<li><a href="filmEnthusiast/register.do"><spring:message
+								code="master.page.register.filme" /></a></li>
+					<li><a href="critic/register.do"><spring:message
+								code="master.page.register.critic" /></a></li>
 				</ul></li>
 
-		</security:authorize>
-
-		<security:authorize access="isAnonymous()">
 			<li><a class="fNiv" href="security/login.do"><spring:message
 						code="master.page.login" /></a></li>
 		</security:authorize>
@@ -81,17 +88,6 @@
 
 					</security:authorize>
 
-					<security:authorize access="hasRole('FILMENTHUSIAST')">
-						<li><a href="finder/filmEnthusiast/search.do"><spring:message
-									code="master.page.finder" /></a></li>
-						<li><a href="rookie/export.do"><spring:message
-									code="export" /></a></li>
-						<li><a href="rookie/display.do"><spring:message
-									code="actor.view" /></a></li>
-						<li><a href="rookie/rookie/edit.do"><spring:message
-									code="master.page.actor.edit" /></a></li>
-					</security:authorize>
-
 					<security:authorize access="hasRole('MODERATOR')">
 						<li><a href="moderator/display.do"><spring:message
 									code="actor.view" /></a></li>
@@ -99,8 +95,32 @@
 									code="master.page.actor.edit" /></a></li>
 					</security:authorize>
 
+					<security:authorize access="hasRole('SPONSOR')">
+						<li><a href="sponsor/display.do"><spring:message
+									code="actor.view" /></a></li>
+						<li><a href="sponsor/sponsor/edit.do"><spring:message
+									code="master.page.actor.edit" /></a></li>
+					</security:authorize>
+
+					<security:authorize access="hasRole('FILMENTHUSIAST')">
+						<li><a href="finder/filmEnthusiast/search.do"><spring:message
+									code="master.page.finder" /></a></li>
+						<li><a href="filmEnthusiast/display.do"><spring:message
+									code="actor.view" /></a></li>
+						<li><a href="filmEnthusiast/filmEnthusiast/edit.do"><spring:message
+									code="master.page.actor.edit" /></a></li>
+					</security:authorize>
+
+					<security:authorize access="hasRole('CRITIC')">
+						<li><a href="critic/display.do"><spring:message
+									code="actor.view" /></a></li>
+						<li><a href="critic/critic/edit.do"><spring:message
+									code="master.page.actor.edit" /></a></li>
+					</security:authorize>
+
 					<li><a href="j_spring_security_logout"><spring:message
 								code="master.page.logout" /> </a></li>
+				</ul>
 		</security:authorize>
 
 	</ul>

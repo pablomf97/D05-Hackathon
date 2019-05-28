@@ -47,7 +47,7 @@ public class AdministratorController extends AbstractController {
 		Administrator toDisplay;
 		String requestURI = "administrator/display.do";
 		Boolean found = true;
-		Boolean permission = false;
+		Boolean permission;
 
 		try {
 			if (id != null) {
@@ -55,6 +55,8 @@ public class AdministratorController extends AbstractController {
 				requestURI += "?id=" + id;
 				if (toDisplay == null)
 					found = false;
+				permission = (toDisplay.getId() == this.actorService
+						.findByPrincipal().getId()) ? true : false;
 			} else {
 				toDisplay = (Administrator) this.actorService.findByPrincipal();
 				permission = true;
