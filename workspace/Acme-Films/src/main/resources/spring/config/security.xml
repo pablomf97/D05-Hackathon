@@ -19,9 +19,79 @@
 		class="org.springframework.security.authentication.encoding.Md5PasswordEncoder" />
 
 	<!-- Access control -->
-
+	
 	<security:http auto-config="true" use-expressions="true">
+	<!-- Currícula -->
+			
+	<security:intercept-url pattern="/curricula/critic/create.do"
+		access="hasRole('CRITIC')" />
 		
+	<security:intercept-url pattern="/curricula/critic/display.do"
+		access="permitAll" />
+		
+			<!-- educationData -->
+			
+<security:intercept-url pattern="/educationData/critic/list.do"
+		access="permitAll" />
+		
+	<security:intercept-url pattern="/educationData/critic/edit.do"
+		access="hasRole('CRITIC')" />
+		
+	<security:intercept-url pattern="/educationData/critic/create.do"
+		access="hasRole('CRITIC')" />
+		
+	<security:intercept-url pattern="/educationData/critic/display.do"
+		access="permitAll" />
+		
+			<!-- professionalData -->
+	
+		<security:intercept-url pattern="/professionalData/critic/list.do"
+		access="permitAll" />
+		
+	<security:intercept-url pattern="/professionalData/critic/edit.do"
+		access="hasRole('CRITIC')" />
+		
+	<security:intercept-url pattern="/professionalData/critic/create.do"
+		access="hasRole('CRITIC')" />
+		
+	<security:intercept-url pattern="/professionalData/critic/display.do"
+		access="permitAll" />
+		
+		
+			<!-- miscellaneousData -->
+			
+		<security:intercept-url pattern="/miscellaneousData/critic/list.do"
+		access="permitAll" />
+		
+	<security:intercept-url pattern="/miscellaneousData/critic/edit.do"
+		access="hasRole('CRITIC')" />
+		
+	<security:intercept-url pattern="/miscellaneousData/critic/create.do"
+		access="hasRole('CRITIC')" />
+		
+	<security:intercept-url pattern="/miscellaneousData/critic/display.do"
+		access="permitAll" />
+		
+			<!-- PersonalData -->
+	
+	<security:intercept-url pattern="/curricula/critic/edit.do"
+		access="hasRole('CRITIC')" />
+		
+			<security:intercept-url pattern="/curricula/critic/save.do"
+		access="hasRole('CRITIC')" />
+		
+	<security:intercept-url pattern="/curricula/critic/create.do"
+		access="hasRole('CRITIC')" />
+		
+	<security:intercept-url pattern="/curricula/critic/display.do"
+		access="permitAll" />
+		
+		<security:form-login login-page="/security/login.do"
+			password-parameter="password" username-parameter="username"
+			authentication-failure-url="/security/loginFailure.do" />
+
+		<security:logout logout-success-url="/"
+			invalidate-session="true" />
 	</security:http>
 
 </beans>

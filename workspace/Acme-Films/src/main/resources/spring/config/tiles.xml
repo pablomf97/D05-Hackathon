@@ -12,13 +12,19 @@
 	">
 
 	<util:list id="tiles">
-		
+
 		<value>/views/master-page/tiles.xml</value>
 		<value>/views/misc/tiles.xml</value>
 		<value>/views/security/tiles.xml</value>
 		<value>/views/welcome/tiles.xml</value>
 		<value>/views/terms/tiles.xml</value>
 		<value>/views/finder/tiles.xml</value>
+		<value>/views/curricula/tiles.xml</value>
+		<value>/views/educationData/tiles.xml</value>
+		<value>/views/miscellaneousData/tiles.xml</value>
+		<value>/views/personalData/tiles.xml</value>
+		<value>/views/professionalData/tiles.xml</value>
+
 
 	</util:list>
 
