@@ -19,6 +19,7 @@ public class Sponsorship extends DomainEntity{
 	private String title;
 	private String banner;
 	private String targetPage;
+	private boolean isActive;
 	private Sponsor sponsor;
 	private CreditCard creditCard;
 	
@@ -69,6 +70,11 @@ public class Sponsorship extends DomainEntity{
 		this.creditCard = creditCard;
 	}
 	
-	
+	public boolean getIsActive() {
+		return isActive;
+	}
+	public void setIsActive(boolean isActive) {
+		this.isActive = isActive;
+	}
 	
 }

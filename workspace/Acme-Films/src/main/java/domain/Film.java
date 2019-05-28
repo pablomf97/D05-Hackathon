@@ -2,16 +2,15 @@ package domain;
 
 import java.util.Collection;
 import java.util.Date;
-import java.util.Map;
+
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
+
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.MapKeyColumn;
+
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.Valid;
@@ -29,13 +28,13 @@ public class Film extends DomainEntity{
 
 	//Attributes
 	
-	private Map<String,String> title;
-	private Map<String,String> synopsis;
+	private String title;
+	private String synopsis;
 	private String poster;
 	private Date releaseDate;
 	private Integer runTime;
-	private Double avgReviewsRating;
-	private Double avgCommentsRating;
+	private Double rating;
+
 	private String ticker;
 	private boolean isDraft;
 	
@@ -48,21 +47,19 @@ public class Film extends DomainEntity{
 	
 	//Getters and setters
 	
-	@NotNull
-	@ElementCollection
-	public Map<String, String> getTitle() {
+	@NotBlank
+	public String getTitle() {
 		return title;
 	}
-	public void setTitle(Map<String, String> title) {
+	public void setTitle(String title) {
 		this.title = title;
 	}
 	
-	@NotNull
-	@ElementCollection
-	public Map<String, String> getSynopsis() {
+	@NotBlank
+	public String getSynopsis() {
 		return synopsis;
 	}
-	public void setSynopsis(Map<String, String> synopsis) {
+	public void setSynopsis(String synopsis) {
 		this.synopsis = synopsis;
 	}
 	
@@ -93,14 +90,7 @@ public class Film extends DomainEntity{
 		this.runTime = runTime;
 	}
 	
-	@Range(min=0,max=10)
-	public Double getAvgReviewsRating() {
-		return avgReviewsRating;
-	}
-	public void setAvgReviewsRating(Double avgReviewsRating) {
-		this.avgReviewsRating = avgReviewsRating;
-	}
-	
+
 	@NotBlank
 	public String getTicker() {
 		return ticker;
@@ -124,8 +114,7 @@ public class Film extends DomainEntity{
 	public void setModerator(Moderator moderator) {
 		this.moderator = moderator;
 	}
-	@Column(name="value")
-    @MapKeyColumn(name="Key")
+
 	@Valid
 	@ManyToMany
 	public Collection<Genre> getGenres() {
@@ -162,11 +151,11 @@ public class Film extends DomainEntity{
 	}
 	
 	@Range(min=0,max=10)
-	public Double getAvgCommentsRating() {
-		return avgCommentsRating;
+	public Double getRating() {
+		return rating;
 	}
-	public void setAvgCommentsRating(Double avgCommentsRating) {
-		this.avgCommentsRating = avgCommentsRating;
+	public void setRating(Double rating) {
+		this.rating = rating;
 	}
 	
 	

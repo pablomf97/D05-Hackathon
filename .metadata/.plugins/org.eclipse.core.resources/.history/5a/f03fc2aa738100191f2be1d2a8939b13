@@ -1,0 +1,148 @@
+package domain;
+
+import java.util.Collection;
+import java.util.Date;
+
+import javax.persistence.Access;
+import javax.persistence.AccessType;
+import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.Valid;
+import javax.validation.constraints.Future;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+
+import org.hibernate.validator.constraints.NotBlank;
+import org.springframework.format.annotation.DateTimeFormat;
+
+@Entity
+@Access(AccessType.PROPERTY)
+public class Forum extends DomainEntity{
+	
+	//Attributes
+	
+	private String title;
+	private String description;
+	private String address;
+	private Double price;
+	private Date eventDate;
+	private Date signinDeadline;
+	private FilmEnthusiast creator;
+	private Collection<FilmEnthusiast> groupMembers;
+	
+	private Saga sagaAbout;
+	private Film filmAbout;
+	private Moderator moderator;
+	
+	//Getters and Setters
+	
+	@NotBlank
+	public String getTitle() {
+		return title;
+	}
+	public void setTitle(String title) {
+		this.title = title;
+	}
+	
+	@NotBlank
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	
+	@NotNull
+	@Future
+	@Temporal(TemporalType.TIMESTAMP)
+	@DateTimeFormat(pattern = "dd/MM/yyyy HH:mm")
+	public Date getEventDate() {
+		return eventDate;
+	}
+	public void setEventDate(Date eventDate) {
+		this.eventDate = eventDate;
+	}
+	
+
+
+	@Valid
+	@NotNull
+	@ManyToOne(optional = false)
+	public FilmEnthusiast getCreator() {
+		return creator;
+	}
+	public void setCreator(FilmEnthusiast creator) {
+		this.creator = creator;
+	}
+	
+	@Valid
+	@NotNull
+	@ManyToMany
+	public Collection<FilmEnthusiast> getGroupMembers() {
+		return groupMembers;
+	}
+	public void setGroupMembers(Collection<FilmEnthusiast> groupMembers) {
+		this.groupMembers = groupMembers;
+	}
+	
+	@Valid
+	@ManyToOne(optional = true)
+	public Saga getSagaAbout() {
+		return sagaAbout;
+	}
+	public void setSagaAbout(Saga sagaAbout) {
+		this.sagaAbout = sagaAbout;
+	}
+	
+	@Valid
+	@ManyToOne(optional = true)
+	public Film getFilmAbout() {
+		return filmAbout;
+	}
+	public void setFilmAbout(Film filmAbout) {
+		this.filmAbout = filmAbout;
+	}
+	
+	@Valid
+	@NotNull
+	@ManyToOne(optional = false)
+	public Moderator getModerator() {
+		return moderator;
+	}
+	public void setModerator(Moderator moderator) {
+		this.moderator = moderator;
+	}
+	@NotBlank
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	@Min(value=0)
+	public Double getPrice() {
+		return price;
+	}
+	public void setPrice(Double price) {
+		this.price = price;
+	}
+	@NotNull
+	@Future
+	@Temporal(TemporalType.TIMESTAMP)
+	@DateTimeFormat(pattern = "dd/MM/yyyy HH:mm")
+	public Date getSigninDeadline() {
+		return signinDeadline;
+	}
+	public void setSigninDeadline(Date signinDeadline) {
+		this.signinDeadline = signinDeadline;
+	}
+	
+	
+	
+	
+	
+}
