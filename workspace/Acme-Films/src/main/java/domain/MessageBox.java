@@ -7,6 +7,7 @@ import javax.persistence.AccessType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.validation.Valid;
 
 import org.hibernate.validator.constraints.NotBlank;
@@ -48,7 +49,7 @@ public class MessageBox extends DomainEntity{
 	}
 	
 	@Valid
-	@ManyToMany
+	@OneToMany
 	public Collection<MessageBox> getChildMessageBoxes() {
 		return childMessageBoxes;
 	}
