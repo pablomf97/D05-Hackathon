@@ -23,6 +23,7 @@
 		<value>/views/sponsor/messages</value>
 		<value>/views/filmenthusiast/messages</value>
 		<value>/views/critic/messages</value>
+		<value>/views/system-configuration/messages</value>
 	</util:list>
 
 </beans>

@@ -24,6 +24,7 @@
 		<value>/views/sponsor/tiles.xml</value>
 		<value>/views/filmenthusiast/tiles.xml</value>
 		<value>/views/critic/tiles.xml</value>
+		<value>/views/system-configuration/tiles.xml</value>
 	</util:list>
 
 </beans>
