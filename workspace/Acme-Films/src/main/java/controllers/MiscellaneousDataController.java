@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import services.ActorService;
 import services.CurriculaService;
 import services.MiscellaneousDataService;
+import domain.Actor;
 import domain.Curricula;
 import domain.MiscellaneousData;
 
@@ -33,6 +35,9 @@ public class MiscellaneousDataController extends AbstractController {
 	@Autowired
 	private Validator					validator;
 
+	@Autowired
+	private ActorService				actorService;
+
 
 	// Listing
 
@@ -48,11 +53,15 @@ public class MiscellaneousDataController extends AbstractController {
 			miscellaneousData = currentCurricula.getMiscellaneousData();
 
 			result = new ModelAndView("miscellaneousData/list");
-
+			try {
+				final Actor principal = this.actorService.findByPrincipal();
+				result.addObject("principal", principal);
+			} catch (final Throwable oops) {
+			}
 			result.addObject("currentCurricula", currentCurricula);
 			result.addObject("miscellaneousData", miscellaneousData);
 		} catch (final Throwable oops) {
-			result = new ModelAndView("redirect:../welcome/index.do");
+			result = new ModelAndView("redirect:../../welcome/index.do");
 			result.addObject("messageCode", "problem.commit.error");
 		}
 		return result;
@@ -69,11 +78,15 @@ public class MiscellaneousDataController extends AbstractController {
 			data = this.miscellaneousDataService.findOne(dataId);
 
 			result = new ModelAndView("miscellaneousData/display");
-
+			try {
+				final Actor principal = this.actorService.findByPrincipal();
+				result.addObject("principal", principal);
+			} catch (final Throwable oops) {
+			}
 			result.addObject("data", data);
 			result.addObject("curriculaId", curriculaId);
 		} catch (final Throwable oops) {
-			result = new ModelAndView("redirect:../welcome/index.do");
+			result = new ModelAndView("redirect:../../welcome/index.do");
 			result.addObject("messageCode", "problem.commit.error");
 		}
 		return result;
@@ -95,7 +108,7 @@ public class MiscellaneousDataController extends AbstractController {
 			result = this.createEditModelAndView(data, curriculaId);
 
 		} catch (final Throwable oops) {
-			result = new ModelAndView("redirect:../welcome/index.do");
+			result = new ModelAndView("redirect:../../welcome/index.do");
 			result.addObject("messageCode", "problem.commit.error");
 		}
 
@@ -120,7 +133,7 @@ public class MiscellaneousDataController extends AbstractController {
 
 				result = new ModelAndView("redirect:list.do?curriculaId=" + currentCurricula.getId());
 			} catch (final Throwable oops) {
-				result = new ModelAndView("redirect:../welcome/index.do");
+				result = new ModelAndView("redirect:../../welcome/index.do");
 				result.addObject("messageCode", "problem.commit.error");
 			}
 		return result;
@@ -139,7 +152,7 @@ public class MiscellaneousDataController extends AbstractController {
 				this.miscellaneousDataService.delete(data);
 				result = new ModelAndView("redirect:list.do?curriculaId=" + currentCurricula.getId());
 			} catch (final Throwable oops) {
-				result = new ModelAndView("redirect:../welcome/index.do");
+				result = new ModelAndView("redirect:../../welcome/index.do");
 				result.addObject("messageCode", "problem.commit.error");
 			}
 		return result;
@@ -153,7 +166,7 @@ public class MiscellaneousDataController extends AbstractController {
 			final MiscellaneousData data = this.miscellaneousDataService.create();
 			result = this.createEditModelAndView(data, curriculaId, "md.commit.error");
 		} catch (final Throwable oops) {
-			result = new ModelAndView("redirect:../welcome/index.do");
+			result = new ModelAndView("redirect:../../welcome/index.do");
 			result.addObject("messageCode", "problem.commit.error");
 		}
 

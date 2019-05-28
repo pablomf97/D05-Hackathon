@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import services.ActorService;
 import services.CurriculaService;
 import services.PersonalDataService;
+import domain.Actor;
 import domain.Curricula;
 import domain.EducationData;
 import domain.MiscellaneousData;
@@ -31,6 +33,9 @@ public class CurriculaController extends AbstractController {
 
 	@Autowired
 	private PersonalDataService	personalService;
+
+	@Autowired
+	private ActorService		actorService;
 
 
 	//Edition
@@ -72,7 +77,11 @@ public class CurriculaController extends AbstractController {
 			personalData = curricula.getPersonalData();
 
 			result = new ModelAndView("curricula/display");
-
+			try {
+				final Actor principal = this.actorService.findByPrincipal();
+				result.addObject("principal", principal);
+			} catch (final Throwable oops) {
+			}
 			if (!(miscellaneousData.isEmpty())) {
 				emptyMiscellaneous = false;
 				result.addObject("miscellanousData", miscellaneousData.iterator().next());
@@ -105,7 +114,7 @@ public class CurriculaController extends AbstractController {
 			result.addObject("personalData", personalData);
 
 		} catch (final Throwable oops) {
-			result = new ModelAndView("redirect:../welcome/index.do");
+			result = new ModelAndView("redirect:../../welcome/index.do");
 			result.addObject("messageCode", "problem.commit.error");
 		}
 		return result;
@@ -123,7 +132,7 @@ public class CurriculaController extends AbstractController {
 			this.curriculaService.deleteCV(db);
 			result = new ModelAndView("redirect:list.do");
 		} catch (final Throwable oops) {
-			result = new ModelAndView("redirect:../welcome/index.do");
+			result = new ModelAndView("redirect:../../welcome/index.do");
 			result.addObject("messageCode", "problem.commit.error");
 		}
 		return result;

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import services.ActorService;
 import services.CurriculaService;
 import services.PersonalDataService;
 import domain.Curricula;
@@ -28,6 +29,8 @@ public class PersonalDataController extends AbstractController {
 
 	@Autowired
 	private Validator			validator;
+	@Autowired
+	private ActorService		actorService;
 
 
 	//Display
@@ -44,7 +47,7 @@ public class PersonalDataController extends AbstractController {
 			result.addObject("data", data);
 			result.addObject("curriculaId", curriculaId);
 		} catch (final Throwable oops) {
-			result = new ModelAndView("redirect:../welcome/index.do");
+			result = new ModelAndView("redirect:../../welcome/index.do");
 			result.addObject("messageCode", "problem.commit.error");
 		}
 		return result;
@@ -64,7 +67,7 @@ public class PersonalDataController extends AbstractController {
 			result = this.createEditModelAndView(data, curriculaId);
 
 		} catch (final Throwable oops) {
-			result = new ModelAndView("redirect:../welcome/index.do");
+			result = new ModelAndView("redirect:../../welcome/index.do");
 			result.addObject("messageCode", "problem.commit.error");
 		}
 
@@ -89,7 +92,7 @@ public class PersonalDataController extends AbstractController {
 
 				result = new ModelAndView("redirect:display.do?dataId=" + data.getId() + "&curriculaId=" + currentCurricula.getId());
 			} catch (final Throwable oops) {
-				result = new ModelAndView("redirect:../welcome/index.do");
+				result = new ModelAndView("redirect:../../welcome/index.do");
 				result.addObject("messageCode", "problem.commit.error");
 			}
 		return result;
@@ -103,7 +106,7 @@ public class PersonalDataController extends AbstractController {
 			final PersonalData data = this.personalDataService.create();
 			result = this.createEditModelAndView(data, curriculaId);
 		} catch (final Throwable oops) {
-			result = new ModelAndView("redirect:../welcome/index.do");
+			result = new ModelAndView("redirect:../../welcome/index.do");
 			result.addObject("messageCode", "problem.commit.error");
 		}
 
@@ -154,7 +157,7 @@ public class PersonalDataController extends AbstractController {
 
 				result = new ModelAndView("redirect:../../curricula/critic/list.do");
 			} catch (final Throwable oops) {
-				result = new ModelAndView("redirect:../welcome/index.do");
+				result = new ModelAndView("redirect:../../welcome/index.do");
 				result.addObject("messageCode", "problem.commit.error");
 			}
 		return result;

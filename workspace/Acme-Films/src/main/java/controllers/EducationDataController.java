@@ -5,7 +5,6 @@ import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -45,19 +44,21 @@ public class EducationDataController extends AbstractController {
 		Curricula currentCurricula;
 		Collection<EducationData> educationData;
 		try {
-			final Actor actor = this.actorService.findByPrincipal();
-			Assert.isTrue(this.actorService.checkAuthority(actor, "COMPANY") || this.actorService.checkAuthority(actor, "CRITIC"));
 
 			currentCurricula = this.curriculaService.findOne(curriculaId);
 
 			educationData = currentCurricula.getEducationData();
 
 			result = new ModelAndView("educationData/list");
-
+			try {
+				final Actor principal = this.actorService.findByPrincipal();
+				result.addObject("principal", principal);
+			} catch (final Throwable oops) {
+			}
 			result.addObject("currentCurricula", currentCurricula);
 			result.addObject("educationData", educationData);
 		} catch (final Throwable oops) {
-			result = new ModelAndView("redirect:../welcome/index.do");
+			result = new ModelAndView("redirect:../../welcome/index.do");
 			result.addObject("messageCode", "problem.commit.error");
 		}
 		return result;
@@ -74,11 +75,15 @@ public class EducationDataController extends AbstractController {
 			data = this.educationDataService.findOne(dataId);
 
 			result = new ModelAndView("educationData/display");
-
+			try {
+				final Actor principal = this.actorService.findByPrincipal();
+				result.addObject("principal", principal);
+			} catch (final Throwable oops) {
+			}
 			result.addObject("data", data);
 			result.addObject("curriculaId", curriculaId);
 		} catch (final Throwable oops) {
-			result = new ModelAndView("redirect:../welcome/index.do");
+			result = new ModelAndView("redirect:../../welcome/index.do");
 			result.addObject("messageCode", "problem.commit.error");
 		}
 		return result;
@@ -100,7 +105,7 @@ public class EducationDataController extends AbstractController {
 			result = this.createEditModelAndView(data, curriculaId);
 
 		} catch (final Throwable oops) {
-			result = new ModelAndView("redirect:../welcome/index.do");
+			result = new ModelAndView("redirect:../../welcome/index.do");
 			result.addObject("messageCode", "problem.commit.error");
 		}
 
@@ -143,7 +148,7 @@ public class EducationDataController extends AbstractController {
 				this.educationDataService.delete(data);
 				result = new ModelAndView("redirect:list.do?curriculaId=" + currentCurricula.getId());
 			} catch (final Throwable oops) {
-				result = new ModelAndView("redirect:../welcome/index.do");
+				result = new ModelAndView("redirect:../../welcome/index.do");
 				result.addObject("messageCode", "problem.commit.error");
 			}
 		return result;

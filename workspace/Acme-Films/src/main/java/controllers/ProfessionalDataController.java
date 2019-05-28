@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import services.ActorService;
 import services.CurriculaService;
 import services.ProfesionalDataService;
+import domain.Actor;
 import domain.Curricula;
 import domain.ProfessionalData;
 
@@ -32,6 +34,8 @@ public class ProfessionalDataController extends AbstractController {
 
 	@Autowired
 	private Validator				validator;
+	@Autowired
+	private ActorService			actorService;
 
 
 	//Listing
@@ -42,16 +46,21 @@ public class ProfessionalDataController extends AbstractController {
 		Curricula currentCurricula;
 		Collection<ProfessionalData> professionalData;
 		try {
+
 			currentCurricula = this.curriculaService.findOne(curriculaId);
 
 			professionalData = currentCurricula.getProfessionalData();
 
 			result = new ModelAndView("professionalData/list");
-
+			try {
+				final Actor principal = this.actorService.findByPrincipal();
+				result.addObject("principal", principal);
+			} catch (final Throwable oops) {
+			}
 			result.addObject("currentCurricula", currentCurricula);
 			result.addObject("professionalData", professionalData);
 		} catch (final Throwable oops) {
-			result = new ModelAndView("redirect:../welcome/index.do");
+			result = new ModelAndView("redirect:../../welcome/index.do");
 			result.addObject("messageCode", "problem.commit.error");
 		}
 		return result;
@@ -68,11 +77,16 @@ public class ProfessionalDataController extends AbstractController {
 			data = this.professionalDataService.findOne(dataId);
 
 			result = new ModelAndView("professionalData/display");
+			try {
+				final Actor principal = this.actorService.findByPrincipal();
+				result.addObject("principal", principal);
+			} catch (final Throwable oops) {
+			}
 
 			result.addObject("data", data);
 			result.addObject("curriculaId", curriculaId);
 		} catch (final Throwable oops) {
-			result = new ModelAndView("redirect:../welcome/index.do");
+			result = new ModelAndView("redirect:../../welcome/index.do");
 			result.addObject("messageCode", "problem.commit.error");
 		}
 		return result;
@@ -94,7 +108,7 @@ public class ProfessionalDataController extends AbstractController {
 			result = this.createEditModelAndView(data, curriculaId);
 
 		} catch (final Throwable oops) {
-			result = new ModelAndView("redirect:../welcome/index.do");
+			result = new ModelAndView("redirect:../../welcome/index.do");
 			result.addObject("messageCode", "problem.commit.error");
 		}
 
@@ -136,7 +150,7 @@ public class ProfessionalDataController extends AbstractController {
 				this.professionalDataService.delete(data);
 				result = new ModelAndView("redirect:list.do?curriculaId=" + currentCurricula.getId());
 			} catch (final Throwable oops) {
-				result = new ModelAndView("redirect:../welcome/index.do");
+				result = new ModelAndView("redirect:../../welcome/index.do");
 				result.addObject("messageCode", "problem.commit.error");
 			}
 		return result;
@@ -150,7 +164,7 @@ public class ProfessionalDataController extends AbstractController {
 			final ProfessionalData data = this.professionalDataService.create();
 			result = this.createEditModelAndView(data, curriculaId);
 		} catch (final Throwable oops) {
-			result = new ModelAndView("redirect:../welcome/index.do");
+			result = new ModelAndView("redirect:../../welcome/index.do");
 			result.addObject("messageCode", "problem.commit.error");
 		}
 
