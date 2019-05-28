@@ -8,4 +8,7 @@ import domain.FilmEnthusiast;
 @Repository
 public interface FilmEnthusiastRepository extends JpaRepository<FilmEnthusiast, Integer>{
 
+	//The top 3 film enthusiast in terms of attended event.
+	
+	
 }

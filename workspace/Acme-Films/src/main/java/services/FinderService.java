@@ -9,12 +9,12 @@ import java.util.Set;
 
 import javax.transaction.Transactional;
 
-import org.apache.commons.lang.time.DateUtils;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-import domain.Actor;
+
 import domain.Film;
 import domain.FilmEnthusiast;
 import domain.Finder;
@@ -221,5 +221,11 @@ public class FinderService {
 		public Collection<Film> allFilmsFinal(){
 			return this.finderRepository.allFilmsFinal();
 		}
-	
+		
+		public Double RatioFindersEmpty(){
+			return this.finderRepository.RatioFindersEmpty();
+		}
+	public Double[] StatsFinder(){
+		return this.finderRepository.StatsFinder();
+	}
 }
