@@ -77,8 +77,8 @@
 
 			<!-- Attributes-->
 
-			<display:column titleKey="film.avgReviewsRating" sortable="true">
-				<jstl:out value="${row.avgReviewsRating}" />
+			<display:column titleKey="film.rating" sortable="true">
+				<jstl:out value="${row.rating}" />
 			</display:column>
 	
 			<display:column titleKey="film.ticker" sortable="true">

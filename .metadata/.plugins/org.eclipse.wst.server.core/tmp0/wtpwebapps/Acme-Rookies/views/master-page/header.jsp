@@ -35,8 +35,9 @@
 					<li class="arrow"></li>
 					<li><a href="administrator/administrator/register.do"><spring:message
 								code="master.page.register.admin" /></a></li>
-					<li><a href="auditor/auditor/register.do"><spring:message
-								code="master.page.register.auditor" /></a></li>
+								
+					<li><a href="administrator/statistics.do"><spring:message
+								code="master.page.dashboard" /></a></li>
 				</ul></li>
 
 		</security:authorize>

@@ -625,7 +625,7 @@
 
 	</bean>
 		<bean id="critic2" class="domain.Critic">
-		<property name="name" value="Antonio" />
+		<property name="name" value="Paco" />
 		<property name="surname" value="Bayona" />
 		<property name="nickName" value="Bayonetttta" />
 		<property name="VAT" value="ES12345678" />
@@ -656,7 +656,7 @@
 
 	</bean>
 	<bean id="critic3" class="domain.Critic">
-		<property name="name" value="Antonio" />
+		<property name="name" value="Pepe" />
 		<property name="surname" value="Bayona" />
 		<property name="nickName" value="Bayonetttta" />
 		<property name="VAT" value="ES12345678" />
@@ -2514,7 +2514,7 @@
 		<property name="rating" value="5.6" />
 
 		<property name="ticker" value="08062016-A2J5L3" />
-		<property name="isDraft" value="true" />
+		<property name="isDraft" value="false" />
 		<property name="moderator" ref="moderator1" />
 		<property name="genres">
 			<list>
@@ -2549,7 +2549,7 @@
 		<property name="runTime" value="123" />
 		<property name="rating" value="3.6" />
 		<property name="ticker" value="08003416-A2J5L3" />
-		<property name="isDraft" value="true" />
+		<property name="isDraft" value="false" />
 		<property name="moderator" ref="moderator1" />
 		<property name="genres">
 			<list>
@@ -2583,7 +2583,7 @@
 		<property name="runTime" value="223" />
 		<property name="rating" value="8.6" />
 		<property name="ticker" value="08993416-A2J5P0" />
-		<property name="isDraft" value="true" />
+		<property name="isDraft" value="false" />
 		<property name="moderator" ref="moderator1" />
 		<property name="genres">
 			<list>
@@ -2617,7 +2617,7 @@
 		<property name="runTime" value="223" />
 		<property name="rating" value="6.6" />
 		<property name="ticker" value="08993416-A2JTTT" />
-		<property name="isDraft" value="true" />
+		<property name="isDraft" value="false" />
 		<property name="moderator" ref="moderator2" />
 		<property name="genres">
 			<list>

@@ -1,0 +1,26 @@
+# messages_es.properties
+#
+# Copyright (C) 2019 Universidad de Sevilla
+# 
+# The use of this project is hereby constrained to the conditions of the 
+# TDG Licence, a copy of which you may download from 
+# http://www.tdg-seville.info/License.html
+administrator.statistics=Estadísticas Acme-Films
+administrator.resultsFinder=Máximos resultados en los buscadores
+administrator.resultsFinder.min=Mínimos resultados en los buscadores
+administrator.resultsFinder.avg=Media de resultados en los buscadores
+administrator.resultsFinder.stdev=Desviación típica de los resultados de los buscadores
+administrator.emptyFinder=El ratio de buscadores vacíos versus no vacíos
+administrator.statsCommentsPerFilm=El máximo, el mínimo, la media y la desviación estándar del número de comentarios por película
+administrator.statsPersonsPerFilm=El máximo, el mínimo, la media y la desviación estándar del número de personas por película
+administrator.filmsWithHighestRating=Las películas con mayor calificación del sistema
+administrator.ratioFinalModeFilms=The ratio of films in final mode
+administrator.top5FilmsWithMoreRunTime=Las 5 mejores películas con más duración
+administrator.statsPointsVisualizationPerFilm=El máximo, el mínimo, el promedio y la desviación estándar del número de puntos de visualización por película
+administrator.EventsWithHigeshtMaximumCapacity=Los eventos con mayor capacidad máxima
+administrator.top3CriticsMoreProfessional=Los tres principales críticos en términos de datos profesionales
+administrator.criticsWithHighestRatingReview=Los críticos con mayor puntuación de revisión
+administrator.socialProfilesInSystem=El número de perfiles sociales del sistema
+administrator.statsSponsorshipsPerSponsor=El máximo, el mínimo, el promedio y la desviación estándar del número de patrocinios por patrocinador
+administrator.statsReviewsPerModerator=El máximo, el mínimo, el promedio y la desviación estándar del número de revisiones por Moderador
+administrator.top3EventsWithMorePeople=

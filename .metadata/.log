@@ -113,3 +113,12 @@ Java Model Exception: Java Model Status [Unknown javadoc format for Mode [in Web
 	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:54)
 !SUBENTRY 1 org.eclipse.jdt.core 4 1009 2019-05-27 18:28:51.823
 !MESSAGE Unknown javadoc format for Mode [in WebParam$Mode.class [in javax.jws [in C:\Program Files\Java\jdk1.7.0_13\jre\lib\rt.jar]]]
+
+!ENTRY org.eclipse.wst.server.core 4 0 2019-05-29 21:59:53.899
+!MESSAGE Server Tomcat v7.0 Server at localhost was unable to start within 45 seconds. If the server requires more time, try increasing the timeout in the server editor.
+
+!ENTRY org.eclipse.wst.server.core 4 0 2019-05-29 22:02:13.524
+!MESSAGE Server Tomcat v7.0 Server at localhost was unable to start within 45 seconds. If the server requires more time, try increasing the timeout in the server editor.
+
+!ENTRY org.eclipse.jst.server.tomcat.core 4 0 2019-05-29 22:10:13.461
+!MESSAGE Several ports (8080, 8009) required by Tomcat v7.0 Server at localhost are already in use. The server may already be running in another process, or a system process may be using the port. To start this server you will need to stop the other process or change the port number(s).

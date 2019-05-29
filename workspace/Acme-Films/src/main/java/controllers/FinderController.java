@@ -1,8 +1,8 @@
 package controllers;
 
-import java.util.ArrayList;
+
 import java.util.Collection;
-import java.util.Date;
+
 import java.util.List;
 
 import javax.validation.Valid;
@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 
+import services.ActorService;
 import services.FinderService;
 
 import domain.Film;
@@ -37,8 +38,8 @@ public class FinderController extends AbstractController{
 	@Autowired
 	private FinderService				finderService;
 
-//	@Autowired
-//	private ActorService 		actorService;
+	@Autowired
+	private ActorService 		actorService;
 
 
 //	@Autowired
@@ -96,8 +97,8 @@ public class FinderController extends AbstractController{
 
 		FilmEnthusiast principal;
 
-	//	principal = (FilmEnthusiast) this.actorService.findByPrincipal();
-//		finder = principal.getFinder();
+		principal = (FilmEnthusiast) this.actorService.findByPrincipal();
+		finder = principal.getFinder();
 	/*	Assert.isTrue(
 				this.actorService.checkAuthority(principal, "FILMENTHUSIAST"),
 				"not.allowed");
@@ -113,9 +114,9 @@ public class FinderController extends AbstractController{
 		}
 */
 		result = new ModelAndView("finder/search");
-//		result.addObject("finder", finder);
+		result.addObject("finder", finder);
 
-	//	result.addObject("films", finder.getResults());
+		result.addObject("films", finder.getResults());
 
 		result.addObject("requestUri", "finder/filmEnthusiast/search.do");
 		return result;

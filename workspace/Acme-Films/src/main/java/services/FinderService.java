@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 
+import domain.Actor;
 import domain.Film;
 import domain.FilmEnthusiast;
 import domain.Finder;
@@ -31,10 +32,10 @@ public class FinderService {
 	private FinderRepository finderRepository;
 
 	// Supporting services -----------------------
-	/*@Autowired
+	@Autowired
 	private ActorService actorService;
 
-
+/*
 	@Autowired
 	private SystemConfigurationService systemConfigurationService;
 
@@ -45,20 +46,20 @@ public class FinderService {
 		super();
 	}
 
-/*	public Finder create(){
+	public Finder create(){
 		Finder result;
 		Actor principal;
 
 
 		principal = this.actorService.findByPrincipal();
 		Assert.isTrue(
-				this.actorService.checkAuthority(principal, "HACKER"),
+				this.actorService.checkAuthority(principal, "FILMENTHUSIAST"),
 				"not.allowed");
 		result=new Finder();
-		result.setResults(new ArrayList<Position>());
+		result.setResults(new ArrayList<Film>());
 		return result;
 	}
-*/
+
 	// /FINDONE
 	public Finder findOne(final int finderId) {
 		Finder result;
@@ -86,11 +87,11 @@ public class FinderService {
 		Date currentMoment;
 		currentMoment = new Date(System.currentTimeMillis() - 1);
 
-//		principal = (FilmEnthusiast)this.actorService.findByPrincipal();
-	//	Assert.isTrue(
-		//		this.actorService.checkAuthority(principal, "FILMENTHUSIAST"),
-			//	"not.allowed");
-		//Assert.isTrue(principal.getFinder().equals(finder),"not.allowed");
+		principal = (FilmEnthusiast)this.actorService.findByPrincipal();
+		Assert.isTrue(
+		this.actorService.checkAuthority(principal, "FILMENTHUSIAST"),
+			"not.allowed");
+		Assert.isTrue(principal.getFinder().equals(finder),"not.allowed");
 		Assert.notNull(finder, "not.allowed");
 
 		finder.setSearchMoment(currentMoment);
@@ -104,12 +105,12 @@ public class FinderService {
 		FilmEnthusiast principal;
 
 
-//		principal = (FilmEnthusiast)this.actorService.findByPrincipal();
-//		Assert.isTrue(
-//				this.actorService.checkAuthority(principal, "FILMENTHUSIAST"),
-//				"not.allowed");
+		principal = (FilmEnthusiast)this.actorService.findByPrincipal();
+		Assert.isTrue(
+				this.actorService.checkAuthority(principal, "FILMENTHUSIAST"),
+				"not.allowed");
 		Assert.isTrue(finder.getId()!=0);
-	//	Assert.isTrue(principal.getFinder().equals(finder),"not.allowed");
+		Assert.isTrue(principal.getFinder().equals(finder),"not.allowed");
 		finder.setResults(null);
 		finder.setKeyWord(null);
 		finder.setMaximumDuration(null);
@@ -178,23 +179,17 @@ public class FinderService {
 					finder.getMaximumDuration()==null){
 				results=this.allFilmsFinal();
 			}else{
-				if((finder.getKeyWord()==null||finder.getKeyWord().isEmpty())){
+				
 					
-					results=this.finderRepository.searchS("", maximumDuration, minimumRating, maximumRating);
-					
-					
-				}
-				else{
+					results=this.finderRepository.search(keyWord, maximumDuration, minimumRating, maximumRating);
 					List<Film> r = new ArrayList<Film>();
-					r.addAll(this.finderRepository.searchS(keyWord, maximumDuration, minimumRating, maximumRating));
 					r.addAll(this.finderRepository.searchV(keyWord, maximumDuration, minimumRating, maximumRating));
-					r.addAll(this.finderRepository.searchG(keyWord, maximumDuration, minimumRating, maximumRating));
-					r.addAll(this.finderRepository.searchTitleSaga(keyWord, maximumDuration, minimumRating, maximumRating));
+					
 					Set <Film> s=new HashSet<Film>(r);
 					for(Film f :s){
 						results.add(f);
 					}
-				}
+				
 				
 			}
 			
@@ -217,7 +212,7 @@ public class FinderService {
 			return resultsPageables;
 			
 		}
-		
+
 		public Collection<Film> allFilmsFinal(){
 			return this.finderRepository.allFilmsFinal();
 		}

@@ -75,21 +75,21 @@ public class DashboardController extends AbstractController{
 		
 
 		result.addObject("requestURI", "statistics/administrator/display.do");
-		result.addObject(top3EventsWithMorePeople);
-		result.addObject(statsReviewsPerModerator);
-		result.addObject(statsSponsorshipsPerSponsor);
-		result.addObject(socialProfilesInSystem);
-		result.addObject(criticsWithHighestRatingReview);
-		result.addObject(top3CriticsMoreProfessional);
-		result.addObject(EventsWithHigeshtMaximumCapacity);
-		result.addObject(statsPointsVisualizationPerFilm);
-		result.addObject(top5FilmsWithMoreRunTime);
-		result.addObject(ratioFinalModeFilms);
-		result.addObject(filmsWithHighestRating);
-		result.addObject(statsPersonsPerFilm);
-		result.addObject(statsCommentsPerFilm);
-		result.addObject(StatsFinder);
-		result.addObject(RatioFindersEmpty);
+		result.addObject("top3EventsWithMorePeople",top3EventsWithMorePeople);
+		result.addObject("statsReviewsPerModerator",statsReviewsPerModerator);
+		result.addObject("statsSponsorshipsPerSponsor",statsSponsorshipsPerSponsor);
+		result.addObject("socialProfilesInSystem",socialProfilesInSystem);
+		result.addObject("criticsWithHighestRatingReview",criticsWithHighestRatingReview);
+		result.addObject("top3CriticsMoreProfessional",top3CriticsMoreProfessional);
+		result.addObject("EventsWithHigeshtMaximumCapacity",EventsWithHigeshtMaximumCapacity);
+		result.addObject("statsPointsVisualizationPerFilm",statsPointsVisualizationPerFilm);
+		result.addObject("top5FilmsWithMoreRunTime",top5FilmsWithMoreRunTime);
+		result.addObject("ratioFinalModeFilms",ratioFinalModeFilms);
+		result.addObject("filmsWithHighestRating",filmsWithHighestRating);
+		result.addObject("statsPersonsPerFilm",statsPersonsPerFilm);
+		result.addObject("statsCommentsPerFilm",statsCommentsPerFilm);
+		result.addObject("finder",StatsFinder);
+		result.addObject("RatioFindersEmpty",RatioFindersEmpty);
 	
 		
 		return result;

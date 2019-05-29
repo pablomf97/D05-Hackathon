@@ -16,7 +16,7 @@ public interface FilmRepository extends JpaRepository<Film, Integer>{
 	@Query("select max(f.persons.size),min(f.persons.size),avg(f.persons.size),stddev(f.persons.size) from Film f")
 	Double[] statsPersonsPerFilm();
 	
-	@Query("select f from Film f where f.avgReviewsRating= (select max(f.avgReviewsRating)from Film f)")
+	@Query("select f from Film f where f.rating= (select max(f.rating)from Film f)")
 	Collection<Film> filmsWithHighestRating();
 	
 	@Query("select (sum(case when r.isDraft='0' then 1.0 else 0 end)/count(*)) from Film r")

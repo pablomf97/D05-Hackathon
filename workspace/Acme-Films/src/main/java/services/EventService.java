@@ -1,6 +1,7 @@
 package services;
 
 import java.util.Collection;
+import java.util.List;
 
 import javax.transaction.Transactional;
 
@@ -23,6 +24,7 @@ public class EventService {
 		return this.eventRepository.EventsWithHigeshtMaximumCapacity();
 	}
 	public Collection<Event> top3EventsWithMorePeople(){
-		return this.eventRepository.top3EventsWithMorePeople();
+		List<Event> l=(List<Event>)this.eventRepository.top3EventsWithMorePeople();
+		return l.subList(0, 3);
 	}
 }
