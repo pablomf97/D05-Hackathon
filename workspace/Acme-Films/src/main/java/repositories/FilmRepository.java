@@ -26,4 +26,7 @@ public interface FilmRepository extends JpaRepository<Film, Integer>{
 	Collection<Film> top5FilmsWithMoreRunTime();
 	@Query("select max(1.0*(select count(*) from Visualization c where c.film=f)),min(1.0*(select count(*) from Visualization c where c.film=f)),avg(1.0*(select count(*) from Visualization c where c.film=f)),stddev(1.0*(select count(*) from Visualization c where c.film=f)) from Film f")
 	Double[] statsPointsVisualizationPerFilm();
+	
+	@Query("select f from Film f join f.sagas s where s.id = ?1")
+	Collection<Film> filmsOfSaga(int sagaId);
 }
