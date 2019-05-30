@@ -10,19 +10,19 @@
 
 <tiles-definitions>
 
-	<definition name="event/list" extends="master.page">
-		<put-attribute name="title" value="Listar eventos por grupo" />
-		<put-attribute name="body" value="/views/event/list.jsp" />
+	<definition name="group/list" extends="master.page">
+		<put-attribute name="title" value="List group" />
+		<put-attribute name="body" value="/views/group/list.jsp" />
+	</definition>
+	
+	<definition name="group/display" extends="master.page">
+		<put-attribute name="title" value="Display group" />
+		<put-attribute name="body" value="/views/group/display.jsp" />
 	</definition>
 
-	<definition name="event/display" extends="master.page">
-		<put-attribute name="title" value="Mostrar evento" />
-		<put-attribute name="body" value="/views/event/display.jsp" />
+	<definition name="group/edit" extends="master.page">
+		<put-attribute name="title" value="Save group" />
+		<put-attribute name="body" value="/views/group/edit.jsp" />
 	</definition>
-
-	<definition name="event/edit" extends="master.page">
-		<put-attribute name="title" value="Guardar evento" />
-		<put-attribute name="body" value="/views/event/edit.jsp" />
-	</definition>
-
+	
 </tiles-definitions>

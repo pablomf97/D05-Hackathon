@@ -23,6 +23,9 @@
 		<value>/views/miscellaneousData/messages</value>
 		<value>/views/personalData/messages</value>
 		<value>/views/professionalData/messages</value>
+		<value>/views/event/messages</value>
+		<value>/views/group/messages</value>
+
 	</util:list>
 
 </beans>

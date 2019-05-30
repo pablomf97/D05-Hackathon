@@ -10,14 +10,19 @@
 
 <tiles-definitions>
 
-	<definition name="curricula/display" extends="master.page">
-		<put-attribute name="title" value="Display curricula" />
-		<put-attribute name="body" value="/views/curricula/display.jsp" />
+	<definition name="event/list" extends="master.page">
+		<put-attribute name="title" value="List events for group" />
+		<put-attribute name="body" value="/views/event/list.jsp" />
 	</definition>
 
-	<definition name="curricula/edit" extends="master.page">
-		<put-attribute name="title" value="Save Curricula" />
-		<put-attribute name="body" value="/views/curricula/edit.jsp" />
+	<definition name="event/display" extends="master.page">
+		<put-attribute name="title" value="Display event" />
+		<put-attribute name="body" value="/views/event/display.jsp" />
+	</definition>
+
+	<definition name="event/edit" extends="master.page">
+		<put-attribute name="title" value="Save event" />
+		<put-attribute name="body" value="/views/event/edit.jsp" />
 	</definition>
 	
 </tiles-definitions>

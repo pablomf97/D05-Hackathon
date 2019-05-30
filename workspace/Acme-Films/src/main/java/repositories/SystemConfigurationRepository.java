@@ -7,10 +7,10 @@ import org.springframework.stereotype.Repository;
 import domain.SystemConfiguration;
 
 @Repository
-public interface SystemConfigurationRepository extends JpaRepository<SystemConfiguration, Integer>{
+public interface SystemConfigurationRepository extends
+		JpaRepository<SystemConfiguration, Integer> {
 
 	@Query("select s from SystemConfiguration s where s is not null")
 	SystemConfiguration findSystemConf();
 
-	
 }

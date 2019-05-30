@@ -10,53 +10,56 @@
 
 package controllers;
 
+import org.apache.commons.lang.exception.ExceptionUtils;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.ClassUtils;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
+
+// import services.SystemConfigurationService;
 
 @Controller
 public class AbstractController {
 
-	// Services
-
-//	@Autowired
-//	private SystemConfigurationService	systemConfigurationService;
-
-
-//	// Methods
-//
-//	@ModelAttribute("banner")
-//	public String getBanner(final Model model) {
-//
-//		final String urlBanner = this.systemConfigurationService.findMyBanner();
-//		return urlBanner;
-//	}
-//
-//	@ModelAttribute("breachNotification")
-//	public Map<String, String> getBreachNotification(final Model model) {
-//		final Map<String, String> res = this.systemConfigurationService.findBreachNotification();
-//
-//		return res;
-//	}
-//	
-//	@ModelAttribute("AlreadyRebranded")
-//	public Boolean getAlreadyRebranded(final Model model) {
-//		final Boolean res = this.systemConfigurationService.findMySystemConfiguration().getAlreadyRebranded();
-//
-//		return res;
-//	}
+	//	// Services
+	//
+	//		@Autowired
+	//		private SystemConfigurationService	systemConfigurationService;
+	//
+	//		// Methods
+	//	
+	//		@ModelAttribute("banner")
+	//		public String getBanner(final Model model) {
+	//	
+	//			final String urlBanner = this.systemConfigurationService.findMyBanner();
+	//			return urlBanner;
+	//		}
+	//	
+	//		@ModelAttribute("breachNotification")
+	//		public Map<String, String> getBreachNotification(final Model model) {
+	//			final Map<String, String> res = this.systemConfigurationService.findBreachNotification();
+	//	
+	//			return res;
+	//		}
+	//		
+	//		@ModelAttribute("AlreadyRebranded")
+	//		public Boolean getAlreadyRebranded(final Model model) {
+	//			final Boolean res = this.systemConfigurationService.findMySystemConfiguration().getAlreadyRebranded();
+	//	
+	//			return res;
+	//		}
 
 	// Panic handler ----------------------------------------------------------
 
 	@ExceptionHandler(Throwable.class)
 	public ModelAndView panic(final Throwable oops) {
 		ModelAndView result;
-		result = new ModelAndView("redirect:/welcome/index.do");
+		//result = new ModelAndView("redirect:/welcome/index.do");
 
-		//		result = new ModelAndView("misc/panic");
-		//		result.addObject("name", ClassUtils.getShortName(oops.getClass()));
-		//		result.addObject("exception", oops.getMessage());
-		//		result.addObject("stackTrace", ExceptionUtils.getStackTrace(oops));
+		result = new ModelAndView("misc/panic");
+		result.addObject("name", ClassUtils.getShortName(oops.getClass()));
+		result.addObject("exception", oops.getMessage());
+		result.addObject("stackTrace", ExceptionUtils.getStackTrace(oops));
 
 		return result;
 	}

@@ -24,7 +24,8 @@
 		<value>/views/miscellaneousData/tiles.xml</value>
 		<value>/views/personalData/tiles.xml</value>
 		<value>/views/professionalData/tiles.xml</value>
-
+		<value>/views/event/tiles.xml</value>
+		<value>/views/group/tiles.xml</value>
 
 	</util:list>
 
