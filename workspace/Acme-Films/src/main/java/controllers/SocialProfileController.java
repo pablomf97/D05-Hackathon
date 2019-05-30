@@ -12,7 +12,11 @@ import org.springframework.web.servlet.ModelAndView;
 import services.ActorService;
 import services.SocialProfileService;
 import domain.Actor;
+import domain.Administrator;
+import domain.Critic;
+import domain.Moderator;
 import domain.SocialProfile;
+import domain.Sponsor;
 
 @Controller
 @RequestMapping("/social/actor")
@@ -59,20 +63,32 @@ public class SocialProfileController extends AbstractController {
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
 	public ModelAndView save(SocialProfile socialProfile, BindingResult binding) {
-		ModelAndView result;
+		ModelAndView res;
 
 		this.validator.validate(socialProfile, binding);
 
 		if (binding.hasErrors())
-			result = this.createEditModelAndView(socialProfile);
+			res = this.createEditModelAndView(socialProfile);
 		else
 			try {
 				this.socialProfileService.save(socialProfile);
-				result = new ModelAndView("redirect:/");
+
+				Actor principal = this.actorService.findByPrincipal();
+				if (principal instanceof Administrator)
+					res = new ModelAndView("redirect:/administrator/display.do");
+				else if (principal instanceof Sponsor)
+					res = new ModelAndView("redirect:/sponsor/display.do");
+				else if (principal instanceof Critic)
+					res = new ModelAndView("redirect:/critic/display.do");
+				else if (principal instanceof Moderator)
+					res = new ModelAndView("redirect:/moderator/display.do");
+				else
+					res = new ModelAndView(
+							"redirect:/filmEnthusiast/display.do");
 			} catch (final Throwable oops) {
-				result = new ModelAndView("redirect:/welcome/index.do");
+				res = new ModelAndView("redirect:/welcome/index.do");
 			}
-		return result;
+		return res;
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "delete")
@@ -80,19 +96,23 @@ public class SocialProfileController extends AbstractController {
 			BindingResult binding) {
 		ModelAndView res;
 
-		this.validator.validate(socialProfile, binding);
+		try {
+			this.socialProfileService.delete(socialProfile);
 
-		if (binding.hasErrors()) {
-			res = createEditModelAndView(socialProfile);
-		} else {
-			try {
-				this.socialProfileService.delete(socialProfile);
-				res = new ModelAndView("redirect:/");
+			Actor principal = this.actorService.findByPrincipal();
+			if (principal instanceof Administrator)
+				res = new ModelAndView("redirect:/administrator/display.do");
+			else if (principal instanceof Sponsor)
+				res = new ModelAndView("redirect:/sponsor/display.do");
+			else if (principal instanceof Critic)
+				res = new ModelAndView("redirect:/critic/display.do");
+			else if (principal instanceof Moderator)
+				res = new ModelAndView("redirect:/moderator/display.do");
+			else
+				res = new ModelAndView("redirect:/filmEnthusiast/display.do");
 
-			} catch (Throwable oops) {
-				res = createEditModelAndView(socialProfile,
-						"admin.commit.error");
-			}
+		} catch (Throwable oops) {
+			res = createEditModelAndView(socialProfile, "admin.commit.error");
 		}
 		return res;
 	}
