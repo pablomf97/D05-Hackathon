@@ -1,0 +1,29 @@
+film.title = Título
+film.synopsis = Sinopsis
+film.poster = Póster
+film.releaseDate = Fecha de salida
+film.runTime = Duración
+film.rating = Valoración
+film.ticker = Ticker
+film.isDraft = Boceto
+film.genres = Géneros
+film.sagas = Sagas
+film.persons = Personas
+film.sponsorships = Patrocinios
+
+película.title.list = Listado de películas
+película.title.edit = Editar película
+
+not.blank = Rellene este campo
+
+película.edit = Editar película
+película.save = Guardar película
+película.create = Crear una película
+película.delete = Eliminar película
+película.confirm.delete = Se va a borrar esta película. ¿Está usted seguro?
+
+película.cancel = Cancelar
+
+película.cannot.delete = Ha habido un problema al borrar la película. Esto se debe normalmente a que la película ya está asignado.
+
+película.commit.error = Ha habido un problema al guardar la película. Esto se debe normalmente a que la película no existe.

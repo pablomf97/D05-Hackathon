@@ -15,7 +15,6 @@
 	
 		<value>/views/genre/tiles.xml</value> 
 		<value>/views/saga/tiles.xml</value> 
-		<value>/views/sponsorship/tiles.xml</value> 
 		<value>/views/position/tiles.xml</value> 
 		<value>/views/person/tiles.xml</value> 
 		<value>/views/visualization/tiles.xml</value> 
