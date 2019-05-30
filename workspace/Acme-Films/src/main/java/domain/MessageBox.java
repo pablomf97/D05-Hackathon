@@ -7,7 +7,6 @@ import javax.persistence.AccessType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.validation.Valid;
 
 import org.hibernate.validator.constraints.NotBlank;
@@ -20,11 +19,11 @@ public class MessageBox extends DomainEntity{
 	private String name;
 	private boolean isPredefined;
 	private Collection<Message> messages;
-	private Collection<MessageBox> childMessageBoxes;
+	private Actor owner;
 	private MessageBox parentMessageBox;
-	
+
 	//Getters and setters
-	
+
 	@NotBlank
 	public String getName() {
 		return name;
@@ -38,7 +37,7 @@ public class MessageBox extends DomainEntity{
 	public void setIsPredefined(boolean isPredefined) {
 		this.isPredefined = isPredefined;
 	}
-	
+
 	@Valid
 	@ManyToMany
 	public Collection<Message> getMessages() {
@@ -47,16 +46,8 @@ public class MessageBox extends DomainEntity{
 	public void setMessages(Collection<Message> messages) {
 		this.messages = messages;
 	}
-	
-	@Valid
-	@OneToMany
-	public Collection<MessageBox> getChildMessageBoxes() {
-		return childMessageBoxes;
-	}
-	public void setChildMessageBoxes(Collection<MessageBox> childMessageBoxes) {
-		this.childMessageBoxes = childMessageBoxes;
-	}
-	
+
+
 	@Valid
 	@ManyToOne(optional = true)
 	public MessageBox getParentMessageBox() {
@@ -65,9 +56,17 @@ public class MessageBox extends DomainEntity{
 	public void setParentMessageBox(MessageBox parentMessageBox) {
 		this.parentMessageBox = parentMessageBox;
 	}
-	
-	
-	
-	
-	
+
+	@Valid
+	@ManyToOne
+	public Actor getOwner() {
+		return this.owner;
+	}
+
+	public void setOwner(final Actor owner) {
+		this.owner = owner;
+	}
+
+
+
 }

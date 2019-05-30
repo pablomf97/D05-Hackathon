@@ -102,8 +102,7 @@ public class Review extends DomainEntity{
 	}
 	
 	@Valid
-	@NotNull
-	@ManyToOne(optional = false)
+	@ManyToOne(optional = true)
 	public Moderator getModerator() {
 		return moderator;
 	}

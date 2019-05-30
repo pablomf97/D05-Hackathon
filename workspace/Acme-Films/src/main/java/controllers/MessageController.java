@@ -184,11 +184,19 @@ public class MessageController extends AbstractController{
 
 		boxes = this.messageBoxService.findByOwner(principal.getId());
 
-		for (final MessageBox mb : boxes) {
+		if(mensaje.getId() != 0){
+			
+			for (final MessageBox mb : boxes) {
 
-			if (mb.getMessages().contains(mensaje) && mensaje.getSender().equals(principal))
+				if (mb.getMessages().contains(mensaje) && mensaje.getSender().equals(principal))
+					possible = true;
+			}
+		}else{
+			if(mensaje.getSender().equals(principal)){
 				possible = true;
+			}
 		}
+		
 
 		sentMoment = mensaje.getSendMoment();
 		messageBoxes = mensaje.getMessageBoxes();

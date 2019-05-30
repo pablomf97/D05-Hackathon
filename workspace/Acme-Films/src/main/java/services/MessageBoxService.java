@@ -1,17 +1,18 @@
-<<<<<<< HEAD
 package services;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 import javax.transaction.Transactional;
-import javax.validation.Validator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 
 import repositories.MessageBoxRepository;
-import domain.Actor;
+
 import domain.Message;
 import domain.MessageBox;
 
@@ -26,8 +27,8 @@ public class MessageBoxService {
 
 	//Services
 
-	@Autowired
-	private ActorService actorService;
+//	@Autowired
+//	private ActorService actorService;
 
 	@Autowired
 	private MessageService messageService;
@@ -40,156 +41,159 @@ public class MessageBoxService {
 
 	public MessageBox create(){
 		MessageBox result = new MessageBox();
-		
-		Actor principal = this.actorService.findByPrincipal();
-		
+
+		//Actor principal = this.actorService.findByPrincipal();
+
 
 		result.setIsPredefined(false);
 		result.setMessages(new ArrayList<Message>());
-		principal.getMessageBoxes().add(result);
+	//	result.setOwner(principal);
 
 
 		return result;
 	}
 
-	public MessageBox save(final MessageBox messageBox, final MessageBox parentBox){
+	public MessageBox save(final MessageBox messageBox){
 		MessageBox result;
-		Actor principal = this.actorService.findByPrincipal();
-
-		Assert.isTrue(principal.getMessageBoxes().contains(messageBox) ||
-				principal.getMessageBoxes().contains(parentBox));
-
-
-		if(parentBox == null){
-
+		if(messageBox.getId() != 0){
+			MessageBox boxBD = this.findOne(messageBox.getId());
+			//Assert.isTrue(this.actorService.findByPrincipal().equals(messageBox.getOwner()) || this.actorService.findByPrincipal().equals(boxBD.getOwner()));
+			if (boxBD.getIsPredefined() == false)
+				boxBD.setName(messageBox.getName());
+			Assert.isTrue(this.checkParentBox(boxBD, messageBox));
+			boxBD.setParentMessageBox(messageBox.getParentMessageBox());
+			boxBD.setMessages(messageBox.getMessages());
+			result = this.messageBoxRepository.save(boxBD);
+		} else
 			result = this.messageBoxRepository.save(messageBox);
-			
-			principal.getMessageBoxes().add(result);
-
-
-		}else{
-
-			messageBox.setParentMessageBox(parentBox);
-
-			result = this.messageBoxRepository.save(messageBox);
-
-			parentBox.getChildMessageBoxes().add(result);
-			principal.getMessageBoxes().add(result);
-
-		}
-
 		return result;
-
 	}
 
-	public void delete(final MessageBox messageBox){
-
-		Actor principal = this.actorService.findByPrincipal();
-
-		Assert.isTrue(principal.getMessageBoxes().contains(messageBox));
-
-		Assert.isTrue(messageBox.getIsPredefined() == false);
-
-		if(!(messageBox.getChildMessageBoxes().isEmpty())){
-			for(MessageBox mb : messageBox.getChildMessageBoxes()){
-
-				if(!mb.getMessages().isEmpty()){
-					mb.setMessages(new ArrayList<Message>());
-					for(Message m : mb.getMessages()){
-						m.getMessageBoxes().remove(mb);
-					}
-				}
-
-				this.delete(mb);
-
-			}
-
-		}
-
-		if(messageBox.getParentMessageBox()!= null && messageBox.getParentMessageBox().getIsPredefined() == false){
-			messageBox.getParentMessageBox().getChildMessageBoxes().remove(messageBox);
 
 
-		}
-		
-		principal.getMessageBoxes().remove(messageBox);
-		
+	public void delete(final MessageBox messageBox) {
+		//Assert.isTrue((this.actorService.findByPrincipal().equals(messageBox.getOwner())), "Box not belong to the logged actor");
+		Assert.isTrue(!(messageBox.getIsPredefined()), "Box undeleteable");
+		final Collection<MessageBox> childBoxes = this.messageBoxRepository.findByParent(messageBox.getId());
+		if (!childBoxes.isEmpty())
+			for (final MessageBox b : childBoxes)
+				this.delete(b);
+		if (messageBox.getMessages() != null)
+			for (final Message m : messageBox.getMessages())
+
+				this.messageService.deleteMessages(m, messageBox);
 		this.messageBoxRepository.delete(messageBox);
 	}
 
 
-	public MessageBox findOutBoxActorId(int actorId){
-
-		MessageBox result = this.messageBoxRepository.findOutBoxActorId(actorId);
-
-		return result;
-	}
-
-	public MessageBox findInBoxActorId(int actorId){
-
-		MessageBox result = this.messageBoxRepository.findInBoxActorId(actorId);
-
-		return result;
-	}
-	public MessageBox findSpamBoxActorId(int actorId){
-
-		MessageBox result = this.messageBoxRepository.findSpamBoxActorId(actorId);
-
-		return result;
-	}
-
-	public MessageBox findTrashBoxActorId(int actorId){
-
-		MessageBox result = this.messageBoxRepository.findTrashBoxActorId(actorId);
-
-		return result;
-	}
-
-	public MessageBox findNotificationBoxActorId(int actorId){
-
-		MessageBox result = this.messageBoxRepository.findNotificationBoxActorId(actorId);
-
-		return result;
-	}
-
 	//Other requirements
 	public void initializeDefaultBoxes() {
-		
-		Actor principal = this.actorService.findByPrincipal();
-		
+
+		//Actor principal = this.actorService.findByPrincipal();
+
 		final MessageBox in = this.create();
 		in.setIsPredefined(true);
 		in.setName("In box");
-		this.save(in,null);
-		principal.getMessageBoxes().add(in);
+		//in.setOwner(principal);
+		this.save(in);
+		
 
 		final MessageBox trash = this.create();
 		trash.setIsPredefined(true);
 		trash.setName("Trash box");
-		this.save(trash,null);
-		principal.getMessageBoxes().add(trash);
+		//in.setOwner(principal);
+		this.save(trash);
+		
 
 		final MessageBox out = this.create();
 		out.setIsPredefined(true);
 		out.setName("Out box");
-		this.save(out,null);
-		principal.getMessageBoxes().add(out);
+		//in.setOwner(principal);
+		this.save(out);
+		
 
 
 		final MessageBox spam = this.create();
 		spam.setIsPredefined(true);
 		spam.setName("Spam box");
-		this.save(spam,null);
-		principal.getMessageBoxes().add(spam);
+		//in.setOwner(principal);
+		this.save(spam);
+		
 
 
 		final MessageBox notification = this.create();
 		notification.setIsPredefined(true);
 		notification.setName("Notification box");
-		this.save(notification,null);
-		principal.getMessageBoxes().add(notification);
+		//in.setOwner(principal);
+		this.save(notification);
+		
 
 
+	}
+
+	public Collection<MessageBox> findByParent(final int idBox) {
+		final Collection<MessageBox> boxes = this.messageBoxRepository.findByParent(idBox);
+		return boxes;
+	}
+	
+	public Collection<MessageBox> findAll() {
+		return this.messageBoxRepository.findAll();
+	}
+
+	public MessageBox findOne(final int idBox) {
+		final MessageBox box = this.messageBoxRepository.findOne(idBox);
+		return box;
+	}
+
+	public Collection<MessageBox> findByOwner(final int actorId) {
+		return this.messageBoxRepository.boxesByActor(actorId);
+	}
+
+
+	public Collection<MessageBox> findByOwnerFirst(final int actorId) {
+		return this.messageBoxRepository.firstBoxesByActor(actorId);
+	}
+
+	public MessageBox findByName(final int actorId, final String name) {
+		return this.messageBoxRepository.boxByName(actorId, name);
+	}
+
+	//public boolean checkUniqueBox(final MessageBox box) {
+		//boolean bool = true;
+		//final Actor actor = this.actorService.findByPrincipal();
+		//final MessageBox mb = this.findByName(actor.getId(), box.getName());
+//		if (mb != null)
+//			bool = false;
+//		return bool;
+	//}
+	public boolean checkParentBox(final MessageBox boxBD, final MessageBox box) {
+		boolean bool = true;
+		final Collection<MessageBox> boxes = this.messageBoxRepository.findByParent(boxBD.getId());
+		if (boxes.contains(box.getParentMessageBox()))
+			bool = false;
+		return bool;
+
+	}
+
+	public MessageBox reconstruct(final MessageBox messageBox, final BindingResult binding) {
+		final MessageBox result = this.create();
+		if (messageBox.getId() == 0) {
+			result.setName(messageBox.getName());
+			result.setParentMessageBox(messageBox.getParentMessageBox());
+			this.validator.validate(result, binding);
+		} else {
+			final MessageBox bd = this.messageBoxRepository.findOne(messageBox.getId());
+			Assert.notNull(bd);
+			result.setName(messageBox.getName());
+			result.setParentMessageBox(messageBox.getParentMessageBox());
+			this.validator.validate(result, binding);
+			if (!binding.hasErrors()) {
+				result.setId(bd.getId());
+				result.setIsPredefined(bd.getIsPredefined());
+				result.setParentMessageBox(messageBox.getParentMessageBox());
+			}
+		}
+		return result;
 	}
 
 }

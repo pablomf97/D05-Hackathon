@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 package services;
 
 import java.util.ArrayList;
@@ -46,7 +45,7 @@ public class MessageService {
 
 		result.setSendMoment(new Date(System.currentTimeMillis()-1));
 		result.setSender(principal);
-		result.getMessageBoxes().add(this.messageBoxService.findOutBoxActorId(principal.getId()));
+		result.getMessageBoxes().add(this.messageBoxService.findByName(principal.getId(),"Out box"));
 		result.setIsFilmCreated(false);
 		result.setIsSpam(false);
 
@@ -68,10 +67,10 @@ public class MessageService {
 				this.actorService.checkAuthority(message.getReceiver(),"FILMENTHUSIAST") );
 
 		//Checking message has got right boxes(inBox from sender, outBox or spamBox from receiver)
-		Assert.isTrue((message.getMessageBoxes().contains(this.messageBoxService.findOutBoxActorId(principal.getId()))&&
-				message.getMessageBoxes().contains(this.messageBoxService.findInBoxActorId(message.getReceiver().getId())))||
-				(message.getMessageBoxes().contains(this.messageBoxService.findOutBoxActorId(principal.getId()))&&
-						message.getMessageBoxes().contains(this.messageBoxService.findSpamBoxActorId(message.getReceiver().getId()))));
+		Assert.isTrue((message.getMessageBoxes().contains(this.messageBoxService.findByName(principal.getId(),"Trash box"))&&
+				message.getMessageBoxes().contains(this.messageBoxService.findByName(principal.getId(),"In box"))||
+				(message.getMessageBoxes().contains(this.messageBoxService.findByName(principal.getId(),"Out box"))&&
+						message.getMessageBoxes().contains(this.messageBoxService.findByName(principal.getId(),"Spam box")))));
 
 		//Checking spam
 		boolean containsSpam = false;
@@ -113,10 +112,10 @@ public class MessageService {
 			//Checking spamBox
 
 			if(message.getTag().equals("spam")){
-				inSpamBox = this.messageBoxService.findSpamBoxActorId(message.getReceiver().getId());
+				inSpamBox = this.messageBoxService.findByName(principal.getId(),"Spam box");
 				Assert.notNull(inSpamBox);
 			}else{
-				inSpamBox = this.messageBoxService.findInBoxActorId(message.getReceiver().getId());
+				inSpamBox = this.messageBoxService.findByName(principal.getId(),"In box");
 				Assert.notNull(inSpamBox);
 			}
 
@@ -125,7 +124,7 @@ public class MessageService {
 
 			result = this.messageRepository.save(message);
 
-			this.messageBoxService.findOutBoxActorId(principal.getId()).getMessages().add(result);
+			this.messageBoxService.findByName(principal.getId(),"Out box").getMessages().add(result);
 			inSpamBox.getMessages().add(result);
 
 			return result;
@@ -141,7 +140,7 @@ public class MessageService {
 		principal = this.actorService.findByPrincipal();
 		Assert.notNull(principal);
 
-		trashBoxPrincipal = this.messageBoxService.findTrashBoxActorId(principal.getId());
+		trashBoxPrincipal = this.messageBoxService.findByName(principal.getId(),"Trash box"));
 		Assert.notNull(trashBoxPrincipal);
 
 		messagesTrashBox = trashBoxPrincipal.getMessages();
@@ -301,7 +300,7 @@ public class MessageService {
 
 		for(Actor a : recipients){
 			if(!(this.actorService.checkAuthority(a, "ADMIN"))){
-				notificationBoxes.add(this.messageBoxService.findNotificationBoxActorId(a.getId()));
+				notificationBoxes.add(this.messageBoxService.findByName(principal.getId(),"Notification box"));
 			}
 
 		}
@@ -309,7 +308,7 @@ public class MessageService {
 
 
 
-		outBoxAdmin = this.messageBoxService.findOutBoxActorId(principal.getId());
+		outBoxAdmin = this.messageBoxService.findByName(principal.getId(),"Out box"));
 		Assert.notNull(outBoxAdmin);
 
 
