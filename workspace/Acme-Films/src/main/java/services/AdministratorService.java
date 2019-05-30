@@ -17,7 +17,6 @@ import security.Authority;
 import security.UserAccount;
 import domain.Actor;
 import domain.Administrator;
-import domain.MessageBox;
 import domain.SocialProfile;
 import forms.EditionFormObject;
 import forms.RegisterFormObject;
@@ -50,9 +49,7 @@ public class AdministratorService {
 		Administrator res;
 
 		Collection<SocialProfile> social;
-		Collection<MessageBox> boxes;
 		social = new ArrayList<>();
-		boxes = new ArrayList<>();
 
 		UserAccount userAccount;
 		Authority auth;
@@ -68,7 +65,6 @@ public class AdministratorService {
 		userAccount.setAuthorities(authority);
 
 		res.setUserAccount(userAccount);
-		res.setMessageBoxes(boxes);
 		res.setSocialProfile(social);
 
 		return res;
@@ -281,7 +277,6 @@ public class AdministratorService {
 		res.setAddress(form.getAddress());
 		res.setIsSpammer(principal.getIsSpammer());
 		res.setSocialProfile(principal.getSocialProfile());
-		res.setMessageBoxes(principal.getMessageBoxes());
 
 		if (form.getEmail() != null) {
 			try {

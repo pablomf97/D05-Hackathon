@@ -16,7 +16,6 @@ import repositories.ModeratorRepository;
 import security.Authority;
 import security.UserAccount;
 import domain.Actor;
-import domain.MessageBox;
 import domain.Moderator;
 import domain.SocialProfile;
 import forms.EditionFormObject;
@@ -50,9 +49,7 @@ public class ModeratorService {
 		Moderator res;
 
 		Collection<SocialProfile> social;
-		Collection<MessageBox> boxes;
 		social = new ArrayList<>();
-		boxes = new ArrayList<>();
 
 		UserAccount userAccount;
 		Authority auth;
@@ -68,7 +65,6 @@ public class ModeratorService {
 		userAccount.setAuthorities(authority);
 
 		res.setUserAccount(userAccount);
-		res.setMessageBoxes(boxes);
 		res.setSocialProfile(social);
 
 		return res;
@@ -277,7 +273,6 @@ public class ModeratorService {
 		res.setAddress(form.getAddress());
 		res.setIsSpammer(principal.getIsSpammer());
 		res.setSocialProfile(principal.getSocialProfile());
-		res.setMessageBoxes(principal.getMessageBoxes());
 
 		if (form.getEmail() != null) {
 			try {
@@ -316,8 +311,8 @@ public class ModeratorService {
 	public void flush() {
 		this.moderatorRepository.flush();
 	}
-	
-	public Double[] statsReviewsPerModerator(){
+
+	public Double[] statsReviewsPerModerator() {
 		return this.moderatorRepository.statsReviewsPerModerator();
 	}
 }

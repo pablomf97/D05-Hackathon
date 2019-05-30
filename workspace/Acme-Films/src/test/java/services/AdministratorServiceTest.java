@@ -303,7 +303,6 @@ public class AdministratorServiceTest extends AbstractTest {
 		res.setAddress(form.getAddress());
 		res.setIsSpammer(principal.getIsSpammer());
 		res.setSocialProfile(principal.getSocialProfile());
-		res.setMessageBoxes(principal.getMessageBoxes());
 
 		Assert.isTrue(form.getEmail() != null && !form.getEmail().isEmpty());
 		Assert.isTrue(this.actorService.checkEmail(form.getEmail(), "ADMIN"),

@@ -25,14 +25,14 @@ import domain.Person;
 public class PersonController extends AbstractController {
 
 	@Autowired
-	private ActorService	actorService;
+	private ActorService actorService;
 
 	@Autowired
-	private PersonService		personService;
+	private PersonService personService;
 
 	@Autowired
-	private FilmService		filmService;
-	
+	private FilmService filmService;
+
 	// Display
 
 	@RequestMapping(value = "/display", method = RequestMethod.GET)
@@ -42,17 +42,18 @@ public class PersonController extends AbstractController {
 		boolean isPrincipal = false;
 		Actor principal;
 		Collection<Film> films;
-		
+
 		try {
 			person = this.personService.findOne(personId);
 
-			//TODO: list of films where a person works
+			// TODO: list of films where a person works
 			films = this.filmService.filmsOfPerson(personId);
-			
+
 			result = new ModelAndView("person/display");
 			result.addObject("person", person);
 			result.addObject("isPrincipal", isPrincipal);
-			result.addObject("requestURI", "person/display.do?personId=" + personId);
+			result.addObject("requestURI", "person/display.do?personId="
+					+ personId);
 		} catch (final Throwable oops) {
 			result = new ModelAndView("redirect:../welcome/index.do");
 			result.addObject("messageCode", "position.commit.error");
@@ -62,19 +63,19 @@ public class PersonController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public ModelAndView list(@RequestParam (required = false) Integer filmId) {
+	public ModelAndView list(@RequestParam(required = false) Integer filmId) {
 		final ModelAndView result = new ModelAndView("person/list");
 		Collection<Person> persons = this.personService.findAll();
 		Actor principal;
 		boolean isPrincipal;
 
-		try {		
+		try {
 			if (filmId == null)
 				persons = this.personService.findAll();
 			else {
-				persons  = this.filmService.findOne(filmId).getPersons();				
+				persons = this.filmService.findOne(filmId).getPersons();
 			}
-			
+
 			result.addObject("persons", persons);
 			result.addObject("isPrincipal", true);
 
@@ -116,10 +117,9 @@ public class PersonController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(@Valid Person person,
-			BindingResult binding) {
+	public ModelAndView save(@Valid Person person, BindingResult binding) {
 		ModelAndView result;
-		
+
 		if (binding.hasErrors()) {
 			result = new ModelAndView("person/edit");
 			result.addObject("person", person);
@@ -160,7 +160,8 @@ public class PersonController extends AbstractController {
 		return result;
 	}
 
-	protected ModelAndView createEditModelAndView(final Person person, final String messageCode) {
+	protected ModelAndView createEditModelAndView(final Person person,
+			final String messageCode) {
 		final ModelAndView result;
 		Actor principal;
 		boolean isPrincipal = true;

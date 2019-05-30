@@ -1,4 +1,3 @@
-
 package controllers;
 
 import java.util.Collection;
@@ -22,10 +21,10 @@ import domain.Visualization;
 public class VisualizationController extends AbstractController {
 
 	@Autowired
-	private ActorService	actorService;
+	private ActorService actorService;
 
 	@Autowired
-	private VisualizationService		visualizationService;
+	private VisualizationService visualizationService;
 
 	// Display
 
@@ -42,12 +41,15 @@ public class VisualizationController extends AbstractController {
 				principal = this.actorService.findByPrincipal();
 				if (this.actorService.checkAuthority(principal, "MODERATOR"))
 					isPrincipal = true;
-			} catch (final Throwable oops) {}
+			} catch (final Throwable oops) {
+			}
 
 			result = new ModelAndView("visualization/display");
 			result.addObject("visualization", visualization);
 			result.addObject("isPrincipal", isPrincipal);
-			result.addObject("requestURI", "visualization/display.do?visualizationId=" + visualizationId);
+			result.addObject("requestURI",
+					"visualization/display.do?visualizationId="
+							+ visualizationId);
 		} catch (final Throwable oops) {
 			result = new ModelAndView("redirect:../welcome/index.do");
 			result.addObject("messageCode", "position.commit.error");
@@ -68,7 +70,8 @@ public class VisualizationController extends AbstractController {
 			if (this.actorService.checkAuthority(principal, "MODERATOR"))
 				isPrincipal = true;
 
-			visualizations = this.visualizationService.visualizationsPerFilm(principal.getId());
+			visualizations = this.visualizationService
+					.visualizationsPerFilm(principal.getId());
 
 			result.addObject("visualizations", visualizations);
 			result.addObject("isPrincipal", isPrincipal);
@@ -84,7 +87,8 @@ public class VisualizationController extends AbstractController {
 	public ModelAndView create() {
 		ModelAndView result = null;
 		try {
-			final Visualization visualization = this.visualizationService.create();
+			final Visualization visualization = this.visualizationService
+					.create();
 
 			result = this.createEditModelAndView(visualization);
 		} catch (final Throwable oops) {
@@ -111,7 +115,8 @@ public class VisualizationController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(final Visualization visualization, final BindingResult binding) {
+	public ModelAndView save(final Visualization visualization,
+			final BindingResult binding) {
 		ModelAndView result;
 		Visualization aux;
 		try {
@@ -133,9 +138,11 @@ public class VisualizationController extends AbstractController {
 				}
 		} catch (final Throwable oops) {
 			if (binding.hasErrors())
-				result = this.createEditModelAndView(visualization, "jpa.error");
+				result = this
+						.createEditModelAndView(visualization, "jpa.error");
 			else
-				result = this.createEditModelAndView(visualization, "commit.error");
+				result = this.createEditModelAndView(visualization,
+						"commit.error");
 		}
 		return result;
 	}
@@ -144,7 +151,8 @@ public class VisualizationController extends AbstractController {
 	public ModelAndView delete(@RequestParam final int visualizationId) {
 		ModelAndView result;
 		try {
-			final Visualization visualization = this.visualizationService.findOne(visualizationId);
+			final Visualization visualization = this.visualizationService
+					.findOne(visualizationId);
 			this.visualizationService.delete(visualization);
 			result = new ModelAndView("redirect:list.do");
 		} catch (final Throwable oops) {
@@ -155,7 +163,8 @@ public class VisualizationController extends AbstractController {
 	}
 
 	// Ancillary methods
-	protected ModelAndView createEditModelAndView(final Visualization visualization) {
+	protected ModelAndView createEditModelAndView(
+			final Visualization visualization) {
 		ModelAndView result;
 
 		result = this.createEditModelAndView(visualization, null);
@@ -163,7 +172,8 @@ public class VisualizationController extends AbstractController {
 		return result;
 	}
 
-	protected ModelAndView createEditModelAndView(final Visualization visualization, final String messageCode) {
+	protected ModelAndView createEditModelAndView(
+			final Visualization visualization, final String messageCode) {
 		final ModelAndView result;
 		Actor principal;
 		boolean isPrincipal = true;
