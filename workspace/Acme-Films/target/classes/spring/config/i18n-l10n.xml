@@ -26,6 +26,7 @@
 		<value>/views/security/messages</value>
 		<value>/views/welcome/messages</value>
 		<value>/views/terms/messages</value>
+
 		<value>/views/administrator/messages</value>
 
 		<value>/views/moderator/messages</value>
@@ -34,6 +35,16 @@
 		<value>/views/critic/messages</value>
 		<value>/views/system-configuration/messages</value>
 		<value>/views/socialprofile/messages</value>
+
+		<value>/views/curricula/messages</value>
+		<value>/views/educationData/messages</value>
+		<value>/views/miscellaneousData/messages</value>
+		<value>/views/personalData/messages</value>
+		<value>/views/professionalData/messages</value>
+		<value>/views/event/messages</value>
+		<value>/views/group/messages</value>
+
+
 	</util:list>
 
 </beans>
