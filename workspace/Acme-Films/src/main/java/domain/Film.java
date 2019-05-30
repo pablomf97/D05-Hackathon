@@ -42,7 +42,6 @@ public class Film extends DomainEntity{
 	private Moderator moderator;
 	private Collection<Genre> genres;
 	private Collection<Person> persons;
-	private Collection<Sponsorship> sponsorships;
 	private Collection<Saga>sagas;
 	
 	//Getters and setters
@@ -131,14 +130,6 @@ public class Film extends DomainEntity{
 	}
 	public void setPersons(Collection<Person> persons) {
 		this.persons = persons;
-	}
-	@Valid
-	@ManyToMany
-	public Collection<Sponsorship> getSponsorships() {
-		return sponsorships;
-	}
-	public void setSponsorships(Collection<Sponsorship> sponsorships) {
-		this.sponsorships = sponsorships;
 	}
 	
 	@Valid

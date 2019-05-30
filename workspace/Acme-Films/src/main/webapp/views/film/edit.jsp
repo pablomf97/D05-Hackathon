@@ -21,21 +21,28 @@
 	
 			<form:hidden path="id" />
 			
-			<acme:textbox code="film.title" path="title" size="100px" /><br> <br>
-			<acme:textbox code="film.synopsis" path="synopsis" size="100px" /><br> <br>
-			<acme:textbox code="film.poster" path="poster" size="100px" /><br> <br>
-			<acme:textbox code="film.releaseDate" path="releaseDate" size="100px" /><br> <br>
-			<acme:textbox code="film.runTime" path="runTime" size="100px" /><br> <br>
-			<acme:textbox code="film.rating" path="rating" size="100px" /><br> <br>
+			<jstl:if test="${film.isDraft}">
 			
-			<jstl:choose>
-				<jstl:when test="${pageContext.response.locale.language == 'es'}">
-					<acme:multipleSelect items="${genres}" itemLabel="${genre.name.get('Español')}" code="film.genre" path="genres"/>
-				</jstl:when>
-				<jstl:otherwise>
-					<acme:multipleSelect items="${genres}" itemLabel="${genre.name.get('English')}" code="film.genre" path="genres"/>
-				</jstl:otherwise>
-			</jstl:choose>
+				<acme:textbox code="film.title" path="title" size="100px" /><br> <br>
+				<acme:textbox code="film.synopsis" path="synopsis" size="100px" /><br> <br>
+				<acme:textbox code="film.poster" path="poster" size="100px" /><br> <br>
+				<acme:textbox code="film.releaseDate" path="releaseDate" size="100px" /><br> <br>
+				<acme:textbox code="film.runTime" path="runTime" size="100px" /><br> <br>
+				<acme:textbox code="film.rating" path="rating" size="100px" /><br> <br>
+				
+				<jstl:choose>
+					<jstl:when test="${pageContext.response.locale.language == 'es'}">
+						<acme:multipleSelect items="${genres}" itemLabel="${genre.name.get('Español')}" code="film.genres" path="genres"/>
+					</jstl:when>
+					<jstl:otherwise>
+						<acme:multipleSelect items="${genres}" itemLabel="${genre.name.get('English')}" code="film.genres" path="genres"/>
+					</jstl:otherwise>
+				</jstl:choose>
+			
+			</jstl:if>
+			
+			<acme:multipleSelect items="${sagas}" itemLabel="name" code="film.sagas" path="sagas"/>
+			<acme:multipleSelect items="${persons}" itemLabel="name" code="film.persons" path="persons"/>
 			
 			<acme:submit code="film.save" name="save" />&nbsp;
 			<acme:cancel url="film/list.do" code="film.cancel" />

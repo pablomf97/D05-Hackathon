@@ -18,6 +18,7 @@
 		<value>/views/visualization/messages</value> 
 		<value>/views/position/messages</value> 
 		<value>/views/person/messages</value> 
+		<value>/views/film/messages</value> 
 	
 		<value>/views/finder/messages</value>
 		<value>/views/master-page/messages</value>

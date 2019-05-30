@@ -140,6 +140,37 @@ public class FilmController extends AbstractController {
 		return result;
 	}
 
+	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "saveFinal")
+	public ModelAndView saveFinal(final Film film, final BindingResult binding) {
+		ModelAndView result;
+		Film aux;
+		try {
+			aux = this.filmService.reconstruct(film, binding);
+			if (binding.hasErrors()) {
+
+				result = new ModelAndView("film/edit");
+				result.addObject("film", film);
+				result.addObject("binding", binding);
+				result.addObject("isPrincipal", true);
+			} else
+				try {
+					aux.setIsDraft(false);
+					this.filmService.save(aux);
+					result = new ModelAndView("redirect:list.do");
+				} catch (final Throwable oops) {
+					result = new ModelAndView("film/edit");
+					result.addObject("film", aux);
+					result.addObject("messageCode", oops.getMessage());
+				}
+		} catch (final Throwable oops) {
+			if (binding.hasErrors())
+				result = this.createEditModelAndView(film, "jpa.error");
+			else
+				result = this.createEditModelAndView(film, "commit.error");
+		}
+		return result;
+	}
+
 	@RequestMapping(value = "/delete", method = RequestMethod.GET)
 	public ModelAndView delete(@RequestParam final int filmId) {
 		ModelAndView result;

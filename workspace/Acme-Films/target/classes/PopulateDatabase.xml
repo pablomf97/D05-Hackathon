@@ -625,7 +625,7 @@
 
 	</bean>
 		<bean id="critic2" class="domain.Critic">
-		<property name="name" value="Paco" />
+		<property name="name" value="Antonio" />
 		<property name="surname" value="Bayona" />
 		<property name="nickName" value="Bayonetttta" />
 		<property name="VAT" value="ES12345678" />
@@ -656,7 +656,7 @@
 
 	</bean>
 	<bean id="critic3" class="domain.Critic">
-		<property name="name" value="Pepe" />
+		<property name="name" value="Antonio" />
 		<property name="surname" value="Bayona" />
 		<property name="nickName" value="Bayonetttta" />
 		<property name="VAT" value="ES12345678" />
@@ -2514,7 +2514,7 @@
 		<property name="rating" value="5.6" />
 
 		<property name="ticker" value="08062016-A2J5L3" />
-		<property name="isDraft" value="false" />
+		<property name="isDraft" value="true" />
 		<property name="moderator" ref="moderator1" />
 		<property name="genres">
 			<list>
@@ -2524,11 +2524,6 @@
 		<property name="persons">
 			<list>
 				<ref bean="person1" />
-			</list>
-		</property>
-		<property name="sponsorships">
-			<list>
-				<null />
 			</list>
 		</property>
 		<property name="sagas">
@@ -2549,7 +2544,7 @@
 		<property name="runTime" value="123" />
 		<property name="rating" value="3.6" />
 		<property name="ticker" value="08003416-A2J5L3" />
-		<property name="isDraft" value="false" />
+		<property name="isDraft" value="true" />
 		<property name="moderator" ref="moderator1" />
 		<property name="genres">
 			<list>
@@ -2559,11 +2554,6 @@
 		<property name="persons">
 			<list>
 				<ref bean="person1"/>
-			</list>
-		</property>
-		<property name="sponsorships">
-			<list>
-				<null />
 			</list>
 		</property>
 		<property name="sagas">
@@ -2583,7 +2573,7 @@
 		<property name="runTime" value="223" />
 		<property name="rating" value="8.6" />
 		<property name="ticker" value="08993416-A2J5P0" />
-		<property name="isDraft" value="false" />
+		<property name="isDraft" value="true" />
 		<property name="moderator" ref="moderator1" />
 		<property name="genres">
 			<list>
@@ -2593,11 +2583,6 @@
 		<property name="persons">
 			<list>
 				<ref bean="person1"/>
-			</list>
-		</property>
-		<property name="sponsorships">
-			<list>
-				<null />
 			</list>
 		</property>
 		<property name="sagas">
@@ -2617,7 +2602,7 @@
 		<property name="runTime" value="223" />
 		<property name="rating" value="6.6" />
 		<property name="ticker" value="08993416-A2JTTT" />
-		<property name="isDraft" value="false" />
+		<property name="isDraft" value="true" />
 		<property name="moderator" ref="moderator2" />
 		<property name="genres">
 			<list>
@@ -2632,12 +2617,6 @@
 				<ref bean="person1"/>
 					<ref bean="person2"/>
 						<ref bean="person4"/>
-			</list>
-		</property>
-		<property name="sponsorships">
-			<list>
-				<ref bean="sponsorship1"/>
-				<ref bean="sponsorship2"/>
 			</list>
 		</property>
 		<property name="sagas">
@@ -2675,12 +2654,6 @@
 						<ref bean="person4"/>
 			</list>
 		</property>
-		<property name="sponsorships">
-			<list>
-				<ref bean="sponsorship4"/>
-				<ref bean="sponsorship3"/>
-			</list>
-		</property>
 		<property name="sagas">
 			<list>
 				<ref bean="saga1" />
@@ -2696,25 +2669,25 @@
 
 	<bean id="visualization1" class="domain.Visualization">
 		<property name="siteName" value="Cines sur" />
-		<property name="link" value="" />
+		<property name="link" value="http://www.netflix.com" />
 		<property name="price" value="12.2" />
 		<property name="film" ref="film1" />
 	</bean>
 		<bean id="visualization2" class="domain.Visualization">
 		<property name="siteName" value="Alcores" />
-		<property name="link" value="" />
+		<property name="link" value="http://www.cineAlcores.com" />
 		<property name="price" value="9.2" />
 		<property name="film" ref="film2" />
 	</bean>
 		<bean id="visualization3" class="domain.Visualization">
 		<property name="siteName" value="Cartagena" />
-		<property name="link" value="" />
+		<property name="link" value="http://www.amazonvideo.com" />
 		<property name="price" value="10.2" />
 		<property name="film" ref="film2" />
 	</bean>
 		<bean id="visualization4" class="domain.Visualization">
 		<property name="siteName" value="Carmona" />
-		<property name="link" value="" />
+		<property name="link" value="http://www.carmona.com" />
 		<property name="price" value="12.2" />
 		<property name="film" ref="film4" />
 	</bean>
@@ -3105,6 +3078,11 @@
 		<property name="sponsor" ref="sponsor1" />
 		
 		<property name="creditCard" ref="creditCard1" />
+		<property name="films">
+			<list>
+				<ref bean="film4"/>
+			</list>
+		</property>
 
 	</bean>
 	<bean id="sponsorship2" class="domain.Sponsorship">
@@ -3116,6 +3094,11 @@
 		<property name="sponsor" ref="sponsor1" />
 		
 		<property name="creditCard" ref="creditCard2" />
+		<property name="films">
+			<list>
+				<ref bean="film4"/>
+			</list>
+		</property>
 
 	</bean>
 
@@ -3128,6 +3111,11 @@
 		<property name="sponsor" ref="sponsor1" />
 		
 		<property name="creditCard" ref="creditCard3" />
+		<property name="films">
+			<list>
+				<ref bean="film5"/>
+			</list>
+		</property>
 
 	</bean>
 
@@ -3140,6 +3128,11 @@
 		<property name="sponsor" ref="sponsor1" />
 		
 		<property name="creditCard" ref="creditCard4" />
+		<property name="films">
+			<list>
+				<ref bean="film5"/>
+			</list>
+		</property>
 
 	</bean>
 
