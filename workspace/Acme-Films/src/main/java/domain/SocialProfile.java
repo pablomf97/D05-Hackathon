@@ -9,7 +9,7 @@ import org.hibernate.validator.constraints.URL;
 
 @Entity
 @Access(AccessType.PROPERTY)
-public class SocialProfile extends DomainEntity{
+public class SocialProfile extends DomainEntity {
 	private String nick;
 	private String socialNetwork;
 	private String link;
@@ -33,6 +33,7 @@ public class SocialProfile extends DomainEntity{
 	}
 
 	@URL
+	@NotBlank
 	public String getLink() {
 		return this.link;
 	}

@@ -10,7 +10,6 @@ import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.URL;
 
 import domain.Actor;
-import domain.MessageBox;
 import domain.SocialProfile;
 
 public class EditionFormObject {
@@ -31,7 +30,6 @@ public class EditionFormObject {
 	private String address;
 	private boolean isSpammer;
 	private Collection<SocialProfile> socialProfiles;
-	private Collection<MessageBox> messageBoxes;
 
 	public EditionFormObject() {
 
@@ -50,7 +48,6 @@ public class EditionFormObject {
 		this.address = actor.getAddress();
 		this.isSpammer = actor.getIsSpammer();
 		this.socialProfiles = actor.getSocialProfile();
-		this.messageBoxes = actor.getMessageBoxes();
 	}
 
 	public int getId() {
@@ -155,14 +152,5 @@ public class EditionFormObject {
 
 	public void setSocialProfiles(Collection<SocialProfile> socialProfiles) {
 		this.socialProfiles = socialProfiles;
-	}
-
-	@Valid
-	public Collection<MessageBox> getMessageBoxes() {
-		return messageBoxes;
-	}
-
-	public void setMessageBoxes(Collection<MessageBox> messageBoxes) {
-		this.messageBoxes = messageBoxes;
 	}
 }

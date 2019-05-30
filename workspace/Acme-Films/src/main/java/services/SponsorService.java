@@ -16,7 +16,6 @@ import repositories.SponsorRepository;
 import security.Authority;
 import security.UserAccount;
 import domain.Actor;
-import domain.MessageBox;
 import domain.SocialProfile;
 import domain.Sponsor;
 import forms.EditionFormObject;
@@ -25,7 +24,6 @@ import forms.RegisterFormObject;
 @Transactional
 @Service
 public class SponsorService {
-
 
 	/* Working repository */
 
@@ -51,9 +49,7 @@ public class SponsorService {
 		Sponsor res;
 
 		Collection<SocialProfile> social;
-		Collection<MessageBox> boxes;
 		social = new ArrayList<>();
-		boxes = new ArrayList<>();
 
 		UserAccount userAccount;
 		Authority auth;
@@ -69,7 +65,6 @@ public class SponsorService {
 		userAccount.setAuthorities(authority);
 
 		res.setUserAccount(userAccount);
-		res.setMessageBoxes(boxes);
 		res.setSocialProfile(social);
 
 		return res;
@@ -260,7 +255,6 @@ public class SponsorService {
 		res.setAddress(form.getAddress());
 		res.setIsSpammer(principal.getIsSpammer());
 		res.setSocialProfile(principal.getSocialProfile());
-		res.setMessageBoxes(principal.getMessageBoxes());
 
 		if (form.getEmail() != null) {
 			try {
@@ -299,8 +293,8 @@ public class SponsorService {
 	public void flush() {
 		this.sponsorRepository.flush();
 	}
-	
-	public Double[] statsSponsorshipsPerSponsor(){
+
+	public Double[] statsSponsorshipsPerSponsor() {
 		return this.sponsorRepository.statsSponsorshipsPerSponsor();
 	}
 }

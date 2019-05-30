@@ -35,7 +35,6 @@ public class Actor extends DomainEntity {
 	private UserAccount userAccount;
 	private boolean isSpammer;
 	private Collection<SocialProfile> socialProfiles;
-	private Collection<MessageBox> messageBoxes;
 
 	// Getters and Setters
 
@@ -119,16 +118,6 @@ public class Actor extends DomainEntity {
 
 	public void setSocialProfile(Collection<SocialProfile> socialProfiles) {
 		this.socialProfiles = socialProfiles;
-	}
-
-	@Valid
-	@OneToMany
-	public Collection<MessageBox> getMessageBoxes() {
-		return messageBoxes;
-	}
-
-	public void setMessageBoxes(Collection<MessageBox> messageBoxes) {
-		this.messageBoxes = messageBoxes;
 	}
 
 	@Override
