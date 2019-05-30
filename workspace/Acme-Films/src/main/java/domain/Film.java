@@ -82,6 +82,7 @@ public class Film extends DomainEntity{
 	}
 	
 	@Range(min=0)
+	@NotNull
 	public Integer getRunTime() {
 		return runTime;
 	}

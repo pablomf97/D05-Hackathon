@@ -2264,7 +2264,7 @@
 	</bean>
 	
 	<bean id="saga2" class="domain.Saga">
-		<property name="title" value="saga2" />
+		<property name="title" value="Segundas Partes" />
 	</bean>
 		<bean id="saga3" class="domain.Saga">
 		<property name="title" value="saga3" />
@@ -2502,7 +2502,7 @@
 	<!-- **************************** FILM **************************** -->
 
 	<bean id="film1" class="domain.Film">
-		<property name="title" value="Peli1"/>
+		<property name="title" value="El Señor de los Anillos I - La Comunidad del Anillo"/>
 			
 
 		<property name="synopsis" value="Synopsis 1"/>
@@ -2514,7 +2514,7 @@
 		<property name="rating" value="5.6" />
 
 		<property name="ticker" value="08062016-A2J5L3" />
-		<property name="isDraft" value="true" />
+		<property name="isDraft" value="false" />
 		<property name="moderator" ref="moderator1" />
 		<property name="genres">
 			<list>
@@ -2535,7 +2535,7 @@
 	</bean>
 	
 	<bean id="film2" class="domain.Film">
-		<property name="title" value="Peli2"/>
+		<property name="title" value="El Señor de los Anillos II - Las Dos Torres"/>
 			
 
 		<property name="synopsis" value="Synopsis 2"/>
@@ -2544,7 +2544,7 @@
 		<property name="runTime" value="123" />
 		<property name="rating" value="3.6" />
 		<property name="ticker" value="08003416-A2J5L3" />
-		<property name="isDraft" value="true" />
+		<property name="isDraft" value="false" />
 		<property name="moderator" ref="moderator1" />
 		<property name="genres">
 			<list>
@@ -2559,12 +2559,13 @@
 		<property name="sagas">
 			<list>
 				<ref bean="saga1" />
+				<ref bean="saga2" />
 			</list>
 		</property>
 
 	</bean>
 	<bean id="film3" class="domain.Film">
-		<property name="title" value="Peli3"/>
+		<property name="title" value="El Señor de los Anillos III - El Retorno del Rey"/>
 			
 
 		<property name="synopsis" value="Synopsis 3"/>
@@ -2573,7 +2574,7 @@
 		<property name="runTime" value="223" />
 		<property name="rating" value="8.6" />
 		<property name="ticker" value="08993416-A2J5P0" />
-		<property name="isDraft" value="true" />
+		<property name="isDraft" value="false" />
 		<property name="moderator" ref="moderator1" />
 		<property name="genres">
 			<list>
@@ -2621,7 +2622,6 @@
 		</property>
 		<property name="sagas">
 			<list>
-				<ref bean="saga1" />
 				<ref bean="saga2" />
 			</list>
 		</property>
@@ -2638,7 +2638,7 @@
 		<property name="runTime" value="113" />
 		<property name="rating" value="2.6" />
 		<property name="ticker" value="08993416-A2JJK3" />
-		<property name="isDraft" value="false" />
+		<property name="isDraft" value="true" />
 		<property name="moderator" ref="moderator2" />
 		<property name="genres">
 			<list>
@@ -2656,7 +2656,6 @@
 		</property>
 		<property name="sagas">
 			<list>
-				<ref bean="saga1" />
 				<ref bean="saga4" />
 			</list>
 		</property>
@@ -3080,7 +3079,8 @@
 		<property name="creditCard" ref="creditCard1" />
 		<property name="films">
 			<list>
-				<ref bean="film4"/>
+				<ref bean="film2"/>
+				<ref bean="film3"/>
 			</list>
 		</property>
 
@@ -3096,7 +3096,8 @@
 		<property name="creditCard" ref="creditCard2" />
 		<property name="films">
 			<list>
-				<ref bean="film4"/>
+				<ref bean="film2"/>
+				<ref bean="film3"/>
 			</list>
 		</property>
 
@@ -3113,7 +3114,8 @@
 		<property name="creditCard" ref="creditCard3" />
 		<property name="films">
 			<list>
-				<ref bean="film5"/>
+				<ref bean="film1"/>
+				<ref bean="film2"/>
 			</list>
 		</property>
 
@@ -3130,7 +3132,8 @@
 		<property name="creditCard" ref="creditCard4" />
 		<property name="films">
 			<list>
-				<ref bean="film5"/>
+				<ref bean="film1"/>
+				<ref bean="film2"/>
 			</list>
 		</property>
 

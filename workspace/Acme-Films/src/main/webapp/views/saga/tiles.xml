@@ -10,6 +10,10 @@
 
 <tiles-definitions>
 
+	<definition name="saga/display" extends="master.page">
+		<put-attribute name="body" value="/views/saga/display.jsp" />
+	</definition>
+
 	<definition name="saga/list" extends="master.page">
 		<put-attribute name="body" value="/views/saga/list.jsp" />
 	</definition>

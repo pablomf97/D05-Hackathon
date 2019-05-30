@@ -21,13 +21,6 @@
 					<jstl:out value="${saga.title}" />
 				</display:column>
 				
-				<display:column titleKey="saga.link" sortable="true">
-					<a href="${saga.link}"> 
-						<spring:message
-							code="saga.link.goto" />
-					</a>
-				</display:column>
-				
 				<display:column >
 					<a href="saga/display.do?sagaId=${saga.id}"> <spring:message
 							code="saga.display" />

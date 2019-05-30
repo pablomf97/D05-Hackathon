@@ -19,6 +19,7 @@
 	</tr>
 </table>
 		
+<h1><spring:message code="saga.films" /></h1>
 <display:table class="displaytag" name="films" pagesize="5" 
 		requestURI="saga/display.do" id="film">
 

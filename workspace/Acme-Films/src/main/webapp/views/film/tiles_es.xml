@@ -10,6 +10,10 @@
 
 <tiles-definitions>
 
+	<definition name="film/display" extends="master.page">
+		<put-attribute name="body" value="/views/film/display.jsp" />
+	</definition>
+
 	<definition name="film/list" extends="master.page">
 		<put-attribute name="body" value="/views/film/list.jsp" />
 	</definition>

@@ -84,22 +84,27 @@
 				</security:authorize>
 
 			</ul></li>
-		<security:authorize access="hasRole('COMPANY')">
+		<security:authorize access="isAuthenticated()">
 
 			<li><a class="fNiv"><spring:message
-						code="master.page.problem" /></a>
+						code="master.page.visualization" /></a>
 				<ul>
 					<li class="arrow"></li>
-					<li><a href="problem/list.do"><spring:message
-								code="master.page.problem.list" /></a></li>
-					<security:authorize access="hasRole('COMPANY')">
-
-						<li><a href="problem/create.do"><spring:message
-									code="master.page.problem.edit" /></a></li>
-					</security:authorize>
-
+					<li><a href="visualization/list.do"><spring:message
+								code="master.page.visualization.list" /></a></li>
+				</ul></li>
+				
+			<li><a class="fNiv"><spring:message
+						code="master.page.saga" /></a>
+				<ul>
+					<li class="arrow"></li>
+					<li><a href="saga/list.do"><spring:message
+								code="master.page.saga.list" /></a></li>
 				</ul></li>
 		</security:authorize>
+		
+		
+		
 		<security:authorize access="hasRole('AUDITOR')">
 			<li><a class="fNiv"><spring:message code="master.page.audit" /></a>
 				<ul>
