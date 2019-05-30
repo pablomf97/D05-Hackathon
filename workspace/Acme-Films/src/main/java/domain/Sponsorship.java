@@ -1,8 +1,11 @@
 package domain;
 
+import java.util.Collection;
+
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -22,6 +25,7 @@ public class Sponsorship extends DomainEntity{
 	private boolean isActive;
 	private Sponsor sponsor;
 	private CreditCard creditCard;
+	private Collection<Film> films;
 	
 	//Getters and setters
 	
@@ -61,6 +65,14 @@ public class Sponsorship extends DomainEntity{
 		this.sponsor = sponsor;
 	}
 	
+	@Valid
+	@ManyToMany
+	public Collection<Film> getFilms() {
+		return films;
+	}
+	public void setFilms(Collection<Film> films) {
+		this.films = films;
+	}
 	@Valid
 	@NotNull
 	public CreditCard getCreditCard() {

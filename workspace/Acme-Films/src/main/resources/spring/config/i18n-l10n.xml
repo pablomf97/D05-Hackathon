@@ -12,14 +12,39 @@
 	">
 
 	<util:list id="messages">
+		<value>/views/genre/messages</value> 
+		<value>/views/saga/messages</value> 
+		<value>/views/sponsorship/messages</value> 
+		<value>/views/visualization/messages</value> 
+		<value>/views/position/messages</value> 
+		<value>/views/person/messages</value> 
+		<value>/views/film/messages</value> 
+	
 		<value>/views/finder/messages</value>
 		<value>/views/master-page/messages</value>
 		<value>/views/misc/messages</value>
 		<value>/views/security/messages</value>
 		<value>/views/welcome/messages</value>
 		<value>/views/terms/messages</value>
+
 		<value>/views/administrator/messages</value>
-		
+
+		<value>/views/moderator/messages</value>
+		<value>/views/sponsor/messages</value>
+		<value>/views/filmenthusiast/messages</value>
+		<value>/views/critic/messages</value>
+		<value>/views/system-configuration/messages</value>
+		<value>/views/socialprofile/messages</value>
+
+		<value>/views/curricula/messages</value>
+		<value>/views/educationData/messages</value>
+		<value>/views/miscellaneousData/messages</value>
+		<value>/views/personalData/messages</value>
+		<value>/views/professionalData/messages</value>
+		<value>/views/event/messages</value>
+		<value>/views/group/messages</value>
+
+
 	</util:list>
 
 </beans>

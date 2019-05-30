@@ -68,7 +68,6 @@ INDEX VERSION 1.126+C:\Documents and Settings\Student\Desktop\Entrega 5\D05-Hack
 2302864355.index
 586522737.index
 1189943714.index
-2181522758.index
 2400429188.index
 4168171976.index
 3182832990.index

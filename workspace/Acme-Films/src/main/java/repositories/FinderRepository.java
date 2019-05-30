@@ -30,7 +30,4 @@ public interface FinderRepository extends JpaRepository<Finder, Integer>{
 	
 	@Query("select max(h.finder.results.size), min(h.finder.results.size), avg(h.finder.results.size),sqrt(sum(h.finder.results.size* h.finder.results.size) / count(h.finder.results.size) -(avg(h.finder.results.size) * avg(h.finder.results.size))) from FilmEnthusiast h")
 	Double[] StatsFinder();
-}//title synopsis saga genre sitename 
-//string string string 
-//single key word that must be contained in its title, its saga, its synopsis, its cast name;
-//a genre to which the film must belong; the site name for the visualization ; or a range of ratings.
+}

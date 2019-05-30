@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import domain.MiscellaneousData;
 
 @Repository
-public interface MiscellaneousDataRepository extends JpaRepository<MiscellaneousData, Integer>{
+public interface MiscellaneousDataRepository extends JpaRepository<MiscellaneousData, Integer> {
 
 }
