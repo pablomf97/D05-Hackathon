@@ -24,8 +24,8 @@
 			</list>
 		</property>
 	</bean>
-	
-		<bean id="userAdmin2" class="security.UserAccount">
+
+	<bean id="userAdmin2" class="security.UserAccount">
 		<property name="username" value="admin2" />
 		<property name="password" value="c84258e9c39059a89ab77d846ddab909" />
 		<property name="authorities">
@@ -48,7 +48,7 @@
 			</list>
 		</property>
 	</bean>
-		<bean id="userModerator2" class="security.UserAccount">
+	<bean id="userModerator2" class="security.UserAccount">
 		<property name="username" value="moderator2" />
 		<property name="password" value="95d88ad73653fc7ad4fec3bc56677c3c" />
 		<property name="authorities">
@@ -59,7 +59,7 @@
 			</list>
 		</property>
 	</bean>
-			<bean id="userModerator3" class="security.UserAccount">
+	<bean id="userModerator3" class="security.UserAccount">
 		<property name="username" value="moderator3" />
 		<property name="password" value="076548525cf0031fb50a6e948ecf4607" />
 		<property name="authorities">
@@ -70,8 +70,8 @@
 			</list>
 		</property>
 	</bean>
-	
-	
+
+
 	<bean id="userSponsor1" class="security.UserAccount">
 		<property name="username" value="sponsor1" />
 		<property name="password" value="42c63ad66d4dc07ed17753772bef96d6" />
@@ -83,7 +83,7 @@
 			</list>
 		</property>
 	</bean>
-		<bean id="userSponsor2" class="security.UserAccount">
+	<bean id="userSponsor2" class="security.UserAccount">
 		<property name="username" value="sponsor2" />
 		<property name="password" value="3dc67f80a03324e01b1640f45d107485" />
 		<property name="authorities">
@@ -94,7 +94,7 @@
 			</list>
 		</property>
 	</bean>
-			<bean id="userSponsor3" class="security.UserAccount">
+	<bean id="userSponsor3" class="security.UserAccount">
 		<property name="username" value="sponsor3" />
 		<property name="password" value="3dc67f80a03324e01b1640f45d107485" />
 		<property name="authorities">
@@ -105,7 +105,7 @@
 			</list>
 		</property>
 	</bean>
-	
+
 
 	<bean id="userCritic1" class="security.UserAccount">
 		<property name="username" value="critic1" />
@@ -118,7 +118,7 @@
 			</list>
 		</property>
 	</bean>
-		<bean id="userCritic2" class="security.UserAccount">
+	<bean id="userCritic2" class="security.UserAccount">
 		<property name="username" value="critic2" />
 		<property name="password" value="88fc227c1f12e1f11b8b1584991c88fe" />
 		<property name="authorities">
@@ -129,7 +129,7 @@
 			</list>
 		</property>
 	</bean>
-		<bean id="userCritic3" class="security.UserAccount">
+	<bean id="userCritic3" class="security.UserAccount">
 		<property name="username" value="critic3" />
 		<property name="password" value="8a253092f1d177ba06d104b69a159d93" />
 		<property name="authorities">
@@ -152,8 +152,8 @@
 			</list>
 		</property>
 	</bean>
-	
-		<bean id="userFilmEnthusiast2" class="security.UserAccount">
+
+	<bean id="userFilmEnthusiast2" class="security.UserAccount">
 		<property name="username" value="filmEnthusiast2" />
 		<property name="password" value="71ca0c40917a50f5ebefba0218ad7de8" />
 		<property name="authorities">
@@ -164,7 +164,7 @@
 			</list>
 		</property>
 	</bean>
-			<bean id="userFilmEnthusiast3" class="security.UserAccount">
+	<bean id="userFilmEnthusiast3" class="security.UserAccount">
 		<property name="username" value="filmEnthusiast3" />
 		<property name="password" value="2f619abf35f35d487e1cee32c70fffc2" />
 		<property name="authorities">
@@ -175,7 +175,7 @@
 			</list>
 		</property>
 	</bean>
-	
+
 
 
 	<!--************************************** Social profiles ************************************** -->
@@ -205,7 +205,7 @@
 		<property name="link" value="https://facebook.com/Rodet3?lang=es" />
 
 	</bean>
-		<bean id="socialProfileModerator3" class="domain.SocialProfile">
+	<bean id="socialProfileModerator3" class="domain.SocialProfile">
 		<property name="nick" value="Rodet3" />
 		<property name="socialNetwork" value="Facebook" />
 		<property name="link" value="https://facebook.com/Rodet3?lang=es" />
@@ -223,13 +223,13 @@
 		<property name="link" value="https://tinder.com/3p1c?lang=es" />
 
 	</bean>
-		<bean id="socialProfileSponsor2" class="domain.SocialProfile">
+	<bean id="socialProfileSponsor2" class="domain.SocialProfile">
 		<property name="nick" value="3p1c" />
 		<property name="socialNetwork" value="Tinder" />
 		<property name="link" value="https://tinder.com/3p1c?lang=es" />
 
 	</bean>
-	
+
 
 	<bean id="socialProfileCritic1" class="domain.SocialProfile">
 		<property name="nick" value="Weezy" />
@@ -237,7 +237,7 @@
 		<property name="link" value="https://instagram.com/Weezy?lang=es" />
 
 	</bean>
-		<bean id="socialProfileCritic3" class="domain.SocialProfile">
+	<bean id="socialProfileCritic3" class="domain.SocialProfile">
 		<property name="nick" value="Weezy" />
 		<property name="socialNetwork" value="instagram" />
 		<property name="link" value="https://instagram.com/Weezy?lang=es" />
@@ -256,13 +256,13 @@
 		<property name="link" value="https://instagram.com/avatar123?lang=es" />
 
 	</bean>
-		<bean id="socialProfileFilmEnthusiast2" class="domain.SocialProfile">
+	<bean id="socialProfileFilmEnthusiast2" class="domain.SocialProfile">
 		<property name="nick" value="avatar123" />
 		<property name="socialNetwork" value="instagram" />
 		<property name="link" value="https://instagram.com/avatar123?lang=es" />
 
 	</bean>
-			<bean id="socialProfileFilmEnthusiast3" class="domain.SocialProfile">
+	<bean id="socialProfileFilmEnthusiast3" class="domain.SocialProfile">
 		<property name="nick" value="avatar123" />
 		<property name="socialNetwork" value="instagram" />
 		<property name="link" value="https://instagram.com/avatar123?lang=es" />
@@ -274,8 +274,6 @@
 	<bean id="administrator1" class="domain.Administrator">
 		<property name="name" value="José" />
 		<property name="surname" value="Gamiz Redondo" />
-		<property name="nickName" value="cramersito" />
-		<property name="VAT" value="ES12345678" />
 		<property name="photo"
 			value="https://ih1.redbubble.net/image.376305132.3400/flat,550x550,075,f.u1.jpg" />
 		<property name="email" value="josgamred@mail.com" />
@@ -301,8 +299,6 @@
 	<bean id="administrator2" class="domain.Administrator">
 		<property name="name" value="Pepe" />
 		<property name="surname" value="Gamiz Redondo" />
-		<property name="nickName" value="cramersito" />
-		<property name="VAT" value="ES12345678" />
 		<property name="photo"
 			value="https://ih1.redbubble.net/image.376305132.3400/flat,550x550,075,f.u1.jpg" />
 		<property name="email" value="josgamred@mail.com" />
@@ -331,8 +327,6 @@
 	<bean id="moderator1" class="domain.Moderator">
 		<property name="name" value="Pepe" />
 		<property name="surname" value="Viyuela" />
-		<property name="nickName" value="rodetin" />
-		<property name="VAT" value="ES12345678" />
 		<property name="photo"
 			value="https://ih1.redbubble.net/image.376305132.3400/flat,550x550,075,f.u1.jpg" />
 		<property name="email" value="pepito@mail.com" />
@@ -355,12 +349,10 @@
 			</list>
 		</property>
 	</bean>
-	
+
 	<bean id="moderator2" class="domain.Moderator">
 		<property name="name" value="Pepe" />
 		<property name="surname" value="Viyuela" />
-		<property name="nickName" value="rodetin" />
-		<property name="VAT" value="ES12345678" />
 		<property name="photo"
 			value="https://ih1.redbubble.net/image.376305132.3400/flat,550x550,075,f.u1.jpg" />
 		<property name="email" value="pepito@mail.com" />
@@ -386,8 +378,6 @@
 	<bean id="moderator3" class="domain.Moderator">
 		<property name="name" value="Pepe" />
 		<property name="surname" value="Viyuela" />
-		<property name="nickName" value="rodetin" />
-		<property name="VAT" value="ES12345678" />
 		<property name="photo"
 			value="https://ih1.redbubble.net/image.376305132.3400/flat,550x550,075,f.u1.jpg" />
 		<property name="email" value="pepito@mail.com" />
@@ -415,8 +405,6 @@
 	<bean id="sponsor1" class="domain.Sponsor">
 		<property name="name" value="Amancio" />
 		<property name="surname" value="Ortega" />
-		<property name="nickName" value="$$Amancio$$" />
-		<property name="VAT" value="ES12345678" />
 		<property name="photo"
 			value="https://ih1.redbubble.net/image.376305132.3400/flat,550x550,075,f.u1.jpg" />
 		<property name="email" value="money@mail.com" />
@@ -440,13 +428,11 @@
 		</property>
 
 	</bean>
-	
-	
+
+
 	<bean id="sponsor3" class="domain.Sponsor">
 		<property name="name" value="Amancio" />
 		<property name="surname" value="Ortega" />
-		<property name="nickName" value="$$Amancio$$" />
-		<property name="VAT" value="ES12345678" />
 		<property name="photo"
 			value="https://ih1.redbubble.net/image.376305132.3400/flat,550x550,075,f.u1.jpg" />
 		<property name="email" value="money@mail.com" />
@@ -470,13 +456,11 @@
 		</property>
 
 	</bean>
-	
-	
+
+
 	<bean id="sponsor2" class="domain.Sponsor">
 		<property name="name" value="Amancio" />
 		<property name="surname" value="Ortega" />
-		<property name="nickName" value="$$Amancio$$" />
-		<property name="VAT" value="ES12345678" />
 		<property name="photo"
 			value="https://ih1.redbubble.net/image.376305132.3400/flat,550x550,075,f.u1.jpg" />
 		<property name="email" value="money@mail.com" />
@@ -506,8 +490,6 @@
 	<bean id="filmEnthusiast1" class="domain.FilmEnthusiast">
 		<property name="name" value="James" />
 		<property name="surname" value="Cameron" />
-		<property name="nickName" value="Titanic123" />
-		<property name="VAT" value="ES12345678" />
 		<property name="photo"
 			value="https://ih1.redbubble.net/image.376305132.3400/flat,550x550,075,f.u1.jpg" />
 		<property name="email" value="titanic@mail.com" />
@@ -535,8 +517,6 @@
 	<bean id="filmEnthusiast2" class="domain.FilmEnthusiast">
 		<property name="name" value="James" />
 		<property name="surname" value="Cameron" />
-		<property name="nickName" value="Titanic123" />
-		<property name="VAT" value="ES12345678" />
 		<property name="photo"
 			value="https://ih1.redbubble.net/image.376305132.3400/flat,550x550,075,f.u1.jpg" />
 		<property name="email" value="titanic@mail.com" />
@@ -564,8 +544,6 @@
 	<bean id="filmEnthusiast3" class="domain.FilmEnthusiast">
 		<property name="name" value="James" />
 		<property name="surname" value="Cameron" />
-		<property name="nickName" value="Titanic123" />
-		<property name="VAT" value="ES12345678" />
 		<property name="photo"
 			value="https://ih1.redbubble.net/image.376305132.3400/flat,550x550,075,f.u1.jpg" />
 		<property name="email" value="titanic@mail.com" />
@@ -596,8 +574,6 @@
 	<bean id="critic1" class="domain.Critic">
 		<property name="name" value="Antonio" />
 		<property name="surname" value="Bayona" />
-		<property name="nickName" value="Bayonetttta" />
-		<property name="VAT" value="ES12345678" />
 		<property name="photo"
 			value="https://ih1.redbubble.net/image.376305132.3400/flat,550x550,075,f.u1.jpg" />
 		<property name="email" value="jpark@mail.com" />
@@ -624,11 +600,9 @@
 		</property>
 
 	</bean>
-		<bean id="critic2" class="domain.Critic">
+	<bean id="critic2" class="domain.Critic">
 		<property name="name" value="Antonio" />
 		<property name="surname" value="Bayona" />
-		<property name="nickName" value="Bayonetttta" />
-		<property name="VAT" value="ES12345678" />
 		<property name="photo"
 			value="https://ih1.redbubble.net/image.376305132.3400/flat,550x550,075,f.u1.jpg" />
 		<property name="email" value="jpark@mail.com" />
@@ -658,8 +632,6 @@
 	<bean id="critic3" class="domain.Critic">
 		<property name="name" value="Antonio" />
 		<property name="surname" value="Bayona" />
-		<property name="nickName" value="Bayonetttta" />
-		<property name="VAT" value="ES12345678" />
 		<property name="photo"
 			value="https://ih1.redbubble.net/image.376305132.3400/flat,550x550,075,f.u1.jpg" />
 		<property name="email" value="jpark@mail.com" />
@@ -686,8 +658,8 @@
 		</property>
 
 	</bean>
-	
-	
+
+
 	<!--**************************** MESSAGE BOXES**************************** -->
 
 	<!-- **************************** ADMIN 1 **************************** -->
@@ -897,7 +869,7 @@
 		</property>
 
 	</bean>
-	
+
 	<!--**************************** SPONSOR 1 **************************** -->
 
 	<bean id="inBoxSponsor1" class="domain.MessageBox">
@@ -1000,10 +972,10 @@
 		</property>
 
 	</bean>
-	
-	
-	
-	
+
+
+
+
 	<bean id="inBoxSponsor3" class="domain.MessageBox">
 		<property name="name" value="In box" />
 		<property name="isPredefined" value="true" />
@@ -1104,14 +1076,14 @@
 		</property>
 
 	</bean>
-	
-	
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
+
+
 	<bean id="inBoxSponsor2" class="domain.MessageBox">
 		<property name="name" value="In box" />
 		<property name="isPredefined" value="true" />
@@ -1212,10 +1184,10 @@
 		</property>
 
 	</bean>
-	
+
 
 	<!--**************************** SPONSOR 1 **************************** -->
-	
+
 	<bean id="inBoxCritic3" class="domain.MessageBox">
 		<property name="name" value="In box" />
 		<property name="isPredefined" value="true" />
@@ -1316,16 +1288,16 @@
 		</property>
 
 	</bean>
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
+
+
+
+
 	<bean id="inBoxCritic1" class="domain.MessageBox">
 		<property name="name" value="In box" />
 		<property name="isPredefined" value="true" />
@@ -1628,7 +1600,7 @@
 		</property>
 
 	</bean>
-		<bean id="inBoxModerator3" class="domain.MessageBox">
+	<bean id="inBoxModerator3" class="domain.MessageBox">
 		<property name="name" value="In box" />
 		<property name="isPredefined" value="true" />
 		<property name="parentMessageBox">
@@ -1728,10 +1700,10 @@
 		</property>
 
 	</bean>
-	
-	
-	
-	
+
+
+
+
 	<bean id="inBoxModerator2" class="domain.MessageBox">
 		<property name="name" value="In box" />
 		<property name="isPredefined" value="true" />
@@ -1935,7 +1907,7 @@
 		</property>
 
 	</bean>
-		<bean id="inBoxFilmEnthusiast2" class="domain.MessageBox">
+	<bean id="inBoxFilmEnthusiast2" class="domain.MessageBox">
 		<property name="name" value="In box" />
 		<property name="isPredefined" value="true" />
 		<property name="parentMessageBox">
@@ -2154,40 +2126,40 @@
 			</list>
 		</property>
 	</bean>
-	
+
 	<bean id="curricula2" class="domain.Curricula">
 		<property name="personalData" ref="personalData2" />
 		<property name="educationData">
 			<list>
-				
+
 			</list>
 		</property>
 		<property name="miscellaneousData">
 			<list>
-				
+
 			</list>
 		</property>
 		<property name="professionalData">
 			<list>
-				
+
 			</list>
 		</property>
 	</bean>
-		<bean id="curricula3" class="domain.Curricula">
+	<bean id="curricula3" class="domain.Curricula">
 		<property name="personalData" ref="personalData3" />
 		<property name="educationData">
 			<list>
-				
+
 			</list>
 		</property>
 		<property name="miscellaneousData">
 			<list>
-				
+
 			</list>
 		</property>
 		<property name="professionalData">
 			<list>
-				
+
 			</list>
 		</property>
 	</bean>
@@ -2201,21 +2173,21 @@
 		<property name="statement" value="Statement of personalData 1" />
 		<property name="phoneNumber" value="646626167" />
 	</bean>
-		<bean id="personalData2" class="domain.PersonalData">
+	<bean id="personalData2" class="domain.PersonalData">
 		<property name="githubProfile" value="https://github.com/pabmac" />
 		<property name="linkedIn" value="https://www.linkedin.com/in/pabmac/" />
 		<property name="fullName" value="Alberto Ramírez" />
 		<property name="statement" value="Statement of personalData 1" />
 		<property name="phoneNumber" value="646626167" />
 	</bean>
-		<bean id="personalData3" class="domain.PersonalData">
+	<bean id="personalData3" class="domain.PersonalData">
 		<property name="githubProfile" value="https://github.com/pabmac" />
 		<property name="linkedIn" value="https://www.linkedin.com/in/pabmac/" />
 		<property name="fullName" value="Alberto Ramírez" />
 		<property name="statement" value="Statement of personalData 1" />
 		<property name="phoneNumber" value="646626167" />
 	</bean>
-	
+
 
 	<!-- **************************** EDUCATION DATA **************************** -->
 
@@ -2247,41 +2219,41 @@
 	<bean id="finder1" class="domain.Finder">
 		<property name="searchMoment" value="01/08/2019 19:48" />
 	</bean>
-		<bean id="finder2" class="domain.Finder">
+	<bean id="finder2" class="domain.Finder">
 		<property name="searchMoment" value="01/08/2018 19:48" />
 	</bean>
-			<bean id="finder3" class="domain.Finder">
+	<bean id="finder3" class="domain.Finder">
 		<property name="searchMoment" value="01/08/2018 19:48" />
 	</bean>
-	
-	
-	
+
+
+
 
 	<!-- **************************** SAGA **************************** -->
 
 	<bean id="saga1" class="domain.Saga">
 		<property name="title" value="Lord of the rings" />
 	</bean>
-	
+
 	<bean id="saga2" class="domain.Saga">
 		<property name="title" value="Segundas Partes" />
 	</bean>
-		<bean id="saga3" class="domain.Saga">
+	<bean id="saga3" class="domain.Saga">
 		<property name="title" value="saga3" />
 	</bean>
-	
-		<bean id="saga4" class="domain.Saga">
+
+	<bean id="saga4" class="domain.Saga">
 		<property name="title" value="saga4" />
 	</bean>
-	
-		<bean id="saga5" class="domain.Saga">
+
+	<bean id="saga5" class="domain.Saga">
 		<property name="title" value="saga5" />
 	</bean>
-	
-		<bean id="saga6" class="domain.Saga">
+
+	<bean id="saga6" class="domain.Saga">
 		<property name="title" value="saga6" />
 	</bean>
-	
+
 
 	<!-- **************************** GENRE **************************** -->
 	<bean id="genre1" class="domain.Genre">
@@ -2295,7 +2267,7 @@
 		</property>
 
 	</bean>
-		<bean id="genre2" class="domain.Genre">
+	<bean id="genre2" class="domain.Genre">
 		<property name="name">
 			<util:map id="utilmap03" map-class="java.util.HashMap"
 				key-type="java.lang.String" value-type="java.lang.String">
@@ -2306,7 +2278,7 @@
 		</property>
 
 	</bean>
-		<bean id="genre3" class="domain.Genre">
+	<bean id="genre3" class="domain.Genre">
 		<property name="name">
 			<util:map id="utilmap04" map-class="java.util.HashMap"
 				key-type="java.lang.String" value-type="java.lang.String">
@@ -2317,7 +2289,7 @@
 		</property>
 
 	</bean>
-		<bean id="genre4" class="domain.Genre">
+	<bean id="genre4" class="domain.Genre">
 		<property name="name">
 			<util:map id="utilmap05" map-class="java.util.HashMap"
 				key-type="java.lang.String" value-type="java.lang.String">
@@ -2328,7 +2300,7 @@
 		</property>
 
 	</bean>
-		<bean id="genre5" class="domain.Genre">
+	<bean id="genre5" class="domain.Genre">
 		<property name="name">
 			<util:map id="utilmap07" map-class="java.util.HashMap"
 				key-type="java.lang.String" value-type="java.lang.String">
@@ -2452,7 +2424,7 @@
 		</property>
 
 	</bean>
-		<bean id="person2" class="domain.Person">
+	<bean id="person2" class="domain.Person">
 		<property name="name" value="Paco" />
 		<property name="surname" value="Ross" />
 		<property name="gender" value="3" />
@@ -2467,8 +2439,8 @@
 		</property>
 
 	</bean>
-	
-		<bean id="person3" class="domain.Person">
+
+	<bean id="person3" class="domain.Person">
 		<property name="name" value="Antonio" />
 		<property name="surname" value="Ross" />
 		<property name="gender" value="3" />
@@ -2482,8 +2454,8 @@
 		</property>
 
 	</bean>
-	
-		<bean id="person4" class="domain.Person">
+
+	<bean id="person4" class="domain.Person">
 		<property name="name" value="Jesus" />
 		<property name="surname" value="Ross" />
 		<property name="gender" value="3" />
@@ -2497,16 +2469,17 @@
 		</property>
 
 	</bean>
-	
+
 
 	<!-- **************************** FILM **************************** -->
 
 	<bean id="film1" class="domain.Film">
-		<property name="title" value="El Señor de los Anillos I - La Comunidad del Anillo"/>
-			
+		<property name="title"
+			value="El Señor de los Anillos I - La Comunidad del Anillo" />
 
-		<property name="synopsis" value="Synopsis 1"/>
-		
+
+		<property name="synopsis" value="Synopsis 1" />
+
 
 		<property name="poster" value="" />
 		<property name="releaseDate" value="08/06/2016 12:12" />
@@ -2533,12 +2506,12 @@
 		</property>
 
 	</bean>
-	
-	<bean id="film2" class="domain.Film">
-		<property name="title" value="El Señor de los Anillos II - Las Dos Torres"/>
-			
 
-		<property name="synopsis" value="Synopsis 2"/>
+	<bean id="film2" class="domain.Film">
+		<property name="title" value="El Señor de los Anillos II - Las Dos Torres" />
+
+
+		<property name="synopsis" value="Synopsis 2" />
 		<property name="poster" value="" />
 		<property name="releaseDate" value="08/09/2016 02:12" />
 		<property name="runTime" value="123" />
@@ -2553,7 +2526,7 @@
 		</property>
 		<property name="persons">
 			<list>
-				<ref bean="person1"/>
+				<ref bean="person1" />
 			</list>
 		</property>
 		<property name="sagas">
@@ -2565,10 +2538,11 @@
 
 	</bean>
 	<bean id="film3" class="domain.Film">
-		<property name="title" value="El Señor de los Anillos III - El Retorno del Rey"/>
-			
+		<property name="title"
+			value="El Señor de los Anillos III - El Retorno del Rey" />
 
-		<property name="synopsis" value="Synopsis 3"/>
+
+		<property name="synopsis" value="Synopsis 3" />
 		<property name="poster" value="" />
 		<property name="releaseDate" value="08/09/2016 02:12" />
 		<property name="runTime" value="223" />
@@ -2583,7 +2557,7 @@
 		</property>
 		<property name="persons">
 			<list>
-				<ref bean="person1"/>
+				<ref bean="person1" />
 			</list>
 		</property>
 		<property name="sagas">
@@ -2593,11 +2567,11 @@
 		</property>
 
 	</bean>
-		<bean id="film4" class="domain.Film">
-		<property name="title" value="Peli4"/>
-			
+	<bean id="film4" class="domain.Film">
+		<property name="title" value="Peli4" />
 
-		<property name="synopsis" value="Synopsis 4"/>
+
+		<property name="synopsis" value="Synopsis 4" />
 		<property name="poster" value="" />
 		<property name="releaseDate" value="08/09/2016 02:12" />
 		<property name="runTime" value="223" />
@@ -2610,14 +2584,14 @@
 				<ref bean="genre1" />
 				<ref bean="genre2" />
 				<ref bean="genre4" />
-				
+
 			</list>
 		</property>
 		<property name="persons">
 			<list>
-				<ref bean="person1"/>
-					<ref bean="person2"/>
-						<ref bean="person4"/>
+				<ref bean="person1" />
+				<ref bean="person2" />
+				<ref bean="person4" />
 			</list>
 		</property>
 		<property name="sagas">
@@ -2627,12 +2601,12 @@
 		</property>
 
 	</bean>
-	
-			<bean id="film5" class="domain.Film">
-		<property name="title" value="Peli5"/>
-			
 
-		<property name="synopsis" value="Synopsis 5"/>
+	<bean id="film5" class="domain.Film">
+		<property name="title" value="Peli5" />
+
+
+		<property name="synopsis" value="Synopsis 5" />
 		<property name="poster" value="" />
 		<property name="releaseDate" value="08/09/2015 02:12" />
 		<property name="runTime" value="113" />
@@ -2642,16 +2616,16 @@
 		<property name="moderator" ref="moderator2" />
 		<property name="genres">
 			<list>
-				
+
 				<ref bean="genre4" />
-				
+
 			</list>
 		</property>
 		<property name="persons">
 			<list>
-				<ref bean="person3"/>
-				
-						<ref bean="person4"/>
+				<ref bean="person3" />
+
+				<ref bean="person4" />
 			</list>
 		</property>
 		<property name="sagas">
@@ -2661,8 +2635,8 @@
 		</property>
 
 	</bean>
-	
-	
+
+
 
 	<!-- **************************** VISUALIZATION **************************** -->
 
@@ -2672,19 +2646,19 @@
 		<property name="price" value="12.2" />
 		<property name="film" ref="film1" />
 	</bean>
-		<bean id="visualization2" class="domain.Visualization">
+	<bean id="visualization2" class="domain.Visualization">
 		<property name="siteName" value="Alcores" />
 		<property name="link" value="http://www.cineAlcores.com" />
 		<property name="price" value="9.2" />
 		<property name="film" ref="film2" />
 	</bean>
-		<bean id="visualization3" class="domain.Visualization">
+	<bean id="visualization3" class="domain.Visualization">
 		<property name="siteName" value="Cartagena" />
 		<property name="link" value="http://www.amazonvideo.com" />
 		<property name="price" value="10.2" />
 		<property name="film" ref="film2" />
 	</bean>
-		<bean id="visualization4" class="domain.Visualization">
+	<bean id="visualization4" class="domain.Visualization">
 		<property name="siteName" value="Carmona" />
 		<property name="link" value="http://www.carmona.com" />
 		<property name="price" value="12.2" />
@@ -2711,7 +2685,7 @@
 		<property name="moderator" ref="moderator1" />
 
 	</bean>
-		<bean id="forum2" class="domain.Forum">
+	<bean id="forum2" class="domain.Forum">
 		<property name="name" value="Fantastic Forum" />
 		<property name="description" value="Forum to talk about Captain Fantastic" />
 		<property name="creationDate" value="12/12/2017 12:12" />
@@ -2725,13 +2699,13 @@
 		</property>
 		<property name="sagaAbout">
 			<ref bean="saga1" />
-			
+
 		</property>
 		<property name="filmAbout" ref="film5" />
 		<property name="moderator" ref="moderator2" />
 
 	</bean>
-		<bean id="forum3" class="domain.Forum">
+	<bean id="forum3" class="domain.Forum">
 		<property name="name" value="Fantastic Forum" />
 		<property name="description" value="Forum to talk about Captain Fantastic" />
 		<property name="creationDate" value="12/12/2017 12:12" />
@@ -2749,7 +2723,7 @@
 		<property name="moderator" ref="moderator3" />
 
 	</bean>
-		<bean id="forum4" class="domain.Forum">
+	<bean id="forum4" class="domain.Forum">
 		<property name="name" value="Fantastic Forum" />
 		<property name="description" value="Forum to talk about Captain Fantastic" />
 		<property name="creationDate" value="12/12/2017 12:12" />
@@ -2777,12 +2751,12 @@
 		<property name="film" ref="film1" />
 		<property name="forum" ref="forum1" />
 		<property name="filmEnthusiast" ref="filmEnthusiast1" />
-		
-		
+
+
 
 
 	</bean>
-	
+
 	<bean id="comment9" class="domain.Comment">
 		<property name="publishedMoment" value="12/12/2017 12:12" />
 		<property name="body" value="Great job by Matt Ross as director." />
@@ -2790,12 +2764,12 @@
 		<property name="film" ref="film4" />
 		<property name="forum" ref="forum3" />
 		<property name="filmEnthusiast" ref="filmEnthusiast2" />
-		
-		
+
+
 
 
 	</bean>
-	
+
 	<bean id="comment10" class="domain.Comment">
 		<property name="publishedMoment" value="12/12/2017 12:12" />
 		<property name="body" value="Great job by Matt Ross as director." />
@@ -2803,53 +2777,53 @@
 		<property name="film" ref="film4" />
 		<property name="forum" ref="forum2" />
 		<property name="filmEnthusiast" ref="filmEnthusiast3" />
-		
-		
+
+
 
 
 	</bean>
-		<bean id="comment2" class="domain.Comment">
+	<bean id="comment2" class="domain.Comment">
 		<property name="publishedMoment" value="12/12/2017 12:12" />
 		<property name="body" value="Great job by Matt Ross as director." />
 		<property name="rating" value="8.9" />
 		<property name="film" ref="film1" />
 		<property name="forum" ref="forum1" />
 		<property name="filmEnthusiast" ref="filmEnthusiast1" />
-		
+
 
 
 	</bean>
-		<bean id="comment3" class="domain.Comment">
+	<bean id="comment3" class="domain.Comment">
 		<property name="publishedMoment" value="12/12/2017 12:12" />
 		<property name="body" value="Great job by Matt Ross as director." />
 		<property name="rating" value="8.9" />
 		<property name="film" ref="film1" />
 		<property name="forum" ref="forum1" />
 		<property name="filmEnthusiast" ref="filmEnthusiast1" />
-		
+
 
 
 	</bean>
 
-		<bean id="comment4" class="domain.Comment">
+	<bean id="comment4" class="domain.Comment">
 		<property name="publishedMoment" value="12/12/2017 12:12" />
 		<property name="body" value="Great job by Matt Ross as director." />
 		<property name="rating" value="7.9" />
 		<property name="film" ref="film2" />
 		<property name="forum" ref="forum1" />
 		<property name="filmEnthusiast" ref="filmEnthusiast1" />
-		
+
 
 
 	</bean>
-		<bean id="comment5" class="domain.Comment">
+	<bean id="comment5" class="domain.Comment">
 		<property name="publishedMoment" value="12/12/2017 12:12" />
 		<property name="body" value="Great job by Matt Ross as director." />
 		<property name="rating" value="5.9" />
 		<property name="film" ref="film2" />
 		<property name="forum" ref="forum1" />
 		<property name="filmEnthusiast" ref="filmEnthusiast1" />
-		
+
 
 
 	</bean>
@@ -2869,7 +2843,7 @@
 
 
 	</bean>
-		<bean id="review2" class="domain.Review">
+	<bean id="review2" class="domain.Review">
 		<property name="title" value="Nice film" />
 		<property name="body" value="spectacular execution by everyone" />
 		<property name="rating" value="8.7" />
@@ -2883,7 +2857,7 @@
 
 
 	</bean>
-		<bean id="review3" class="domain.Review">
+	<bean id="review3" class="domain.Review">
 		<property name="title" value="Nice film" />
 		<property name="body" value="spectacular execution by everyone" />
 		<property name="rating" value="8.7" />
@@ -2897,8 +2871,8 @@
 
 
 	</bean>
-		
-		<bean id="review4" class="domain.Review">
+
+	<bean id="review4" class="domain.Review">
 		<property name="title" value="Regulera" />
 		<property name="body" value="spectacular execution by everyone" />
 		<property name="rating" value="0.7" />
@@ -2912,8 +2886,8 @@
 
 
 	</bean>
-	
-		<bean id="review5" class="domain.Review">
+
+	<bean id="review5" class="domain.Review">
 		<property name="title" value="Nice film" />
 		<property name="body" value="spectacular execution by everyone" />
 		<property name="rating" value="8.7" />
@@ -2927,8 +2901,8 @@
 
 
 	</bean>
-		
-		<bean id="review6" class="domain.Review">
+
+	<bean id="review6" class="domain.Review">
 		<property name="title" value="Nice film" />
 		<property name="body" value="spectacular execution by everyone" />
 		<property name="rating" value="8.7" />
@@ -2942,7 +2916,7 @@
 
 
 	</bean>
-			<bean id="review7" class="domain.Review">
+	<bean id="review7" class="domain.Review">
 		<property name="title" value="Nice film" />
 		<property name="body" value="spectacular execution by everyone" />
 		<property name="rating" value="8.7" />
@@ -2956,7 +2930,7 @@
 
 
 	</bean>
-	
+
 
 	<!-- **************************** EVENT **************************** -->
 
@@ -2971,7 +2945,7 @@
 		<property name="maximumCapacity" value="50" />
 		<property name="attenders">
 			<list>
-			
+
 				<ref bean="filmEnthusiast3" />
 				<ref bean="filmEnthusiast2" />
 			</list>
@@ -3021,7 +2995,7 @@
 		<property name="maximumCapacity" value="50" />
 		<property name="attenders">
 			<list>
-				
+
 			</list>
 		</property>
 		<property name="forum" ref="forum3" />
@@ -3037,7 +3011,7 @@
 		<property name="expirationYear" value="22" />
 		<property name="CVV" value="177" />
 	</bean>
-		<bean id="creditCard2" class="domain.CreditCard">
+	<bean id="creditCard2" class="domain.CreditCard">
 		<property name="holder" value="José Gamiz Redondo" />
 		<property name="make" value="VISA" />
 		<property name="number" value="4764042457713154" />
@@ -3045,8 +3019,8 @@
 		<property name="expirationYear" value="22" />
 		<property name="CVV" value="177" />
 	</bean>
-	
-		<bean id="creditCard3" class="domain.CreditCard">
+
+	<bean id="creditCard3" class="domain.CreditCard">
 		<property name="holder" value="José Gamiz Redondo" />
 		<property name="make" value="VISA" />
 		<property name="number" value="4764042457713154" />
@@ -3054,8 +3028,8 @@
 		<property name="expirationYear" value="22" />
 		<property name="CVV" value="177" />
 	</bean>
-	
-		<bean id="creditCard4" class="domain.CreditCard">
+
+	<bean id="creditCard4" class="domain.CreditCard">
 		<property name="holder" value="José Gamiz Redondo" />
 		<property name="make" value="VISA" />
 		<property name="number" value="4764042457713154" />
@@ -3063,7 +3037,7 @@
 		<property name="expirationYear" value="22" />
 		<property name="CVV" value="177" />
 	</bean>
-	
+
 
 
 	<!-- **************************** SPONSORSHIP **************************** -->
@@ -3075,12 +3049,12 @@
 		<property name="targetPage" value="https://www.sponsorship1.com" />
 		<property name="isActive" value="true" />
 		<property name="sponsor" ref="sponsor1" />
-		
+
 		<property name="creditCard" ref="creditCard1" />
 		<property name="films">
 			<list>
-				<ref bean="film2"/>
-				<ref bean="film3"/>
+				<ref bean="film2" />
+				<ref bean="film3" />
 			</list>
 		</property>
 
@@ -3092,12 +3066,12 @@
 		<property name="targetPage" value="https://www.sponsorship1.com" />
 		<property name="isActive" value="true" />
 		<property name="sponsor" ref="sponsor1" />
-		
+
 		<property name="creditCard" ref="creditCard2" />
 		<property name="films">
 			<list>
-				<ref bean="film2"/>
-				<ref bean="film3"/>
+				<ref bean="film2" />
+				<ref bean="film3" />
 			</list>
 		</property>
 
@@ -3110,12 +3084,12 @@
 		<property name="targetPage" value="https://www.sponsorship1.com" />
 		<property name="isActive" value="true" />
 		<property name="sponsor" ref="sponsor1" />
-		
+
 		<property name="creditCard" ref="creditCard3" />
 		<property name="films">
 			<list>
-				<ref bean="film1"/>
-				<ref bean="film2"/>
+				<ref bean="film1" />
+				<ref bean="film2" />
 			</list>
 		</property>
 
@@ -3128,12 +3102,12 @@
 		<property name="targetPage" value="https://www.sponsorship1.com" />
 		<property name="isActive" value="true" />
 		<property name="sponsor" ref="sponsor1" />
-		
+
 		<property name="creditCard" ref="creditCard4" />
 		<property name="films">
 			<list>
-				<ref bean="film1"/>
-				<ref bean="film2"/>
+				<ref bean="film1" />
+				<ref bean="film2" />
 			</list>
 		</property>
 

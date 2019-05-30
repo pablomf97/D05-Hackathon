@@ -28,8 +28,6 @@ public class Actor extends DomainEntity {
 
 	private String name;
 	private String surname;
-	private String nickName;
-	private String VAT;
 	private String photo;
 	private String email;
 	private String phoneNumber;
@@ -59,15 +57,6 @@ public class Actor extends DomainEntity {
 		this.surname = surname;
 	}
 
-	@NotBlank
-	public String getVAT() {
-		return VAT;
-	}
-
-	public void setVAT(String VAT) {
-		this.VAT = VAT;
-	}
-
 	@URL
 	public String getPhoto() {
 		return photo;
@@ -94,21 +83,13 @@ public class Actor extends DomainEntity {
 		this.phoneNumber = phoneNumber;
 	}
 
-	@Length(max=255)
+	@Length(max = 255)
 	public String getAddress() {
 		return address;
 	}
 
 	public void setAddress(String address) {
 		this.address = address;
-	}
-
-	public String getNickName() {
-		return nickName;
-	}
-
-	public void setNickName(String nickName) {
-		this.nickName = nickName;
 	}
 
 	@NotNull
@@ -121,8 +102,6 @@ public class Actor extends DomainEntity {
 	public void setUserAccount(UserAccount userAccount) {
 		this.userAccount = userAccount;
 	}
-	
-	
 
 	public boolean getIsSpammer() {
 		return isSpammer;
@@ -131,7 +110,7 @@ public class Actor extends DomainEntity {
 	public void setIsSpammer(boolean isSpammer) {
 		this.isSpammer = isSpammer;
 	}
-	
+
 	@Valid
 	@OneToMany
 	public Collection<SocialProfile> getSocialProfile() {
@@ -141,8 +120,7 @@ public class Actor extends DomainEntity {
 	public void setSocialProfile(Collection<SocialProfile> socialProfiles) {
 		this.socialProfiles = socialProfiles;
 	}
-	
-	
+
 	@Valid
 	@OneToMany
 	public Collection<MessageBox> getMessageBoxes() {
@@ -157,13 +135,10 @@ public class Actor extends DomainEntity {
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
-		result = prime * result + ((VAT == null) ? 0 : VAT.hashCode());
 		result = prime * result + ((address == null) ? 0 : address.hashCode());
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
 		result = prime * result + (isSpammer ? 1231 : 1237);
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result
-				+ ((nickName == null) ? 0 : nickName.hashCode());
 		result = prime * result
 				+ ((phoneNumber == null) ? 0 : phoneNumber.hashCode());
 		result = prime * result + ((photo == null) ? 0 : photo.hashCode());
@@ -184,11 +159,6 @@ public class Actor extends DomainEntity {
 		if (getClass() != obj.getClass())
 			return false;
 		Actor other = (Actor) obj;
-		if (VAT == null) {
-			if (other.VAT != null)
-				return false;
-		} else if (!VAT.equals(other.VAT))
-			return false;
 		if (address == null) {
 			if (other.address != null)
 				return false;
@@ -205,11 +175,6 @@ public class Actor extends DomainEntity {
 			if (other.name != null)
 				return false;
 		} else if (!name.equals(other.name))
-			return false;
-		if (nickName == null) {
-			if (other.nickName != null)
-				return false;
-		} else if (!nickName.equals(other.nickName))
 			return false;
 		if (phoneNumber == null) {
 			if (other.phoneNumber != null)
@@ -241,16 +206,11 @@ public class Actor extends DomainEntity {
 
 	@Override
 	public String toString() {
-		return "Actor [name=" + name + ", surname=" + surname + ", nickName="
-				+ nickName + ", VAT=" + VAT + ", photo=" + photo + ", email="
-				+ email + ", phoneNumber=" + phoneNumber + ", address="
-				+ address + ", userAccount=" + userAccount + ", isSpammer="
-				+ isSpammer + ", socialProfile=" + socialProfiles + "]";
+		return "Actor [name=" + name + ", surname=" + surname + ", photo="
+				+ photo + ", email=" + email + ", phoneNumber=" + phoneNumber
+				+ ", address=" + address + ", userAccount=" + userAccount
+				+ ", isSpammer=" + isSpammer + ", socialProfile="
+				+ socialProfiles + "]";
 	}
-
-	
-	
-
-	
 
 }

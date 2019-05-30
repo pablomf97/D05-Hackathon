@@ -11,11 +11,9 @@ import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
-import domain.Actor;
-import domain.Critic;
-import domain.Review;
-
 import repositories.ReviewRepository;
+import domain.Actor;
+import domain.Review;
 
 @Transactional
 @Service

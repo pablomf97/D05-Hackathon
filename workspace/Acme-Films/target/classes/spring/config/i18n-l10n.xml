@@ -27,7 +27,13 @@
 		<value>/views/welcome/messages</value>
 		<value>/views/terms/messages</value>
 		<value>/views/administrator/messages</value>
-		
+
+		<value>/views/moderator/messages</value>
+		<value>/views/sponsor/messages</value>
+		<value>/views/filmenthusiast/messages</value>
+		<value>/views/critic/messages</value>
+		<value>/views/system-configuration/messages</value>
+		<value>/views/socialprofile/messages</value>
 	</util:list>
 
 </beans>

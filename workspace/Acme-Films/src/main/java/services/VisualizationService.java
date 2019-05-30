@@ -117,12 +117,5 @@ public class VisualizationService {
 		return result;
 	}
 	
-	public Collection<Visualization> visualizationsPerFilm(int filmId) {
-		Collection<Visualization> res = new ArrayList<>();
-		
-		res = this.visualizationRepository.visualizationsPerFilm(filmId);
-		
-		return res;
-	}
 }
 

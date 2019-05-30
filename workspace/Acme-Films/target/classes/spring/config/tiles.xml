@@ -12,7 +12,6 @@
 	">
 
 	<util:list id="tiles">
-	
 		<value>/views/genre/tiles.xml</value> 
 		<value>/views/saga/tiles.xml</value> 
 		<value>/views/position/tiles.xml</value> 
@@ -28,6 +27,12 @@
 		<value>/views/finder/tiles.xml</value>
 		<value>/views/administrator/tiles.xml</value>
 
+		<value>/views/moderator/tiles.xml</value>
+		<value>/views/sponsor/tiles.xml</value>
+		<value>/views/filmenthusiast/tiles.xml</value>
+		<value>/views/critic/tiles.xml</value>
+		<value>/views/system-configuration/tiles.xml</value>
+		<value>/views/socialprofile/tiles.xml</value>
 	</util:list>
 
 </beans>

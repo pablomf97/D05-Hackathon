@@ -27,7 +27,7 @@
 	
 	<tr>
 		<td><strong> <spring:message code="film.runTime" /> : </strong></td>
-		<td><jstl:out value="${film.runTime}"></jstl:out><strong> min</strong></td>
+		<td><jstl:out value="${film.runTime}"></jstl:out>min</td>
 	</tr>
 	
 	<tr>
@@ -46,15 +46,15 @@
 	</tr>
 </table>
 	
-<h1><spring:message code="saga.persons" /></h1>
+<h1><spring:message code="film.saga.persons" /></h1>
 <display:table class="displaytag" name="persons" pagesize="5" 
 		requestURI="film/display.do" id="person">
 
-	<display:column titleKey="person.name" sortable="true">
+	<display:column titleKey="film.person.name" sortable="true">
 		<jstl:out value="${person.name}" />
 	</display:column>
 	
-	<display:column titleKey="person.surname" sortable="true">
+	<display:column titleKey="film.person.surname" sortable="true">
 		<jstl:out value="${person.surname}" />
 	</display:column>
 	
@@ -65,11 +65,11 @@
 	</display:column>
 </display:table>
 
-<h1><spring:message code="saga.sagas" /></h1>
+<h1><spring:message code="film.saga.sagas" /></h1>
 <display:table class="displaytag" name="sagas" pagesize="5" 
 		requestURI="film/display.do" id="saga">
 
-	<display:column titleKey="saga.title" sortable="true">
+	<display:column titleKey="film.saga.title" sortable="true">
 		<jstl:out value="${saga.title}" />
 	</display:column>
 	

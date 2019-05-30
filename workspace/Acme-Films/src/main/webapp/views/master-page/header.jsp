@@ -35,55 +35,14 @@
 					<li class="arrow"></li>
 					<li><a href="administrator/administrator/register.do"><spring:message
 								code="master.page.register.admin" /></a></li>
-								
 					<li><a href="administrator/statistics.do"><spring:message
 								code="master.page.dashboard" /></a></li>
+
 				</ul></li>
 
 		</security:authorize>
 
-		<security:authorize access="isAnonymous()">
 
-			<!-- Sign up -->
-			<li><a class="fNiv"><spring:message
-						code="master.page.singup" /></a>
-				<ul>
-					<li class="arrow"></li>
-					<li><a href="company/company/register.do"><spring:message
-								code="master.page.register.company" /></a></li>
-					<li><a href="rookie/rookie/register.do"><spring:message
-								code="master.page.register.rookie" /></a></li>
-					<li><a href="provider/provider/register.do"><spring:message
-								code="master.page.register.provider" /></a></li>
-				</ul></li>
-
-		</security:authorize>
-		<li><a class="fNiv"><spring:message
-					code="master.page.position" /></a>
-			<ul>
-				<security:authorize access="!hasRole('ROOKIE')">
-					<li class="arrow"></li>
-					<li><a href="position/listAll.do"><spring:message
-								code="master.page.position.list.all" /></a></li>
-					<li><a href="finder/anon/search.do"><spring:message
-								code="master.page.finder" /></a></li>
-				</security:authorize>
-				<security:authorize access="hasRole('ROOKIE')">
-					<li class="arrow"></li>
-					<li><a href="position/listAll.do"><spring:message
-								code="master.page.position.list.all" /></a></li>
-
-				</security:authorize>
-				<security:authorize access="hasRole('COMPANY')">
-					<li><a href="position/list.do"><spring:message
-								code="master.page.position.mylist" /></a></li>
-
-
-					<li><a href="position/create.do"><spring:message
-								code="master.page.position.edit" /></a></li>
-				</security:authorize>
-
-			</ul></li>
 		<security:authorize access="isAuthenticated()">
 
 			<li><a class="fNiv"><spring:message
@@ -102,84 +61,23 @@
 								code="master.page.saga.list" /></a></li>
 				</ul></li>
 		</security:authorize>
-		
-		
-		
-		<security:authorize access="hasRole('AUDITOR')">
-			<li><a class="fNiv"><spring:message code="master.page.audit" /></a>
-				<ul>
-					<li class="arrow"></li>
-					<li><a href="audit/list.do"><spring:message
-								code="master.page.audit.list" /></a></li>
-				</ul></li>
-		</security:authorize>
-
-		<security:authorize access="!hasRole('PROVIDER')">
-
-			<li><a href="item/listAll.do"><spring:message
-						code="master.page.items" /></a></li>
-
-		</security:authorize>
-
-		<security:authorize access="hasRole('PROVIDER')">
-
-			<li><a class="fNiv" href="sponsorship/list.do"><spring:message
-						code="master.page.sponsorship" /></a></li>
-
-			<li><a class="fNiv"><spring:message code="master.page.items" /></a>
-				<ul>
-					<li class="arrow"></li>
-					<li><a href="item/list.do"><spring:message
-								code="master.page.item.list" /></a></li>
-					<li><a href="item/create.do"><spring:message
-								code="master.page.item.create" /></a></li>
-				</ul></li>
-
-
-		</security:authorize>
-
-
-		<li><a class="fNiv" href="company/list.do"><spring:message
-					code="master.page.company.list" /></a></li>
-
-		<li><a class="fNiv" href="provider/list.do"><spring:message
-					code="master.page.provider.list" /></a></li>
 
 		<security:authorize access="isAnonymous()">
+			<!-- Sign up -->
+			<li><a class="fNiv"><spring:message
+						code="master.page.singup" /></a>
+				<ul>
+					<li class="arrow"></li>
+					<li><a href="sponsor/register.do"><spring:message
+								code="master.page.register.sponsor" /></a></li>
+					<li><a href="filmEnthusiast/register.do"><spring:message
+								code="master.page.register.filme" /></a></li>
+					<li><a href="critic/register.do"><spring:message
+								code="master.page.register.critic" /></a></li>
+				</ul></li>
+
 			<li><a class="fNiv" href="security/login.do"><spring:message
 						code="master.page.login" /></a></li>
-		</security:authorize>
-		<security:authorize access="hasRole('ROOKIE')">
-			<li><a class="fNiv"><spring:message
-						code="master.page.applications" /></a>
-				<ul>
-					<li class="arrow"></li>
-					<li><a href="application/listRookie.do"><spring:message
-								code="master.page.rookie.applications" /></a></li>
-					<li><a href="position/rookie/listAll.do"><spring:message
-								code="master.page.position.list" /></a></li>
-				</ul></li>
-
-			<li><a class="fNiv"><spring:message
-						code="master.page.curricula" /></a>
-				<ul>
-					<li class="arrow"></li>
-					<li><a href="curricula/rookie/list.do"><spring:message
-								code="master.page.curricula.list" /></a></li>
-					<li><a href="curricula/rookie/create.do"><spring:message
-								code="master.page.curricula.create" /></a></li>
-				</ul>
-		</security:authorize>
-
-		<security:authorize access="hasRole('COMPANY')">
-			<li><a class="fNiv"><spring:message
-						code="master.page.applications" /></a>
-				<ul>
-					<li class="arrow"></li>
-					<li><a href="application/listCompany.do"><spring:message
-								code="master.page.company.applications" /></a></li>
-				</ul></li>
-
 		</security:authorize>
 
 		<security:authorize access="isAuthenticated()">
@@ -204,48 +102,40 @@
 									code="master.page.actor.edit" /></a></li>
 
 					</security:authorize>
-					<security:authorize access="hasRole('COMPANY')">
-						<li><a href="company/display.do"><spring:message
+
+					<security:authorize access="hasRole('MODERATOR')">
+						<li><a href="moderator/display.do"><spring:message
 									code="actor.view" /></a></li>
-						<li><a href="company/export.do"><spring:message
-									code="export" /></a></li>
-						<li><a href="company/company/edit.do"><spring:message
+						<li><a href="moderator/moderator/edit.do"><spring:message
 									code="master.page.actor.edit" /></a></li>
 					</security:authorize>
 
-
+					<security:authorize access="hasRole('SPONSOR')">
+						<li><a href="sponsor/display.do"><spring:message
+									code="actor.view" /></a></li>
+						<li><a href="sponsor/sponsor/edit.do"><spring:message
+									code="master.page.actor.edit" /></a></li>
+					</security:authorize>
 
 					<security:authorize access="hasRole('FILMENTHUSIAST')">
 						<li><a href="finder/filmEnthusiast/search.do"><spring:message
 									code="master.page.finder" /></a></li>
-						<li><a href="rookie/export.do"><spring:message
-									code="export" /></a></li>
-						<li><a href="rookie/display.do"><spring:message
+						<li><a href="filmEnthusiast/display.do"><spring:message
 									code="actor.view" /></a></li>
-						<li><a href="rookie/rookie/edit.do"><spring:message
+						<li><a href="filmEnthusiast/filmEnthusiast/edit.do"><spring:message
 									code="master.page.actor.edit" /></a></li>
 					</security:authorize>
 
-					<security:authorize access="hasRole('PROVIDER')">
-						<li><a href="provider/export.do"><spring:message
-									code="export" /></a></li>
-						<li><a href="provider/display.do"><spring:message
+					<security:authorize access="hasRole('CRITIC')">
+						<li><a href="critic/display.do"><spring:message
 									code="actor.view" /></a></li>
-						<li><a href="provider/provider/edit.do"><spring:message
-									code="master.page.actor.edit" /></a></li>
-					</security:authorize>
-
-					<security:authorize access="hasRole('AUDITOR')">
-						<li><a href="auditor/export.do"><spring:message
-									code="export" /></a></li>
-						<li><a href="auditor/display.do"><spring:message
-									code="actor.view" /></a></li>
-						<li><a href="auditor/auditor/edit.do"><spring:message
+						<li><a href="critic/critic/edit.do"><spring:message
 									code="master.page.actor.edit" /></a></li>
 					</security:authorize>
 
 					<li><a href="j_spring_security_logout"><spring:message
 								code="master.page.logout" /> </a></li>
+				</ul>
 		</security:authorize>
 
 	</ul>
@@ -255,12 +145,11 @@
 <div style="float: right;">
 
 	<a href="?language=en"><img style="width: 20px; height: 15px"
-		src="https://upload.wikimedia.org/wikipedia/en/thumb/a/ae/Flag_of_the_United_Kingdom.svg/1280px-Flag_of_the_United_Kingdom.svg.png" alt="EN"></a> <span>|</span>
-
-	<a href="?language=es"><img style="width: 20px; height: 15px;"
-		src="http://www.ahb.es/m/100150RES.jpg"
-		alt="ES"></a>
-
+		src="https://upload.wikimedia.org/wikipedia/en/thumb/a/ae/Flag_of_the_United_Kingdom.svg/1280px-Flag_of_the_United_Kingdom.svg.png"
+		alt="EN"></a> <span>|</span> <a href="?language=es"><img
+		style="width: 20px; height: 15px;"
+		src="http://www.ahb.es/m/100150RES.jpg" alt="ES"></a>
+</div>
 
 <security:authorize access="isAuthenticated()">
 	<jstl:if
@@ -281,9 +170,5 @@
 				</jstl:out>
 			</strong>
 		</h2>
-	</jstl:if>
-	<jstl:if test="${AlreadyRebranded==true }">
-
-		<spring:message code="rebrand" />
 	</jstl:if>
 </security:authorize>
