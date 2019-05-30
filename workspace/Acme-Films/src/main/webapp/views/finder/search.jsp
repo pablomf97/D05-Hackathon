@@ -36,12 +36,6 @@
 		<br />
 		<br />
 
-		<form:label path="maximumDuration">
-			<spring:message code="finder.maximumDuration" />:
-		</form:label>
-		<form:input path="maximumDuration"  />
-		<form:errors cssClass="error" path="maximumDuration" />
-
 
 
 		<form:label path="minimumRating">
@@ -49,8 +43,7 @@
 		</form:label>
 		<form:input path="minimumRating"  />
 		<form:errors cssClass="error" path="minimumRating" />
-		<br />
-		<br />
+
 
 		<form:label path="maximumRating">
 			<spring:message code="finder.maximumRating" />:
@@ -59,7 +52,16 @@
 		<form:errors cssClass="error" path="maximumRating" />
 		<br />
 		<br />
-
+		
+		
+				<form:label path="maximumDuration">
+			<spring:message code="finder.maximumDuration" />:
+		</form:label>
+		<form:input path="maximumDuration"  />
+		<form:errors cssClass="error" path="maximumDuration" />
+<br/>
+<br/>
+		
 		<input type="submit" name="save" id="save"
 			value="<spring:message code="finder.showResults" />" />
 		
@@ -76,20 +78,21 @@
 			requestURI="${requestURI}" pagesize="10" class="displaytag">
 
 			<!-- Attributes-->
-
+			
+			<display:column titleKey="film.title" sortable="true">
+				<jstl:out value="${row.title}" />
+			</display:column>
 			<display:column titleKey="film.rating" sortable="true">
 				<jstl:out value="${row.rating}" />
 			</display:column>
 	
-			<display:column titleKey="film.ticker" sortable="true">
-				<jstl:out value="${row.ticker}" />
+			<display:column titleKey="film.synopsis" sortable="true">
+				<jstl:out value="${row.synopsis}" />
 			</display:column>
 			<display:column titleKey="film.runTime" sortable="true">
 				<jstl:out value="${row.runTime}" />
 			</display:column>
-			<display:column titleKey="film.releaseDate" sortable="true">
-				<jstl:out value="${row.releaseDate}" />
-			</display:column>
+			
 
 			<!-- Action links -->
 

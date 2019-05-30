@@ -20,14 +20,14 @@ public class Finder extends DomainEntity{
 	
 	//Attributes
 	private String keyWord;
-	private Double maximumDuration;
+	private Integer maximumDuration;
 	private Double minimumRating;
 	private Double maximumRating;
 	private Date searchMoment;
 	private Collection<Film> results;
 	
 	//Getters and setters
-	@Length(max = 100)
+	@Length(max = 100 , message = "keyword too long")
 	public String getKeyWord() {
 		return keyWord;
 	}
@@ -35,15 +35,13 @@ public class Finder extends DomainEntity{
 		this.keyWord = keyWord;
 	}
 	@Min(value = 0L, message = "The value must be positive")
-	@Max(value = 10000L, message = "The value must be positive")
-	public Double getMaximumDuration() {
+	public Integer getMaximumDuration() {
 		return maximumDuration;
 	}
-	public void setMaximumDuration(Double maximumDuration) {
+	public void setMaximumDuration(Integer maximumDuration) {
 		this.maximumDuration = maximumDuration;
 	}
 	@Min(value = 0L, message = "The value must be positive")
-	@Max(value = 10L, message = "The value must be positive")
 	public Double getMinimumRating() {
 		return minimumRating;
 	}
@@ -51,7 +49,6 @@ public class Finder extends DomainEntity{
 		this.minimumRating = minimumRating;
 	}
 	@Min(value = 0L, message = "The value must be positive")
-	@Max(value = 0L, message = "The value must be positive")
 	public Double getMaximumRating() {
 		return maximumRating;
 	}
