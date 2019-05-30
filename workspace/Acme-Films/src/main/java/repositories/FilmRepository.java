@@ -1,10 +1,8 @@
 package repositories;
 
-import java.util.Collection;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import org.springframework.data.jpa.repository.Query;
+
 import domain.Film;
 
 @Repository
@@ -29,4 +27,5 @@ public interface FilmRepository extends JpaRepository<Film, Integer>{
 	
 	@Query("select f from Film f join f.sagas s where s.id = ?1")
 	Collection<Film> filmsOfSaga(int sagaId);
+
 }

@@ -1,3 +1,4 @@
+
 package domain;
 
 import java.util.Collection;
@@ -19,113 +20,109 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Access(AccessType.PROPERTY)
-public class Forum extends DomainEntity{
-	
+public class Forum extends DomainEntity {
+
 	//Attributes
-	
-	private String name;
-	private String description;
-	private Date creationDate;
-	private String rejectReason;
-	private boolean isActive;
-	private FilmEnthusiast creator;
-	private Collection<FilmEnthusiast> groupMembers;
-	private Saga sagaAbout;
-	private Film filmAbout;
-	private Moderator moderator;
-	
+
+	private String						name;
+	private String						description;
+	private Date						creationDate;
+	private String						rejectReason;
+	private boolean						isActive;
+	private FilmEnthusiast				creator;
+	private Collection<FilmEnthusiast>	groupMembers;
+	private Saga						sagaAbout;
+	private Film						filmAbout;
+	private Moderator					moderator;
+
+
 	//Getters and Setters
-	
+
 	@NotBlank
 	public String getName() {
-		return name;
+		return this.name;
 	}
-	public void setName(String name) {
+	public void setName(final String name) {
 		this.name = name;
 	}
-	
+
 	@NotBlank
 	public String getDescription() {
-		return description;
+		return this.description;
 	}
-	public void setDescription(String description) {
+	public void setDescription(final String description) {
 		this.description = description;
 	}
-	
+
 	@NotNull
 	@Past
 	@Temporal(TemporalType.TIMESTAMP)
 	@DateTimeFormat(pattern = "dd/MM/yyyy HH:mm")
 	public Date getCreationDate() {
-		return creationDate;
+		return this.creationDate;
 	}
-	public void setCreationDate(Date creationDate) {
+	public void setCreationDate(final Date creationDate) {
 		this.creationDate = creationDate;
 	}
-	
+
 	public String getRejectReason() {
-		return rejectReason;
+		return this.rejectReason;
 	}
-	public void setRejectReason(String rejectReason) {
+	public void setRejectReason(final String rejectReason) {
 		this.rejectReason = rejectReason;
 	}
 	public boolean getIsActive() {
-		return isActive;
+		return this.isActive;
 	}
-	public void setIsActive(boolean isActive) {
+	public void setIsActive(final boolean isActive) {
 		this.isActive = isActive;
 	}
-	
+
 	@Valid
 	@NotNull
 	@ManyToOne(optional = false)
 	public FilmEnthusiast getCreator() {
-		return creator;
+		return this.creator;
 	}
-	public void setCreator(FilmEnthusiast creator) {
+	public void setCreator(final FilmEnthusiast creator) {
 		this.creator = creator;
 	}
-	
+
 	@Valid
 	@NotNull
 	@ManyToMany
 	public Collection<FilmEnthusiast> getGroupMembers() {
-		return groupMembers;
+		return this.groupMembers;
 	}
-	public void setGroupMembers(Collection<FilmEnthusiast> groupMembers) {
+	public void setGroupMembers(final Collection<FilmEnthusiast> groupMembers) {
 		this.groupMembers = groupMembers;
 	}
-	
+
 	@Valid
 	@ManyToOne(optional = true)
 	public Saga getSagaAbout() {
-		return sagaAbout;
+		return this.sagaAbout;
 	}
-	public void setSagaAbout(Saga sagaAbout) {
+	public void setSagaAbout(final Saga sagaAbout) {
 		this.sagaAbout = sagaAbout;
 	}
-	
+
 	@Valid
 	@ManyToOne(optional = true)
 	public Film getFilmAbout() {
-		return filmAbout;
+		return this.filmAbout;
 	}
-	public void setFilmAbout(Film filmAbout) {
+	public void setFilmAbout(final Film filmAbout) {
 		this.filmAbout = filmAbout;
 	}
-	
+
 	@Valid
-	@NotNull
 	@ManyToOne(optional = false)
 	public Moderator getModerator() {
-		return moderator;
+		return this.moderator;
 	}
-	public void setModerator(Moderator moderator) {
+	public void setModerator(final Moderator moderator) {
 		this.moderator = moderator;
 	}
-	
-	
-	
-	
-	
+
 }

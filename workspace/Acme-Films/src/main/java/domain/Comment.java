@@ -27,7 +27,6 @@ public class Comment extends DomainEntity{
 	private Double rating;
 	private Film film;
 	private Forum forum;
-	private FilmEnthusiast filmEnthusiast;
 
 	//Getters and setters
 
@@ -75,18 +74,8 @@ public class Comment extends DomainEntity{
 	public void setForum(Forum forum) {
 		this.forum = forum;
 	}
-	
-	@Valid
-	@NotNull
-	@ManyToOne(optional = false)
-	public FilmEnthusiast getFilmEnthusiast() {
-		return filmEnthusiast;
-	}
-	public void setFilmEnthusiast(FilmEnthusiast filmEnthusiast) {
-		this.filmEnthusiast = filmEnthusiast;
-	}
 
-	
+
 
 
 }
