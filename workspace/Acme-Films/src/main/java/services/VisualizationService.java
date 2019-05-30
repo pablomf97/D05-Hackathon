@@ -1,6 +1,5 @@
 package services;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.transaction.Transactional;
@@ -113,6 +112,14 @@ public class VisualizationService {
 		result.setLink(visualization.getLink());
 
 		this.validator.validate(result, binding);
+		
+		return result;
+	}
+	
+	public Collection<Visualization> visualizationsPerFilm(int filmId) {
+		Collection<Visualization> result;
+		
+		result = this.visualizationRepository.visualizationsPerFilm(filmId);
 		
 		return result;
 	}

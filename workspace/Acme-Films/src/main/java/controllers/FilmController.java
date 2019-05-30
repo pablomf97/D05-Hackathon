@@ -14,8 +14,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import services.ActorService;
 import services.FilmService;
+import services.PersonService;
 import domain.Actor;
 import domain.Film;
+import domain.Person;
+import domain.Saga;
 
 @Controller
 @RequestMapping("/film")
@@ -26,6 +29,9 @@ public class FilmController extends AbstractController {
 
 	@Autowired
 	private FilmService		filmService;
+	
+	@Autowired
+	private PersonService		personService;
 
 	// Display
 
@@ -35,6 +41,8 @@ public class FilmController extends AbstractController {
 		Film film;
 		boolean isPrincipal = false;
 		Actor principal;
+		Collection<Saga> sagas = null;
+		Collection<Person> persons;
 
 		try {
 			film = this.filmService.findOne(filmId);
@@ -42,10 +50,13 @@ public class FilmController extends AbstractController {
 				principal = this.actorService.findByPrincipal();
 				if (this.actorService.checkAuthority(principal, "MODERATOR"))
 					isPrincipal = true;
+				sagas = film.getSagas();
+				
 			} catch (final Throwable oops) {}
 
 			result = new ModelAndView("film/display");
 			result.addObject("film", film);
+			result.addObject("sagas", sagas);
 			result.addObject("isPrincipal", isPrincipal);
 			result.addObject("requestURI", "film/display.do?filmId=" + filmId);
 		} catch (final Throwable oops) {
@@ -64,10 +75,13 @@ public class FilmController extends AbstractController {
 		boolean isPrincipal = false;
 
 		try {
-			principal = this.actorService.findByPrincipal();
-			if (this.actorService.checkAuthority(principal, "MODERATOR"))
-				isPrincipal = true;
-
+			
+			try {
+				principal = this.actorService.findByPrincipal();
+				if (this.actorService.checkAuthority(principal, "MODERATOR"))
+					isPrincipal = true;
+			} catch (Exception e) {}
+			
 			films = this.filmService.findAll();
 
 			result.addObject("films", films);

@@ -27,7 +27,7 @@
 	
 	<tr>
 		<td><strong> <spring:message code="film.runTime" /> : </strong></td>
-		<td><jstl:out value="${film.runTime}"></jstl:out>min</td>
+		<td><jstl:out value="${film.runTime}"></jstl:out> min</td>
 	</tr>
 	
 	<tr>
@@ -47,7 +47,7 @@
 </table>
 	
 <h1><spring:message code="film.saga.persons" /></h1>
-<display:table class="displaytag" name="persons" pagesize="5" 
+<display:table class="displaytag" name="${film.persons}" pagesize="5" 
 		requestURI="film/display.do" id="person">
 
 	<display:column titleKey="film.person.name" sortable="true">
@@ -79,6 +79,10 @@
 		</a>
 	</display:column>
 </display:table>
+
+<p><a href="visualization/list.do?filmId=${film.id}"> <spring:message
+		code="film.visualization.list" />
+</a></p>
 
 
 

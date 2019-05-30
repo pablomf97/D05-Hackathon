@@ -7,7 +7,6 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
-import org.springframework.validation.Validator;
 
 import repositories.SagaRepository;
 import domain.Actor;
@@ -26,9 +25,6 @@ public class SagaService {
 	
 	@Autowired
 	private ActorService actorService;
-	
-	@Autowired
-	private Validator validator;
 	
 	public Saga create() {
 		Actor principal;
@@ -85,6 +81,7 @@ public class SagaService {
 	}
 	
 	// Other business methods -------------------------------
+	
 	
 }
 

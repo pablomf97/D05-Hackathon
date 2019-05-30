@@ -215,6 +215,12 @@ public class FilmService {
 		return result;
 	}
 	
-	
+	public Collection<Film> filmsOfPerson (int personId) {
+		Collection<Film> result;
+		
+		result = this.filmRepository.filmsOfPerson(personId);
+		
+		return result;
+	}
 
 }

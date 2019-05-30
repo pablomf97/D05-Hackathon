@@ -43,7 +43,8 @@ public class GenreService {
 				this.actorService.checkAuthority(principal, "MODERATOR"),
 				"not.allowed");
 		
-		return res = new Genre();
+		res = new Genre();
+		return res;
 	}
 
 	public Genre findOne(final int genreId) {

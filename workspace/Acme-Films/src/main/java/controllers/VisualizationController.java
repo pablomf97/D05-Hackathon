@@ -57,7 +57,7 @@ public class VisualizationController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public ModelAndView list() {
+	public ModelAndView list(@RequestParam final int filmId) {
 		final ModelAndView result = new ModelAndView("visualization/list");
 		Collection<Visualization> visualizations;
 		Actor principal;
@@ -68,7 +68,7 @@ public class VisualizationController extends AbstractController {
 			if (this.actorService.checkAuthority(principal, "MODERATOR"))
 				isPrincipal = true;
 
-			visualizations = this.visualizationService.visualizationsPerFilm(principal.getId());
+			visualizations = this.visualizationService.visualizationsPerFilm(filmId);
 
 			result.addObject("visualizations", visualizations);
 			result.addObject("isPrincipal", isPrincipal);

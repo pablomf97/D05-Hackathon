@@ -9,59 +9,57 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 
-<h1><spring:message	code="visualization.title.list" />
-<jstl:out value="${visualization.film.title}" /></h1>
+<h1><spring:message	code="film.title.list" />
+<jstl:out value="${film.film.title}" /></h1>
 	<jstl:choose>
 		<jstl:when test="${isPrincipal}">
 
-			<display:table class="displaytag" name="visualizations" pagesize="5" 
-				requestURI="visualization/list.do" id="visualization">
+			<display:table class="displaytag" name="films" pagesize="5" 
+				requestURI="film/list.do" id="film">
 
-				<display:column titleKey="visualization.siteName" sortable="true">
-					<jstl:out value="${visualization.siteName}" />
+				<display:column titleKey="film.title" sortable="true">
+					<jstl:out value="${film.title}" />
 				</display:column>
 
-				<display:column titleKey="visualization.price" sortable="true">
-					<jstl:out value="${visualization.price}" />
+				<display:column titleKey="film.releaseDate" sortable="true">
+					<jstl:out value="${film.releaseDate}" />
 				</display:column>
 				
-				<display:column titleKey="visualization.link" sortable="true">
-					<a href="${visualization.link}"> 
-						<spring:message
-							code="visualization.link.goto" />
+				<display:column>
+					<a href="film/display.do?filmId=${film.id}"> <spring:message
+							code="film.display" />
 					</a>
 				</display:column>
 				
 				<display:column>
-					<a href="visualization/edit.do?visualizationId=${visualization.id}"> <spring:message
-							code="visualization.edit" />
+					<a href="film/edit.do?filmId=${film.id}"> <spring:message
+							code="film.edit" />
 					</a>
 				</display:column>
 				
 				<display:column>
-					<a href="visualization/delete.do?visualizationId=${visualization.id}"> <spring:message
-							code="visualization.delete" />
+					<a href="film/delete.do?filmId=${film.id}"> <spring:message
+							code="film.delete" />
 					</a>
 				</display:column>
 				
 			</display:table>
 		</jstl:when>
 		<jstl:otherwise>
-			<display:table class="displaytag" name="visualizations" pagesize="5" 
-				requestURI="visualization/list.do" id="visualization">
+			<display:table class="displaytag" name="films" pagesize="5" 
+				requestURI="film/list.do" id="film">
 
-				<display:column titleKey="visualization.siteName" sortable="true">
-					<jstl:out value="${visualization.siteName}" />
+				<display:column titleKey="film.title" sortable="true">
+					<jstl:out value="${film.title}" />
 				</display:column>
 
-				<display:column titleKey="visualization.price" sortable="true">
-					<jstl:out value="${visualization.price}" />
+				<display:column titleKey="film.releaseDate" sortable="true">
+					<jstl:out value="${film.releaseDate}" />
 				</display:column>
 				
-				<display:column titleKey="visualization.link" sortable="true">
-					<a href="${visualization.link}"> 
-						<spring:message
-							code="visualization.link.goto" />
+				<display:column>
+					<a href="film/display.do?filmId=${film.id}"> <spring:message
+							code="film.display" />
 					</a>
 				</display:column>
 			</display:table>

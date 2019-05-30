@@ -86,8 +86,8 @@ public class PositionService {
 				this.actorService.checkAuthority(principal, "MODERATOR"),
 				"not.allowed");
 		
-		root = this.findRoot();
-		Assert.isTrue(position.getId() != root.getId());
+		//root = this.findRoot();
+		//Assert.isTrue(position.getId() != root.getId());
 		Assert.notNull(position.getParentPosition());
 		Assert.notNull(position.getName());
 		
@@ -126,9 +126,8 @@ public class PositionService {
 		Assert.notNull(position);
 		Assert.isTrue(position.getId() != 0);
 
-		// Comprobamos que no vamos a borrar la categoría ROOT
-		root = this.findRoot();
-		Assert.isTrue(position.getId() != root.getId(), "root.position"); 
+		//TODO: Comprobamos que no vamos a borrar la categoría ROOT
+//		Assert.isTrue(position.getId() != root.getId(), "root.position"); 
 		
 		Assert.isTrue(canBeDeleted, "position.used");
 
@@ -173,21 +172,6 @@ public class PositionService {
 		return res;
 	}
 
-	public Collection<Position> findChildPositions(final int positionId) {
-		Collection<Position> result;
-
-		result = this.positionRepository.findChildPositions(positionId);
-
-		return result;
-	}
-
-	public Position findRoot() {
-		Position result;
-
-		result = this.positionRepository.findRoot();
-
-		return result;
-	}
 
 	private void newChild(final Position position, final Position child) {
 		Collection<Position> childPositions;

@@ -46,11 +46,11 @@
 		<security:authorize access="isAuthenticated()">
 
 			<li><a class="fNiv"><spring:message
-						code="master.page.visualization" /></a>
+						code="master.page.film" /></a>
 				<ul>
 					<li class="arrow"></li>
-					<li><a href="visualization/list.do"><spring:message
-								code="master.page.visualization.list" /></a></li>
+					<li><a href="film/list.do"><spring:message
+								code="master.page.film.list" /></a></li>
 				</ul></li>
 				
 			<li><a class="fNiv"><spring:message
