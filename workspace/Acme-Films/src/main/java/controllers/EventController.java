@@ -47,7 +47,9 @@ public class EventController extends AbstractController {
 			result.addObject("requestURI", "/event/list.do");
 			final Actor actor = this.actorService.findByPrincipal();
 			result.addObject("actor", actor);
-			result.addObject("groups", events);
+			result.addObject("events", events);
+			final Forum group = this.groupService.findOne(Id);
+			result.addObject("group", group);
 		} catch (final Throwable opps) {
 			result = new ModelAndView("redirect:/");
 			result.addObject("messageCode", "event.commit.error");
@@ -126,10 +128,10 @@ public class EventController extends AbstractController {
 			final Actor actor = this.actorService.findByPrincipal();
 			result = new ModelAndView("event/display");
 			event = this.eventService.findOne(Id);
-			Assert.isTrue(event.getAttenders().contains(actor) || event.getForum().getCreator().equals(actor));
+			Assert.isTrue(event.getForum().getGroupMembers().contains(actor) || event.getForum().getCreator().equals(actor));
 
-			result.addObject(event);
-			result.addObject(actor);
+			result.addObject("event", event);
+			result.addObject("actor", actor);
 		} catch (final Throwable opps) {
 			result = new ModelAndView("redirect:../welcome/index.do");
 			result.addObject("messageCode", "event.commit.error");
@@ -158,7 +160,7 @@ public class EventController extends AbstractController {
 		ModelAndView result;
 		try {
 			this.eventService.requestEvent(Id);
-			result = new ModelAndView("redirect:display.do?Id=" + Id);
+			result = new ModelAndView("redirect:../display.do?Id=" + Id);
 		} catch (final Throwable opps) {
 			result = new ModelAndView("redirect:../welcome/index.do");
 			result.addObject("messageCode", "event.commit.error");

@@ -72,7 +72,7 @@
 		onclick="redirect: location.href = 'personalData/critic/edit.do?dataId=${data.id}&curriculaId=${curriculaId}';" />
 		</jstl:if>
 </security:authorize>
+	<acme:cancel
+		url="/"
+		code="personalData.cancel.cancel" />
 
-<input type="button" name="back"
-	value="<spring:message code="personalData.cancel" />"
-	onclick="window.history.back()" />

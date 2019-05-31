@@ -11,7 +11,7 @@
 <security:authorize access="hasRole('FILMENTHUSIAST')">
 
 <display:table pagesize="10" class="displaytag" name="events"
-	requestURI="${requestURI }" id="row">
+	requestURI="${requestURI }" id="event">
 
 	<display:column titleKey="event.title">
 		<jstl:out value="${event.title}"></jstl:out>
@@ -36,10 +36,10 @@
 	<jstl:if test="${event.forum.creator eq actor }">
 		<input type="button"
 			value="<spring:message code="event.create"	/>"
-			onclick="redirect: location.href = 'event/create.do?Id=${event.id}';" />
+			onclick="redirect: location.href = 'event/create.do?Id=${group.id}';" />
 	</jstl:if>
 <acme:cancel
-	url="curricula/critic/display.do?curriculaId=${currentCurricula.id}"
-	code="miscellaneousData.cancel" />
+	url="group/display.do?Id=${event.forum.id}"
+	code="event.cancel" />
 </security:authorize>
 	

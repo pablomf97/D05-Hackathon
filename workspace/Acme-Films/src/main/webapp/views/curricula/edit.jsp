@@ -16,10 +16,6 @@
 		id="form">
 
 		<form:hidden path="id" />
-
-		<acme:textbox code="personalData.github" path="githubProfile" />
-		<br>
-		<br>
 		
 		<acme:textbox code="personalData.linkedIn" path="linkedIn" />
 		<br>

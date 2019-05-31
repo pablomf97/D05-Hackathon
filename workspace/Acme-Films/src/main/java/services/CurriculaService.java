@@ -16,6 +16,7 @@ import domain.Critic;
 import domain.Curricula;
 import domain.EducationData;
 import domain.MiscellaneousData;
+import domain.PersonalData;
 import domain.ProfessionalData;
 
 @Transactional
@@ -90,6 +91,14 @@ public class CurriculaService {
 			this.personalDataService.delete(aux.getPersonalData().getId());
 
 		return result;
+	}
+	public Curricula saveNewCurricula(final PersonalData d) {
+		final Curricula c = this.create();
+		c.setPersonalData(d);
+		final Critic actor = (Critic) this.actorService.findByPrincipal();
+		Assert.isNull(actor.getCurricula());
+		final Curricula cur = this.curriculaRepository.save(c);
+		return cur;
 	}
 
 	//Finds

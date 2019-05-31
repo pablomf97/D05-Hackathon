@@ -7,9 +7,10 @@
 <%@taglib prefix="security"
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags"%>
-<security:authorize access="hasAnyRole('FILMENTHUSIAST','MODERATOR')">
+
+<security:authorize access="hasAnyRole('FIMLENTHUSIAST','MODERATOR')">
 	<table class="displayStyle">
 		<tr>
 
@@ -58,8 +59,8 @@
 			<td><jstl:out value="${event.forum.name}">
 				</jstl:out></td>
 		</tr>
-
-		<tr>
+		
+				<tr>
 
 			<td><strong><spring:message code="event.description" />
 					: </strong></td>
@@ -72,39 +73,32 @@
 		<input type="button" name="list"
 			value="<spring:message code="event.list.members"	/>"
 			onclick="redirect: location.href = 'event/filmenthusiast/listMembers.do?Id=${event.id}';" />
-
-		<input type="button" name="list"
+			
+			<input type="button" name="list"
 			value="<spring:message code="event.delete"	/>"
 			onclick="redirect: location.href = 'event/delete.do?Id=${event.id}';" />
 	</jstl:if>
 	<jstl:if test="${event.forum.creator != actor }">
-		<jstl:set var="contains" value="no" />
+		<jstl:set var="contains" value="false" />
 
 		<jstl:forEach var="item" items="${event.attenders}">
 			<jstl:if test="${item eq actor}">
-				<jstl:set var="contains" value="yes" />
-			</jstl:if>
-		</jstl:forEach>
-		<jstl:set var="contains2" value="no" />
-
-		<jstl:forEach var="item2" items="${event.forum.groupMembers}">
-			<jstl:if test="${item2 eq actor}">
-				<jstl:set var="contains2" value="yes" />
+				<jstl:set var="contains" value="true" />
 			</jstl:if>
 		</jstl:forEach>
 	</jstl:if>
-	<jstl:if
-		test="${contains2 eq 'yes' and contains eq 'no' and event.maximumCapacity gt fn:length(event.attenders)}">
+	<jstl:if test="${contains and event.maximumCapacity le fn:length(event.attenders)}">
 		<input type="button" name="list"
 			value="<spring:message code="event.request.members"	/>"
 			onclick="redirect: location.href = 'event/filmenthusiast/request.do?Id=${event.id}';" />
 	</jstl:if>
-	<jstl:if test="${contains2 eq 'yes'}">
+	<jstl:if test="${contains}">
 		<input type="button" name="list"
 			value="<spring:message code="event.list.members"/>"
 			onclick="redirect: location.href = 'event/filmenthusiast/listMembers.do?Id=${event.id}';" />
 	</jstl:if>
 
-	<acme:cancel url="event/list.do?Id=${event.forum.id}"
+	<acme:cancel
+		url="miscellaneousData/critic/list.do?curriculaId=${curriculaId}"
 		code="event.cancel" />
 </security:authorize>
