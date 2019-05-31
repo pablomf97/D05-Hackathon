@@ -42,6 +42,8 @@
 		<value>/views/critic/tiles.xml</value>
 		<value>/views/system-configuration/tiles.xml</value>
 		<value>/views/socialprofile/tiles.xml</value>
+	
+		
 	</util:list>
 
 </beans>
