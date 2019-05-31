@@ -1,5 +1,6 @@
 package controllers;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
@@ -37,7 +38,7 @@ public class MessageAdministratorController extends AbstractController {
 
 		mensaje = this.messageService.create();
 
-		mensaje.setRecipient(this.actorService.findByPrincipal());
+		mensaje.setReceiver(this.actorService.findByPrincipal());
 
 		result = this.createEditModelAndView(mensaje);
 
@@ -99,10 +100,18 @@ public class MessageAdministratorController extends AbstractController {
 		recipient = this.actorService.findOne(this.actorService
 				.findByPrincipal().getId());
 
-		if (sender.equals(recipient) && sender.getUserAccount().equals("ADMIN")) {
+		if (sender.equals(recipient)) {
 			possible = true;
 			broadcast = true;
 		}
+		
+		Collection<String> priorities2 = new ArrayList<String>();
+
+		priorities2.add("HIGH");
+		priorities2.add("NEUTRAL");
+		priorities2.add("LOW");
+
+		
 		result = new ModelAndView("message/broadcast");
 		result.addObject("sentMoment", sentMoment);
 		result.addObject("messageBoxes", messageBoxes);
@@ -114,7 +123,9 @@ public class MessageAdministratorController extends AbstractController {
 		result.addObject("possible", possible);
 		result.addObject("requestURI", "message/administrator/broadcast.do");
 		result.addObject("message", messageError);
-
+		
+		result.addObject("priorities", priorities2);
+		
 		return result;
 	}
 }

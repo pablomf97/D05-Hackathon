@@ -286,15 +286,7 @@
 				<ref bean="socialProfileAdmin1" />
 			</list>
 		</property>
-		<property name="messageBoxes">
-			<list>
-				<ref bean="inBoxAdmin1" />
-				<ref bean="outBoxAdmin1" />
-				<ref bean="spamBoxAdmin1" />
-				<ref bean="trashBoxAdmin1" />
-				<ref bean="notificationBoxAdmin1" />
-			</list>
-		</property>
+
 	</bean>
 	<bean id="administrator2" class="domain.Administrator">
 		<property name="name" value="Pepe" />
@@ -309,15 +301,6 @@
 		<property name="socialProfile">
 			<list>
 				<ref bean="socialProfileAdmin2" />
-			</list>
-		</property>
-		<property name="messageBoxes">
-			<list>
-				<ref bean="inBoxAdmin2" />
-				<ref bean="outBoxAdmin2" />
-				<ref bean="spamBoxAdmin2" />
-				<ref bean="trashBoxAdmin2" />
-				<ref bean="notificationBoxAdmin2" />
 			</list>
 		</property>
 	</bean>
@@ -339,15 +322,7 @@
 				<ref bean="socialProfileModerator1" />
 			</list>
 		</property>
-		<property name="messageBoxes">
-			<list>
-				<ref bean="inBoxModerator1" />
-				<ref bean="outBoxModerator1" />
-				<ref bean="spamBoxModerator1" />
-				<ref bean="trashBoxModerator1" />
-				<ref bean="notificationBoxModerator1" />
-			</list>
-		</property>
+
 	</bean>
 
 	<bean id="moderator2" class="domain.Moderator">
@@ -365,16 +340,8 @@
 				<ref bean="socialProfileModerator2" />
 			</list>
 		</property>
-		<property name="messageBoxes">
-			<list>
-				<ref bean="inBoxModerator2" />
-				<ref bean="outBoxModerator2" />
-				<ref bean="spamBoxModerator2" />
-				<ref bean="trashBoxModerator2" />
-				<ref bean="notificationBoxModerator2" />
-			</list>
-		</property>
 	</bean>
+
 	<bean id="moderator3" class="domain.Moderator">
 		<property name="name" value="Pepe" />
 		<property name="surname" value="Viyuela" />
@@ -388,15 +355,6 @@
 		<property name="socialProfile">
 			<list>
 				<ref bean="socialProfileModerator3" />
-			</list>
-		</property>
-		<property name="messageBoxes">
-			<list>
-				<ref bean="inBoxModerator3" />
-				<ref bean="outBoxModerator3" />
-				<ref bean="spamBoxModerator3" />
-				<ref bean="trashBoxModerator3" />
-				<ref bean="notificationBoxModerator3" />
 			</list>
 		</property>
 	</bean>
@@ -415,15 +373,6 @@
 		<property name="socialProfile">
 			<list>
 				<ref bean="socialProfileSponsor1" />
-			</list>
-		</property>
-		<property name="messageBoxes">
-			<list>
-				<ref bean="inBoxSponsor1" />
-				<ref bean="outBoxSponsor1" />
-				<ref bean="spamBoxSponsor1" />
-				<ref bean="trashBoxSponsor1" />
-				<ref bean="notificationBoxSponsor1" />
 			</list>
 		</property>
 
@@ -445,15 +394,6 @@
 				<ref bean="socialProfileSponsor3" />
 			</list>
 		</property>
-		<property name="messageBoxes">
-			<list>
-				<ref bean="inBoxSponsor3" />
-				<ref bean="outBoxSponsor3" />
-				<ref bean="spamBoxSponsor3" />
-				<ref bean="trashBoxSponsor3" />
-				<ref bean="notificationBoxSponsor3" />
-			</list>
-		</property>
 
 	</bean>
 
@@ -471,15 +411,6 @@
 		<property name="socialProfile">
 			<list>
 				<ref bean="socialProfileSponsor2" />
-			</list>
-		</property>
-		<property name="messageBoxes">
-			<list>
-				<ref bean="inBoxSponsor2" />
-				<ref bean="outBoxSponsor2" />
-				<ref bean="spamBoxSponsor2" />
-				<ref bean="trashBoxSponsor2" />
-				<ref bean="notificationBoxSponsor2" />
 			</list>
 		</property>
 
@@ -502,15 +433,6 @@
 				<ref bean="socialProfileFilmEnthusiast1" />
 			</list>
 		</property>
-		<property name="messageBoxes">
-			<list>
-				<ref bean="inBoxFilmEnthusiast1" />
-				<ref bean="outBoxFilmEnthusiast1" />
-				<ref bean="spamBoxFilmEnthusiast1" />
-				<ref bean="trashBoxFilmEnthusiast1" />
-				<ref bean="notificationBoxFilmEnthusiast1" />
-			</list>
-		</property>
 		<property name="finder" ref="finder1" />
 
 	</bean>
@@ -529,16 +451,6 @@
 				<ref bean="socialProfileFilmEnthusiast2" />
 			</list>
 		</property>
-		<property name="messageBoxes">
-			<list>
-				<ref bean="inBoxFilmEnthusiast2" />
-				<ref bean="outBoxFilmEnthusiast2" />
-				<ref bean="spamBoxFilmEnthusiast2" />
-				<ref bean="trashBoxFilmEnthusiast2" />
-				<ref bean="notificationBoxFilmEnthusiast2" />
-			</list>
-		</property>
-		<property name="finder" ref="finder2" />
 
 	</bean>
 	<bean id="filmEnthusiast3" class="domain.FilmEnthusiast">
@@ -554,15 +466,6 @@
 		<property name="socialProfile">
 			<list>
 				<ref bean="socialProfileFilmEnthusiast3" />
-			</list>
-		</property>
-		<property name="messageBoxes">
-			<list>
-				<ref bean="inBoxFilmEnthusiast3" />
-				<ref bean="outBoxFilmEnthusiast3" />
-				<ref bean="spamBoxFilmEnthusiast3" />
-				<ref bean="trashBoxFilmEnthusiast3" />
-				<ref bean="notificationBoxFilmEnthusiast3" />
 			</list>
 		</property>
 		<property name="finder" ref="finder3" />
@@ -586,15 +489,6 @@
 				<ref bean="socialProfileCritic1" />
 			</list>
 		</property>
-		<property name="messageBoxes">
-			<list>
-				<ref bean="inBoxCritic1" />
-				<ref bean="outBoxCritic1" />
-				<ref bean="spamBoxCritic1" />
-				<ref bean="trashBoxCritic1" />
-				<ref bean="notificationBoxCritic1" />
-			</list>
-		</property>
 		<property name="curricula" ref="curricula1">
 
 		</property>
@@ -615,15 +509,6 @@
 				<ref bean="socialProfileCritic2" />
 			</list>
 		</property>
-		<property name="messageBoxes">
-			<list>
-				<ref bean="inBoxCritic2" />
-				<ref bean="outBoxCritic2" />
-				<ref bean="spamBoxCritic2" />
-				<ref bean="trashBoxCritic2" />
-				<ref bean="notificationBoxCritic2" />
-			</list>
-		</property>
 		<property name="curricula" ref="curricula2">
 
 		</property>
@@ -642,15 +527,6 @@
 		<property name="socialProfile">
 			<list>
 				<ref bean="socialProfileCritic3" />
-			</list>
-		</property>
-		<property name="messageBoxes">
-			<list>
-				<ref bean="inBoxCritic3" />
-				<ref bean="outBoxCritic3" />
-				<ref bean="spamBoxCritic3" />
-				<ref bean="trashBoxCritic3" />
-				<ref bean="notificationBoxCritic3" />
 			</list>
 		</property>
 		<property name="curricula" ref="curricula3">
@@ -674,12 +550,7 @@
 
 			</list>
 		</property>
-		<property name="childMessageBoxes">
-			<list>
-				<null />
-			</list>
-
-		</property>
+		<property name="owner" ref="administrator1" />
 
 
 	</bean>
@@ -695,12 +566,8 @@
 				<null />
 			</list>
 		</property>
-		<property name="childMessageBoxes">
-			<list>
-				<null />
-			</list>
+		<property name="owner" ref="administrator1" />
 
-		</property>
 	</bean>
 
 	<bean id="outBoxAdmin1" class="domain.MessageBox">
@@ -717,14 +584,8 @@
 				<ref bean="message4" />
 			</list>
 		</property>
-		<property name="childMessageBoxes">
-			<list>
-				<null />
-			</list>
 
-		</property>
-
-
+		<property name="owner" ref="administrator1" />
 	</bean>
 
 	<bean id="trashBoxAdmin1" class="domain.MessageBox">
@@ -738,13 +599,7 @@
 				<null />
 			</list>
 		</property>
-		<property name="childMessageBoxes">
-			<list>
-				<null />
-			</list>
-
-		</property>
-
+		<property name="owner" ref="administrator1" />
 	</bean>
 
 	<bean id="notificationBoxAdmin1" class="domain.MessageBox">
@@ -758,13 +613,7 @@
 				<null />
 			</list>
 		</property>
-		<property name="childMessageBoxes">
-			<list>
-				<null />
-			</list>
-
-		</property>
-
+		<property name="owner" ref="administrator1" />
 	</bean>
 	<bean id="inBoxAdmin2" class="domain.MessageBox">
 		<property name="name" value="In box" />
@@ -777,14 +626,8 @@
 
 			</list>
 		</property>
-		<property name="childMessageBoxes">
-			<list>
-				<null />
-			</list>
 
-		</property>
-
-
+		<property name="owner" ref="administrator2" />
 	</bean>
 
 	<bean id="spamBoxAdmin2" class="domain.MessageBox">
@@ -798,12 +641,7 @@
 				<null />
 			</list>
 		</property>
-		<property name="childMessageBoxes">
-			<list>
-				<null />
-			</list>
-
-		</property>
+		<property name="owner" ref="administrator2" />
 	</bean>
 
 	<bean id="outBoxAdmin2" class="domain.MessageBox">
@@ -820,13 +658,8 @@
 				<ref bean="message4" />
 			</list>
 		</property>
-		<property name="childMessageBoxes">
-			<list>
-				<null />
-			</list>
 
-		</property>
-
+		<property name="owner" ref="administrator2" />
 
 	</bean>
 
@@ -841,12 +674,7 @@
 				<null />
 			</list>
 		</property>
-		<property name="childMessageBoxes">
-			<list>
-				<null />
-			</list>
-
-		</property>
+		<property name="owner" ref="administrator2" />
 
 	</bean>
 
@@ -861,12 +689,7 @@
 				<null />
 			</list>
 		</property>
-		<property name="childMessageBoxes">
-			<list>
-				<null />
-			</list>
-
-		</property>
+		<property name="owner" ref="administrator2" />
 
 	</bean>
 
@@ -883,13 +706,8 @@
 				<ref bean="message4" />
 			</list>
 		</property>
-		<property name="childMessageBoxes">
-			<list>
-				<null />
-			</list>
 
-		</property>
-
+		<property name="owner" ref="sponsor1" />
 
 	</bean>
 
@@ -904,12 +722,8 @@
 				<null />
 			</list>
 		</property>
-		<property name="childMessageBoxes">
-			<list>
-				<null />
-			</list>
+		<property name="owner" ref="sponsor1" />
 
-		</property>
 	</bean>
 
 	<bean id="outBoxSponsor1" class="domain.MessageBox">
@@ -923,13 +737,7 @@
 				<null />
 			</list>
 		</property>
-		<property name="childMessageBoxes">
-			<list>
-				<null />
-			</list>
-
-		</property>
-
+		<property name="owner" ref="sponsor1" />
 
 	</bean>
 
@@ -944,12 +752,7 @@
 				<null />
 			</list>
 		</property>
-		<property name="childMessageBoxes">
-			<list>
-				<null />
-			</list>
-
-		</property>
+		<property name="owner" ref="sponsor1" />
 
 	</bean>
 
@@ -964,13 +767,7 @@
 				<null />
 			</list>
 		</property>
-		<property name="childMessageBoxes">
-			<list>
-				<null />
-			</list>
-
-		</property>
-
+		<property name="owner" ref="sponsor1" />
 	</bean>
 
 
@@ -987,12 +784,8 @@
 				<ref bean="message4" />
 			</list>
 		</property>
-		<property name="childMessageBoxes">
-			<list>
-				<null />
-			</list>
 
-		</property>
+		<property name="owner" ref="sponsor3" />
 
 
 	</bean>
@@ -1008,12 +801,7 @@
 				<null />
 			</list>
 		</property>
-		<property name="childMessageBoxes">
-			<list>
-				<null />
-			</list>
-
-		</property>
+		<property name="owner" ref="sponsor3" />
 	</bean>
 
 	<bean id="outBoxSponsor3" class="domain.MessageBox">
@@ -1027,14 +815,8 @@
 				<null />
 			</list>
 		</property>
-		<property name="childMessageBoxes">
-			<list>
-				<null />
-			</list>
 
-		</property>
-
-
+		<property name="owner" ref="sponsor3" />
 	</bean>
 
 	<bean id="trashBoxSponsor3" class="domain.MessageBox">
@@ -1048,13 +830,8 @@
 				<null />
 			</list>
 		</property>
-		<property name="childMessageBoxes">
-			<list>
-				<null />
-			</list>
 
-		</property>
-
+		<property name="owner" ref="sponsor3" />
 	</bean>
 
 	<bean id="notificationBoxSponsor3" class="domain.MessageBox">
@@ -1068,12 +845,7 @@
 				<null />
 			</list>
 		</property>
-		<property name="childMessageBoxes">
-			<list>
-				<null />
-			</list>
-
-		</property>
+		<property name="owner" ref="sponsor3" />
 
 	</bean>
 
@@ -1095,13 +867,8 @@
 				<ref bean="message4" />
 			</list>
 		</property>
-		<property name="childMessageBoxes">
-			<list>
-				<null />
-			</list>
 
-		</property>
-
+		<property name="owner" ref="sponsor2" />
 
 	</bean>
 
@@ -1116,12 +883,7 @@
 				<null />
 			</list>
 		</property>
-		<property name="childMessageBoxes">
-			<list>
-				<null />
-			</list>
-
-		</property>
+		<property name="owner" ref="sponsor2" />
 	</bean>
 
 	<bean id="outBoxSponsor2" class="domain.MessageBox">
@@ -1135,12 +897,7 @@
 				<null />
 			</list>
 		</property>
-		<property name="childMessageBoxes">
-			<list>
-				<null />
-			</list>
-
-		</property>
+		<property name="owner" ref="sponsor2" />
 
 
 	</bean>
@@ -1156,12 +913,7 @@
 				<null />
 			</list>
 		</property>
-		<property name="childMessageBoxes">
-			<list>
-				<null />
-			</list>
-
-		</property>
+		<property name="owner" ref="sponsor2" />
 
 	</bean>
 
@@ -1176,12 +928,7 @@
 				<null />
 			</list>
 		</property>
-		<property name="childMessageBoxes">
-			<list>
-				<null />
-			</list>
-
-		</property>
+		<property name="owner" ref="sponsor2" />
 
 	</bean>
 
@@ -1199,14 +946,9 @@
 				<ref bean="message2" />
 			</list>
 		</property>
-		<property name="childMessageBoxes">
-			<list>
-				<null />
-			</list>
-
-		</property>
 
 
+		<property name="owner" ref="critic3" />
 	</bean>
 
 	<bean id="spamBoxCritic3" class="domain.MessageBox">
@@ -1220,12 +962,7 @@
 				<null />
 			</list>
 		</property>
-		<property name="childMessageBoxes">
-			<list>
-				<null />
-			</list>
-
-		</property>
+		<property name="owner" ref="critic3" />
 	</bean>
 
 	<bean id="outBoxCritic3" class="domain.MessageBox">
@@ -1239,12 +976,7 @@
 				<null />
 			</list>
 		</property>
-		<property name="childMessageBoxes">
-			<list>
-				<null />
-			</list>
-
-		</property>
+		<property name="owner" ref="critic3" />
 
 
 	</bean>
@@ -1260,13 +992,7 @@
 				<null />
 			</list>
 		</property>
-		<property name="childMessageBoxes">
-			<list>
-				<null />
-			</list>
-
-		</property>
-
+		<property name="owner" ref="critic3" />
 	</bean>
 
 	<bean id="notificationBoxCritic3" class="domain.MessageBox">
@@ -1280,12 +1006,7 @@
 				<null />
 			</list>
 		</property>
-		<property name="childMessageBoxes">
-			<list>
-				<null />
-			</list>
-
-		</property>
+		<property name="owner" ref="critic3" />
 
 	</bean>
 
@@ -1309,13 +1030,8 @@
 				<ref bean="message2" />
 			</list>
 		</property>
-		<property name="childMessageBoxes">
-			<list>
-				<null />
-			</list>
 
-		</property>
-
+		<property name="owner" ref="critic1" />
 
 	</bean>
 
@@ -1330,12 +1046,7 @@
 				<null />
 			</list>
 		</property>
-		<property name="childMessageBoxes">
-			<list>
-				<null />
-			</list>
-
-		</property>
+		<property name="owner" ref="critic1" />
 	</bean>
 
 	<bean id="outBoxCritic1" class="domain.MessageBox">
@@ -1349,13 +1060,7 @@
 				<null />
 			</list>
 		</property>
-		<property name="childMessageBoxes">
-			<list>
-				<null />
-			</list>
-
-		</property>
-
+		<property name="owner" ref="critic1" />
 
 	</bean>
 
@@ -1370,13 +1075,7 @@
 				<null />
 			</list>
 		</property>
-		<property name="childMessageBoxes">
-			<list>
-				<null />
-			</list>
-
-		</property>
-
+		<property name="owner" ref="critic1" />
 	</bean>
 
 	<bean id="notificationBoxCritic1" class="domain.MessageBox">
@@ -1390,12 +1089,7 @@
 				<null />
 			</list>
 		</property>
-		<property name="childMessageBoxes">
-			<list>
-				<null />
-			</list>
-
-		</property>
+		<property name="owner" ref="critic1" />
 
 	</bean>
 	<bean id="spamBoxCritic2" class="domain.MessageBox">
@@ -1409,12 +1103,8 @@
 				<null />
 			</list>
 		</property>
-		<property name="childMessageBoxes">
-			<list>
-				<null />
-			</list>
+		<property name="owner" ref="critic2" />
 
-		</property>
 	</bean>
 	<bean id="inBoxCritic2" class="domain.MessageBox">
 		<property name="name" value="In box" />
@@ -1427,14 +1117,7 @@
 				<ref bean="message2" />
 			</list>
 		</property>
-		<property name="childMessageBoxes">
-			<list>
-				<null />
-			</list>
-
-		</property>
-
-
+		<property name="owner" ref="critic2" />
 	</bean>
 
 	<bean id="outBoxCritic2" class="domain.MessageBox">
@@ -1448,13 +1131,7 @@
 				<null />
 			</list>
 		</property>
-		<property name="childMessageBoxes">
-			<list>
-				<null />
-			</list>
-
-		</property>
-
+		<property name="owner" ref="critic2" />
 
 	</bean>
 
@@ -1469,13 +1146,7 @@
 				<null />
 			</list>
 		</property>
-		<property name="childMessageBoxes">
-			<list>
-				<null />
-			</list>
-
-		</property>
-
+		<property name="owner" ref="critic2" />
 	</bean>
 
 	<bean id="notificationBoxCritic2" class="domain.MessageBox">
@@ -1489,13 +1160,8 @@
 				<null />
 			</list>
 		</property>
-		<property name="childMessageBoxes">
-			<list>
-				<null />
-			</list>
 
-		</property>
-
+		<property name="owner" ref="critic2" />
 	</bean>
 
 	<!-- ****************************MODERATOR 1 **************************** -->
@@ -1511,13 +1177,8 @@
 				<ref bean="message1" />
 			</list>
 		</property>
-		<property name="childMessageBoxes">
-			<list>
-				<null />
-			</list>
 
-		</property>
-
+		<property name="owner" ref="moderator1" />
 
 	</bean>
 
@@ -1532,12 +1193,7 @@
 				<null />
 			</list>
 		</property>
-		<property name="childMessageBoxes">
-			<list>
-				<null />
-			</list>
-
-		</property>
+		<property name="owner" ref="moderator1" />
 	</bean>
 
 	<bean id="outBoxModerator1" class="domain.MessageBox">
@@ -1551,14 +1207,9 @@
 
 			</list>
 		</property>
-		<property name="childMessageBoxes">
-			<list>
-				<null />
-			</list>
-
-		</property>
 
 
+		<property name="owner" ref="moderator1" />
 	</bean>
 
 	<bean id="trashBoxModerator1" class="domain.MessageBox">
@@ -1572,13 +1223,7 @@
 				<null />
 			</list>
 		</property>
-		<property name="childMessageBoxes">
-			<list>
-				<null />
-			</list>
-
-		</property>
-
+		<property name="owner" ref="moderator1" />
 	</bean>
 
 	<bean id="notificationBoxModerator1" class="domain.MessageBox">
@@ -1592,12 +1237,7 @@
 				<null />
 			</list>
 		</property>
-		<property name="childMessageBoxes">
-			<list>
-				<null />
-			</list>
-
-		</property>
+		<property name="owner" ref="moderator1" />
 
 	</bean>
 	<bean id="inBoxModerator3" class="domain.MessageBox">
@@ -1611,12 +1251,7 @@
 				<ref bean="message1" />
 			</list>
 		</property>
-		<property name="childMessageBoxes">
-			<list>
-				<null />
-			</list>
-
-		</property>
+		<property name="owner" ref="moderator3" />
 
 
 	</bean>
@@ -1632,12 +1267,7 @@
 				<null />
 			</list>
 		</property>
-		<property name="childMessageBoxes">
-			<list>
-				<null />
-			</list>
-
-		</property>
+		<property name="owner" ref="moderator3" />
 	</bean>
 
 	<bean id="outBoxModerator3" class="domain.MessageBox">
@@ -1651,12 +1281,7 @@
 
 			</list>
 		</property>
-		<property name="childMessageBoxes">
-			<list>
-				<null />
-			</list>
-
-		</property>
+		<property name="owner" ref="moderator3" />
 
 
 	</bean>
@@ -1672,12 +1297,7 @@
 				<null />
 			</list>
 		</property>
-		<property name="childMessageBoxes">
-			<list>
-				<null />
-			</list>
-
-		</property>
+		<property name="owner" ref="moderator3" />
 
 	</bean>
 
@@ -1692,13 +1312,8 @@
 				<null />
 			</list>
 		</property>
-		<property name="childMessageBoxes">
-			<list>
-				<null />
-			</list>
 
-		</property>
-
+		<property name="owner" ref="moderator3" />
 	</bean>
 
 
@@ -1715,14 +1330,8 @@
 				<ref bean="message1" />
 			</list>
 		</property>
-		<property name="childMessageBoxes">
-			<list>
-				<null />
-			</list>
 
-		</property>
-
-
+		<property name="owner" ref="moderator2" />
 	</bean>
 
 	<bean id="spamBoxModerator2" class="domain.MessageBox">
@@ -1736,12 +1345,8 @@
 				<null />
 			</list>
 		</property>
-		<property name="childMessageBoxes">
-			<list>
-				<null />
-			</list>
+		<property name="owner" ref="moderator2" />
 
-		</property>
 	</bean>
 
 	<bean id="outBoxModerator2" class="domain.MessageBox">
@@ -1755,14 +1360,8 @@
 
 			</list>
 		</property>
-		<property name="childMessageBoxes">
-			<list>
-				<null />
-			</list>
 
-		</property>
-
-
+		<property name="owner" ref="moderator2" />
 	</bean>
 
 	<bean id="trashBoxModerator2" class="domain.MessageBox">
@@ -1776,12 +1375,7 @@
 				<null />
 			</list>
 		</property>
-		<property name="childMessageBoxes">
-			<list>
-				<null />
-			</list>
-
-		</property>
+		<property name="owner" ref="moderator2" />
 
 	</bean>
 
@@ -1796,12 +1390,7 @@
 				<null />
 			</list>
 		</property>
-		<property name="childMessageBoxes">
-			<list>
-				<null />
-			</list>
-
-		</property>
+		<property name="owner" ref="moderator2" />
 
 	</bean>
 
@@ -1818,13 +1407,8 @@
 				<ref bean="message3" />
 			</list>
 		</property>
-		<property name="childMessageBoxes">
-			<list>
-				<null />
-			</list>
 
-		</property>
-
+		<property name="owner" ref="filmEnthusiast1" />
 
 	</bean>
 
@@ -1839,12 +1423,8 @@
 				<null />
 			</list>
 		</property>
-		<property name="childMessageBoxes">
-			<list>
-				<null />
-			</list>
+		<property name="owner" ref="filmEnthusiast1" />
 
-		</property>
 	</bean>
 
 	<bean id="outBoxFilmEnthusiast1" class="domain.MessageBox">
@@ -1858,14 +1438,8 @@
 				<null />
 			</list>
 		</property>
-		<property name="childMessageBoxes">
-			<list>
-				<null />
-			</list>
 
-		</property>
-
-
+		<property name="owner" ref="filmEnthusiast1" />
 	</bean>
 
 	<bean id="trashBoxFilmEnthusiast1" class="domain.MessageBox">
@@ -1879,13 +1453,7 @@
 				<null />
 			</list>
 		</property>
-		<property name="childMessageBoxes">
-			<list>
-				<null />
-			</list>
-
-		</property>
-
+		<property name="owner" ref="filmEnthusiast1" />
 	</bean>
 
 	<bean id="notificationBoxFilmEnthusiast1" class="domain.MessageBox">
@@ -1899,12 +1467,7 @@
 				<null />
 			</list>
 		</property>
-		<property name="childMessageBoxes">
-			<list>
-				<null />
-			</list>
-
-		</property>
+		<property name="owner" ref="filmEnthusiast1" />
 
 	</bean>
 	<bean id="inBoxFilmEnthusiast2" class="domain.MessageBox">
@@ -1918,13 +1481,7 @@
 				<ref bean="message3" />
 			</list>
 		</property>
-		<property name="childMessageBoxes">
-			<list>
-				<null />
-			</list>
-
-		</property>
-
+		<property name="owner" ref="filmEnthusiast2" />
 
 	</bean>
 
@@ -1939,12 +1496,7 @@
 				<null />
 			</list>
 		</property>
-		<property name="childMessageBoxes">
-			<list>
-				<null />
-			</list>
-
-		</property>
+		<property name="owner" ref="filmEnthusiast2" />
 	</bean>
 
 	<bean id="outBoxFilmEnthusiast2" class="domain.MessageBox">
@@ -1958,14 +1510,9 @@
 				<null />
 			</list>
 		</property>
-		<property name="childMessageBoxes">
-			<list>
-				<null />
-			</list>
-
-		</property>
 
 
+		<property name="owner" ref="filmEnthusiast2" />
 	</bean>
 
 	<bean id="trashBoxFilmEnthusiast2" class="domain.MessageBox">
@@ -1979,13 +1526,7 @@
 				<null />
 			</list>
 		</property>
-		<property name="childMessageBoxes">
-			<list>
-				<null />
-			</list>
-
-		</property>
-
+		<property name="owner" ref="filmEnthusiast2" />
 	</bean>
 
 	<bean id="notificationBoxFilmEnthusiast2" class="domain.MessageBox">
@@ -1999,13 +1540,7 @@
 				<null />
 			</list>
 		</property>
-		<property name="childMessageBoxes">
-			<list>
-				<null />
-			</list>
-
-		</property>
-
+		<property name="owner" ref="filmEnthusiast2" />
 	</bean>
 	<bean id="inBoxFilmEnthusiast3" class="domain.MessageBox">
 		<property name="name" value="In box" />
@@ -2018,13 +1553,7 @@
 				<ref bean="message3" />
 			</list>
 		</property>
-		<property name="childMessageBoxes">
-			<list>
-				<null />
-			</list>
-
-		</property>
-
+		<property name="owner" ref="filmEnthusiast3" />
 
 	</bean>
 
@@ -2039,12 +1568,7 @@
 				<null />
 			</list>
 		</property>
-		<property name="childMessageBoxes">
-			<list>
-				<null />
-			</list>
-
-		</property>
+		<property name="owner" ref="filmEnthusiast3" />
 	</bean>
 
 	<bean id="outBoxFilmEnthusiast3" class="domain.MessageBox">
@@ -2058,13 +1582,8 @@
 				<null />
 			</list>
 		</property>
-		<property name="childMessageBoxes">
-			<list>
-				<null />
-			</list>
 
-		</property>
-
+		<property name="owner" ref="filmEnthusiast3" />
 
 	</bean>
 
@@ -2079,13 +1598,8 @@
 				<null />
 			</list>
 		</property>
-		<property name="childMessageBoxes">
-			<list>
-				<null />
-			</list>
 
-		</property>
-
+		<property name="owner" ref="filmEnthusiast3" />
 	</bean>
 
 	<bean id="notificationBoxFilmEnthusiast3" class="domain.MessageBox">
@@ -2099,13 +1613,8 @@
 				<null />
 			</list>
 		</property>
-		<property name="childMessageBoxes">
-			<list>
-				<null />
-			</list>
 
-		</property>
-
+		<property name="owner" ref="filmEnthusiast3" />
 	</bean>
 
 	<!-- **************************** CURRICULA **************************** -->
@@ -3244,4 +2753,5 @@ Films! Tu sitio para compartir opiniones sobre tus peliculas favoritas." />
 		<property name="flatRate" value="2.50" />
 
 	</bean>
+
 </beans>

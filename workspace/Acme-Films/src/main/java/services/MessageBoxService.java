@@ -12,7 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
 import repositories.MessageBoxRepository;
-
+import domain.Actor;
 import domain.Message;
 import domain.MessageBox;
 
@@ -27,8 +27,8 @@ public class MessageBoxService {
 
 	//Services
 
-//	@Autowired
-//	private ActorService actorService;
+	@Autowired
+	private ActorService actorService;
 
 	@Autowired
 	private MessageService messageService;
@@ -42,12 +42,12 @@ public class MessageBoxService {
 	public MessageBox create(){
 		MessageBox result = new MessageBox();
 
-		//Actor principal = this.actorService.findByPrincipal();
+		Actor principal = this.actorService.findByPrincipal();
 
 
 		result.setIsPredefined(false);
 		result.setMessages(new ArrayList<Message>());
-	//	result.setOwner(principal);
+		result.setOwner(principal);
 
 
 		return result;
@@ -57,7 +57,7 @@ public class MessageBoxService {
 		MessageBox result;
 		if(messageBox.getId() != 0){
 			MessageBox boxBD = this.findOne(messageBox.getId());
-			//Assert.isTrue(this.actorService.findByPrincipal().equals(messageBox.getOwner()) || this.actorService.findByPrincipal().equals(boxBD.getOwner()));
+			Assert.isTrue(this.actorService.findByPrincipal().equals(messageBox.getOwner()) || this.actorService.findByPrincipal().equals(boxBD.getOwner()));
 			if (boxBD.getIsPredefined() == false)
 				boxBD.setName(messageBox.getName());
 			Assert.isTrue(this.checkParentBox(boxBD, messageBox));
@@ -72,7 +72,7 @@ public class MessageBoxService {
 
 
 	public void delete(final MessageBox messageBox) {
-		//Assert.isTrue((this.actorService.findByPrincipal().equals(messageBox.getOwner())), "Box not belong to the logged actor");
+		Assert.isTrue((this.actorService.findByPrincipal().equals(messageBox.getOwner())), "Box not belong to the logged actor");
 		Assert.isTrue(!(messageBox.getIsPredefined()), "Box undeleteable");
 		final Collection<MessageBox> childBoxes = this.messageBoxRepository.findByParent(messageBox.getId());
 		if (!childBoxes.isEmpty())
@@ -89,44 +89,44 @@ public class MessageBoxService {
 	//Other requirements
 	public void initializeDefaultBoxes() {
 
-		//Actor principal = this.actorService.findByPrincipal();
+		Actor principal = this.actorService.findByPrincipal();
 
 		final MessageBox in = this.create();
 		in.setIsPredefined(true);
 		in.setName("In box");
-		//in.setOwner(principal);
+		in.setOwner(principal);
 		this.save(in);
-		
+
 
 		final MessageBox trash = this.create();
 		trash.setIsPredefined(true);
 		trash.setName("Trash box");
-		//in.setOwner(principal);
+		in.setOwner(principal);
 		this.save(trash);
-		
+
 
 		final MessageBox out = this.create();
 		out.setIsPredefined(true);
 		out.setName("Out box");
-		//in.setOwner(principal);
+		in.setOwner(principal);
 		this.save(out);
-		
+
 
 
 		final MessageBox spam = this.create();
 		spam.setIsPredefined(true);
 		spam.setName("Spam box");
-		//in.setOwner(principal);
+		in.setOwner(principal);
 		this.save(spam);
-		
+
 
 
 		final MessageBox notification = this.create();
 		notification.setIsPredefined(true);
 		notification.setName("Notification box");
-		//in.setOwner(principal);
+		in.setOwner(principal);
 		this.save(notification);
-		
+
 
 
 	}
@@ -135,7 +135,7 @@ public class MessageBoxService {
 		final Collection<MessageBox> boxes = this.messageBoxRepository.findByParent(idBox);
 		return boxes;
 	}
-	
+
 	public Collection<MessageBox> findAll() {
 		return this.messageBoxRepository.findAll();
 	}
@@ -158,14 +158,14 @@ public class MessageBoxService {
 		return this.messageBoxRepository.boxByName(actorId, name);
 	}
 
-	//public boolean checkUniqueBox(final MessageBox box) {
-		//boolean bool = true;
-		//final Actor actor = this.actorService.findByPrincipal();
-		//final MessageBox mb = this.findByName(actor.getId(), box.getName());
-//		if (mb != null)
-//			bool = false;
-//		return bool;
-	//}
+	public boolean checkUniqueBox(final MessageBox box) {
+		boolean bool = true;
+		final Actor actor = this.actorService.findByPrincipal();
+		final MessageBox mb = this.findByName(actor.getId(), box.getName());
+		if (mb != null)
+			bool = false;
+		return bool;
+	}
 	public boolean checkParentBox(final MessageBox boxBD, final MessageBox box) {
 		boolean bool = true;
 		final Collection<MessageBox> boxes = this.messageBoxRepository.findByParent(boxBD.getId());

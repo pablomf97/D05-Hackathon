@@ -27,7 +27,7 @@ public class CommentService {
 	@Autowired
 	private ActorService actorService;
 
-	@Autowired
+	
 	// CRUD METHODS
 	public Comment create() {
 		Comment result = new Comment();

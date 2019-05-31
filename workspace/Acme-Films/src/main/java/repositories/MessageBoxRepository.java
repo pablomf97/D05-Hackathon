@@ -15,10 +15,10 @@ public interface MessageBoxRepository extends
 	@Query("select b from MessageBox b join b.owner o where o.id = ?1")
 	public Collection<MessageBox> boxesByActor(int actorid);
 
-	@Query("select b from MessageBox b join b.owner o where o.id = ?1 and b.parentMessageBoxes.id = null")
+	@Query("select b from MessageBox b join b.owner o where o.id = ?1 and b.parentMessageBox.id = null")
 	public Collection<MessageBox> firstBoxesByActor(int actorid);
 
-	@Query("select b from MessageBox b where b.parentMessageBoxes.id = ?1")
+	@Query("select b from MessageBox b where b.parentMessageBox.id = ?1")
 	public Collection<MessageBox> findByParent(int boxId);
 
 	@Query("select b from MessageBox b where b.owner.id = ?1 and b.name = ?2")

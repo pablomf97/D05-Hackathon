@@ -37,6 +37,8 @@
 								code="master.page.register.admin" /></a></li>
 					<li><a href="administrator/statistics.do"><spring:message
 								code="master.page.dashboard" /></a></li>
+					<li><a href="message/administrator/broadcast.do"><spring:message
+								code="master.page.message.broadcast" /></a></li>
 
 				</ul></li>
 
@@ -52,9 +54,8 @@
 					<li><a href="visualization/list.do"><spring:message
 								code="master.page.visualization.list" /></a></li>
 				</ul></li>
-				
-			<li><a class="fNiv"><spring:message
-						code="master.page.saga" /></a>
+
+			<li><a class="fNiv"><spring:message code="master.page.saga" /></a>
 				<ul>
 					<li class="arrow"></li>
 					<li><a href="saga/list.do"><spring:message
@@ -132,6 +133,16 @@
 						<li><a href="critic/critic/edit.do"><spring:message
 									code="master.page.actor.edit" /></a></li>
 					</security:authorize>
+
+
+					<li><a href="messagebox/list.do"><spring:message
+								code="master.page.profile.message.boxes" /></a></li>
+					<li><a href="messagebox/create.do"><spring:message
+								code="master.page.box.new" /></a></li>
+					<li><a href="message/actor/create.do"><spring:message
+								code="master.page.message.new" /></a></li>
+
+
 
 					<li><a href="j_spring_security_logout"><spring:message
 								code="master.page.logout" /> </a></li>

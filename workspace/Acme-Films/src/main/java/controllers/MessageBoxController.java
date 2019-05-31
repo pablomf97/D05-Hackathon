@@ -11,14 +11,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import services.ActorService;
 import services.MessageBoxService;
+import domain.Actor;
 import domain.MessageBox;
 
 @Controller
 @RequestMapping("/messagebox")
 public class MessageBoxController extends AbstractController{
-	//@Autowired
-	//private ActorService		actorService;
+	
+	@Autowired
+	private ActorService		actorService;
 
 	@Autowired
 	private MessageBoxService	messageBoxService;
@@ -29,10 +32,10 @@ public class MessageBoxController extends AbstractController{
 		ModelAndView result;
 		try {
 			result = new ModelAndView("messagebox/list");
-			//final Actor actor = this.actorService.findByPrincipal();
-			//final Collection<MessageBox> boxes = this.messageBoxService.findByOwnerFirst(actor.getId());
+			final Actor actor = this.actorService.findByPrincipal();
+			final Collection<MessageBox> boxes = this.messageBoxService.findByOwnerFirst(actor.getId());
 			result.addObject("requestURI", "/messagebox/list.do");
-			//result.addObject("messageboxes", boxes);
+			result.addObject("messageboxes", boxes);
 		} catch (final Throwable opps) {
 			result = new ModelAndView("redirect:../welcome/index.do");
 			result.addObject("messageCode", "box.commit.error");
@@ -45,9 +48,9 @@ public class MessageBoxController extends AbstractController{
 		ModelAndView result;
 		try {
 			result = new ModelAndView("messagebox/content");
-			//final Actor actor = this.actorService.findByPrincipal();
+			final Actor actor = this.actorService.findByPrincipal();
 			final MessageBox box = this.messageBoxService.findOne(Id);
-		//	Assert.isTrue(box.getOwner().equals(actor));
+			Assert.isTrue(box.getOwner().equals(actor));
 			result.addObject("requestURI", "/messagebox/content.do");
 			final Collection<MessageBox> childBoxes = this.messageBoxService.findByParent(box.getId());
 			result.addObject("box", box);
@@ -80,11 +83,11 @@ public class MessageBoxController extends AbstractController{
 		String messageBoxName = "";
 		try {
 			box = this.messageBoxService.reconstruct(box, binding);
-			//final Collection<MessageBox> boxes = this.messageBoxService.findByOwner(this.actorService.findByPrincipal().getId());
-			//boxes.remove(box);
+			final Collection<MessageBox> boxes = this.messageBoxService.findByOwner(this.actorService.findByPrincipal().getId());
+			boxes.remove(box);
 			final Collection<MessageBox> childBoxes = this.messageBoxService.findByParent(box.getId());
-			//boxes.removeAll(childBoxes);
-			//if (!this.messageBoxService.checkUniqueBox(box))
+			boxes.removeAll(childBoxes);
+			if (!this.messageBoxService.checkUniqueBox(box))
 				messageBoxName = "messagebox.name.unique";
 			if (binding.hasErrors() || !messageBoxName.isEmpty()) {
 				result = new ModelAndView("messagebox/edit");
@@ -95,8 +98,8 @@ public class MessageBoxController extends AbstractController{
 				try {
 					if (box.getId() != 0) {
 						final MessageBox b = this.messageBoxService.findOne(box.getId());
-						//final Actor actorLogged = this.actorService.findByPrincipal();
-						//Assert.isTrue(b.getOwner().equals(actorLogged));
+						final Actor actorLogged = this.actorService.findByPrincipal();
+						Assert.isTrue(b.getOwner().equals(actorLogged));
 					}
 					this.messageBoxService.save(box);
 					result = new ModelAndView("redirect:list.do");
@@ -120,14 +123,14 @@ public class MessageBoxController extends AbstractController{
 		MessageBox box;
 		try {
 			box = this.messageBoxService.findOne(Id);
-			//final Actor actorLogged = this.actorService.findByPrincipal();
-			//Assert.isTrue(box.getOwner().equals(actorLogged));
+			final Actor actorLogged = this.actorService.findByPrincipal();
+			Assert.isTrue(box.getOwner().equals(actorLogged));
 			result = new ModelAndView("messagebox/edit");
-			//final Collection<MessageBox> boxes = this.messageBoxService.findByOwner(actorLogged.getId());
+			final Collection<MessageBox> boxes = this.messageBoxService.findByOwner(actorLogged.getId());
 			final Collection<MessageBox> childBoxes = this.messageBoxService.findByParent(box.getId());
 			Assert.notNull(box);
-			//boxes.remove(box);
-			//boxes.removeAll(childBoxes);
+			boxes.remove(box);
+			boxes.removeAll(childBoxes);
 			result.addObject("messageBox", box);
 			//result.addObject("messageBoxes", boxes);
 		} catch (final Throwable opps) {
@@ -140,12 +143,12 @@ public class MessageBoxController extends AbstractController{
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
 	public ModelAndView create() {
 		ModelAndView result;
-		//final Collection<MessageBox> boxes = this.messageBoxService.findByOwner(this.actorService.findByPrincipal().getId());
+		final Collection<MessageBox> boxes = this.messageBoxService.findByOwner(this.actorService.findByPrincipal().getId());
 		try {
 			result = new ModelAndView("messagebox/edit");
 			final MessageBox box = this.messageBoxService.create();
 			result.addObject("messageBox", box);
-			//result.addObject("messageBoxes", boxes);
+			result.addObject("messageBoxes", boxes);
 		} catch (final Throwable opps) {
 			result = new ModelAndView("redirect:list.do");
 			result.addObject("messageCode", "messagebox.commit.error");

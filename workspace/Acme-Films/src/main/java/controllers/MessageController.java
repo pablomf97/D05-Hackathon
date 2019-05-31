@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
@@ -63,7 +65,7 @@ public class MessageController extends AbstractController {
 
 		result = new ModelAndView("message/display");
 		result.addObject("message0", message);
-
+		
 		return result;
 	}
 
@@ -84,20 +86,22 @@ public class MessageController extends AbstractController {
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
 	public ModelAndView save(final Message mensaje, final BindingResult binding) {
 		ModelAndView result;
-		Message message;
+		Message m;
 
-		message = this.messageService.reconstruct(mensaje, binding);
+		m = this.messageService.reconstruct(mensaje, binding);
 
-		if (binding.hasErrors())
-			result = this.createEditModelAndView(message);
-		else
+		if(binding.hasErrors()){
+			result = this.createEditModelAndView(m);
+		}else{
 			try {
-				this.messageService.save(message);
+				this.messageService.save(m);
 				result = new ModelAndView("redirect:/messagebox/list.do");
 			} catch (final Throwable oops) {
-				result = this.createEditModelAndView(message,
+				result = this.createEditModelAndView(m,
 						"message.commit.error");
 			}
+		}
+
 		return result;
 
 	}
@@ -208,14 +212,20 @@ public class MessageController extends AbstractController {
 
 		recipients = this.actorService.findAllExceptPrincipal();
 
-		priority = this.systemConfigurationService.findMySystemConfiguration()
-				.getMessagePriority();
+		//		priority = this.systemConfigurationService.findMySystemConfiguration()
+		//				.getMessagePriority();
+		//
+		//		priorities = priority.split(",");
 
-		priorities = priority.split(",");
+		//		for (String p : priorities) {
+		//			splitPriorities.add(p);
+		//		}
+		Collection<String> priorities2 = new ArrayList<String>();
 
-		for (String p : priorities) {
-			splitPriorities.add(p);
-		}
+		priorities2.add("HIGH");
+		priorities2.add("NEUTRAL");
+		priorities2.add("LOW");
+
 		result = new ModelAndView("message/edit");
 		result.addObject("sentMoment", sentMoment);
 		result.addObject("messageBoxes", messageBoxes);
@@ -228,7 +238,7 @@ public class MessageController extends AbstractController {
 		result.addObject("message", messageError);
 		result.addObject("recipients", recipients);
 
-		result.addObject("priorities", splitPriorities);
+		result.addObject("priorities", priorities2);
 
 		return result;
 	}

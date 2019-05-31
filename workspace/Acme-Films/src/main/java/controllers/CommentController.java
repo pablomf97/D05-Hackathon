@@ -15,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 import services.ActorService;
 import services.CommentService;
 import services.FilmService;
+import services.GroupService;
 import domain.Comment;
 import domain.Film;
 import domain.FilmEnthusiast;
@@ -35,7 +36,7 @@ public class CommentController extends AbstractController {
 	private FilmService filmService;
 
 	@Autowired
-	private ForumService forumService;
+	private GroupService forumService;
 
 	// Create
 
@@ -66,7 +67,7 @@ public class CommentController extends AbstractController {
 		ModelAndView result;
 		FilmEnthusiast principal = (FilmEnthusiast) this.actorService
 				.findByPrincipal();
-		Collection<Film> forums = this.forumService.findAll();
+		Collection<Forum> forums = this.forumService.findAll();
 
 		Comment comment = this.commentService.create();
 
@@ -89,7 +90,7 @@ public class CommentController extends AbstractController {
 	public ModelAndView saveFilm(@Valid final Comment comment,
 			final BindingResult binding) {
 		ModelAndView result;
-		Comment validComment;
+	
 
 		if (binding.hasErrors()) {
 			result = new ModelAndView("comment/create");
@@ -100,7 +101,7 @@ public class CommentController extends AbstractController {
 				Film film = comment.getFilm();
 				Forum forum = comment.getForum();
 
-				this.commentService.save(validComment, film, forum);
+				this.commentService.save(comment, film, forum);
 				result = new ModelAndView("redirect:/welcome.index");
 			} catch (Throwable oops) {
 				result = new ModelAndView("comment/create");
@@ -116,7 +117,7 @@ public class CommentController extends AbstractController {
 	public ModelAndView saveForum(@Valid final Comment comment,
 			final BindingResult binding) {
 		ModelAndView result;
-		Comment validComment;
+		
 
 		if (binding.hasErrors()) {
 			result = new ModelAndView("comment/create");
@@ -127,7 +128,7 @@ public class CommentController extends AbstractController {
 				Film film = comment.getFilm();
 				Forum forum = comment.getForum();
 
-				this.commentService.save(validComment, film, forum);
+				this.commentService.save(comment, film, forum);
 				result = new ModelAndView("redirect:/welcome.index");
 			} catch (Throwable oops) {
 				result = new ModelAndView("comment/create");
@@ -176,6 +177,9 @@ public class CommentController extends AbstractController {
 		result = new ModelAndView("comment/display");
 		result.addObject("comment", comment);
 		result.addObject("possible", possible);
+		
+		return result;
 	}
+	
 
 }

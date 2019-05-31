@@ -8,7 +8,7 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
-<security:authorize access="hasRole('ADMINISTRATOR')">
+<security:authorize access="hasRole('ADMIN')">
 	<jstl:if test="${(mensaje.id == 0) && (possible) && (broadcast)}">
 
 		<h3>Broadcast Message</h3>
@@ -52,7 +52,7 @@
 
 			<input type="button" name="cancel"
 				value="<spring:message code="message.cancel" />"
-				onclick="javascript: relativeRedir('/box/actor/list.do');" />
+				onclick="javascript: relativeRedir('/messagebox/list.do');" />
 
 			<br />
 

@@ -13,15 +13,15 @@
 	<jstl:if test="${(mensaje.id == 0) && (!broadcast)}">
 		<form:form action="message/actor/edit.do" modelAttribute="mensaje">
 
-			<form:label path="recipient">
+			<form:label path="receiver">
 				<spring:message code="message.recipient.userAccount" />:
 	</form:label>
-			<form:select path="recipient">
+			<form:select path="receiver">
 				<form:option label="-----" value="0" />
 				<form:options items="${recipients}" itemLabel="userAccount.username"
 					itemValue="id" />
 			</form:select>
-			<form:errors cssClass="error" path="recipient" />
+			<form:errors cssClass="error" path="receiver" />
 			<br />
 			<br />
 

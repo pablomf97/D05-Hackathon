@@ -31,13 +31,13 @@
 	</jstl:if>
 	<br />
 
-	<form:label path="parentMessageBoxes">
+	<form:label path="parentMessageBox">
 		<spring:message code="messagebox.parentMessageBoxes" />:</form:label>
-	<form:select path="parentMessageBoxes">
+	<form:select path="parentMessageBox">
 		<form:option label="----" value="" />
 		<form:options items="${messageBoxes}" itemLabel="name" itemValue="id" />
 	</form:select>
-	<form:errors path="parentMessageBoxes" cssClass="error" />
+	<form:errors path="parentMessageBox" cssClass="error" />
 	<br />
 
 	<input type="submit" name="save"
