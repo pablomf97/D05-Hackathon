@@ -13,17 +13,15 @@ import domain.Finder;
 public interface FinderRepository extends JpaRepository<Finder, Integer>{
 
 
+
 	@Query("select f from Film f where f.isDraft='0'")
 	Collection<Film> allFilmsFinal();
-//	@Query("select distinct f from Film f join f.sagas m, in (f.title) p where p like %?1% and m.title like %?1% and  f.runTime <= ?2 and    f.rating >= ?3 and f.rating <= ?4 and f.isDraft ='0'")
-	//Collection<Film> searchTitleSaga(String keyWord, Double maximumDuration,Double minimumRating,Double maximumRating);
-	//mirar si busca cuando no tenga un genero por ejemplo
-	@Query("select distinct f from Film f join f.genres m join f.persons p, in (m.name) g where g like %?1% and p.name like %?1% and f.title like %?1% and f.synopsis like %?1%  and  f.runTime <= ?2 and    f.rating >= ?3 and f.rating <= ?4 and f.isDraft ='0'")
-	Collection<Film> search(String keyWord, Double maximumDuration,Double minimumRating,Double maximumRating);
-//	@Query("select distinct f from Film f, in (f.synopsis)  p where p like %?1% and  f.runTime <= ?2 and    f.rating >= ?3 and f.rating <= ?4 and f.isDraft ='0'")
-	//Collection<Film> searchS(String keyWord, Double maximumDuration,Double minimumRating,Double maximumRating);
-	@Query("select v.film from Visualization v join v.film f where v.siteName like %?1% and f.isDraft='1'and  f.runTime <= ?2 and    f.rating >= ?3 and f.rating <= ?4 and f.isDraft ='0'")
-	Collection<Film> searchV(String keyWord, Double maximumDuration,Double minimumRating,Double maximumRating);
+
+	@Query("select distinct f from Film f join f.genres m join f.persons p, in (m.name) g where ( g like %?1% or p.name like %?1% or f.title like %?1% or f.synopsis like %?1% ) and  f.runTime <= ?2 and    f.rating >= ?3 and f.rating <= ?4 and f.isDraft ='0'")
+	Collection<Film> search(String keyWord, Integer maximumDuration,Double minimumRating,Double maximumRating);
+
+	@Query("select v.film from Visualization v join v.film f where v.siteName like %?1% and  f.runTime <= ?2 and    f.rating >= ?3 and f.rating <= ?4 and f.isDraft ='0'")
+	Collection<Film> searchV(String keyWord, Integer maximumDuration,Double minimumRating,Double maximumRating);
 
 	@Query("select (sum(case when m.results.size=0 then 1.0 else 0 end)/count(m)) from Finder m")
 	Double RatioFindersEmpty();
