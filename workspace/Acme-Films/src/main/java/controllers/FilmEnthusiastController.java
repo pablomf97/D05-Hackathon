@@ -47,15 +47,18 @@ public class FilmEnthusiastController extends AbstractController {
 		FilmEnthusiast toDisplay;
 		String requestURI = "filmEnthusiast/display.do";
 		Boolean found = true;
-		Boolean permission;
+		Boolean permission = false;
 
 		try {
 			if (id != null) {
 				toDisplay = (FilmEnthusiast) this.actorService.findOne(id);
 				if (toDisplay == null)
 					found = false;
-				permission = (toDisplay.getId() == this.actorService
-						.findByPrincipal().getId()) ? true : false;
+				if (this.actorService
+						.findByPrincipal() != null) {
+					permission = (toDisplay.getId() == this.actorService
+							.findByPrincipal().getId()) ? true : false;
+				}
 				requestURI += "?id=" + id;
 			} else {
 				toDisplay = (FilmEnthusiast) this.actorService.findByPrincipal();

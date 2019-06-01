@@ -1589,21 +1589,18 @@
 	<!-- **************************** PERSONAL DATA **************************** -->
 
 	<bean id="personalData1" class="domain.PersonalData">
-		<property name="githubProfile" value="https://github.com/pabmac" />
 		<property name="linkedIn" value="https://www.linkedin.com/in/pabmac/" />
 		<property name="fullName" value="Alberto Ramírez" />
 		<property name="statement" value="Statement of personalData 1" />
 		<property name="phoneNumber" value="646626167" />
 	</bean>
 	<bean id="personalData2" class="domain.PersonalData">
-		<property name="githubProfile" value="https://github.com/pabmac" />
 		<property name="linkedIn" value="https://www.linkedin.com/in/pabmac/" />
 		<property name="fullName" value="Alberto Ramírez" />
 		<property name="statement" value="Statement of personalData 1" />
 		<property name="phoneNumber" value="646626167" />
 	</bean>
 	<bean id="personalData3" class="domain.PersonalData">
-		<property name="githubProfile" value="https://github.com/pabmac" />
 		<property name="linkedIn" value="https://www.linkedin.com/in/pabmac/" />
 		<property name="fullName" value="Alberto Ramírez" />
 		<property name="statement" value="Statement of personalData 1" />
@@ -1705,7 +1702,7 @@
 			<util:map id="utilmap04" map-class="java.util.HashMap"
 				key-type="java.lang.String" value-type="java.lang.String">
 				<entry key="Español" value="Comedia " />
-				<entry key="English" value="Comedy" />
+				<entry key="English" value="comedy" />
 
 			</util:map>
 		</property>
@@ -2093,6 +2090,7 @@
 		<property name="description" value="Forum to talk about Captain Fantastic" />
 		<property name="creationDate" value="12/12/2017 12:12" />
 		<property name="rejectReason" value="" />
+		<property name="isActive" value="true" />
 		<property name="creator" ref="filmEnthusiast1" />
 		<property name="groupMembers">
 			<list>
@@ -2112,6 +2110,8 @@
 		<property name="description" value="Forum to talk about Captain Fantastic" />
 		<property name="creationDate" value="12/12/2017 12:12" />
 		<property name="rejectReason" value="" />
+		<property name="isActive" value="true" />
+
 		<property name="creator" ref="filmEnthusiast2" />
 		<property name="groupMembers">
 			<list>
@@ -2123,7 +2123,6 @@
 			<ref bean="saga1" />
 
 		</property>
-		<property name="filmAbout" ref="film5" />
 		<property name="moderator" ref="moderator2" />
 
 	</bean>
@@ -2132,6 +2131,8 @@
 		<property name="description" value="Forum to talk about Captain Fantastic" />
 		<property name="creationDate" value="12/12/2017 12:12" />
 		<property name="rejectReason" value="" />
+		<property name="isActive" value="true" />
+
 		<property name="creator" ref="filmEnthusiast2" />
 		<property name="groupMembers">
 			<list>
@@ -2141,7 +2142,6 @@
 		<property name="sagaAbout">
 			<ref bean="saga2" />
 		</property>
-		<property name="filmAbout" ref="film4" />
 		<property name="moderator" ref="moderator3" />
 
 	</bean>
@@ -2161,6 +2161,26 @@
 		</property>
 		<property name="filmAbout" ref="film3" />
 		<property name="moderator" ref="moderator1" />
+
+	</bean>
+	<bean id="forum5" class="domain.Forum">
+		<property name="name" value="Fantastic Forum" />
+		<property name="description" value="Forum to talk about Captain Fantastic" />
+		<property name="creationDate" value="12/12/2017 12:12" />
+		<property name="rejectReason" value="" />
+		<property name="creator" ref="filmEnthusiast3" />
+		<property name="groupMembers">
+			<list>
+				<ref bean="filmEnthusiast1" />
+			</list>
+		</property>
+		<property name="sagaAbout">
+			<null />
+		</property>
+		<property name="filmAbout" ref="film3" />
+		<property name="moderator">
+			<null />
+		</property>
 
 	</bean>
 
@@ -2521,7 +2541,7 @@
 		<property name="banner"
 			value="https://www.eff.org/files/banner_library/google-spy-eye.png" />
 		<property name="targetPage" value="https://www.sponsorship1.com" />
-		
+
 		<property name="sponsor" ref="sponsor1" />
 
 		<property name="creditCard" ref="creditCard4" />

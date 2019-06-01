@@ -15,6 +15,12 @@
 		<put-attribute name="body" value="/views/filmenthusiast/display.jsp" />
 	</definition>
 
+	<definition name="filmEnthusiast/list" extends="master.page">
+		<put-attribute name="title" value="Listar miembros" />
+		<put-attribute name="body"
+			value="/views/filmenthusiast/listMembers.jsp" />
+	</definition>
+
 	<definition name="filmEnthusiast/register" extends="master.page">
 		<put-attribute name="title" value="Registrar patrocinador" />
 		<put-attribute name="body" value="/views/filmenthusiast/register.jsp" />
