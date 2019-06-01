@@ -70,7 +70,14 @@ public class SponsorshipService {
 		Sponsorship result;
 
 		principal = this.actorService.findByPrincipal();
-		Assert.isTrue(sponsorship.getSponsor().equals((Sponsor) principal), "not.allowed");
+		if(sponsorship.getId() != 0) {
+			if(this.actorService.checkAuthority(principal, "MODERATOR")) {
+				Assert.isTrue(this.actorService.checkAuthority(principal, "MODERATOR"),
+						"not.allowed");
+			} else if (this.actorService.checkAuthority(principal, "MODERATOR")) {
+				Assert.isTrue(sponsorship.getSponsor().equals((Sponsor) (principal)), "not.allowed");
+			}
+		}
 		
 		Assert.notNull(sponsorship.getTitle());
 		Assert.notNull(sponsorship.getBanner());

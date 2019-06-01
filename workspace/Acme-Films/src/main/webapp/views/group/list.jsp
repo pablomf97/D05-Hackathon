@@ -34,7 +34,8 @@
 		</display:column>
 
 		<display:column titleKey="group.display">
-			<jstl:if test="${group.isActive or group.creator eq actor }">
+			<jstl:if
+				test="${group.isActive or group.creator.userAccount.username eq actor.userAccount.username or group.moderator.userAccount.username eq actor.userAccount.username}">
 				<a href="group/display.do?Id=${group.id}"> <spring:message
 						code="group.display" />
 				</a>
@@ -44,13 +45,13 @@
 		<display:column titleKey="group.request">
 			<security:authorize access="hasRole('FILMENTHUSIAST')">
 				<jstl:set var="contains" value="false" />
-
-				<jstl:forEach var="item2" items="${event.forum.groupMembers}">
-					<jstl:if test="${item2 eq actor}">
+				<jstl:forEach var="item2" items="${group.groupMembers}">
+					<jstl:if
+						test="${item2.userAccount.username eq actor.userAccount.username}">
 						<jstl:set var="contains" value="true" />
 					</jstl:if>
 				</jstl:forEach>
-				<jstl:if test="${true}">
+				<jstl:if test="${contains}">
 					<a href="group/filmenthusiast/request.do?Id=${group.id}"> <spring:message
 							code="group.request" />
 					</a>
@@ -60,8 +61,8 @@
 		<!-- Editar por moderador -->
 		<display:column titleKey="group.active">
 			<security:authorize access="hasRole('MODERATOR')">
-				<jstl:if
-					test="${group.moderator eq actor or empty group.moderator }">
+				<jstl:if test="${empty group.moderator and not group.isActive}">
+
 					<a href="group/moderator/edit.do?Id=${group.id}"> <spring:message
 							code="group.active" />
 					</a>

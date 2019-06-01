@@ -22,7 +22,7 @@
 				</display:column>
 
 				<display:column titleKey="sponsorship.banner" sortable="true">
-					<jstl:out value="${sponsorship.banner}" /> &#8364;
+					<jstl:out value="${sponsorship.banner}" />
 				</display:column>
 				
 				<display:column titleKey="sponsorship.title" sortable="true">
@@ -30,11 +30,17 @@
 				</display:column>
 
 				<display:column titleKey="sponsorship.targetPage" sortable="true">
-					<jstl:out value="${sponsorship.targetPage}" /> &#8364;
+					<jstl:out value="${sponsorship.targetPage}" />
 				</display:column>
 				
 				<display:column titleKey="sponsorship.sponsor" sortable="true">
 					<jstl:out value="${sponsorship.sponsor.name} ${sponsorship.sponsor.surname}" />
+				</display:column>
+				
+				<display:column>
+					<a href="sponsorship/display.do?sponsorshipId=${sponsorship.id}"> <spring:message
+							code="sponsorship.display" />
+					</a>
 				</display:column>
 				
 				<display:column>
@@ -58,18 +64,29 @@
 			<display:table class="displaytag" name="sponsorships" pagesize="5" 
 				requestURI="sponsorship/list.do" id="sponsorship">
 
-				<display:column titleKey="sponsorship.siteName" sortable="true">
-					<jstl:out value="${sponsorship.siteName}" />
+				<display:column titleKey="sponsorship.title" sortable="true">
+					<jstl:out value="${sponsorship.title}" />
 				</display:column>
 
-				<display:column titleKey="sponsorship.price" sortable="true">
-					<jstl:out value="${sponsorship.price}" />
+				<display:column titleKey="sponsorship.banner" sortable="true">
+					<jstl:out value="${sponsorship.banner}" />
 				</display:column>
 				
-				<display:column titleKey="sponsorship.link" sortable="true">
-					<a href="${sponsorship.link}"> 
-						<spring:message
-							code="sponsorship.link.goto" />
+				<display:column titleKey="sponsorship.title" sortable="true">
+					<jstl:out value="${sponsorship.title}" />
+				</display:column>
+
+				<display:column titleKey="sponsorship.targetPage" sortable="true">
+					<jstl:out value="${sponsorship.targetPage}" />
+				</display:column>
+				
+				<display:column titleKey="sponsorship.isActive" sortable="true">
+					<jstl:out value="${sponsorship.isActive}" />
+				</display:column>
+				
+				<display:column>
+					<a href="sponsorship/display.do?sponsorshipId=${sponsorship.id}"> <spring:message
+							code="sponsorship.display" />
 					</a>
 				</display:column>
 				
@@ -80,9 +97,19 @@
 				</display:column>
 				
 				<display:column>
+				<jstl:if test="${sponsorship.isActive eq null}">
 					<a href="sponsorship/delete.do?sponsorshipId=${sponsorship.id}"> <spring:message
 							code="sponsorship.delete" />
 					</a>
+				</jstl:if>
+				</display:column>
+								<display:column>
+				<jstl:if test="${sponsorship.isActive eq true}">
+					<a id="edit"
+						href="sponsorship/action.do?action=reject&sponsorshipId=${sponsorship.id}">
+						<spring:message code="sponsorship.deactivate" />
+					</a>
+				</jstl:if>
 				</display:column>
 			</display:table>
 			<br><a href="sponsorship/create.do?filmId=${film.id }"> <spring:message
