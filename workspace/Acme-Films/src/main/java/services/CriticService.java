@@ -300,7 +300,12 @@ public class CriticService {
 	public Collection<Critic> top3CriticsMoreProfessional() {
 		List<Critic> l = (List<Critic>) this.criticRepository
 				.top3CriticsMoreProfessional();
+		if(l.size()==0){
+			return l;
+		}else{
+		
 		return l.subList(0, 3);
+		}
 	}
 
 	public Collection<Critic> criticsWithHighestRatingReview() {

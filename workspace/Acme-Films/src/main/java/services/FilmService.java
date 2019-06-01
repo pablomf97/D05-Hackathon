@@ -154,8 +154,13 @@ public class FilmService {
 		return this.filmRepository.ratioFinalModeFilms();
 	}
 	public Collection<Film> top5FilmsWithMoreRunTime(){
-		List<Film> col =(List<Film>) this.filmRepository.top5FilmsWithMoreRunTime();
-		return col.subList(0,5);
+		List<Film> l =(List<Film>) this.filmRepository.top5FilmsWithMoreRunTime();
+		if(l.size()==0){
+			return l;
+		}else{
+		
+		return l.subList(0,5);
+		}
 	}
 	public Double[] statsPointsVisualizationPerFilm(){
 		return this.filmRepository.statsPointsVisualizationPerFilm();
@@ -214,7 +219,9 @@ public class FilmService {
 		
 		return result;
 	}
-	
+	public Collection<Film> filmsByModerator(int moderatorId){
+		return this.filmRepository.filmsByModerator(moderatorId);
+	}
 	
 
 }

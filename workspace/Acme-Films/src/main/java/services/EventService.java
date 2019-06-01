@@ -149,6 +149,11 @@ public class EventService {
 	public Collection<Event> top3EventsWithMorePeople() {
 		List<Event> l = (List<Event>) this.eventRepository
 				.top3EventsWithMorePeople();
+		if(l.size()==0){
+			return l;
+		}else{
+		
 		return l.subList(0, 3);
+		}
 	}
 }

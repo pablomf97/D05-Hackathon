@@ -109,6 +109,8 @@
 									code="actor.view" /></a></li>
 						<li><a href="moderator/moderator/edit.do"><spring:message
 									code="master.page.actor.edit" /></a></li>
+									<li><a href="moderator/export.do"><spring:message
+									code="export" /></a></li>
 					</security:authorize>
 
 					<security:authorize access="hasRole('SPONSOR')">
@@ -116,6 +118,8 @@
 									code="actor.view" /></a></li>
 						<li><a href="sponsor/sponsor/edit.do"><spring:message
 									code="master.page.actor.edit" /></a></li>
+									<li><a href="sponsor/export.do"><spring:message
+									code="export" /></a></li>
 					</security:authorize>
 
 					<security:authorize access="hasRole('FILMENTHUSIAST')">
@@ -125,6 +129,8 @@
 									code="actor.view" /></a></li>
 						<li><a href="filmEnthusiast/filmEnthusiast/edit.do"><spring:message
 									code="master.page.actor.edit" /></a></li>
+									<li><a href="filmEnthusiast/export.do"><spring:message
+									code="export" /></a></li>
 					</security:authorize>
 
 					<security:authorize access="hasRole('CRITIC')">
@@ -132,6 +138,8 @@
 									code="actor.view" /></a></li>
 						<li><a href="critic/critic/edit.do"><spring:message
 									code="master.page.actor.edit" /></a></li>
+									<li><a href="critic/export.do"><spring:message
+									code="export" /></a></li>
 					</security:authorize>
 
 

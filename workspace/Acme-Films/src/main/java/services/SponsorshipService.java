@@ -151,5 +151,9 @@ public class SponsorshipService {
 		
 		return res;
 	}
+	
+		public Collection <Sponsorship> sponsorshipPerSponsor(int id){
+			return this.sponsorshipRepository.sponsorshipPerSponsor(id);
+		}
 }
 
