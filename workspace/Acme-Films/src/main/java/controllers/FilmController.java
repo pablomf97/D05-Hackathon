@@ -22,7 +22,6 @@ import domain.Actor;
 import domain.Film;
 import domain.Genre;
 import domain.Person;
-import domain.Position;
 import domain.Saga;
 
 @Controller

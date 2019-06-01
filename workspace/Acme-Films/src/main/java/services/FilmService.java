@@ -231,5 +231,13 @@ public class FilmService {
 		
 		return result;
 	}
+	
+	public Collection<Film> publishedFilms() {
+		Collection<Film> result;
+		
+		result = this.filmRepository.publishedFilms();
+		
+		return result;
+	}
 
 }
