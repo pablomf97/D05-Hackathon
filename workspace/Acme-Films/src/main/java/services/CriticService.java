@@ -17,7 +17,6 @@ import security.Authority;
 import security.UserAccount;
 import domain.Actor;
 import domain.Critic;
-import domain.MessageBox;
 import domain.SocialProfile;
 import forms.EditionFormObject;
 import forms.RegisterFormObject;
@@ -50,9 +49,7 @@ public class CriticService {
 		Critic res;
 
 		Collection<SocialProfile> social;
-		Collection<MessageBox> boxes;
 		social = new ArrayList<>();
-		boxes = new ArrayList<>();
 
 		UserAccount userAccount;
 		Authority auth;
@@ -68,7 +65,6 @@ public class CriticService {
 		userAccount.setAuthorities(authority);
 
 		res.setUserAccount(userAccount);
-		res.setMessageBoxes(boxes);
 		res.setSocialProfile(social);
 
 		return res;
@@ -261,7 +257,6 @@ public class CriticService {
 		res.setAddress(form.getAddress());
 		res.setIsSpammer(principal.getIsSpammer());
 		res.setSocialProfile(principal.getSocialProfile());
-		res.setMessageBoxes(principal.getMessageBoxes());
 
 		if (form.getEmail() != null) {
 			try {
@@ -301,12 +296,14 @@ public class CriticService {
 	public void flush() {
 		this.criticRepository.flush();
 	}
-	
-	public Collection<Critic> top3CriticsMoreProfessional(){
-		List<Critic> l =(List<Critic> )this.criticRepository.top3CriticsMoreProfessional();
+
+	public Collection<Critic> top3CriticsMoreProfessional() {
+		List<Critic> l = (List<Critic>) this.criticRepository
+				.top3CriticsMoreProfessional();
 		return l.subList(0, 3);
 	}
-	public Collection<Critic> criticsWithHighestRatingReview(){
+
+	public Collection<Critic> criticsWithHighestRatingReview() {
 		return this.criticRepository.criticsWithHighestRatingReview();
 	}
 }

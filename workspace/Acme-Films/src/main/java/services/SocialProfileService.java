@@ -82,7 +82,11 @@ public class SocialProfileService {
 
 	}
 
-	public Integer socialProfilesInSystem(){
+	public Integer socialProfilesInSystem() {
 		return this.socialProfileRepository.socialProfilesInSystem();
+	}
+
+	public void flush() {
+		this.socialProfileRepository.flush();
 	}
 }

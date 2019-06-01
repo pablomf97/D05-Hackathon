@@ -67,7 +67,8 @@
 
 					<jstl:if test="${permission}">
 						<display:column>
-							<button onclick="location.href='social/actor/edit.do?id=${profile.id}'">
+							<button
+								onclick="location.href='social/actor/edit.do?id=${profile.id}'">
 								<spring:message code="social.edit" />
 							</button>
 						</display:column>
@@ -81,6 +82,15 @@
 			</div>
 
 		</fieldset>
+
+		<br />
+
+		<jstl:if test="${permission}">
+			<button onclick="location.href='social/actor/create.do'">
+				<spring:message code="social.create" />
+			</button>
+		</jstl:if>
+
 		<br />
 
 
