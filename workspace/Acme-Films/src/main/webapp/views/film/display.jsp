@@ -111,6 +111,14 @@
 			<spring:message code="group.list" />
 		</a>
 	</security:authorize>
+	<br/>
+	<br/>
+	
+	<security:authorize access="hasRole('FILMENTHUSIAST')">
+		<a href="group/create.do?Id=${film.id}"> <spring:message
+				code="group.newcreate" />
+		</a>
+	</security:authorize>
 </p>
 
 

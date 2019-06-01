@@ -46,9 +46,16 @@
 
 
 </display:table>
-	<security:authorize access="hasAnyRole('MODERATOR','FILMENTHUSIAST')">
-		<a
-			href="group/listBySaga.do?Id=${saga.id}">
-			<spring:message code="group.list" />
-		</a>
-	</security:authorize>
+<security:authorize access="hasAnyRole('MODERATOR','FILMENTHUSIAST')">
+	<a href="group/listBySaga.do?Id=${saga.id}"> <spring:message
+			code="group.list" />
+	</a>
+</security:authorize>
+<br/>
+<br/>
+
+<security:authorize access="hasRole('FILMENTHUSIAST')">
+	<a href="group/create.do?Id=${saga.id}"> <spring:message
+			code="group.newcreate" />
+	</a>
+</security:authorize>
