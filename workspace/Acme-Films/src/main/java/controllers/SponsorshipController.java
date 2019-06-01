@@ -158,15 +158,23 @@ public class SponsorshipController extends AbstractController {
 	public ModelAndView actionsEnrolments(@RequestParam final String action, @RequestParam final int sponsorshipId) {
 		ModelAndView res;
 		Actor principal;
-		Sponsorship sponsorship;
+		Sponsorship sponsorship = null; 
 
 		try {
 			principal = this.actorService.findByPrincipal();
-			Assert.isTrue((this.actorService.checkAuthority(principal, "MODERATOR")));
+			Assert.isTrue((this.actorService.checkAuthority(principal, "MODERATOR")) ||
+					(this.actorService.checkAuthority(principal, "SPONSOR")));
 
 			sponsorship = this.sponsorshipService.findOne(sponsorshipId);
 
-			Assert.isTrue(!sponsorship.getIsActive());
+			if((this.actorService.checkAuthority(principal, "MODERATOR"))) {
+				Assert.isNull(sponsorship.getIsActive());
+			}
+			
+			if((this.actorService.checkAuthority(principal, "SPONSOR"))) {
+				Assert.isTrue(sponsorship.getIsActive());
+			}
+			
 
 			if (action.equals("accept")) {
 

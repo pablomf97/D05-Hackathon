@@ -42,15 +42,27 @@
 
 		</security:authorize>
 
-
-		<security:authorize access="isAuthenticated()">
-
+		<security:authorize access="hasRole('SPONSOR')">
+		
 			<li><a class="fNiv"><spring:message
-						code="master.page.film" /></a>
+						code="master.page.sponsorship" /></a>
 				<ul>
 					<li class="arrow"></li>
-					<li><a href="film/list.do"><spring:message
-								code="master.page.film.list" /></a></li>
+					<li><a href="sponsorship/list.do"><spring:message
+								code="master.page.sponsorship.list" /></a></li>
+				</ul>
+			</li>
+		
+		</security:authorize>
+
+		<security:authorize access="hasRole('MODERATOR')">
+
+			<li><a class="fNiv"><spring:message
+						code="master.page.sponsorship" /></a>
+				<ul>
+					<li class="arrow"></li>
+					<li><a href="sponsorship/list.do"><spring:message
+								code="master.page.sponsorship.list" /></a></li>
 				</ul></li>
 				
 			<li><a class="fNiv"><spring:message
