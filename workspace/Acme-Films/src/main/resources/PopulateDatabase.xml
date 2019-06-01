@@ -2668,6 +2668,7 @@
 		<property name="description" value="Forum to talk about Captain Fantastic" />
 		<property name="creationDate" value="12/12/2017 12:12" />
 		<property name="rejectReason" value="" />
+		<property name="isActive" value="true" />
 		<property name="creator" ref="filmEnthusiast1" />
 		<property name="groupMembers">
 			<list>
@@ -2687,6 +2688,8 @@
 		<property name="description" value="Forum to talk about Captain Fantastic" />
 		<property name="creationDate" value="12/12/2017 12:12" />
 		<property name="rejectReason" value="" />
+		<property name="isActive" value="true" />
+
 		<property name="creator" ref="filmEnthusiast2" />
 		<property name="groupMembers">
 			<list>
@@ -2698,7 +2701,6 @@
 			<ref bean="saga1" />
 
 		</property>
-		<property name="filmAbout" ref="film5" />
 		<property name="moderator" ref="moderator2" />
 
 	</bean>
@@ -2707,6 +2709,8 @@
 		<property name="description" value="Forum to talk about Captain Fantastic" />
 		<property name="creationDate" value="12/12/2017 12:12" />
 		<property name="rejectReason" value="" />
+		<property name="isActive" value="true" />
+
 		<property name="creator" ref="filmEnthusiast2" />
 		<property name="groupMembers">
 			<list>
@@ -2716,7 +2720,6 @@
 		<property name="sagaAbout">
 			<ref bean="saga2" />
 		</property>
-		<property name="filmAbout" ref="film4" />
 		<property name="moderator" ref="moderator3" />
 
 	</bean>
@@ -2736,6 +2739,26 @@
 		</property>
 		<property name="filmAbout" ref="film3" />
 		<property name="moderator" ref="moderator1" />
+
+	</bean>
+	<bean id="forum5" class="domain.Forum">
+		<property name="name" value="Fantastic Forum" />
+		<property name="description" value="Forum to talk about Captain Fantastic" />
+		<property name="creationDate" value="12/12/2017 12:12" />
+		<property name="rejectReason" value="" />
+		<property name="creator" ref="filmEnthusiast3" />
+		<property name="groupMembers">
+			<list>
+				<ref bean="filmEnthusiast1" />
+			</list>
+		</property>
+		<property name="sagaAbout">
+			<null />
+		</property>
+		<property name="filmAbout" ref="film3" />
+		<property name="moderator">
+			<null />
+		</property>
 
 	</bean>
 

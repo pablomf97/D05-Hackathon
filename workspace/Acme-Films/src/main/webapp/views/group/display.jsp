@@ -7,98 +7,95 @@
 <%@taglib prefix="security"
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
-<security:authorize access="hasAnyRole('FIMLENTHUSIAST','MODERATOR')">
+<security:authorize access="hasAnyRole('FILMENTHUSIAST','MODERATOR')">
 	<table class="displayStyle">
 		<tr>
 
-			<td><strong><spring:message code="event.title" /> : </strong></td>
-			<td><jstl:out value="${event.title}">
+			<td><strong><spring:message code="group.name" /> : </strong></td>
+			<td><jstl:out value="${group.name}">
 				</jstl:out></td>
 		</tr>
 		<tr>
 
-			<td><strong><spring:message code="event.address" /> :
+			<td><strong><spring:message code="group.creationDate" />
+					: </strong></td>
+			<td><jstl:out value="${group.creationDate}">
+				</jstl:out></td>
+		</tr>
+		<tr>
+
+			<td><strong><spring:message code="group.creator" /> :
 			</strong></td>
-			<td><jstl:out value="${event.address}">
+			<td><jstl:out value="${group.creator.userAccount.username}">
 				</jstl:out></td>
 		</tr>
 		<tr>
+			<td><strong><spring:message code="group.about" /> : </strong></td>
 
-			<td><strong><spring:message code="event.price" /> : </strong></td>
-			<td><jstl:out value="${event.price}">
-				</jstl:out></td>
+			<jstl:if test="${not empty group.sagaAbout }">
+				<td><jstl:out value="${group.sagaAbout.title}"></jstl:out></td>
+			</jstl:if>
+			<jstl:if test="${not empty group.filmAbout }">
+				<td><jstl:out value="${group.filmAbout.title}"></jstl:out></td>
+			</jstl:if>
+
 		</tr>
 		<tr>
 
-			<td><strong><spring:message code="event.eventDate" />
+			<td><strong><spring:message code="group.description" />
 					: </strong></td>
-			<td><jstl:out value="${event.eventDate}">
-				</jstl:out></td>
-		</tr>
-		<tr>
-
-			<td><strong><spring:message code="event.signinDeadline" />
-					: </strong></td>
-			<td><jstl:out value="${event.signinDeadline}">
-				</jstl:out></td>
-		</tr>
-		<tr>
-
-			<td><strong><spring:message
-						code="event.maximumCapacity" /> : </strong></td>
-			<td><jstl:out value="${event.maximumCapacity}">
-				</jstl:out></td>
-		</tr>
-		<tr>
-
-			<td><strong><spring:message code="event.forum.name" />
-					: </strong></td>
-			<td><jstl:out value="${event.forum.name}">
-				</jstl:out></td>
-		</tr>
-		
-				<tr>
-
-			<td><strong><spring:message code="event.description" />
-					: </strong></td>
-			<td><jstl:out value="${event.description}">
+			<td><jstl:out value="${group.description}">
 				</jstl:out></td>
 		</tr>
 
 	</table>
-	<jstl:if test="${event.forum.creator eq actor }">
+	<!--  Lista de comentarios
+	  <jstl:if test="${group.creator eq actor }">
 		<input type="button" name="list"
-			value="<spring:message code="event.list.members"	/>"
-			onclick="redirect: location.href = 'event/filmenthusiast/listMembers.do?Id=${event.id}';" />
+			value="<spring:message code="group.list.members"	/>"
+			onclick="redirect: location.href = 'group/filmenthusiast/listMembers.do?Id=${group.id}';" />
 			
 			<input type="button" name="list"
-			value="<spring:message code="event.delete"	/>"
-			onclick="redirect: location.href = 'event/delete.do?Id=${event.id}';" />
-	</jstl:if>
-	<jstl:if test="${event.forum.creator != actor }">
-		<jstl:set var="contains" value="false" />
+			value="<spring:message code="group.delete"	/>"
+			onclick="redirect: location.href = 'group/delete.do?Id=${group.id}';" />
+	</jstl:if>-->
+	<!-- Delete -->
+	<jstl:if test="${group.creator.id eq actor.id and group.isActive}">
+		</jstl:if>	
+	
+		<input type="button" name="list"
+			value="<spring:message code="group.delete"	/>"
+			onclick="redirect: location.href = 'group/delete.do?Id=${group.id}';" />
 
-		<jstl:forEach var="item" items="${event.attenders}">
-			<jstl:if test="${item eq actor}">
-				<jstl:set var="contains" value="true" />
+	<!-- edit -->
+	<jstl:if test="${group.creator eq actor}">
+		<input type="button" name="list"
+			value="<spring:message code="group.edit"/>"
+			onclick="redirect: location.href = 'group/edit.do?Id=${group.id}';" />
+	</jstl:if>
+	<!-- moderator -->
+	<jstl:if
+		test="${contains and group.maximumCapacity le fn:length(group.attenders)}">
+		<input type="button" name="list"
+			value="<spring:message code="group.request.members"	/>"
+			onclick="redirect: location.href = 'group/moderator/activate.do?Id=${group.id}';" />
+	</jstl:if>
+	<acme:cancel url="group/list.do" code="group.cancel" />
+	<security:authorize access="hasRole('FILMENTHUSIAST')">
+		<jstl:set var="contains2" value="no" />
+
+		<jstl:forEach var="item2" items="${event.forum.groupMembers}">
+			<jstl:if test="${item2 eq actor}">
+				<jstl:set var="contains2" value="yes" />
 			</jstl:if>
 		</jstl:forEach>
-	</jstl:if>
-	<jstl:if test="${contains and event.maximumCapacity le fn:length(event.attenders)}">
-		<input type="button" name="list"
-			value="<spring:message code="event.request.members"	/>"
-			onclick="redirect: location.href = 'event/filmenthusiast/request.do?Id=${event.id}';" />
-	</jstl:if>
-	<jstl:if test="${contains}">
-		<input type="button" name="list"
-			value="<spring:message code="event.list.members"/>"
-			onclick="redirect: location.href = 'event/filmenthusiast/listMembers.do?Id=${event.id}';" />
-	</jstl:if>
-
-	<acme:cancel
-		url="miscellaneousData/critic/list.do?curriculaId=${curriculaId}"
-		code="event.cancel" />
+		<jstl:if test="${contains2 eq 'no'}">
+			<a href="group/filmenthusiast/request.do?Id=${group.id}"> <spring:message
+					code="group.request" />
+			</a>
+		</jstl:if>
+	</security:authorize>
 </security:authorize>

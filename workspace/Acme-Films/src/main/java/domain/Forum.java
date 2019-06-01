@@ -117,7 +117,7 @@ public class Forum extends DomainEntity {
 	}
 
 	@Valid
-	@ManyToOne(optional = false)
+	@ManyToOne(optional = true)
 	public Moderator getModerator() {
 		return this.moderator;
 	}

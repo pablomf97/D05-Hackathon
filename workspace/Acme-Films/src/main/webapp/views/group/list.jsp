@@ -22,28 +22,52 @@
 			<jstl:out value="${group.creationDate}"></jstl:out>
 		</display:column>
 		<display:column titleKey="group.creator">
-			<jstl:out value="${group.creator}"></jstl:out>
+			<jstl:out value="${group.creator.userAccount.username}"></jstl:out>
 		</display:column>
 		<display:column titleKey="group.about">
 			<jstl:if test="${not empty group.sagaAbout }">
-				<jstl:out value="${group.sagaAbout}"></jstl:out>
+				<jstl:out value="${group.sagaAbout.title}"></jstl:out>
 			</jstl:if>
 			<jstl:if test="${not empty group.filmAbout }">
-				<jstl:out value="${group.filmAbout}"></jstl:out>
+				<jstl:out value="${group.filmAbout.title}"></jstl:out>
 			</jstl:if>
 		</display:column>
 
 		<display:column titleKey="group.display">
-			<a href="group/display.do?Id=${group.id}"> <spring:message
-					code="group.display" />
-			</a>
+			<jstl:if test="${group.isActive or group.creator eq actor }">
+				<a href="group/display.do?Id=${group.id}"> <spring:message
+						code="group.display" />
+				</a>
+			</jstl:if>
+		</display:column>
+		<!-- Solicitar membresía -->
+		<display:column titleKey="group.request">
+			<security:authorize access="hasRole('FILMENTHUSIAST')">
+				<jstl:set var="contains" value="false" />
+
+				<jstl:forEach var="item2" items="${event.forum.groupMembers}">
+					<jstl:if test="${item2 eq actor}">
+						<jstl:set var="contains" value="true" />
+					</jstl:if>
+				</jstl:forEach>
+				<jstl:if test="${true}">
+					<a href="group/filmenthusiast/request.do?Id=${group.id}"> <spring:message
+							code="group.request" />
+					</a>
+				</jstl:if>
+			</security:authorize>
+		</display:column>
+		<!-- Editar por moderador -->
+		<display:column titleKey="group.active">
+			<security:authorize access="hasRole('MODERATOR')">
+				<jstl:if
+					test="${group.moderator eq actor or empty group.moderator }">
+					<a href="group/moderator/edit.do?Id=${group.id}"> <spring:message
+							code="group.active" />
+					</a>
+				</jstl:if>
+			</security:authorize>
 		</display:column>
 	</display:table>
-	<jstl:if test="${group.creator eq actor }">
-		<input type="button" value="<spring:message code="group.create"	/>"
-			onclick="redirect: location.href = 'group/create.do?Id=${group.id}';" />
-	</jstl:if>
-	<acme:cancel
-		url="curricula/critic/display.do?curriculaId=${currentCurricula.id}"
-		code="miscellaneousData.cancel" />
+	<acme:cancel url="/" code="group.cancel" />
 </security:authorize>
