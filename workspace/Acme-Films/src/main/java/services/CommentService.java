@@ -8,6 +8,8 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 
 import repositories.CommentRepository;
 import domain.Comment;
@@ -26,6 +28,9 @@ public class CommentService {
 	// Services
 	@Autowired
 	private ActorService actorService;
+	
+	@Autowired
+	private Validator validator;
 
 	
 	// CRUD METHODS
@@ -40,7 +45,7 @@ public class CommentService {
 		return result;
 	}
 
-	public Comment save(final Comment comment, Film film, Forum forum) {
+	public Comment save(final Comment comment) {
 		Comment result;
 		FilmEnthusiast principal = (FilmEnthusiast) this.actorService
 				.findByPrincipal();
@@ -50,13 +55,6 @@ public class CommentService {
 
 		comment.setPublishedMoment(new Date(System.currentTimeMillis() - 1));
 
-		if (film != null) {
-			comment.setFilm(film);
-			Assert.isTrue(comment.getForum().getGroupMembers()
-					.contains(comment.getFilmEnthusiast()));
-		} else if (forum != null) {
-			comment.setForum(forum);
-		}
 
 		result = this.commentRepository.save(comment);
 
@@ -74,6 +72,30 @@ public class CommentService {
 
 		this.commentRepository.delete(comment);
 	}
+	
+	public Comment reconstruct(final Comment comment , BindingResult binding){
+		
+		
+		if(comment.getId()!=0){
+			Comment bd = this.findOne(comment.getId());
+			
+			comment.setForum(bd.getForum());
+			comment.setFilm(bd.getFilm());
+			comment.setRating(bd.getRating());
+			comment.setBody(bd.getBody());
+			comment.setFilmEnthusiast((FilmEnthusiast)this.actorService.findByPrincipal());
+			comment.setPublishedMoment(new Date(System.currentTimeMillis()-1));
+			
+		}else{
+			comment.setFilmEnthusiast((FilmEnthusiast)this.actorService.findByPrincipal());
+			comment.setPublishedMoment(new Date(System.currentTimeMillis()-1));
+			
+		}
+		
+		this.validator.validate(comment, binding);
+		
+		return comment;
+	}
 
 	public Comment findOne(int commentId) {
 		Comment result = this.commentRepository.findOne(commentId);
@@ -85,5 +107,13 @@ public class CommentService {
 		Collection<Comment> result = this.commentRepository.findAll();
 
 		return result;
+	}
+	
+	public Collection<Comment> getCommentsByOwner(int id){
+		
+		Collection<Comment> result = this.commentRepository.commentsByOwner(id);
+		
+		return result;
+		
 	}
 }

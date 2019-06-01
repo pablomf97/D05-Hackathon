@@ -20,5 +20,6 @@ public interface GroupRepository extends JpaRepository<Forum, Integer> {
 
 	@Query("select f from Forum f where f.creator.id= ?1")
 	Collection<Forum> forumsPerFilmEnthusiast(int id);
-
+	
+	
 }

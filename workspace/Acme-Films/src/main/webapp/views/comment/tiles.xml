@@ -9,11 +9,30 @@
        "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
 
 <tiles-definitions>
-	<definition name="administrator/statistics" extends="master.page">
-		<put-attribute name="title" value="Administrator: statistic dashboard" />
+	
+	<definition name="comment/createFilm" extends="master.page">
+		<put-attribute name="title" value="Comment film" />
 		<put-attribute name="body"
-			value="/views/administrator/statistics.jsp" />
+			value="/views/comment/createFilm.jsp" />
 	</definition>
-
+	
+	<definition name="comment/createForum" extends="master.page">
+		<put-attribute name="title" value="Comment group" />
+		<put-attribute name="body"
+			value="/views/comment/createForum.jsp" />
+	</definition>
+	
+	
+	<definition name="comment/display" extends="master.page">
+		<put-attribute name="title" value="Show comment" />
+		<put-attribute name="body"
+			value="/views/comment/display.jsp" />
+	</definition>
+	
+	<definition name="comment/list" extends="master.page">
+		<put-attribute name="title" value="My comments" />
+		<put-attribute name="body"
+			value="/views/comment/list.jsp" />
+	</definition>
 
 </tiles-definitions>

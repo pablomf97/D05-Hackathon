@@ -17,11 +17,18 @@
 			<br>
 			<br>
 
-			<acme:textbox code="review.body" path="body" />
+			<acme:textarea code="review.body" path="body" />
 			<br>
 			<br>
 
-			<input type="number" name="rating" step="any" min="0" max="10" />
+			<form:label path="rating">
+				<spring:message code="review.rating" />
+			</form:label>
+			<form:input path="rating" type="number" min="0" max="10" step="any" />
+			<form:errors cssClass="error" path="rating" />
+
+			<br>
+			<br>
 
 
 			<form:label path="film">
@@ -29,8 +36,7 @@
 	</form:label>
 			<form:select path="film">
 				<form:option label="-----" value="0" />
-				<form:options items="${finalFilms}" itemLabel="review.film"
-					itemValue="id" />
+				<form:options items="${finalFilms}" itemLabel="title" itemValue="id" />
 			</form:select>
 			<form:errors cssClass="error" path="film" />
 			<br />
@@ -38,10 +44,10 @@
 
 
 			<acme:submit name="saveFinal" code="review.saveFinal" />
-			<br>
+			
 
 			<acme:submit name="saveDraft" code="review.saveDraft" />
-			<br>
+			
 
 			<acme:cancel url="review/critic/listAll.do" code="review.cancel" />
 
@@ -64,21 +70,24 @@
 			<br>
 			<br>
 
-			<input type="number" name="rating" step="any" min="0" max="10" />
+			<form:label path="rating">
+				<spring:message code="review.rating" />
+			</form:label>
+			<form:input path="rating" type="number" min="0" max="10" step="any" />
+			<form:errors cssClass="error" path="rating" />
 
-
-			<form:label path="film">
-				<spring:message code="review.film" />:
-	</form:label>
+			<br>
+			<br>
 
 
 			<acme:submit name="saveFinal" code="review.saveFinal" />
-			<br>
+		
 
 			<acme:submit name="saveDraft" code="review.saveDraft" />
-			<br>
-			
-			<acme:delete name="delete" confirmation="review.confitmation" code="review.delete"/>
+		
+
+			<acme:delete name="delete" confirmation="review.confirmation"
+				code="review.delete" />
 
 			<acme:cancel url="review/critic/listAll.do" code="review.cancel" />
 

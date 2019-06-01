@@ -2190,6 +2190,7 @@
 		<property name="sagaAbout">
 			<null />
 		</property>
+		<property name="isActive" value="true"	/>	
 		<property name="filmAbout" ref="film1" />
 		<property name="moderator" ref="moderator1" />
 
@@ -2430,7 +2431,7 @@
 		<property name="body" value="spectacular execution by everyone" />
 		<property name="rating" value="8.7" />
 		<property name="creationDate" value="12/12/2017 12:12" />
-		<property name="isDraft" value="true" />
+		<property name="isDraft" value="false" />
 		<property name="status" value="ACCEPTED" />
 		<property name="rejectReason" value="" />
 		<property name="critic" ref="critic1" />

@@ -65,7 +65,7 @@ public class MessageController extends AbstractController {
 
 		result = new ModelAndView("message/display");
 		result.addObject("message0", message);
-		
+
 		return result;
 	}
 
@@ -197,9 +197,25 @@ public class MessageController extends AbstractController {
 			for (final MessageBox mb : boxes) {
 
 				if (mb.getMessages().contains(mensaje)
-						&& mensaje.getSender().equals(principal))
+						&& mensaje.getSender().equals(principal)){
 					possible = true;
+					break;
+				}
+
 			}
+
+			if(!possible){
+				
+				for(final MessageBox m : this.messageBoxService.findByOwner(mensaje.getReceiver().getId())){
+					if (m.getMessages().contains(mensaje)
+							&& mensaje.getReceiver().equals(principal)){
+						possible = true;
+						break;
+					}
+				}
+
+			}
+
 		} else {
 			if (mensaje.getSender().equals(principal)) {
 				possible = true;

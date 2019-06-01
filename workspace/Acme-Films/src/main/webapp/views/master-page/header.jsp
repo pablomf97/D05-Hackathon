@@ -63,6 +63,24 @@
 				</ul></li>
 		</security:authorize>
 
+		<security:authorize access="hasRole('FILMENTHUSIAST')">
+
+			<li><a class="fNiv"><spring:message
+						code="master.page.comments" /></a>
+				<ul>
+					
+					<li><a href="comment/filmEnthusiast/list.do"><spring:message
+								code="master.page.comment.list" /></a></li>
+
+					
+					<li><a href="comment/filmEnthusiast/createFilm.do"><spring:message
+								code="master.page.comment.create" /></a></li>
+
+				</ul></li>
+
+
+		</security:authorize>
+
 		<security:authorize access="isAnonymous()">
 			<!-- Sign up -->
 			<li><a class="fNiv"><spring:message
@@ -125,6 +143,7 @@
 									code="actor.view" /></a></li>
 						<li><a href="filmEnthusiast/filmEnthusiast/edit.do"><spring:message
 									code="master.page.actor.edit" /></a></li>
+
 					</security:authorize>
 
 					<security:authorize access="hasRole('CRITIC')">

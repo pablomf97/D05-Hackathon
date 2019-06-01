@@ -42,6 +42,7 @@ public class ReviewService {
 				"not.allowed");
 
 		result = new Review();
+		result.setStatus("PENDING");
 		result.setCritic((Critic) principal);
 		result.setCreationDate(new Date(System.currentTimeMillis() - 1));
 		result.setIsDraft(true);
@@ -127,8 +128,6 @@ public class ReviewService {
 				// Create new review saving draft mode
 				if (review.getId() == 0) {
 					Assert.isTrue(review.getFilm() != null);
-					Assert.isTrue(review.getFilm().getIsDraft() == false,
-							"Not final film.");
 					Assert.isTrue(review.getModerator() == null,
 							"Not final mode");
 
@@ -176,9 +175,6 @@ public class ReviewService {
 							"Not final film.");
 					Assert.isTrue(review.getModerator() == null,
 							"Not final mode");
-
-					Assert.isTrue(!(review.getStatus().equals("ACCEPTED")));
-					Assert.isTrue(!(review.getStatus().equals("REJECTED")));
 
 					review.setIsDraft(false);
 					review.setCreationDate(new Date(
@@ -255,9 +251,12 @@ public class ReviewService {
 		Review result = this.create();
 
 		if (review.getId() == 0) {
-			result = new Review();
-
+			
 			result.setFilm(review.getFilm());
+			result.setBody(review.getBody());
+			result.setRating(review.getRating());
+			result.setTitle(review.getTitle());
+			
 
 		} else {
 			final Review orig = this.findOne(review.getId());
@@ -314,4 +313,9 @@ public class ReviewService {
 		return result;
 	}
 
+	public Collection<Review> getReviewsByFilm(int filmId){
+		Collection<Review> result = this.reviewRepository.getReviewsByFilm(filmId);
+		
+		return result;
+	}
 }

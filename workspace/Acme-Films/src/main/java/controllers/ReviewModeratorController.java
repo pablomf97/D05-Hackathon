@@ -20,7 +20,7 @@ import domain.Moderator;
 import domain.Review;
 
 @Controller
-@RequestMapping(value = "review/moderator")
+@RequestMapping("review/moderator")
 public class ReviewModeratorController extends AbstractController {
 
 	// Services
@@ -37,12 +37,15 @@ public class ReviewModeratorController extends AbstractController {
 		ModelAndView result;
 		Collection<Review> reviews = this.reviewService
 				.getReviewsFinalsToAssign();
+		boolean possible = false;
+		
+		if(!(reviews.isEmpty())){
+			possible = true;
+		}
 
-		boolean assign = true;
-
-		result = new ModelAndView("review/list");
+		result = new ModelAndView("review/listToAssign");
 		result.addObject("reviews", reviews);
-		result.addObject("assign", assign);
+		result.addObject("possible", possible);
 
 		return result;
 	}
@@ -54,17 +57,20 @@ public class ReviewModeratorController extends AbstractController {
 		boolean possible = false;
 		Collection<Review> reviews = this.reviewService.getMyReviews(principal
 				.getId());
-
-		if (reviews.iterator().next().getModerator().equals(principal)) {
-			possible = true;
+		
+		if(!(reviews.isEmpty())){
+			if (reviews.iterator().next().getModerator().equals(principal)) {
+				possible = true;
+			}
 		}
+		
 
-		boolean assign = false;
-		result = new ModelAndView("review/list");
+		
+		result = new ModelAndView("review/listMyReviews");
 
 		result.addObject("reviews", reviews);
 		result.addObject("possible", possible);
-		result.addObject("assign", assign);
+	
 
 		return result;
 	}
