@@ -39,11 +39,32 @@
 		<td><strong> <spring:message code="film.ticker" /> : </strong></td>
 		<td><jstl:out value="${film.ticker}"></jstl:out></td>
 	</tr>
-	
-	<tr>
-		<td><strong> <spring:message code="film.genres" /> : </strong></td>
-		<td><jstl:out value="${film.genres}"></jstl:out></td>
-	</tr>
+	<jstl:choose>
+		<jstl:when test="${pageContext.response.locale.language == 'es'}">
+			<tr>
+				<td><strong> <spring:message code="film.genres" /> : </strong></td>
+				<td>
+				-
+				<jstl:forEach items="${film.genres}" var="genre">
+					<jstl:out value="${genre.name.get('Español')}"/>	
+					-
+				</jstl:forEach>
+				</td>
+			</tr>
+		</jstl:when>
+		<jstl:otherwise>
+			<tr>
+				<td><strong> <spring:message code="film.genres" /> : </strong></td>
+				<td>
+				-
+				<jstl:forEach items="${film.genres}" var="genre">
+					<jstl:out value="${genre.name.get('English')}"/>	
+					-
+				</jstl:forEach>
+				</td>
+			</tr>
+		</jstl:otherwise>
+	</jstl:choose>
 </table>
 	
 <h1><spring:message code="film.saga.persons" /></h1>
@@ -66,7 +87,7 @@
 </display:table>
 
 <h1><spring:message code="film.saga.sagas" /></h1>
-<display:table class="displaytag" name="sagas" pagesize="5" 
+<display:table class="displaytag" name="${film.sagas}" pagesize="5" 
 		requestURI="film/display.do" id="saga">
 
 	<display:column titleKey="film.saga.title" sortable="true">

@@ -108,11 +108,12 @@ public class FilmService {
 		Assert.isTrue(this.actorService.checkAuthority(principal, "MODERATOR"),
 				"not.allowed");
 		
-		Assert.notNull(film.getTitle());
-		Assert.notNull(film.getSynopsis());
-		Assert.notNull(film.getReleaseDate());
-		
 		if (film.getId() == 0) {
+			
+			Assert.notNull(film.getTitle());
+			Assert.notNull(film.getSynopsis());
+			Assert.notNull(film.getReleaseDate());
+			
 			result = this.create();
 			film.setTicker(this.generateTicker(film.getReleaseDate()));
 		} else {
@@ -219,6 +220,14 @@ public class FilmService {
 		Collection<Film> result;
 		
 		result = this.filmRepository.filmsOfPerson(personId);
+		
+		return result;
+	}
+	
+	public Collection<Film> filmsWithGenre(int genreId) {
+		Collection<Film> result;
+		
+		result = this.filmRepository.filmsWithGenre(genreId);
 		
 		return result;
 	}

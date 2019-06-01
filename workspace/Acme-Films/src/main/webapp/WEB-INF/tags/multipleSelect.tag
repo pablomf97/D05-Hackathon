@@ -44,7 +44,8 @@
 	<form:label path="${path}">
 		<spring:message code="${code}" />
 	</form:label>	
-	<form:select multiple="true" path="${path}" items="${items}"
+	<br>
+	<form:select style="width:200px;" multiple="true" path="${path}" items="${items}" 
 			itemLabel="${itemLabel}" />
 	<form:errors path="${path}" cssClass="error" />
 </div>

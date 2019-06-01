@@ -11,7 +11,7 @@
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
 
-<security:authorize access="hasRole('PROVIDER')">
+<security:authorize access="hasRole('MODERATOR')">
 
 	<jstl:choose>
 		<jstl:when test="${isPrincipal}">
@@ -29,13 +29,25 @@
 			<acme:textbox code="person.photo" path="photo" size="100px" /><br> <br>
 			<jstl:choose>
 				<jstl:when test="${pageContext.response.locale.language == 'es'}">
-					<acme:multipleSelect items="${positions}" itemLabel="${position.name.get('Español')}" code="position.parent" path="positions"/>
+					<select multiple="multiple" name="positionsArray" style="width:200px;">
+						<jstl:forEach var="position" items="${positions}">
+							<option value="${position.id}" >
+								<jstl:out value="${position.name.get('Español')}" />
+							</option>
+						</jstl:forEach>
+					</select>
 				</jstl:when>
 				<jstl:otherwise>
-					<acme:multipleSelect items="${positions}" itemLabel="${position.name.get('English')}" code="position.parent" path="positions"/>
+					<select multiple="multiple" name="positionsArray" style="width:200px;">
+						<jstl:forEach var="position" items="${positions}">
+							<option value="${position.id}" >
+								<jstl:out value="${position.name.get('English')}" />
+							</option>
+						</jstl:forEach>
+					</select>
 				</jstl:otherwise>
 			</jstl:choose>
-			
+			<br><br>
 			<acme:submit code="person.save" name="save" />&nbsp;
 			<acme:cancel url="person/list.do" code="person.cancel" />
 			<br />

@@ -9,7 +9,7 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 
-<h1><spring:message	code="film.title.list" />
+<h1><spring:message	code="film.list" />
 <jstl:out value="${film.film.title}" /></h1>
 	<jstl:choose>
 		<jstl:when test="${isPrincipal}">
@@ -44,6 +44,10 @@
 				</display:column>
 				
 			</display:table>
+			
+			<a href="film/create.do"> <spring:message
+				code="film.create" /></a>
+				
 		</jstl:when>
 		<jstl:otherwise>
 			<display:table class="displaytag" name="films" pagesize="5" 

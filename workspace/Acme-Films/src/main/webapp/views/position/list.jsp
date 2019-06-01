@@ -45,18 +45,34 @@
 					</jstl:otherwise>
 				</jstl:choose>
 				<display:column titleKey="position.parentPosition" sortable="true">
-					<jstl:out value="${position.parentPosition}" />
-				</display:column>
-				
-				<display:column style="width: 15%">
-					<a href="position/moderator/display.do?positionId=${position.id}"><spring:message
-							code="position.display" /></a>
+					<jstl:choose>
+						<jstl:when test="${not empty position.parentPosition}">
+							<jstl:choose>
+								<jstl:when test="${pageContext.response.locale.language == 'es'}">
+									<jstl:out value="${position.parentPosition.name.get('Español')}" />
+								</jstl:when>
+								<jstl:otherwise>
+									<jstl:out value="${position.parentPosition.name.get('English')}" />
+								</jstl:otherwise>
+							</jstl:choose>
+						</jstl:when>
+						<jstl:otherwise>
+							<spring:message	code="position.no.parent" />
+						</jstl:otherwise>
+					</jstl:choose>
 				</display:column>
 						
 				<display:column style="width: 15%">
 					<a href="position/moderator/edit.do?positionId=${position.id}"><spring:message
 							code="position.edit" /></a>
 				</display:column>
+				
+<%-- 				<display:column>
+					<a href="position/moderator/delete.do?positionId=${position.id}"> <spring:message
+							code="position.delete" />
+					</a>
+				</display:column> --%>
+				
 			</display:table>
 			<input type="button"
 				onclick="redirect: location.href = 'position/moderator/create.do';"

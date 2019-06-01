@@ -14,6 +14,7 @@ import org.springframework.validation.Validator;
 
 import repositories.GenreRepository;
 import domain.Actor;
+import domain.Film;
 import domain.Genre;
 
 @Service
@@ -28,6 +29,9 @@ public class GenreService {
 
 	@Autowired
 	private ActorService actorService;
+	
+	@Autowired
+	private FilmService filmService;
 
 	@Autowired
 	private Validator validator;
@@ -158,5 +162,32 @@ public class GenreService {
 			result.add("'"+ genre.getName().get("English")+"'");
 		}
 		return result;		
+	}
+	
+	public void deleteGenreFromFilms (Genre genre) {
+		Collection<Film> films;
+		
+		films = this.filmService.filmsWithGenre(genre.getId());
+		
+		for(Film film : films) {
+			Collection<Genre> genres = film.getGenres();
+			genres.remove(genre);
+			film.setGenres(genres);
+		}
+	}
+	
+	public Collection<Genre> parseGenres (String [] array) {
+		Collection<Genre> result = new ArrayList<>();
+		String a = null;
+		Integer n = 0;
+		Genre genre = null;
+		
+		for (int i = 0; i <= array.length - 1; i++) {
+			a = array[i];
+			n = Integer.parseInt(a);
+			genre = this.findOne(n);
+			result.add(genre);
+		}
+		return result;
 	}
 }

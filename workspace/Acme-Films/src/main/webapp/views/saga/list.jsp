@@ -40,6 +40,10 @@
 				</display:column>
 				
 			</display:table>
+			
+			<a href="saga/create.do"> <spring:message
+					code="saga.create" /></a>
+					
 		</jstl:when>
 		<jstl:otherwise>
 			<display:table class="displaytag" name="sagas" pagesize="5" 
