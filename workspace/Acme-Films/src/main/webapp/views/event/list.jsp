@@ -39,7 +39,7 @@
 			onclick="redirect: location.href = 'event/create.do?Id=${group.id}';" />
 	</jstl:if>
 <acme:cancel
-	url="group/display.do?Id=${event.forum.id}"
+	url="group/list.do"
 	code="event.cancel" />
 </security:authorize>
 	

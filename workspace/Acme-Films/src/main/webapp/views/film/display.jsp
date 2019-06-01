@@ -104,6 +104,13 @@
 <p><a href="visualization/list.do?filmId=${film.id}"> <spring:message
 		code="film.visualization.list" />
 </a></p>
-
+<p>
+	<security:authorize access="hasAnyRole('MODERATOR','FILMENTHUSIAST')">
+		<a
+			href="group/listByFilm.do?Id=${film.id}">
+			<spring:message code="group.list" />
+		</a>
+	</security:authorize>
+</p>
 
 

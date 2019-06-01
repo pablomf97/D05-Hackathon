@@ -159,7 +159,6 @@ public class PersonalDataController extends AbstractController {
 				final PersonalData d = this.personalDataService.saveNewCurricula(personalData);
 				final Curricula c = this.curriculaService.saveNewCurricula(d);
 				this.criticService.newCurricula(c);
-
 				result = new ModelAndView("redirect:../../curricula/critic/display.do?curriculaId=" + c.getId());
 			} catch (final Throwable oops) {
 				oops.printStackTrace();
