@@ -70,8 +70,6 @@ public class VisualizationService {
 		Assert.notNull(visualization.getLink());
 		Assert.notNull(visualization.getFilm());
 		
-		Assert.isTrue(this.findOne(visualization.getId()).getFilm().equals(visualization.getFilm()));
-		
 		result = this.visualizationRepository.save(visualization);
 
 		return result;
@@ -103,6 +101,9 @@ public class VisualizationService {
 		
 		if (visualization.getId() == 0) {
 			result = this.create();
+			
+			result.setFilm(visualization.getFilm());
+			
 		} else {
 			result = this.findOne(visualization.getId());
 		}

@@ -46,7 +46,7 @@ public class SponsorshipService {
 		result = new Sponsorship();
 		result.setFilms(films);
 		result.setSponsor((Sponsor) principal);
-		result.setIsActive(false);
+		result.setIsActive(null);
 		
 		return result;
 	}
@@ -70,9 +70,7 @@ public class SponsorshipService {
 		Sponsorship result;
 
 		principal = this.actorService.findByPrincipal();
-		Assert.isTrue(this.actorService.checkAuthority(principal, "SPONSOR"), "not.allowed");
-		
-		Assert.isTrue(principal.getId() == sponsorship.getSponsor().getId());
+		Assert.isTrue(sponsorship.getSponsor().equals((Sponsor) principal), "not.allowed");
 		
 		Assert.notNull(sponsorship.getTitle());
 		Assert.notNull(sponsorship.getBanner());
@@ -92,7 +90,7 @@ public class SponsorshipService {
 		Assert.isTrue(sponsorship.getId() != 0, "wrong.id");
 
 		principal = this.actorService.findByPrincipal();
-		Assert.isTrue(this.actorService.checkAuthority(principal, "SPONSOR"),
+		Assert.isTrue(sponsorship.getSponsor().equals((Sponsor) principal),
 				"not.allowed");
 
 		this.sponsorshipRepository.delete(sponsorship.getId());
@@ -148,6 +146,22 @@ public class SponsorshipService {
 		Collection<Sponsorship> res = new ArrayList<>();
 		
 		res = this.sponsorshipRepository.sponsorshipsPerFilm(filmId);
+		
+		return res;
+	}
+	
+	public Collection<Sponsorship> sponsorshipsPerSponsor(int sponsorId) {
+		Collection<Sponsorship> res = new ArrayList<>();
+		
+		res = this.sponsorshipRepository.sponsorshipsPerSponsor(sponsorId);
+		
+		return res;
+	}
+	
+	public Collection<Sponsorship> sponsorshipsToReview() {
+		Collection<Sponsorship> res = new ArrayList<>();
+		
+		res = this.sponsorshipRepository.sponsorshipsToReview();
 		
 		return res;
 	}

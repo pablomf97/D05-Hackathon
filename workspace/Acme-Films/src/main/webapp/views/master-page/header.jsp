@@ -60,6 +60,39 @@
 					<li><a href="saga/list.do"><spring:message
 								code="master.page.saga.list" /></a></li>
 				</ul></li>
+				
+			<li><a class="fNiv"><spring:message
+						code="master.page.position" /></a>
+				<ul>
+					<li class="arrow"></li>
+					<li><a href="position/moderator/list.do"><spring:message
+								code="master.page.position.list" /></a></li>
+				</ul></li>
+				
+			<li><a class="fNiv"><spring:message
+						code="master.page.genre" /></a>
+				<ul>
+					<li class="arrow"></li>
+					<li><a href="genre/moderator/list.do"><spring:message
+								code="master.page.genre.list" /></a></li>
+				</ul></li>
+				
+			<li><a class="fNiv"><spring:message
+						code="master.page.person" /></a>
+				<ul>
+					<li class="arrow"></li>
+					<li><a href="person/list.do"><spring:message
+								code="master.page.person.list" /></a></li>
+				</ul></li>
+				
+			<li><a class="fNiv"><spring:message
+						code="master.page.sponsorship" /></a>
+				<ul>
+					<li class="arrow"></li>
+					<li><a href="sponsorship/list.do"><spring:message
+								code="master.page.sponsorship.list" /></a></li>
+				</ul></li>
+				
 		</security:authorize>
 
 		<security:authorize access="isAnonymous()">

@@ -2,6 +2,7 @@ package controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -55,8 +56,15 @@ public class SocialProfileController extends AbstractController {
 		ModelAndView res;
 		SocialProfile socialProfile;
 
-		socialProfile = this.socialProfileService.findOne(id);
-		res = this.createEditModelAndView(socialProfile);
+		try {
+			socialProfile = this.socialProfileService.findOne(id);
+			Assert.isTrue(this.actorService.findByPrincipal()
+					.getSocialProfile().contains(socialProfile));
+
+			res = this.createEditModelAndView(socialProfile);
+		} catch (Throwable oops) {
+			res = new ModelAndView("redirect:/welcome/index.do");
+		}
 
 		return res;
 	}

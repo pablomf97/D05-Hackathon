@@ -1,8 +1,7 @@
 package controllers;
 
+import java.util.ArrayList;
 import java.util.Collection;
-
-import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,23 +15,28 @@ import org.springframework.web.servlet.ModelAndView;
 import services.ActorService;
 import services.FilmService;
 import services.PersonService;
+import services.PositionService;
 import domain.Actor;
 import domain.Film;
 import domain.Person;
+import domain.Position;
 
 @Controller
 @RequestMapping("/person")
 public class PersonController extends AbstractController {
 
 	@Autowired
-	private ActorService	actorService;
+	private ActorService actorService;
 
 	@Autowired
-	private PersonService		personService;
+	private PersonService personService;
 
 	@Autowired
-	private FilmService		filmService;
-	
+	private FilmService filmService;
+
+	@Autowired
+	private PositionService positionService;
+
 	// Display
 
 	@RequestMapping(value = "/display", method = RequestMethod.GET)
@@ -42,17 +46,18 @@ public class PersonController extends AbstractController {
 		boolean isPrincipal = false;
 		Actor principal;
 		Collection<Film> films;
-		
+
 		try {
 			person = this.personService.findOne(personId);
 
-			//TODO: list of films where a person works
+			// TODO: list of films where a person works
 			films = this.filmService.filmsOfPerson(personId);
-			
+
 			result = new ModelAndView("person/display");
 			result.addObject("person", person);
 			result.addObject("isPrincipal", isPrincipal);
-			result.addObject("requestURI", "person/display.do?personId=" + personId);
+			result.addObject("requestURI", "person/display.do?personId="
+					+ personId);
 		} catch (final Throwable oops) {
 			result = new ModelAndView("redirect:../welcome/index.do");
 			result.addObject("messageCode", "position.commit.error");
@@ -62,19 +67,19 @@ public class PersonController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public ModelAndView list(@RequestParam (required = false) Integer filmId) {
+	public ModelAndView list(@RequestParam(required = false) Integer filmId) {
 		final ModelAndView result = new ModelAndView("person/list");
 		Collection<Person> persons = this.personService.findAll();
 		Actor principal;
 		boolean isPrincipal;
 
-		try {		
+		try {
 			if (filmId == null)
 				persons = this.personService.findAll();
 			else {
-				persons  = this.filmService.findOne(filmId).getPersons();				
+				persons = this.filmService.findOne(filmId).getPersons();
 			}
-			
+
 			result.addObject("persons", persons);
 			result.addObject("isPrincipal", true);
 
@@ -88,10 +93,26 @@ public class PersonController extends AbstractController {
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
 	public ModelAndView create() {
 		ModelAndView result = null;
+		Collection<Position> positions;
+		Actor principal;
+		boolean isPrincipal = false;
+		
 		try {
 			final Person person = this.personService.create();
+			
+			positions = this.positionService.findAll();
+			
+			try {
+				principal = this.actorService.findByPrincipal();
+				if (this.actorService.checkAuthority(principal, "MODERATOR"))
+					isPrincipal = true;
+
+			} catch (Exception e) {
+			}
 
 			result = this.createEditModelAndView(person);
+			result.addObject("isPrincipal", isPrincipal);
+			result.addObject("positions", positions);
 		} catch (final Throwable oops) {
 			System.out.println(oops.getMessage());
 		}
@@ -103,12 +124,28 @@ public class PersonController extends AbstractController {
 	public ModelAndView edit(@RequestParam final int personId) {
 		ModelAndView result;
 		Person person;
+		boolean isPrincipal = false;
+		Actor principal;
+		Collection<Position> positions;
 		try {
 			person = this.personService.findOne(personId);
 			Assert.notNull(person);
 
+			positions = this.positionService.findAll();
+
+			try {
+				principal = this.actorService.findByPrincipal();
+				if (this.actorService.checkAuthority(principal, "MODERATOR"))
+					isPrincipal = true;
+
+			} catch (Exception e) {
+			}
+
 			result = this.createEditModelAndView(person);
 			result.addObject("personId", personId);
+			result.addObject("isPrincipal", isPrincipal);
+			result.addObject("positions", positions);
+
 		} catch (final Throwable oops) {
 			result = new ModelAndView("redirect:/welcome/index.do");
 		}
@@ -116,17 +153,28 @@ public class PersonController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(@Valid Person person,
+	public ModelAndView save(Person person,
+			@RequestParam("positionsArray") String[] positionsArray,
 			BindingResult binding) {
 		ModelAndView result;
+		Collection<Position> positionsToSave = new ArrayList<>();
 		
+		positionsToSave = this.positionService.parsePositions(positionsArray);
+		
+		person.setPositions(positionsToSave);
+		
+		Person toSave = this.personService.validate(person, binding);
+
 		if (binding.hasErrors()) {
+			Collection<Position> positions = this.positionService.findAll();
+
 			result = new ModelAndView("person/edit");
 			result.addObject("person", person);
 			result.addObject("isPrincipal", true);
+			result.addObject("positions", positions);
 		} else {
 			try {
-				this.personService.save(person);
+				this.personService.save(toSave);
 				result = new ModelAndView("redirect:list.do");
 			} catch (final Throwable oops) {
 				result = new ModelAndView("person/edit");
@@ -134,6 +182,7 @@ public class PersonController extends AbstractController {
 				result.addObject("messageCode", oops.getMessage());
 			}
 		}
+
 		return result;
 	}
 
@@ -160,7 +209,8 @@ public class PersonController extends AbstractController {
 		return result;
 	}
 
-	protected ModelAndView createEditModelAndView(final Person person, final String messageCode) {
+	protected ModelAndView createEditModelAndView(final Person person,
+			final String messageCode) {
 		final ModelAndView result;
 		Actor principal;
 		boolean isPrincipal = true;

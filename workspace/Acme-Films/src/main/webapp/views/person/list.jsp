@@ -24,18 +24,18 @@
 				<display:column titleKey="person.surname" sortable="true">
 					<jstl:out value="${person.surname}" />
 				</display:column>
-				
+
 				<jstl:choose>
 					<jstl:when test="${pageContext.response.locale.language == 'es'}">
 						<td><strong> <spring:message code="person.positions" />	: </strong></td>
-						<jstl:forEach items="${person.positions}" var="name">
-							<td><jstl:out value="${name.get('English')}"/></td>	
+						<jstl:forEach items="${person.positions}" var="position">
+							<td><jstl:out value="${position.name.get('Español')}"/></td>	
 						</jstl:forEach>
 					</jstl:when>
 					<jstl:otherwise>
 						<td><strong> <spring:message code="person.positions" />	: </strong></td>
 						<jstl:forEach items="${person.positions}" var="name">
-							<td><jstl:out value="${name.get('English')}"/></td>	
+							<td><jstl:out value="${position.name.get('English')}"/></td>	
 						</jstl:forEach>
 					</jstl:otherwise>
 				</jstl:choose>				
@@ -47,12 +47,21 @@
 				</display:column>
 				
 				<display:column>
+					<a href="person/edit.do?personId=${person.id}"> <spring:message
+							code="person.edit" />
+					</a>
+				</display:column>
+				
+				<display:column>
 					<a href="person/delete.do?personId=${person.id}"> <spring:message
 							code="person.delete" />
 					</a>
 				</display:column>
 				
 			</display:table>
+			
+			<a href="person/create.do"> <spring:message
+				code="person.create" /></a>
 		</jstl:when>
 		<jstl:otherwise>
 			<display:table class="displaytag" name="persons" pagesize="5" 

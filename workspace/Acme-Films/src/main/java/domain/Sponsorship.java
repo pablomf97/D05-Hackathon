@@ -22,7 +22,7 @@ public class Sponsorship extends DomainEntity{
 	private String title;
 	private String banner;
 	private String targetPage;
-	private boolean isActive;
+	private Boolean isActive;
 	private Sponsor sponsor;
 	private CreditCard creditCard;
 	private Collection<Film> films;
@@ -82,10 +82,10 @@ public class Sponsorship extends DomainEntity{
 		this.creditCard = creditCard;
 	}
 	
-	public boolean getIsActive() {
+	public Boolean getIsActive() {
 		return isActive;
 	}
-	public void setIsActive(boolean isActive) {
+	public void setIsActive(Boolean isActive) {
 		this.isActive = isActive;
 	}
 	

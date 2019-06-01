@@ -10,7 +10,7 @@
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 
 <h1><spring:message	code="visualization.title.list" />
-<jstl:out value="${visualization.film.title}" /></h1>
+<jstl:out value="${(film.title)}" /></h1>
 	<jstl:choose>
 		<jstl:when test="${isPrincipal}">
 
@@ -22,7 +22,7 @@
 				</display:column>
 
 				<display:column titleKey="visualization.price" sortable="true">
-					<jstl:out value="${visualization.price}" />
+					<jstl:out value="${visualization.price}" /> &#8364;
 				</display:column>
 				
 				<display:column titleKey="visualization.link" sortable="true">
@@ -45,6 +45,10 @@
 				</display:column>
 				
 			</display:table>
+			
+						<br><a href="visualization/create.do?filmId=${film.id }"> <spring:message
+					code="visualization.create" /></a>
+					
 		</jstl:when>
 		<jstl:otherwise>
 			<display:table class="displaytag" name="visualizations" pagesize="5" 
