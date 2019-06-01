@@ -17,6 +17,8 @@ import security.Authority;
 import security.UserAccount;
 import domain.Actor;
 import domain.Administrator;
+import domain.Message;
+import domain.MessageBox;
 import domain.SocialProfile;
 import forms.EditionFormObject;
 import forms.RegisterFormObject;
@@ -37,6 +39,17 @@ public class AdministratorService {
 
 	@Autowired
 	private SystemConfigurationService systemConfigurationService;
+	
+	@Autowired
+	private MessageService messageService;
+	@Autowired
+	private MessageBoxService messageBoxService;
+	
+	@Autowired
+	private SocialProfileService profileService;
+	
+	
+	
 
 	/* Simple CRUD methods */
 
@@ -316,4 +329,28 @@ public class AdministratorService {
 	public void flush() {
 		this.administratorRepository.flush();
 	}
+	
+	public void deleteAdmin(Administrator a){
+		
+	//	this.messageService.deleteMessagesInvolved(a.getId());
+		//this.messageBoxService.deleteBoxes(a.getId());
+		//borro todos los mensajes donde sea receiver del sistema
+		
+		Collection<MessageBox> boxesPrincipal=this.messageBoxService.findByOwner(a.getId());
+		
+		Collection<MessageBox> boxesReceiver=this.messageBoxService.findByOwner(a.getId());
+
+		
+		//SocialProfiles:
+		for(SocialProfile s : a.getSocialProfile()){
+			this.profileService.delete(s);	
+		}
+	
+		
+		
+		this.delete(a);
+	}
+	
+	
+	
 }

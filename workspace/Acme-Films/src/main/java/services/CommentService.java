@@ -86,4 +86,8 @@ public class CommentService {
 
 		return result;
 	}
+	
+	public void deleteCommentsPerFilms(int filmId){
+		this.commentRepository.deleteInBatch(this.commentRepository.vPerFilm(filmId));
+	}
 }

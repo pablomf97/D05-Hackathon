@@ -313,5 +313,8 @@ public class ReviewService {
 
 		return result;
 	}
-
+	public void deleteReviewsCritics(int id){
+		this.reviewRepository.deleteInBatch(this.reviewRepository.getReviewsByCritic(id));
+		
+	}
 }

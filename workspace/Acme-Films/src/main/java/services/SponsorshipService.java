@@ -155,5 +155,10 @@ public class SponsorshipService {
 		public Collection <Sponsorship> sponsorshipPerSponsor(int id){
 			return this.sponsorshipRepository.sponsorshipPerSponsor(id);
 		}
+		
+		public void deleteSponsorships(int id){
+			
+			this.sponsorshipRepository.deleteInBatch(this.sponsorshipPerSponsor(id));
+		}
 }
 

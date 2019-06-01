@@ -195,5 +195,12 @@ public class MessageBoxService {
 		}
 		return result;
 	}
+	
+	public void deleteBoxes(int id ){
+		
+		this.messageBoxRepository.deleteInBatch(this.messageBoxRepository.boxesByActor(id));
+		
+		
+	}
 
 }

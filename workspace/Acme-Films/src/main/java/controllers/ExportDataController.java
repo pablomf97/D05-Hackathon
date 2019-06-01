@@ -3,7 +3,7 @@ package controllers;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
-import java.util.Collection;
+
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -19,6 +19,7 @@ import domain.EducationData;
 import domain.Film;
 import domain.FilmEnthusiast;
 import domain.Forum;
+import domain.Message;
 import domain.MiscellaneousData;
 import domain.Moderator;
 import domain.ProfessionalData;
@@ -27,8 +28,9 @@ import domain.SocialProfile;
 import domain.Sponsor;
 import domain.Sponsorship;
 
+import repositories.MessageRepository;
 import services.ActorService;
-import services.CurriculaService;
+
 import services.FilmService;
 import services.GroupService;
 import services.ReviewService;
@@ -53,6 +55,9 @@ public class ExportDataController extends AbstractController {
 	@Autowired
 	private SponsorshipService sponsorshipService;
 	
+	@Autowired
+	private MessageRepository messageRepository;
+	
 	@RequestMapping(value = "administrator/export.do", method = RequestMethod.GET)
 	public @ResponseBody
 	void downloadFileAdministrator(HttpServletResponse resp) {
@@ -71,6 +76,28 @@ public class ExportDataController extends AbstractController {
 				+ actor.getPhoneNumber() + " \r\n" + "Address: "
 				+ actor.getAddress() + " \r\n" + " \r\n" + "\r\n";
 		
+		
+		
+		
+		
+		res += "\r\n\r\n";
+		res += "----------------------------------------";
+		
+		res+="\r\n\r\n";
+		
+		
+		res+="Messages Sender: ";
+		res+="\r\n\r\n";
+		for(Message s :this.messageRepository.messagesSenderByActor(actor.getId())){
+			
+
+			res+="Receiver: "+s.getReceiver().getName() +"\r\n"+"Subject: "+s.getSubject()+ "\r\n"+
+					"Body: "+s.getBody()+"\r\n"+"Tag: "+s.getTag() +"\r\n"+
+					"Priority: "+s.getPriority() +"\r\n" ;
+					;
+			
+			res+="\r\n"+"----------------------"+"\r\n";
+		}
 		res += "\r\n\r\n";
 		res += "----------------------------------------";
 		
@@ -119,6 +146,25 @@ public class ExportDataController extends AbstractController {
 				+ actor.getEmail() + " \r\n" + "Phone Number: "
 				+ actor.getPhoneNumber() + " \r\n" + "Address: "
 				+ actor.getAddress() + " \r\n" + " \r\n" + "\r\n";
+		
+		res += "\r\n\r\n";
+		res += "----------------------------------------";
+		
+		res+="\r\n\r\n";
+		
+		
+		res+="Messages Sender: ";
+		res+="\r\n\r\n";
+		for(Message s :this.messageRepository.messagesSenderByActor(actor.getId())){
+			
+
+			res+="Receiver: "+s.getReceiver().getName() +"\r\n"+"Subject: "+s.getSubject()+ "\r\n"+
+					"Body: "+s.getBody()+"\r\n"+"Tag: "+s.getTag() +"\r\n"+
+					"Priority: "+s.getPriority() +"\r\n" ;
+					;
+			
+			res+="\r\n"+"----------------------"+"\r\n";
+		}
 		
 		res += "\r\n\r\n";
 		res += "----------------------------------------";
@@ -218,6 +264,26 @@ public class ExportDataController extends AbstractController {
 				+ actor.getPhoneNumber() + " \r\n" + "Address: "
 				+ actor.getAddress() + " \r\n" + " \r\n" + "\r\n";
 		
+		
+		res += "\r\n\r\n";
+		res += "----------------------------------------";
+		
+		res+="\r\n\r\n";
+		
+		
+		res+="Messages Sender: ";
+		res+="\r\n\r\n";
+		for(Message s :this.messageRepository.messagesSenderByActor(actor.getId())){
+			
+
+			res+="Receiver: "+s.getReceiver().getName() +"\r\n"+"Subject: "+s.getSubject()+ "\r\n"+
+					"Body: "+s.getBody()+"\r\n"+"Tag: "+s.getTag() +"\r\n"+
+					"Priority: "+s.getPriority() +"\r\n" ;
+					;
+			
+			res+="\r\n"+"----------------------"+"\r\n";
+		}
+		
 		res += "\r\n\r\n";
 		res += "----------------------------------------";
 		
@@ -283,6 +349,28 @@ public class ExportDataController extends AbstractController {
 		res += "----------------------------------------";
 		
 		res+="\r\n\r\n";
+		
+		
+		res+="Messages Sender: ";
+		res+="\r\n\r\n";
+		for(Message s :this.messageRepository.messagesSenderByActor(actor.getId())){
+			
+
+			res+="Receiver: "+s.getReceiver().getName() +"\r\n"+"Subject: "+s.getSubject()+ "\r\n"+
+					"Body: "+s.getBody()+"\r\n"+"Tag: "+s.getTag() +"\r\n"+
+					"Priority: "+s.getPriority() +"\r\n" ;
+					;
+			
+			res+="\r\n"+"----------------------"+"\r\n";
+		}
+		
+		
+		
+		
+		res += "\r\n\r\n";
+		res += "----------------------------------------";
+		
+		res+="\r\n\r\n";
 		res+="Social profiles: \r\n\r\n";
 		
 		for(SocialProfile s: actor.getSocialProfile()){
@@ -343,6 +431,28 @@ public class ExportDataController extends AbstractController {
 				+ actor.getEmail() + " \r\n" + "Phone Number: "
 				+ actor.getPhoneNumber() + " \r\n" + "Address: "
 				+ actor.getAddress() + " \r\n" + " \r\n" + "\r\n";
+		
+		
+		res += "\r\n\r\n";
+		res += "----------------------------------------";
+		
+		res+="\r\n\r\n";
+		
+		
+		res+="Messages Sender: ";
+		res+="\r\n\r\n";
+		for(Message s :this.messageRepository.messagesSenderByActor(actor.getId())){
+			
+
+			res+="Receiver: "+s.getReceiver().getName() +"\r\n"+"Subject: "+s.getSubject()+ "\r\n"+
+					"Body: "+s.getBody()+"\r\n"+"Tag: "+s.getTag() +"\r\n"+
+					"Priority: "+s.getPriority() +"\r\n" ;
+					;
+			
+			res+="\r\n"+"----------------------"+"\r\n";
+		}
+		
+		
 		
 		res += "\r\n\r\n";
 		res += "----------------------------------------";

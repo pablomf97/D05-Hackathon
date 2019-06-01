@@ -422,5 +422,30 @@ public class MessageService {
 		return result;
 
 	}
-
+	public Collection<Message> messagesSenderByActor(int id){
+		return this.messageRepository.messagesSenderByActor(id);
+	}
+	public Collection<Message> messagesInvolved(int id){
+		return this.messageRepository.messagesInvolved(id);
+	}
+	
+	public void deleteMessagesInvolved(int id){
+		
+		this.messageRepository.deleteInBatch(this.messagesInvolved(id));
+	}
+	
+	public Collection<Message> messagesReceiverByActor(int id){
+		
+		return this.messageRepository.messagesReceiverByActor(id);
+	}
+	public void deleteReceiver(int id){
+		
+	Collection<Message> l = this.messagesReceiverByActor(id);
+	
+	for(Message m :l){
+		
+		
+		
+	}
+	}
 }

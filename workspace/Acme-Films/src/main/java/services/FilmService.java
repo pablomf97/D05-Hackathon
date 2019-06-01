@@ -37,6 +37,16 @@ public class FilmService {
 	@Autowired
 	private Validator validator;
 	
+	@Autowired
+	private VisualizationService visualizationService;
+	
+	@Autowired
+	private CommentService commentService;
+	
+	
+	@Autowired
+	private GroupService groupService;
+	
 	public Film create() {
 		Actor principal;
 		Film result;
@@ -223,5 +233,16 @@ public class FilmService {
 		return this.filmRepository.filmsByModerator(moderatorId);
 	}
 	
+	public void deleteFilms(int id){
+		
+		
+
+		
+		for(Film f:	this.filmsByModerator(id)){
+			this.visualizationService.DeletevisPerFilm(f.getId());
+			this.commentService.deleteCommentsPerFilms(f.getId());
+			//this.groupService.
+		}
+	}
 
 }
