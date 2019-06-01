@@ -99,11 +99,11 @@
 
 		<security:intercept-url pattern="/event/display.do"
 			access="hasAnyRole('FILMENTHUSIAST','MODERATOR')" />
-			
-					<security:intercept-url pattern="/event/filmenthusiast/listMembers.do"
+
+		<security:intercept-url pattern="/event/filmenthusiast/listMembers.do"
 			access="hasRole('FILMENTHUSIAST')" />
-			
-					<security:intercept-url pattern="/event/filmenthusiast/request.do"
+
+		<security:intercept-url pattern="/event/filmenthusiast/request.do"
 			access="hasRole('FILMENTHUSIAST')" />
 
 		<!-- Group -->
@@ -115,6 +115,34 @@
 
 		<security:logout logout-success-url="/"
 			invalidate-session="true" />
+
+		<!-- SocialProfile -->
+
+		<security:intercept-url pattern="/social/actor/**"
+			access="isAuthenticated()" />
+
+		<!-- Actor -->
+
+		<security:intercept-url pattern="/administrator/administrator/register.do"
+			access="hasRole('ADMIN')" />
+
+		<security:intercept-url pattern="/moderator/administrator/register.do"
+			access="hasRole('ADMIN')" />
+
+		<security:intercept-url pattern="/sponsor/register.do"
+			access="isAnonymous()" />
+
+		<security:intercept-url pattern="/filmEnthusiast/register.do"
+			access="isAnonymous()" />
+
+		<security:intercept-url pattern="/critic/register.do"
+			access="isAnonymous()" />
+
+		<!-- System configuration -->
+
+		<security:intercept-url pattern="/sysconfig/**"
+			access="hasRole('ADMIN')" />
+
 	</security:http>
 
 </beans>
