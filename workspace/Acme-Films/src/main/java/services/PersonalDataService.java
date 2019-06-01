@@ -68,7 +68,6 @@ public class PersonalDataService {
 
 			dataDB = this.personalDataRepository.findOne(data.getId());
 
-			dataDB.setGithubProfile(data.getGithubProfile());
 			dataDB.setLinkedIn(data.getLinkedIn());
 			dataDB.setFullName(data.getFullName());
 			dataDB.setStatement(data.getStatement());
@@ -77,7 +76,6 @@ public class PersonalDataService {
 			result = this.personalDataRepository.save(dataDB);
 
 		} else {
-			Assert.notNull(data.getGithubProfile());
 			Assert.notNull(data.getLinkedIn());
 			Assert.notNull(data.getFullName());
 			Assert.notNull(data.getStatement());
@@ -126,15 +124,12 @@ public class PersonalDataService {
 		principal = this.actorService.findByPrincipal();
 		Assert.isTrue(this.actorService.checkAuthority(principal, "CRITIC"));
 		Assert.isTrue(personalData.getId() == 0);
-		Assert.notNull(personalData.getGithubProfile());
 		Assert.notNull(personalData.getLinkedIn());
 		Assert.notNull(personalData.getFullName());
 		Assert.notNull(personalData.getStatement());
 
 		result = this.personalDataRepository.save(personalData);
-		final Curricula c = this.curriculaService.create();
-		c.setPersonalData(result);
-		this.curriculaService.save(c);
+
 		return result;
 	}
 

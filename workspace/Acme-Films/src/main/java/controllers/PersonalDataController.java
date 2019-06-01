@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import services.ActorService;
+import services.CriticService;
 import services.CurriculaService;
 import services.PersonalDataService;
 import domain.Curricula;
@@ -31,6 +32,8 @@ public class PersonalDataController extends AbstractController {
 	private Validator			validator;
 	@Autowired
 	private ActorService		actorService;
+	@Autowired
+	private CriticService		criticService;
 
 
 	//Display
@@ -153,10 +156,13 @@ public class PersonalDataController extends AbstractController {
 			result.addObject("personalData", personalData);
 		} else
 			try {
-				this.personalDataService.saveNewCurricula(personalData);
+				final PersonalData d = this.personalDataService.saveNewCurricula(personalData);
+				final Curricula c = this.curriculaService.saveNewCurricula(d);
+				this.criticService.newCurricula(c);
 
-				result = new ModelAndView("redirect:../../curricula/critic/list.do");
+				result = new ModelAndView("redirect:../../curricula/critic/display.do?curriculaId=" + c.getId());
 			} catch (final Throwable oops) {
+				oops.printStackTrace();
 				result = new ModelAndView("redirect:../../welcome/index.do");
 				result.addObject("messageCode", "problem.commit.error");
 			}

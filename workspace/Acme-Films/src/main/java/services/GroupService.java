@@ -69,10 +69,24 @@ public class GroupService {
 		return result;
 	}
 
+	public Collection<Forum> findAllWithoutModerator() {
+		final Actor actor = this.actorService.findByPrincipal();
+		Assert.isTrue(this.actorService.checkAuthority(actor, "MODERATOR"));
+		return this.groupRepository.forumsWithoutActive();
+	}
+
+	public Collection<Forum> findByModerator() {
+		final Actor actor = this.actorService.findByPrincipal();
+		Assert.isTrue(this.actorService.checkAuthority(actor, "MODERATOR"));
+		final Moderator mod = (Moderator) actor;
+		return this.groupRepository.forumsByModerator(mod.getId());
+	}
+
 	public Collection<Forum> findAllByFilm(final Integer id) {
 		Assert.notNull(id);
 		return this.groupRepository.forumsPerFilm(id);
 	}
+
 	public Collection<Forum> findAllBySaga(final Integer id) {
 		Assert.notNull(id);
 		return this.groupRepository.forumsPerSaga(id);
@@ -141,45 +155,35 @@ public class GroupService {
 		final Actor principal = this.actorService.findByPrincipal();
 
 		try {
-			Assert.isTrue(forum.getFilmAbout() != null || forum.getSagaAbout() != null);
-			if (forum.getFilmAbout() != null) {
-				result = this.createForFilm(forum.getFilmAbout());
-				if (forum.getId() == 0) {
-					final Date moment = new Date();
-					result.setCreationDate(moment);
-					result.setFilmAbout(forum.getFilmAbout());
-				} else {
-					orig = this.findOne(forum.getId());
-					Assert.notNull(orig);
-					Assert.isTrue(orig.getCreator().getId() == principal.getId());
-					Assert.isTrue(orig.getIsActive());
-					result.setId(orig.getId());
-					result.setGroupMembers(orig.getGroupMembers());
-					result.setRejectReason(orig.getRejectReason());
-					result.setModerator(orig.getModerator());
-					result.setIsActive(orig.getIsActive());
-				}
-				result.setDescription(forum.getDescription());
-				result.setName(forum.getName());
-			} else if (forum.getSagaAbout() != null) {
-				result = this.createForSaga(forum.getSagaAbout());
-				if (forum.getId() == 0) {
-					final Date moment = new Date();
-					result.setCreationDate(moment);
-					result.setSagaAbout(forum.getSagaAbout());
-				} else {
-					orig = this.findOne(forum.getId());
-					Assert.notNull(orig);
-					Assert.isTrue(orig.getCreator().getId() == principal.getId());
-					result.setId(orig.getId());
-					result.setGroupMembers(orig.getGroupMembers());
-					result.setRejectReason(orig.getRejectReason());
-					result.setModerator(orig.getModerator());
-					result.setIsActive(orig.getIsActive());
-				}
-				result.setDescription(forum.getDescription());
-				result.setName(forum.getName());
+
+			if (forum.getId() == 0) {
+				if (forum.getFilmAbout() != null)
+					result = this.createForFilm(forum.getFilmAbout());
+				else if (forum.getSagaAbout() != null)
+					result = this.createForSaga(forum.getSagaAbout());
+				final Date moment = new Date();
+				result.setCreationDate(moment);
+				result.setSagaAbout(forum.getSagaAbout());
+
+			} else {
+				orig = this.findOne(forum.getId());
+				if (orig.getFilmAbout() != null)
+					result = this.createForFilm(orig.getFilmAbout());
+				else if (orig.getSagaAbout() != null)
+					result = this.createForSaga(orig.getSagaAbout());
+				Assert.notNull(orig);
+				Assert.isTrue(orig.getCreator().getId() == principal.getId());
+				result.setId(orig.getId());
+				result.setGroupMembers(orig.getGroupMembers());
+				result.setRejectReason(orig.getRejectReason());
+				result.setModerator(orig.getModerator());
+				result.setIsActive(orig.getIsActive());
 			}
+			result.setDescription(forum.getDescription());
+			result.setName(forum.getName());
+
+			Assert.isTrue(result.getFilmAbout() != null || result.getSagaAbout() != null);
+
 		} catch (final Throwable oops) {
 			binding.rejectValue("filmAbout", "film.error.not");
 			binding.rejectValue("sagaAbout", "saga.error.not");
@@ -191,7 +195,7 @@ public class GroupService {
 		final Forum res = this.findOne(group.getId());
 		final Actor actor = this.actorService.findByPrincipal();
 		Assert.isTrue(this.actorService.checkAuthority(actor, "MODERATOR"), "not.allowed");
-		Assert.isNull(group.getIsActive());
+		Assert.isTrue(group.getIsActive() == false);
 		res.setModerator((Moderator) actor);
 		res.setIsActive(true);
 		this.groupRepository.save(res);
@@ -200,7 +204,7 @@ public class GroupService {
 		final Forum res = this.findOne(group.getId());
 		final Actor actor = this.actorService.findByPrincipal();
 		Assert.isTrue(this.actorService.checkAuthority(actor, "MODERATOR"), "not.allowed");
-		Assert.isNull(group.getIsActive());
+		Assert.isTrue(group.getIsActive() == false);
 		res.setModerator((Moderator) actor);
 		res.setRejectReason(group.getRejectReason());
 		res.setIsActive(false);
@@ -213,6 +217,7 @@ public class GroupService {
 		Assert.isTrue(res.getIsActive());
 		final Actor actor = this.actorService.findByPrincipal();
 		Assert.isTrue(this.actorService.checkAuthority(actor, "FILMENTHUSIAST"), "not.allowed");
+		Assert.isTrue(!res.getGroupMembers().contains(actor) && !res.getCreator().equals(actor));
 		res.getGroupMembers().add((FilmEnthusiast) actor);
 		this.groupRepository.save(res);
 	}

@@ -1,3 +1,4 @@
+
 package domain;
 
 import javax.persistence.Access;
@@ -11,11 +12,10 @@ import org.hibernate.validator.constraints.URL;
 
 @Entity
 @Access(AccessType.PROPERTY)
-public class PersonalData extends DomainEntity{
+public class PersonalData extends DomainEntity {
 
 	//Attributes
 
-	private String	githubProfile;
 	private String	linkedIn;
 	private String	fullName;
 	private String	statement;
@@ -23,16 +23,6 @@ public class PersonalData extends DomainEntity{
 
 
 	//Getters and setters
-
-	@URL
-	@Pattern(regexp = "http(s)?:\\/\\/(www\\.)?github\\.com\\/[A-z0-9_-]+\\/?")
-	public String getGithubProfile() {
-		return this.githubProfile;
-	}
-	public void setGithubProfile(final String githubProfile) {
-		this.githubProfile = githubProfile;
-	}
-
 	@URL
 	@Pattern(regexp = "http(s)?:\\/\\/([\\w]+\\.)?linkedin\\.com\\/in\\/[A-z0-9_-]+\\/?")
 	public String getLinkedIn() {
@@ -51,7 +41,7 @@ public class PersonalData extends DomainEntity{
 	}
 
 	@NotBlank
-	@Length(max=510)
+	@Length(max = 510)
 	public String getStatement() {
 		return this.statement;
 	}

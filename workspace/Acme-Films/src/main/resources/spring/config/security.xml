@@ -107,7 +107,32 @@
 			access="hasRole('FILMENTHUSIAST')" />
 
 		<!-- Group -->
+		<security:intercept-url pattern="/group/delete.do"
+			access="hasRole('FILMENTHUSIAST')" />
 
+		<security:intercept-url pattern="/group/create.do"
+			access="hasRole('FILMENTHUSIAST')" />
+
+		<security:intercept-url pattern="/group/edit.do"
+			access="hasRole('FILMENTHUSIAST')" />
+
+		<security:intercept-url pattern="/group/list.do"
+			access="hasAnyRole('FILMENTHUSIAST','MODERATOR')" />
+
+		<security:intercept-url pattern="/group/display.do"
+			access="hasAnyRole('FILMENTHUSIAST','MODERATOR')" />
+
+		<security:intercept-url pattern="/group/listByFilm.do"
+			access="hasAnyRole('FILMENTHUSIAST','MODERATOR')" />
+
+		<security:intercept-url pattern="/group/listBySaga.do"
+			access="hasAnyRole('FILMENTHUSIAST','MODERATOR')" />
+
+		<security:intercept-url pattern="/group/moderator/*"
+			access="hasRole('MODERATOR')" />
+
+		<security:intercept-url pattern="/group/filmenthusiast/*"
+			access="hasRole('FILMENTHUSIAST')" />
 
 		<security:form-login login-page="/security/login.do"
 			password-parameter="password" username-parameter="username"
