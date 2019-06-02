@@ -3119,7 +3119,7 @@
 		<property name="banner"
 			value="https://www.eff.org/files/banner_library/google-spy-eye.png" />
 		<property name="targetPage" value="https://www.sponsorship1.com" />
-		
+
 		<property name="sponsor" ref="sponsor1" />
 
 		<property name="creditCard" ref="creditCard4" />

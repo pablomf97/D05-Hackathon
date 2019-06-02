@@ -14,6 +14,11 @@
 		<put-attribute name="title" value="View profile" />
 		<put-attribute name="body" value="/views/filmenthusiast/display.jsp" />
 	</definition>
+	
+	<definition name="filmEnthusiast/list" extends="master.page">
+		<put-attribute name="title" value="List members" />
+		<put-attribute name="body" value="/views/filmenthusiast/listMembers.jsp" />
+	</definition>
 
 	<definition name="filmEnthusiast/register" extends="master.page">
 		<put-attribute name="title" value="Register Film Enthusiast" />

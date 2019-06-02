@@ -63,38 +63,57 @@
 			onclick="redirect: location.href = 'group/delete.do?Id=${group.id}';" />
 	</jstl:if>-->
 	<!-- Delete -->
-	<jstl:if test="${group.creator.id eq actor.id and group.isActive}">
-		</jstl:if>	
-	
+	<jstl:if
+		test="${group.creator.userAccount.username eq actor.userAccount.username and not group.isActive}">
 		<input type="button" name="list"
 			value="<spring:message code="group.delete"	/>"
 			onclick="redirect: location.href = 'group/delete.do?Id=${group.id}';" />
-
-	<!-- edit -->
-	<jstl:if test="${group.creator eq actor}">
+				</jstl:if>
+			
+		<!-- edit -->
+		<jstl:if
+		test="${group.creator.userAccount.username eq actor.userAccount.username and group.isActive}">
 		<input type="button" name="list"
 			value="<spring:message code="group.edit"/>"
 			onclick="redirect: location.href = 'group/edit.do?Id=${group.id}';" />
 	</jstl:if>
 	<!-- moderator -->
 	<jstl:if
-		test="${contains and group.maximumCapacity le fn:length(group.attenders)}">
+		test="${empty group.moderator and not group.isActive}">
 		<input type="button" name="list"
-			value="<spring:message code="group.request.members"	/>"
+			value="<spring:message code="group.active"	/>"
 			onclick="redirect: location.href = 'group/moderator/activate.do?Id=${group.id}';" />
 	</jstl:if>
+	<!-- Cancelar -->
 	<acme:cancel url="group/list.do" code="group.cancel" />
+	<!-- Request -->
 	<security:authorize access="hasRole('FILMENTHUSIAST')">
-		<jstl:set var="contains2" value="no" />
-
-		<jstl:forEach var="item2" items="${event.forum.groupMembers}">
-			<jstl:if test="${item2 eq actor}">
-				<jstl:set var="contains2" value="yes" />
+		<jstl:set var="contains2" value="false" />
+		<jstl:forEach var="item2" items="${group.groupMembers}">
+			<jstl:if
+				test="${item2.userAccount.username eq actor.userAccount.username}">
+				<jstl:set var="contains2" value="true" />
 			</jstl:if>
 		</jstl:forEach>
-		<jstl:if test="${contains2 eq 'no'}">
+		<jstl:if test="${contains2}">
 			<a href="group/filmenthusiast/request.do?Id=${group.id}"> <spring:message
 					code="group.request" />
+			</a>
+		</jstl:if>
+	</security:authorize>
+	<!-- Request -->
+	<security:authorize access="hasRole('FILMENTHUSIAST')">
+		<jstl:set var="contains2" value="false" />
+		<jstl:forEach var="item2" items="${group.groupMembers}">
+			<jstl:if
+				test="${item2.userAccount.username eq actor.userAccount.username}">
+				<jstl:set var="contains2" value="true" />
+			</jstl:if>
+		</jstl:forEach>
+		<jstl:if
+			test="${contains2 or group.creator.userAccount.username eq actor.userAccount.username}">
+			<a href="event/list.do?Id=${group.id}"> <spring:message
+					code="group.event.list" />
 			</a>
 		</jstl:if>
 	</security:authorize>

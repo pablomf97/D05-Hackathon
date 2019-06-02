@@ -89,7 +89,14 @@
 				<spring:message code="social.create" />
 			</button>
 		</jstl:if>
-
+		<jstl:if test="${permission and empty critic.curricula}">
+			<button onclick="location.href='curricula/critic/create.do'">
+				<spring:message code="curricula.create" />
+			</button>
+		</jstl:if>
+		<button onclick="location.href='curricula/critic/display.do?curriculaId=${critic.curricula.id}'">
+			<spring:message code="curricula.display" />
+		</button>
 	</jstl:when>
 	<jstl:otherwise>
 		<p class="error">

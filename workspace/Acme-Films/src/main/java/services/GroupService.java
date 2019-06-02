@@ -48,7 +48,7 @@ public class GroupService {
 		result.setFilmAbout(film);
 		final Collection<FilmEnthusiast> groupMembers = new ArrayList<>();
 		result.setGroupMembers(groupMembers);
-
+		result.setIsActive(false);
 		return result;
 	}
 
@@ -66,6 +66,8 @@ public class GroupService {
 		result.setSagaAbout(saga);
 		final Collection<FilmEnthusiast> groupMembers = new ArrayList<>();
 		result.setGroupMembers(groupMembers);
+		result.setIsActive(false);
+
 		return result;
 	}
 
@@ -163,7 +165,6 @@ public class GroupService {
 					result = this.createForSaga(forum.getSagaAbout());
 				final Date moment = new Date();
 				result.setCreationDate(moment);
-				result.setSagaAbout(forum.getSagaAbout());
 
 			} else {
 				orig = this.findOne(forum.getId());
