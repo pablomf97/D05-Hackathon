@@ -4,6 +4,8 @@ package controllers;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
@@ -20,6 +22,8 @@ import domain.Actor;
 import domain.Film;
 import domain.Sponsor;
 import domain.Sponsorship;
+import forms.CreateSponsorshipFormObject;
+import forms.EditSponsorshipFormObject;
 
 @Controller
 @RequestMapping("/sponsorship")
@@ -91,67 +95,145 @@ public class SponsorshipController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
-	public ModelAndView create(@RequestParam final int filmId) {
-		ModelAndView result = null;
-		Collection<Film> films;
-		try {
-			Sponsorship sponsorship = this.sponsorshipService.create();
-			films = this.filmService.publishedFilms();
+	public ModelAndView createSponsorship() {
+		ModelAndView res;
 
-			result = this.createEditModelAndView(sponsorship);
-			result.addObject("films", films);
-		} catch (final Throwable oops) {
-			System.out.println(oops.getMessage());
-		}
-		return result;
+		final CreateSponsorshipFormObject createSponsorshipFormObject = new CreateSponsorshipFormObject();
+
+		res = this.createNewModelAndView(createSponsorshipFormObject);
+		res.addObject("isPrincipal", true);
+
+		return res;
 	}
-
-	// Edition
+	
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
 	public ModelAndView edit(@RequestParam final int sponsorshipId) {
-		ModelAndView result;
+		ModelAndView res;
 		Sponsorship sponsorship;
-		try {
-			sponsorship = this.sponsorshipService.findOne(sponsorshipId);
-			Assert.notNull(sponsorship);
+		Actor principal = this.actorService.findByPrincipal();
+		boolean isPrincipal = false;
 
-			result = this.createEditModelAndView(sponsorship);
-			result.addObject("sponsorshipId", sponsorshipId);
-		} catch (final Throwable oops) {
-			result = new ModelAndView("redirect:/welcome/index.do");
+		sponsorship = this.sponsorshipService.findOne(sponsorshipId);
+		
+		if(sponsorship.getSponsor().equals((Sponsor)principal)) {
+			isPrincipal = true;
 		}
-		return result;
+
+		final EditSponsorshipFormObject editSponsorshipFormObject = new EditSponsorshipFormObject(sponsorship);
+
+		res = this.createEditModelAndView(editSponsorshipFormObject);
+		res.addObject("isPrincipal", isPrincipal);
+		res.addObject("isActive", sponsorship.getIsActive());
+
+		return res;
 	}
+	
+	@RequestMapping(value = "/create", method = RequestMethod.POST, params = "newSp")
+	public ModelAndView newSp(@Valid final CreateSponsorshipFormObject createSponsorshipFormObject, final BindingResult binding) {
 
-	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(final Sponsorship sponsorship, final BindingResult binding) {
-		ModelAndView result;
-		Sponsorship aux;
+		Actor principal;
+		ModelAndView res;
+		boolean isPrincipal = false;
+
 		try {
-			aux = this.sponsorshipService.reconstruct(sponsorship, binding);
-			if (binding.hasErrors()) {
+			principal = this.actorService.findByPrincipal();
+			Sponsorship sponsorship = new Sponsorship();
+			sponsorship = this.sponsorshipService.create();
 
-				result = new ModelAndView("sponsorship/edit");
-				result.addObject("sponsorship", sponsorship);
-				result.addObject("binding", binding);
-				result.addObject("isPrincipal", true);
-			} else
+			sponsorship = this.sponsorshipService.reconstruct(createSponsorshipFormObject, binding);
+			
+			Assert.isTrue(sponsorship.getSponsor().equals((Sponsor) principal), "not.allowed");
+
+			if (binding.hasErrors())
+				res = this.createNewModelAndView(createSponsorshipFormObject);
+			else
 				try {
-					this.sponsorshipService.save(aux);
-					result = new ModelAndView("redirect:list.do");
+
+					this.sponsorshipService.save(sponsorship);
+
+					res = new ModelAndView("redirect:list.do");
+
 				} catch (final Throwable oops) {
-					result = new ModelAndView("sponsorship/edit");
-					result.addObject("sponsorship", aux);
-					result.addObject("messageCode", oops.getMessage());
+					if(sponsorship.getSponsor().equals((Sponsor)principal)) {
+						isPrincipal = true;
+					}
+					res = this.createNewModelAndView(createSponsorshipFormObject, "sponsorship.commit.error");
+					res.addObject("isPrincipal", isPrincipal);
+
 				}
 		} catch (final Throwable oops) {
-			if (binding.hasErrors())
-				result = this.createEditModelAndView(sponsorship, "jpa.error");
-			else
-				result = this.createEditModelAndView(sponsorship, "commit.error");
+			res = new ModelAndView("redirect:list.do");
 		}
-		return result;
+		return res;
 	}
+	
+	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
+	public ModelAndView edit(@Valid final EditSponsorshipFormObject editSponsorshipFormObject, final BindingResult binding) {
+		Actor principal;
+		ModelAndView res;
+		boolean isPrincipal = false;
+
+		try {
+			principal = this.actorService.findByPrincipal();
+			Sponsorship sponsorship = new Sponsorship();
+			sponsorship = this.sponsorshipService.create();
+
+			sponsorship = this.sponsorshipService.reconstruct(editSponsorshipFormObject, binding);
+			
+			Assert.isTrue(sponsorship.getSponsor().equals((Sponsor) principal), "not.allowed");
+
+			if (binding.hasErrors())
+				res = this.createEditModelAndView(editSponsorshipFormObject);
+			else
+				try {
+
+					this.sponsorshipService.save(sponsorship);
+
+					res = new ModelAndView("redirect:list.do");
+
+				} catch (final Throwable oops) {
+					if(sponsorship.getSponsor().equals((Sponsor)principal)) {
+						isPrincipal = true;
+					}
+					res = this.createEditModelAndView(editSponsorshipFormObject, "sponsorship.commit.error");
+					res.addObject("isPrincipal", isPrincipal);
+
+				}
+		} catch (final Throwable oops) {
+			res = new ModelAndView("redirect:list.do");
+		}
+		return res;
+	}
+
+//	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
+//	public ModelAndView save(final Sponsorship sponsorship, final BindingResult binding) {
+//		ModelAndView result;
+//		Sponsorship aux;
+//		try {
+//			aux = this.sponsorshipService.reconstruct(sponsorship, binding);
+//			if (binding.hasErrors()) {
+//
+//				result = new ModelAndView("sponsorship/edit");
+//				result.addObject("sponsorship", sponsorship);
+//				result.addObject("binding", binding);
+//				result.addObject("isPrincipal", true);
+//			} else
+//				try {
+//					this.sponsorshipService.save(aux);
+//					result = new ModelAndView("redirect:list.do");
+//				} catch (final Throwable oops) {
+//					result = new ModelAndView("sponsorship/edit");
+//					result.addObject("sponsorship", aux);
+//					result.addObject("messageCode", oops.getMessage());
+//				}
+//		} catch (final Throwable oops) {
+//			if (binding.hasErrors())
+//				result = this.createEditModelAndView(sponsorship, "jpa.error");
+//			else
+//				result = this.createEditModelAndView(sponsorship, "commit.error");
+//		}
+//		return result;
+//	}
 
 	/* Accept or reject an sponsorship */
 	@RequestMapping(value = "/action", method = RequestMethod.GET)
@@ -210,31 +292,65 @@ public class SponsorshipController extends AbstractController {
 	}
 
 	// Ancillary methods
-	protected ModelAndView createEditModelAndView(final Sponsorship sponsorship) {
+	
+	protected ModelAndView createEditModelAndView(final EditSponsorshipFormObject editSponsorshipFormObject) {
 		ModelAndView result;
 
-		result = this.createEditModelAndView(sponsorship, null);
+		result = this.createEditModelAndView(editSponsorshipFormObject, null);
 
 		return result;
 	}
 
-	protected ModelAndView createEditModelAndView(final Sponsorship sponsorship, final String messageCode) {
-		final ModelAndView result;
-		Actor principal;
-		boolean isPrincipal = true;
-
-		if (messageCode == null) {
-			principal = this.actorService.findByPrincipal();
-
-			if (!sponsorship.getSponsor().equals((Sponsor) principal))
-				isPrincipal = false;
-		}
-
+	protected ModelAndView createEditModelAndView(final EditSponsorshipFormObject editSponsorshipFormObject, final String messageCode) {
+		ModelAndView result;
+		Collection<Film> films = this.filmService.publishedFilms();
+		
 		result = new ModelAndView("sponsorship/edit");
-		result.addObject("sponsorship", sponsorship);
-		result.addObject("isPrincipal", isPrincipal);
+		result.addObject("editSponsorshipFormObject", editSponsorshipFormObject);
 		result.addObject("message", messageCode);
+		result.addObject("films", films);
 
 		return result;
 	}
+
+	protected ModelAndView createNewModelAndView(final CreateSponsorshipFormObject createSponsorshipFormObject) {
+		ModelAndView result;
+
+		result = this.createNewModelAndView(createSponsorshipFormObject, null);
+
+		return result;
+	}
+
+	protected ModelAndView createNewModelAndView(final CreateSponsorshipFormObject createSponsorshipFormObject, final String messageCode) {
+		ModelAndView result;
+		Collection<Film> films = this.filmService.publishedFilms();
+
+		result = new ModelAndView("sponsorship/create");
+		result.addObject("createSponsorshipFormObject", createSponsorshipFormObject);
+		result.addObject("message", messageCode);
+		result.addObject("films", films);
+
+		return result;
+	}
+
+
+//	protected ModelAndView createEditModelAndView(final Sponsorship sponsorship, final String messageCode) {
+//		final ModelAndView result;
+//		Actor principal;
+//		boolean isPrincipal = true;
+//
+//		if (messageCode == null) {
+//			principal = this.actorService.findByPrincipal();
+//
+//			if (!sponsorship.getSponsor().equals((Sponsor) principal))
+//				isPrincipal = false;
+//		}
+//
+//		result = new ModelAndView("sponsorship/edit");
+//		result.addObject("sponsorship", sponsorship);
+//		result.addObject("isPrincipal", isPrincipal);
+//		result.addObject("message", messageCode);
+//
+//		return result;
+//	}
 }

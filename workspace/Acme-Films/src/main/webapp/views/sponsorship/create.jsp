@@ -16,25 +16,18 @@
 	<jstl:choose>
 		<jstl:when test="${isPrincipal}">
 		<h1><spring:message	code="sponsorship.title.edit" /></h1>
-		<form:form modelAttribute="editSponsorshipFormObject" action="sponsorship/edit.do"
+		<form:form modelAttribute="createSponsorshipFormObject" action="sponsorship/create.do"
 			id="form">
+	
+			<jstl:if test="${sponsorship.isActive eq null}">
 			
-			<form:hidden path="id" />
+				<acme:textbox code="sponsorship.title" path="title" size="100px" /><br> <br>
+				<acme:textbox code="sponsorship.banner" path="banner" size="100px" /><br> <br>
+				<acme:textbox code="sponsorship.targetPage" path="targetPage" size="100px" /><br> <br>
+				
+				<acme:multipleSelect items="${films}" itemLabel="title" code="sponsorship.films" path="films"/><br>
 			
-			<jstl:choose>
-				<jstl:when test="${isActive eq null}">
-					<acme:textbox code="sponsorship.title" path="title" size="100px" /><br> <br>
-					<acme:textbox code="sponsorship.banner" path="banner" size="100px" /><br> <br>
-					<acme:textbox code="sponsorship.targetPage" path="targetPage" size="100px" /><br> <br>
-					<acme:multipleSelect items="${films}" itemLabel="title" code="sponsorship.films" path="films"/><br>
-				</jstl:when>	
-				<jstl:otherwise>
-					<form:hidden path="title" />
-					<form:hidden path="banner" />
-					<form:hidden path="targetPage" />
-					<form:hidden path="films" />
-				</jstl:otherwise>
-			</jstl:choose>
+			</jstl:if>
 			
 			<acme:textbox code="sponsorship.holder" path="holder" size="100px" /><br> <br>
 			<acme:textbox code="sponsorship.make" path="make" size="100px" /><br> <br>
@@ -43,7 +36,7 @@
 			<acme:textbox code="sponsorship.expirationYear" path="expirationYear" size="100px" /><br> <br>
 			<acme:textbox code="sponsorship.CVV" path="CVV" size="100px" /><br> <br>
 			
-			<acme:submit code="sponsorship.save" name="save" />&nbsp;
+			<acme:submit code="sponsorship.save" name="newSp" />&nbsp;
 			<acme:cancel url="sponsorship/list.do" code="sponsorship.cancel" />
 			<br />
 	

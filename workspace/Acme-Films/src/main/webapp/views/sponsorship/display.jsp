@@ -31,6 +31,35 @@
 	</tr>
 	
 </table>
+
+<h2><spring:message code="sponsorship.title.creditcard.display" /></h2>
+<table class="displayStyle">
+	<tr>
+		<td><strong> <spring:message code="sponsorship.holder" /> : </strong></td>
+		<td><jstl:out value="${sponsorship.creditCard.holder}"></jstl:out></td>
+	</tr>
+	<tr>
+		<td><strong> <spring:message code="sponsorship.make" /> : </strong></td>
+		<td><jstl:out value="${sponsorship.creditCard.make}"></jstl:out></td>
+	</tr>
+	<tr>
+		<td><strong> <spring:message code="sponsorship.number" /> : </strong></td>
+		<td><jstl:out value="${sponsorship.creditCard.number}"></jstl:out></td>
+	</tr>
+	<tr>
+		<td><strong> <spring:message code="sponsorship.expirationMonth" /> : </strong></td>
+		<td><jstl:out value="${sponsorship.creditCard.expirationMonth}"></jstl:out></td>
+	</tr>
+	<tr>
+		<td><strong> <spring:message code="sponsorship.expirationYear" /> : </strong></td>
+		<td><jstl:out value="${sponsorship.creditCard.expirationYear}"></jstl:out></td>
+	</tr>
+	<tr>
+		<td><strong> <spring:message code="sponsorship.CVV" /> : </strong></td>
+		<td><jstl:out value="${sponsorship.creditCard.CVV}"></jstl:out></td>
+	</tr>
+	
+</table>
 	
 <h2><spring:message code="sponsorship.display.films" /></h2>
 <display:table class="displaytag" name="${sponsorship.films}" pagesize="5" 

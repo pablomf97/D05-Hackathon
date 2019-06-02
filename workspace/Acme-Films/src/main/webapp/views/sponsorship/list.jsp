@@ -103,7 +103,7 @@
 					</a>
 				</jstl:if>
 				</display:column>
-								<display:column>
+				<display:column>
 				<jstl:if test="${sponsorship.isActive eq true}">
 					<a id="edit"
 						href="sponsorship/action.do?action=reject&sponsorshipId=${sponsorship.id}">
@@ -112,7 +112,7 @@
 				</jstl:if>
 				</display:column>
 			</display:table>
-			<br><a href="sponsorship/create.do?filmId=${film.id }"> <spring:message
+			<br><a href="sponsorship/create.do"> <spring:message
 								code="sponsorship.create" /></a>
 		</jstl:otherwise>
 	</jstl:choose>
