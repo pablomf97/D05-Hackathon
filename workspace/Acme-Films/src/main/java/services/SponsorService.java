@@ -306,15 +306,12 @@ public class SponsorService {
 	
 	public void deleteSponsor(Sponsor c){
 		
-		//SocialProfiles:
-		for(SocialProfile s : c.getSocialProfile()){
-			this.socialProfileService.delete(s);	
-		}
+	
 		
 		//Sponsorships
 		this.sponsorshipService.deleteSponsorships(c.getId());
 		
 		
-		
+		this.delete(c);
 	}
 }

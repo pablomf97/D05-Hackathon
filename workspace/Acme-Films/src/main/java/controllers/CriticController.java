@@ -257,7 +257,7 @@ public class CriticController extends AbstractController {
 		else
 			try {
 
-				this.criticService.delete(critic);
+				this.criticService.DeleteCritic(critic);
 				session.invalidate();
 				result = new ModelAndView("redirect:/welcome/index.do");
 			} catch (final Throwable oops) {

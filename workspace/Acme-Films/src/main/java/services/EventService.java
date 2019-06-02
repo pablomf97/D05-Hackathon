@@ -156,4 +156,10 @@ public class EventService {
 		return l.subList(0, 3);
 		}
 	}
+
+	public void deleteEventPerForum(int id) {
+		
+		this.eventRepository.deleteInBatch(this.eventRepository.findAllByGroup(id));
+		
+	}
 }

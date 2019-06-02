@@ -149,6 +149,10 @@
 			onclick="javascript: relativeRedir('/moderator/display.do')">
 			<spring:message code="form.cancel" />
 		</button>
+				<input type="submit" name="deleteModerator"
+				value="<spring:message code="actor.delete"/>"
+				onclick="return confirm('<spring:message code="actor.confirm.delete"/>')" />
+		
 
 	</form:form>
 </security:authorize>

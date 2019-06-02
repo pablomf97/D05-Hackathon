@@ -332,19 +332,53 @@ public class AdministratorService {
 	
 	public void deleteAdmin(Administrator a){
 		
+		
+		//SocialProfiles:
+	/*			for(SocialProfile s : a.getSocialProfile()){
+					this.profileService.delete(s);	
+				}
+			
+		*/
 	//	this.messageService.deleteMessagesInvolved(a.getId());
 		//this.messageBoxService.deleteBoxes(a.getId());
 		//borro todos los mensajes donde sea receiver del sistema
 		
-		Collection<MessageBox> boxesPrincipal=this.messageBoxService.findByOwner(a.getId());
-		
-		Collection<MessageBox> boxesReceiver=this.messageBoxService.findByOwner(a.getId());
-
-		
-		//SocialProfiles:
-		for(SocialProfile s : a.getSocialProfile()){
-			this.profileService.delete(s);	
+		//Collection<Message> messagesInvolved =this.messageService.messagesInvolved(a.getId());
+	//	this.messageService.deleteMessagesInvolved();
+		//this.messageBoxService.deleteBoxes();
+		/*
+		for(Message m: messagesInvolved){
+			
+			this.messageBoxService.deleteBoxes(m.getReceiver().getId());
+			
 		}
+		this.messageBoxService.deleteBoxes(a.getId());
+		/*Collection<MessageBox>boxesPrincipal =this.messageBoxService.findByOwner(a.getId());
+		for(Message m: messagesInvolved){
+		*/	
+	
+			/*//Borrar las parents boxes del owner y del receiver 
+			for(MessageBox box: boxesPrincipal){
+			       if(box.getMessages().contains(m)){
+			             box.getMessages().remove(m);
+			             m.getMessageBoxes().remove(box);
+			       }
+			}*/
+			//this.messageBoxService.findByParent(idBox);
+	//	Collection<MessageBox> boxesReceiver=this.messageBoxService.findByOwner(m.getReceiver().getId());
+		
+			
+			/*for(MessageBox box: boxesReceiver){
+			       if(box.getMessages().contains(m)){
+			             box.getMessages().remove(m);
+			             m.getMessageBoxes().remove(box);
+			       }
+			}
+			
+			this.messageService.deleteMessage(m);*/
+	
+		
+		
 	
 		
 		

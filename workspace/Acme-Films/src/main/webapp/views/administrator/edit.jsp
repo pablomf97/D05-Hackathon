@@ -148,6 +148,9 @@
 		<button type="button" onclick="javascript: relativeRedir('/administrator/display.do')">
 			<spring:message code="form.cancel" />
 		</button>
+		<input type="submit" name="deleteAdmin"
+				value="<spring:message code="actor.delete"/>"
+				onclick="return confirm('<spring:message code="actor.confirm.delete"/>')" />
 
 	</form:form>
 </security:authorize>

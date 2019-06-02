@@ -325,14 +325,11 @@ public class CriticService {
 	public void DeleteCritic(Critic c ){
 		
 		
-		//SocialProfiles:
-				for(SocialProfile s : c.getSocialProfile()){
-					this.socialProfileService.delete(s);	
-				}
+	
 		//CURRICULA		
-				if(c.getCurricula()!=null){
+	/*			if(c.getCurricula()!=null){
 					this.curriculaService.deleteCV(c.getCurricula());
-				}
+				}*/
 		//REVIEW
 				
 			this.reviewService.deleteReviewsCritics(c.getId());

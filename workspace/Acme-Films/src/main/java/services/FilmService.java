@@ -47,6 +47,9 @@ public class FilmService {
 	@Autowired
 	private GroupService groupService;
 	
+	@Autowired
+	private ReviewService reviewService;
+	
 	public Film create() {
 		Actor principal;
 		Film result;
@@ -241,7 +244,12 @@ public class FilmService {
 		for(Film f:	this.filmsByModerator(id)){
 			this.visualizationService.DeletevisPerFilm(f.getId());
 			this.commentService.deleteCommentsPerFilms(f.getId());
+			this.groupService.deleteGroupPerFilm(f.getId());
+			this.reviewService.deleteReviewPerFilm(f.getId());
+			this.delete(f);
+			
 			//this.groupService.
+			//sponsorships
 		}
 	}
 

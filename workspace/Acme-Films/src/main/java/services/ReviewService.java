@@ -317,4 +317,16 @@ public class ReviewService {
 		this.reviewRepository.deleteInBatch(this.reviewRepository.getReviewsByCritic(id));
 		
 	}
+
+	public void deleteReviewPerModerator(int id) {
+		
+		this.reviewRepository.deleteInBatch(this.reviewRepository.reviewPerModerator(id));
+		
+	}
+
+	public void deleteReviewPerFilm(int id) {
+		
+		this.reviewRepository.deleteInBatch(this.reviewRepository.reviewPerFilm(id));
+		
+	}
 }

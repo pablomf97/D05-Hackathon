@@ -429,23 +429,16 @@ public class MessageService {
 		return this.messageRepository.messagesInvolved(id);
 	}
 	
-	public void deleteMessagesInvolved(int id){
+	public void deleteMessagesInvolved(){
 		
-		this.messageRepository.deleteInBatch(this.messagesInvolved(id));
+		this.messageRepository.deleteInBatch(this.findAll());
 	}
 	
 	public Collection<Message> messagesReceiverByActor(int id){
 		
 		return this.messageRepository.messagesReceiverByActor(id);
 	}
-	public void deleteReceiver(int id){
-		
-	Collection<Message> l = this.messagesReceiverByActor(id);
-	
-	for(Message m :l){
-		
-		
-		
-	}
+	public void deleteMessage(Message m){
+		this.messageRepository.delete(m);
 	}
 }
