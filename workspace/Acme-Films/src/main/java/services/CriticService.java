@@ -37,6 +37,16 @@ public class CriticService {
 
 	@Autowired
 	private SystemConfigurationService systemConfigurationService;
+	
+	@Autowired
+	private SocialProfileService socialProfileService;
+	
+	@Autowired
+	private CurriculaService curriculaService;
+	
+	
+	@Autowired
+	private ReviewService reviewService;
 
 	/* Simple CRUD methods */
 
@@ -300,10 +310,35 @@ public class CriticService {
 	public Collection<Critic> top3CriticsMoreProfessional() {
 		List<Critic> l = (List<Critic>) this.criticRepository
 				.top3CriticsMoreProfessional();
+		if(l.size()==0){
+			return l;
+		}else{
+		
 		return l.subList(0, 3);
+		}
 	}
 
 	public Collection<Critic> criticsWithHighestRatingReview() {
 		return this.criticRepository.criticsWithHighestRatingReview();
+	}
+	
+	public void DeleteCritic(Critic c ){
+		
+		
+	
+		//CURRICULA		
+	/*			if(c.getCurricula()!=null){
+					this.curriculaService.deleteCV(c.getCurricula());
+				}*/
+		//REVIEW
+				
+			this.reviewService.deleteReviewsCritics(c.getId());
+				
+		//MESSAGES BOXES
+				
+				
+				this.delete(c);
+		
+		
 	}
 }

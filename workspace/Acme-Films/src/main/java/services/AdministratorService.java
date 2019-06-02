@@ -17,6 +17,8 @@ import security.Authority;
 import security.UserAccount;
 import domain.Actor;
 import domain.Administrator;
+import domain.Message;
+import domain.MessageBox;
 import domain.SocialProfile;
 import forms.EditionFormObject;
 import forms.RegisterFormObject;
@@ -37,6 +39,17 @@ public class AdministratorService {
 
 	@Autowired
 	private SystemConfigurationService systemConfigurationService;
+	
+	@Autowired
+	private MessageService messageService;
+	@Autowired
+	private MessageBoxService messageBoxService;
+	
+	@Autowired
+	private SocialProfileService profileService;
+	
+	
+	
 
 	/* Simple CRUD methods */
 
@@ -316,4 +329,62 @@ public class AdministratorService {
 	public void flush() {
 		this.administratorRepository.flush();
 	}
+	
+	public void deleteAdmin(Administrator a){
+		
+		
+		//SocialProfiles:
+	/*			for(SocialProfile s : a.getSocialProfile()){
+					this.profileService.delete(s);	
+				}
+			
+		*/
+	//	this.messageService.deleteMessagesInvolved(a.getId());
+		//this.messageBoxService.deleteBoxes(a.getId());
+		//borro todos los mensajes donde sea receiver del sistema
+		
+		//Collection<Message> messagesInvolved =this.messageService.messagesInvolved(a.getId());
+	//	this.messageService.deleteMessagesInvolved();
+		//this.messageBoxService.deleteBoxes();
+		/*
+		for(Message m: messagesInvolved){
+			
+			this.messageBoxService.deleteBoxes(m.getReceiver().getId());
+			
+		}
+		this.messageBoxService.deleteBoxes(a.getId());
+		/*Collection<MessageBox>boxesPrincipal =this.messageBoxService.findByOwner(a.getId());
+		for(Message m: messagesInvolved){
+		*/	
+	
+			/*//Borrar las parents boxes del owner y del receiver 
+			for(MessageBox box: boxesPrincipal){
+			       if(box.getMessages().contains(m)){
+			             box.getMessages().remove(m);
+			             m.getMessageBoxes().remove(box);
+			       }
+			}*/
+			//this.messageBoxService.findByParent(idBox);
+	//	Collection<MessageBox> boxesReceiver=this.messageBoxService.findByOwner(m.getReceiver().getId());
+		
+			
+			/*for(MessageBox box: boxesReceiver){
+			       if(box.getMessages().contains(m)){
+			             box.getMessages().remove(m);
+			             m.getMessageBoxes().remove(box);
+			       }
+			}
+			
+			this.messageService.deleteMessage(m);*/
+	
+		
+		
+	
+		
+		
+		this.delete(a);
+	}
+	
+	
+	
 }

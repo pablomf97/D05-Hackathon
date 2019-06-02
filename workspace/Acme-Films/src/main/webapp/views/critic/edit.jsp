@@ -149,6 +149,9 @@
 			onclick="javascript: relativeRedir('/critic/display.do')">
 			<spring:message code="form.cancel" />
 		</button>
+		<input type="submit" name="deleteCritic"
+				value="<spring:message code="actor.delete"/>"
+				onclick="return confirm('<spring:message code="actor.confirm.delete"/>')" />
 
 	</form:form>
 </security:authorize>

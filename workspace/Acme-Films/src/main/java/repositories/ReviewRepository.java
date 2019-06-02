@@ -27,8 +27,18 @@ public interface ReviewRepository extends JpaRepository<Review, Integer>{
 	@Query("select r from Review r where r.moderator.id = ?1 and r.isDraft = false")
 	public Collection<Review> getMyReviews(int moderatorId);
 	
+
 	@Query("select r from Review r where r.film.id= ?1 and r.isDraft = false")
 	public Collection<Review> getReviewsByFilm(int filmId);
-	}
+	
+
+	@Query("select f from Review f where f.moderator.id= ?1")
+	public Collection<Review> reviewPerModerator(int id);
+	
+	@Query("select f from Review f where f.film.id= ?1")
+	 public Collection<Review> reviewPerFilm(int id);
+	
+}
+
 
 

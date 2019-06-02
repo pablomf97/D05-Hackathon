@@ -109,11 +109,16 @@ public class CommentService {
 		return result;
 	}
 	
+
 	public Collection<Comment> getCommentsByOwner(int id){
 		
 		Collection<Comment> result = this.commentRepository.commentsByOwner(id);
 		
 		return result;
-		
+	}
+
+	public void deleteCommentsPerFilms(int filmId){
+		this.commentRepository.deleteInBatch(this.commentRepository.vPerFilm(filmId));
+
 	}
 }

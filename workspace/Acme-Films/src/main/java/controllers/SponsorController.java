@@ -257,7 +257,7 @@ public class SponsorController extends AbstractController {
 		else
 			try {
 
-				this.sponsorService.delete(sponsor);
+				this.sponsorService.deleteSponsor(sponsor);
 				session.invalidate();
 				result = new ModelAndView("redirect:/welcome/index.do");
 			} catch (final Throwable oops) {

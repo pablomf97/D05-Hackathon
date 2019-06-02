@@ -258,7 +258,7 @@ public class ModeratorController extends AbstractController {
 		else
 			try {
 
-				this.moderatorService.delete(moderator);
+				this.moderatorService.DeleteModerator(moderator);
 				session.invalidate();
 				result = new ModelAndView("redirect:/welcome/index.do");
 			} catch (final Throwable oops) {

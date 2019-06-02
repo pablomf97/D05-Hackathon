@@ -312,10 +312,26 @@ public class ReviewService {
 
 		return result;
 	}
+	public void deleteReviewsCritics(int id){
+		this.reviewRepository.deleteInBatch(this.reviewRepository.getReviewsByCritic(id));
+		
+	}
+
+	public void deleteReviewPerModerator(int id) {
+		
+		this.reviewRepository.deleteInBatch(this.reviewRepository.reviewPerModerator(id));
+		
+	}
+
 
 	public Collection<Review> getReviewsByFilm(int filmId){
 		Collection<Review> result = this.reviewRepository.getReviewsByFilm(filmId);
 		
 		return result;
+	}
+	public void deleteReviewPerFilm(int id) {
+		
+		this.reviewRepository.deleteInBatch(this.reviewRepository.reviewPerFilm(id));
+
 	}
 }

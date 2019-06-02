@@ -117,5 +117,10 @@ public class VisualizationService {
 		return result;
 	}
 	
+	
+	public void DeletevisPerFilm(int id){
+		this.visualizationRepository.deleteInBatch(this.visualizationRepository.visPerFilm(id));
+	}
+	
 }
 

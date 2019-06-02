@@ -15,6 +15,7 @@ import org.springframework.validation.Validator;
 
 import repositories.GroupRepository;
 import domain.Actor;
+import domain.Event;
 import domain.Film;
 import domain.FilmEnthusiast;
 import domain.Forum;
@@ -32,6 +33,9 @@ public class GroupService {
 	private GroupRepository	groupRepository;
 	@Autowired
 	private Validator		validator;
+	
+	@Autowired
+	private EventService eventService;
 
 
 	public Forum createForFilm(final Film film) {
@@ -227,6 +231,24 @@ public class GroupService {
 		Assert.isTrue(res.getGroupMembers().contains(member));
 		res.getGroupMembers().remove(member);
 		this.groupRepository.save(res);
+	}
+
+	public void deleteGroupModerator(int id) {
+		
+		this.groupRepository.deleteInBatch(this.groupRepository.forumPerModerator(id));
+		
+	
+		
+	}
+
+	public void deleteGroupPerFilm(int id) {
+		
+		for(Forum g :this.groupRepository.forumPerFilmDefault(id)){
+			
+			this.eventService.deleteEventPerForum(g.getId());
+			this.groupRepository.delete(g);
+		}
+		
 	}
 
 }

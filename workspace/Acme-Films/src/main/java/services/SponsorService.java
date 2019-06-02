@@ -37,6 +37,12 @@ public class SponsorService {
 
 	@Autowired
 	private SystemConfigurationService systemConfigurationService;
+	
+	@Autowired
+	private SocialProfileService socialProfileService;
+	
+	@Autowired
+	private SponsorshipService sponsorshipService;
 
 	/* Simple CRUD methods */
 
@@ -296,5 +302,16 @@ public class SponsorService {
 
 	public Double[] statsSponsorshipsPerSponsor() {
 		return this.sponsorRepository.statsSponsorshipsPerSponsor();
+	}
+	
+	public void deleteSponsor(Sponsor c){
+		
+	
+		
+		//Sponsorships
+		this.sponsorshipService.deleteSponsorships(c.getId());
+		
+		
+		this.delete(c);
 	}
 }

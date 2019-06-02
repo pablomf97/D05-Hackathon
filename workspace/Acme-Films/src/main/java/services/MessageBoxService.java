@@ -195,5 +195,13 @@ public class MessageBoxService {
 		}
 		return result;
 	}
+	
+	public void deleteBoxes( ){
+		
+		this.messageBoxRepository.deleteInBatch(this.findAll());
+		
+		
+	}
+	
 
 }

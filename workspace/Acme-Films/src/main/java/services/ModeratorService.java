@@ -34,9 +34,17 @@ public class ModeratorService {
 
 	@Autowired
 	private ActorService actorService;
+	@Autowired
+	private ReviewService reviewService;
 
 	@Autowired
 	private SystemConfigurationService systemConfigurationService;
+	
+	@Autowired
+	private FilmService filmService;
+	
+	@Autowired
+	private GroupService groupService;
 
 	/* Simple CRUD methods */
 
@@ -314,5 +322,15 @@ public class ModeratorService {
 
 	public Double[] statsReviewsPerModerator() {
 		return this.moderatorRepository.statsReviewsPerModerator();
+	}
+	
+	public void DeleteModerator(Moderator c){
+		
+		this.reviewService.deleteReviewPerModerator(c.getId());
+		this.filmService.deleteFilms(c.getId());
+		
+	
+		this.delete(c);
+		
 	}
 }
