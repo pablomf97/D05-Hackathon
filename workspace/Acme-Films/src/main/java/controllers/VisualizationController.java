@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import services.ActorService;
+import services.FilmService;
 import services.VisualizationService;
 import domain.Actor;
+import domain.Film;
 import domain.Visualization;
 
 @Controller
@@ -24,7 +26,12 @@ public class VisualizationController extends AbstractController {
 	private ActorService actorService;
 
 	@Autowired
-	private VisualizationService visualizationService;
+
+	private VisualizationService		visualizationService;
+	
+	@Autowired
+	private FilmService		filmService;
+
 
 	// Display
 
@@ -59,21 +66,25 @@ public class VisualizationController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public ModelAndView list() {
+	public ModelAndView list(@RequestParam final int filmId) {
 		final ModelAndView result = new ModelAndView("visualization/list");
 		Collection<Visualization> visualizations;
 		Actor principal;
 		boolean isPrincipal = false;
+		Film film;
 
 		try {
 			principal = this.actorService.findByPrincipal();
 			if (this.actorService.checkAuthority(principal, "MODERATOR"))
 				isPrincipal = true;
 
-			visualizations = this.visualizationService
-					.visualizationsPerFilm(principal.getId());
+
+			visualizations = this.visualizationService.visualizationsPerFilm(filmId);
+			film = this.filmService.findOne(filmId);
+
 
 			result.addObject("visualizations", visualizations);
+			result.addObject("film", film);
 			result.addObject("isPrincipal", isPrincipal);
 
 		} catch (final Throwable oops) {
@@ -84,11 +95,15 @@ public class VisualizationController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
-	public ModelAndView create() {
+	public ModelAndView create(@RequestParam final int filmId) {
 		ModelAndView result = null;
+		Film film;
 		try {
-			final Visualization visualization = this.visualizationService
-					.create();
+
+			Visualization visualization = this.visualizationService.create();
+			film = this.filmService.findOne(filmId);
+			visualization.setFilm(film);
+
 
 			result = this.createEditModelAndView(visualization);
 		} catch (final Throwable oops) {
@@ -121,6 +136,7 @@ public class VisualizationController extends AbstractController {
 		Visualization aux;
 		try {
 			aux = this.visualizationService.reconstruct(visualization, binding);
+			int visualId = aux.getFilm().getId();
 			if (binding.hasErrors()) {
 
 				result = new ModelAndView("visualization/edit");
@@ -130,7 +146,7 @@ public class VisualizationController extends AbstractController {
 			} else
 				try {
 					this.visualizationService.save(aux);
-					result = new ModelAndView("redirect:list.do");
+					result = new ModelAndView("redirect:list.do?filmId=" + visualId);
 				} catch (final Throwable oops) {
 					result = new ModelAndView("visualization/edit");
 					result.addObject("visualization", aux);
@@ -151,12 +167,14 @@ public class VisualizationController extends AbstractController {
 	public ModelAndView delete(@RequestParam final int visualizationId) {
 		ModelAndView result;
 		try {
-			final Visualization visualization = this.visualizationService
-					.findOne(visualizationId);
+
+			final Visualization visualization = this.visualizationService.findOne(visualizationId);
+			int visualId = visualization.getFilm().getId();
+
 			this.visualizationService.delete(visualization);
-			result = new ModelAndView("redirect:list.do");
+			result = new ModelAndView("redirect:list.do?filmId=" + visualId);
 		} catch (final Throwable oops) {
-			result = new ModelAndView("redirect:list.do");
+			result = new ModelAndView("redirect:welcome.do");
 			result.addObject("messageCode", oops.getMessage());
 		}
 		return result;

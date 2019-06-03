@@ -8,6 +8,7 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
+
 <jstl:choose>
 	<jstl:when test="${found}">
 		<!-- Actor Attributes -->
@@ -67,7 +68,8 @@
 
 					<jstl:if test="${permission}">
 						<display:column>
-							<button onclick="location.href='social/actor/edit.do'">
+							<button
+								onclick="location.href='social/actor/edit.do?id=${sponsor.id}'">
 								<spring:message code="social.edit" />
 							</button>
 						</display:column>
@@ -76,15 +78,18 @@
 			</div>
 
 			<div style="float: right;">
-				<img style="width: 200px; height: 200px" src="${sponsor.photo}"
+				<img style="width: 200px; height: 200px" src="${profile.photo}"
 					alt="User photo">
 			</div>
 
 		</fieldset>
 		<br />
 
-
-
+		<jstl:if test="${permission}">
+			<button onclick="location.href='social/actor/create.do'">
+				<spring:message code="social.create" />
+			</button>
+		</jstl:if>
 
 	</jstl:when>
 	<jstl:otherwise>

@@ -12,11 +12,14 @@ import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
 
 import security.Authority;
 import security.UserAccount;
 import utilities.AbstractTest;
+import domain.Actor;
 import domain.FilmEnthusiast;
+import forms.EditionFormObject;
 import forms.RegisterFormObject;
 
 @ContextConfiguration(locations = { "classpath:spring/junit.xml" })
@@ -90,8 +93,7 @@ public class FilmEnthusiastServiceTest extends AbstractTest {
 				{ "filmEnthusiastT5", "filmEnthusiastT", "filmEnthusiastT",
 						"filmEnthusiastT", "https://www.foto.com",
 						"filmEnthusiastT@", "666666666", "c/ filmEnthusiastT",
-						IllegalArgumentException.class }
-		};
+						IllegalArgumentException.class } };
 
 		for (int i = 0; i < registerTestingData.length; i++) {
 			templateRegister((String) registerTestingData[i][0],
@@ -217,132 +219,131 @@ public class FilmEnthusiastServiceTest extends AbstractTest {
 	 * ########################################################################
 	 */
 
-	// @Test
-	// public void driverEdit() {
-	// Object editionTestingData[][] = {
-	// /* Positive case */
-	// { "filmEnthusiast", "filmEnthusiast", "filmEnthusiast",
-	// "https://www.foto.com",
-	// "filmEnthusiast@",
-	// "666666666", "c/ filmEnthusiast", null },
-	// /* Negative cases: invalid data */
-	// { "", "filmEnthusiast", "filmEnthusiast", "https://www.foto.com",
-	// "filmEnthusiast@filmEnthusiast.filmEnthusiast", "666666666",
-	// "c/ filmEnthusiast",
-	// IllegalArgumentException.class },
-	// { "filmEnthusiast", "filmEnthusiast", "filmEnthusiast",
-	// "https://www.foto.com",
-	// "filmEnthusiast@filmEnthusiast.filmEnthusiast", "666666666",
-	// "c/ filmEnthusiast",
-	// IllegalArgumentException.class },
-	// { "filmEnthusiast", "", "", "https://www.foto.com", "filmEnthusiast@",
-	// "666666666", "c/ filmEnthusiast", IllegalArgumentException.class },
-	// { "filmEnthusiast", "filmEnthusiast", "filmEnthusiast",
-	// "https://www.foto.com", "",
-	// "666666666", "c/ filmEnthusiast", IllegalArgumentException.class } };
-	//
-	// for (int i = 0; i < editionTestingData.length; i++) {
-	// templateEdit((String) editionTestingData[i][0],
-	// (String) editionTestingData[i][1],
-	// (String) editionTestingData[i][2],
-	// (String) editionTestingData[i][3],
-	// (String) editionTestingData[i][4],
-	// (String) editionTestingData[i][5],
-	// (String) editionTestingData[i][6],
-	// (Class<?>) editionTestingData[i][7]);
-	// }
-	// }
-	//
-	// protected void templateEdit(String username, String name, String surname,
-	// String photo, String email, String phoneNumber, String address,
-	// Class<?> expected) {
-	// Class<?> caught;
-	//
-	// caught = null;
-	//
-	// try {
-	// authenticate(username);
-	//
-	// this.editFilmEnthusiast(username, name, surname, photo, email,
-	// phoneNumber, address);
-	//
-	// unauthenticate();
-	// } catch (Throwable oops) {
-	// caught = oops.getClass();
-	// }
-	//
-	// super.checkExceptions(expected, caught);
-	// }
-	//
-	// public void editFilmEnthusiast(String username, String name, String
-	// surname,
-	// String photo, String email, String phoneNumber, String address) {
-	//
-	// EditionFormObject filmEnthusiastForm = new EditionFormObject(
-	// this.filmEnthusiastService.findByUsername(username));
-	// FilmEnthusiast newAdmin = new FilmEnthusiast();
-	// BindingResult binding = null;
-	//
-	// filmEnthusiastForm.setUsername(username);
-	// filmEnthusiastForm.setName(name);
-	// filmEnthusiastForm.setSurname(surname);
-	// filmEnthusiastForm.setPhoto(photo);
-	// filmEnthusiastForm.setEmail(email);
-	// filmEnthusiastForm.setPhoneNumber(phoneNumber);
-	// filmEnthusiastForm.setAddress(address);
-	//
-	// newAdmin = this.reconstructEditionTest(filmEnthusiastForm, binding);
-	//
-	// this.filmEnthusiastService.save(newAdmin);
-	// }
-	//
-	// public FilmEnthusiast reconstructEditionTest(final EditionFormObject
-	// form,
-	// final BindingResult binding) {
-	//
-	// Actor principal = this.actorService.findByPrincipal();
-	//
-	// /* Creating filmEnthusiast */
-	// final FilmEnthusiast res = this.filmEnthusiastService.create();
-	//
-	// res.setId(form.getId());
-	// res.setVersion(form.getVersion());
-	// res.setName(form.getName());
-	// res.setSurname(form.getSurname());
-	// res.setPhoto(form.getPhoto());
-	// res.setEmail(form.getEmail());
-	// res.setPhoneNumber(form.getPhoneNumber());
-	// res.setAddress(form.getAddress());
-	// res.setIsSpammer(principal.getIsSpammer());
-	// res.setSocialProfile(principal.getSocialProfile());
-	// res.setMessageBoxes(principal.getMessageBoxes());
-	//
-	// Assert.isTrue(form.getEmail() != null && !form.getEmail().isEmpty());
-	// Assert.isTrue(this.actorService.checkEmail(form.getEmail(),
-	// "FILMENTHUSIAST"),
-	// "actor.email.error");
-	//
-	// Assert.isTrue(form.getSurname() != null && !form.getSurname().isEmpty());
-	// Assert.isTrue(form.getName() != null && !form.getName().isEmpty());
-	//
-	// /* Managing phone number */
-	// if (form.getPhoneNumber() != null) {
-	// try {
-	// final char[] phoneArray = form.getPhoneNumber().toCharArray();
-	// if ((!form.getPhoneNumber().equals(null) && !form
-	// .getPhoneNumber().equals("")))
-	// if (phoneArray[0] != '+'
-	// && Character.isDigit(phoneArray[0])) {
-	// final String cc = this.systemConfigurationService
-	// .findMySystemConfiguration().getCountryCode();
-	// form.setPhoneNumber(cc + " " + form.getPhoneNumber());
-	// }
-	// } catch (Throwable oops) {
-	// binding.rejectValue("phoneNumber", "phone.error");
-	// }
-	// }
-	//
-	// return res;
-	// }
+	@Test
+	public void driverEdit() {
+		Object editionTestingData[][] = {
+				/* Positive case */
+				{ "filmEnthusiast1", "filmEnthusiast", "filmEnthusiast",
+						"https://www.foto.com",
+						"filmEnthusiast@filmEnthusiast.filmEnthusiast",
+						"666666666", "c/ filmEnthusiast", null },
+				/* Negative cases: invalid data */
+				{ "", "filmEnthusiast", "filmEnthusiast",
+						"https://www.foto.com",
+						"filmEnthusiast@filmEnthusiast.filmEnthusiast",
+						"666666666", "c/ filmEnthusiast",
+						IllegalArgumentException.class },
+				{ "filmEnthusiast1", "filmEnthusiast", "filmEnthusiast",
+						"https://www.foto.com", "filmEnthusiast@", "666666666",
+						"c/ filmEnthusiast", IllegalArgumentException.class },
+				{ "filmEnthusiast1", "", "", "https://www.foto.com",
+						"filmEnthusiast@filmEnthusiast1.filmEnthusiast1",
+						"666666666", "c/ filmEnthusiast",
+						IllegalArgumentException.class },
+				{ "filmEnthusiast1", "filmEnthusiast", "filmEnthusiast",
+						"https://www.foto.com", "", "666666666",
+						"c/ filmEnthusiast", IllegalArgumentException.class } };
+
+		for (int i = 0; i < editionTestingData.length; i++) {
+			templateEdit((String) editionTestingData[i][0],
+					(String) editionTestingData[i][1],
+					(String) editionTestingData[i][2],
+					(String) editionTestingData[i][3],
+					(String) editionTestingData[i][4],
+					(String) editionTestingData[i][5],
+					(String) editionTestingData[i][6],
+					(Class<?>) editionTestingData[i][7]);
+		}
+	}
+
+	protected void templateEdit(String username, String name, String surname,
+			String photo, String email, String phoneNumber, String address,
+			Class<?> expected) {
+		Class<?> caught;
+
+		caught = null;
+
+		try {
+			authenticate(username);
+
+			this.editFilmEnthusiast(username, name, surname, photo, email,
+					phoneNumber, address);
+
+			unauthenticate();
+		} catch (Throwable oops) {
+			caught = oops.getClass();
+		}
+
+		super.checkExceptions(expected, caught);
+	}
+
+	public void editFilmEnthusiast(String username, String name,
+			String surname, String photo, String email, String phoneNumber,
+			String address) {
+
+		EditionFormObject filmEnthusiastForm = new EditionFormObject(
+				this.filmEnthusiastService.findByUsername(username));
+		FilmEnthusiast newAdmin = new FilmEnthusiast();
+		BindingResult binding = null;
+
+		filmEnthusiastForm.setUsername(username);
+		filmEnthusiastForm.setName(name);
+		filmEnthusiastForm.setSurname(surname);
+		filmEnthusiastForm.setPhoto(photo);
+		filmEnthusiastForm.setEmail(email);
+		filmEnthusiastForm.setPhoneNumber(phoneNumber);
+		filmEnthusiastForm.setAddress(address);
+
+		newAdmin = this.reconstructEditionTest(filmEnthusiastForm, binding);
+
+		this.filmEnthusiastService.save(newAdmin);
+	}
+
+	public FilmEnthusiast reconstructEditionTest(final EditionFormObject form,
+			final BindingResult binding) {
+
+		Actor principal = this.actorService.findByPrincipal();
+
+		/* Creating filmEnthusiast */
+		final FilmEnthusiast res = this.filmEnthusiastService.create();
+
+		res.setId(form.getId());
+		res.setVersion(form.getVersion());
+		res.setName(form.getName());
+		res.setSurname(form.getSurname());
+		res.setPhoto(form.getPhoto());
+		res.setEmail(form.getEmail());
+		res.setPhoneNumber(form.getPhoneNumber());
+		res.setAddress(form.getAddress());
+		res.setIsSpammer(principal.getIsSpammer());
+		res.setSocialProfile(principal.getSocialProfile());
+
+		Assert.isTrue(form.getEmail() != null && !form.getEmail().isEmpty());
+		Assert.isTrue(
+				this.actorService.checkEmail(form.getEmail(), "FILMENTHUSIAST"),
+				"actor.email.error");
+
+		Assert.isTrue(form.getSurname() != null && !form.getSurname().isEmpty());
+		Assert.isTrue(form.getName() != null && !form.getName().isEmpty());
+
+		/* Managing phone number */
+		if (form.getPhoneNumber() != null) {
+			try {
+				final char[] phoneArray = form.getPhoneNumber().toCharArray();
+				if ((!form.getPhoneNumber().equals(null) && !form
+						.getPhoneNumber().equals("")))
+					if (phoneArray[0] != '+'
+							&& Character.isDigit(phoneArray[0])) {
+						final String cc = this.systemConfigurationService
+								.findMySystemConfiguration().getCountryCode();
+						form.setPhoneNumber(cc + " " + form.getPhoneNumber());
+					}
+			} catch (Throwable oops) {
+				binding.rejectValue("phoneNumber", "phone.error");
+			}
+		}
+
+		return res;
+	}
 
 }

@@ -9,12 +9,13 @@
        "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
 
 <tiles-definitions>
-
-	<definition name="visualization/list" extends="master.page">
-		<put-attribute name="body" value="/views/visualization/list.jsp" />
+	<definition name="person/display" extends="master.page">
+		<put-attribute name="body" value="/views/person/display.jsp" />
 	</definition>
-
-	<definition name="visualization/edit" extends="master.page">
-		<put-attribute name="body" value="/views/visualization/edit.jsp" />
+	<definition name="person/list" extends="master.page">
+		<put-attribute name="body" value="/views/person/list.jsp" />
+	</definition>
+	<definition name="person/edit" extends="master.page">
+		<put-attribute name="body" value="/views/person/edit.jsp" />
 	</definition>
 </tiles-definitions>

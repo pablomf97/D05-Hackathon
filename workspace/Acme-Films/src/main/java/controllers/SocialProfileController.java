@@ -2,6 +2,7 @@ package controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,7 +13,11 @@ import org.springframework.web.servlet.ModelAndView;
 import services.ActorService;
 import services.SocialProfileService;
 import domain.Actor;
+import domain.Administrator;
+import domain.Critic;
+import domain.Moderator;
 import domain.SocialProfile;
+import domain.Sponsor;
 
 @Controller
 @RequestMapping("/social/actor")
@@ -51,26 +56,47 @@ public class SocialProfileController extends AbstractController {
 		ModelAndView res;
 		SocialProfile socialProfile;
 
-		socialProfile = this.socialProfileService.findOne(id);
-		res = this.createEditModelAndView(socialProfile);
+		try {
+			socialProfile = this.socialProfileService.findOne(id);
+			Assert.isTrue(this.actorService.findByPrincipal()
+					.getSocialProfile().contains(socialProfile));
+
+			res = this.createEditModelAndView(socialProfile);
+		} catch (Throwable oops) {
+			res = new ModelAndView("redirect:/welcome/index.do");
+		}
 
 		return res;
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
 	public ModelAndView save(SocialProfile socialProfile, BindingResult binding) {
-		ModelAndView result;
+		ModelAndView res;
+
+		this.validator.validate(socialProfile, binding);
 
 		if (binding.hasErrors())
-			result = this.createEditModelAndView(socialProfile);
+			res = this.createEditModelAndView(socialProfile);
 		else
 			try {
 				this.socialProfileService.save(socialProfile);
-				result = new ModelAndView("redirect:/");
+
+				Actor principal = this.actorService.findByPrincipal();
+				if (principal instanceof Administrator)
+					res = new ModelAndView("redirect:/administrator/display.do");
+				else if (principal instanceof Sponsor)
+					res = new ModelAndView("redirect:/sponsor/display.do");
+				else if (principal instanceof Critic)
+					res = new ModelAndView("redirect:/critic/display.do");
+				else if (principal instanceof Moderator)
+					res = new ModelAndView("redirect:/moderator/display.do");
+				else
+					res = new ModelAndView(
+							"redirect:/filmEnthusiast/display.do");
 			} catch (final Throwable oops) {
-				result = new ModelAndView("redirect:/welcome/index.do");
+				res = new ModelAndView("redirect:/welcome/index.do");
 			}
-		return result;
+		return res;
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "delete")
@@ -78,19 +104,23 @@ public class SocialProfileController extends AbstractController {
 			BindingResult binding) {
 		ModelAndView res;
 
-		this.validator.validate(socialProfile, binding);
+		try {
+			this.socialProfileService.delete(socialProfile);
 
-		if (binding.hasErrors()) {
-			res = createEditModelAndView(socialProfile);
-		} else {
-			try {
-				this.socialProfileService.delete(socialProfile);
-				res = new ModelAndView("redirect:/");
+			Actor principal = this.actorService.findByPrincipal();
+			if (principal instanceof Administrator)
+				res = new ModelAndView("redirect:/administrator/display.do");
+			else if (principal instanceof Sponsor)
+				res = new ModelAndView("redirect:/sponsor/display.do");
+			else if (principal instanceof Critic)
+				res = new ModelAndView("redirect:/critic/display.do");
+			else if (principal instanceof Moderator)
+				res = new ModelAndView("redirect:/moderator/display.do");
+			else
+				res = new ModelAndView("redirect:/filmEnthusiast/display.do");
 
-			} catch (Throwable oops) {
-				res = createEditModelAndView(socialProfile,
-						"admin.commit.error");
-			}
+		} catch (Throwable oops) {
+			res = createEditModelAndView(socialProfile, "admin.commit.error");
 		}
 		return res;
 	}

@@ -69,13 +69,10 @@ public class PersonService {
 		principal = this.actorService.findByPrincipal();
 		Assert.isTrue(this.actorService.checkAuthority(principal, "MODERATOR"), "not.allowed");
 		
-		Assert.isTrue(person.getId() == 0);
-		
 		Assert.notNull(person.getName());
 		Assert.notNull(person.getSurname());
 		Assert.notNull(person.getNationality());
 		Assert.notNull(person.getBirthDate());
-		Assert.notNull(person.getGender());
 		
 		result = this.personRepository.save(person);
 
@@ -99,5 +96,35 @@ public class PersonService {
 	
 	// Other business methods -------------------------------
 	
+	public Collection<Person> personsWithPosition (int positionId){
+		Collection<Person> result;
+		
+		result = this.personRepository.personsWithPosition(positionId);
+		
+		return result;
+	}
+	
+	public Person validate(Person person, BindingResult binding) {
+		
+		this.validator.validate(person, binding);
+
+		return person;
+	}
+	
+	public Collection<Person> parsePersons (String [] array) {
+		Collection<Person> result = new ArrayList<>();
+		String a = null;
+		Integer n = 0;
+		Person person = null;
+		
+		for (int i = 0; i <= array.length - 1; i++) {
+			a = array[i];
+			n = Integer.parseInt(a);
+			person = this.findOne(n);
+			result.add(person);
+		}
+		return result;
+	}
+		
 }
 

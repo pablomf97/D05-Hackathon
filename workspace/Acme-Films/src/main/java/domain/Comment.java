@@ -81,6 +81,7 @@ public class Comment extends DomainEntity {
 		this.forum = forum;
 	}
 
+
 	@Valid
 	@NotNull
 	@ManyToOne(optional = false)
@@ -88,8 +89,11 @@ public class Comment extends DomainEntity {
 		return filmEnthusiast;
 	}
 
+
 	public void setFilmEnthusiast(FilmEnthusiast filmEnthusiast) {
 		this.filmEnthusiast = filmEnthusiast;
 	}
 
+
 }
+

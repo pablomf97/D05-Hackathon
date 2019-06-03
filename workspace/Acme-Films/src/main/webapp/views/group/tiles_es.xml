@@ -10,14 +10,23 @@
 
 <tiles-definitions>
 
-	<definition name="curricula/display" extends="master.page">
-		<put-attribute name="title" value="Mostrar curriculum" />
-		<put-attribute name="body" value="/views/curricula/display.jsp" />
+	<definition name="group/list" extends="master.page">
+		<put-attribute name="title" value="Listar grupo" />
+		<put-attribute name="body" value="/views/group/list.jsp" />
 	</definition>
-	
-	<definition name="curricula/edit" extends="master.page">
-		<put-attribute name="title" value="Guardar curriculum" />
-		<put-attribute name="body" value="/views/curricula/edit.jsp" />
+
+	<definition name="group/display" extends="master.page">
+		<put-attribute name="title" value="Mostrar grupo" />
+		<put-attribute name="body" value="/views/group/display.jsp" />
+	</definition>
+
+	<definition name="group/edit" extends="master.page">
+		<put-attribute name="title" value="Guardar grupo" />
+		<put-attribute name="body" value="/views/group/edit.jsp" />
+	</definition>
+	<definition name="group/active" extends="master.page">
+		<put-attribute name="title" value="Activar grupo" />
+		<put-attribute name="body" value="/views/group/active.jsp" />
 	</definition>
 
 </tiles-definitions>

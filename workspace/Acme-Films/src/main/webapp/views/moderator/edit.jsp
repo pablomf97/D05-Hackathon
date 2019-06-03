@@ -8,6 +8,7 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
+
 <script>
 	function checkPhone(msg) {
 		var phone = document.getElementById("phoneNumber").value;

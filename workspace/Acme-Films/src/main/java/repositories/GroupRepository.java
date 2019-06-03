@@ -31,4 +31,10 @@ public interface GroupRepository extends JpaRepository<Forum, Integer> {
 	
 
 
+	@Query("select f from Forum f where f.isActive = 0 and f.moderator.id = null")
+	Collection<Forum> forumsWithoutActive();
+
+	@Query("select f from Forum f where f.moderator.id = ?1")
+	Collection<Forum> forumsByModerator(int id);
+
 }

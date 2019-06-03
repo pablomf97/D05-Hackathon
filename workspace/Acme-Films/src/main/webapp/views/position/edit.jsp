@@ -8,6 +8,7 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
+
 <security:authorize access="hasRole('MODERATOR')">
 
 	<h1><spring:message	code="position.title.edit" /></h1>
@@ -39,22 +40,36 @@
 		<form:errors cssClass="error" path="name" />
 		<br />
 		<br />
-		
-		<jstl:choose>
-			<jstl:when test="${pageContext.response.locale.language == 'es'}">
-				<acme:multipleSelect items="${positions}" itemLabel="${position.name.get('Español')}" code="position.parent" path="positions"/>
-			</jstl:when>
-			<jstl:otherwise>
-				<acme:multipleSelect items="${positions}" itemLabel="${position.name.get('English')}" code="position.parent" path="positions"/>
-			</jstl:otherwise>
-		</jstl:choose>
-		
+		<jstl:if test="${position.id == 0 }">
+			<jstl:choose>
+				<jstl:when test="${pageContext.response.locale.language == 'es'}">
+					<form:label path="parentPosition"><spring:message code="position.parentPosition" /></form:label><br>
+					<form:select path="parentPosition" style="width:200px;">
+						<form:option value="${null}" label="<spring:message code='position.no.parent' />" />
+						<jstl:forEach var="parentPosition" items="${positions}">
+							<form:option value="${parentPosition}" label="${parentPosition.name.get('Español')}" />
+						</jstl:forEach>
+					</form:select><br>
+				</jstl:when>
+				<jstl:otherwise>
+					<form:label path="parentPosition"><spring:message code="position.parentPosition" /></form:label><br>
+					<form:select path="parentPosition" style="width:200px;">
+					<jstl:set var="lol" value="<spring:message code='position.no.parent' />"/>
+						<form:option value="${null}" > <spring:message code="position.no.parent" /> </form:option>
+						<jstl:forEach var="parentPosition" items="${positions}">
+							<form:option value="${parentPosition}" label="${parentPosition.name.get('English')}" />
+						</jstl:forEach>
+					</form:select><br>
+				</jstl:otherwise>
+			</jstl:choose>
+		</jstl:if>
+		<br>
 		<acme:submit code="position.save" name="save"/>&nbsp;
 
 		<jstl:if test="${position.id != 0}">
 			<acme:delete code="position.delete" name="delete" confirmation="position.confirm.delete"/>&nbsp;
 		</jstl:if>
-		<acme:cancel code="position.cancel" url="position/administrator/list.do"/><br/><br/>
+		<acme:cancel code="position.cancel" url="position/moderator/list.do"/><br/><br/>
 		<form:errors cssClass="error" code="${message}" />
 	</form:form>
 
@@ -72,4 +87,10 @@
 							}
 						});
 	</script>
+</security:authorize>
+
+<security:authorize access="!hasRole('MODERATOR')">
+		<p>
+			<spring:message	code="sponsorship.not.allowed" /><br>
+		</p>
 </security:authorize>

@@ -11,7 +11,8 @@
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
 
-<security:authorize access="hasRole('PROVIDER')">
+
+<security:authorize access="hasRole('MODERATOR')">
 
 	<jstl:choose>
 		<jstl:when test="${isPrincipal}">
@@ -19,14 +20,17 @@
 		<form:form modelAttribute="visualization" action="visualization/edit.do"
 			id="form">
 	
-			<form:hidden path="id" />
+			<form:hidden path="id"/>
+			<jstl:if test="${visualization.id == 0}">
+				<form:hidden path="film"/>
+			</jstl:if>
 			
 			<acme:textbox code="visualization.siteName" path="siteName" size="100px" /><br> <br>
 			<acme:textbox code="visualization.price" path="price" size="100px" /><br> <br>
 			<acme:textbox code="visualization.link" path="link" size="100px" /><br> <br>
 			
 			<acme:submit code="visualization.save" name="save" />&nbsp;
-			<acme:cancel url="visualization/list.do" code="visualization.cancel" />
+			<acme:cancel url="visualization/list.do?filmId=${visualization.film.id }" code="visualization.cancel" />
 			<br />
 	
 		</form:form>

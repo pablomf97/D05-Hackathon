@@ -9,6 +9,9 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 
+
+<security:authorize access="isAuthenticated()">
+
 <h1><spring:message	code="person.title.list" />
 <jstl:out value="${person.film.title}" /></h1>
 	<jstl:choose>
@@ -24,18 +27,18 @@
 				<display:column titleKey="person.surname" sortable="true">
 					<jstl:out value="${person.surname}" />
 				</display:column>
-				
+
 				<jstl:choose>
 					<jstl:when test="${pageContext.response.locale.language == 'es'}">
 						<td><strong> <spring:message code="person.positions" />	: </strong></td>
-						<jstl:forEach items="${person.positions}" var="name">
-							<td><jstl:out value="${name.get('English')}"/></td>	
+						<jstl:forEach items="${person.positions}" var="position">
+							<td><jstl:out value="${position.name.get('Español')}"/></td>	
 						</jstl:forEach>
 					</jstl:when>
 					<jstl:otherwise>
 						<td><strong> <spring:message code="person.positions" />	: </strong></td>
 						<jstl:forEach items="${person.positions}" var="name">
-							<td><jstl:out value="${name.get('English')}"/></td>	
+							<td><jstl:out value="${position.name.get('English')}"/></td>	
 						</jstl:forEach>
 					</jstl:otherwise>
 				</jstl:choose>				
@@ -43,6 +46,12 @@
 				<display:column>
 					<a href="person/display.do?personId=${person.id}"> <spring:message
 							code="person.display" />
+					</a>
+				</display:column>
+				
+				<display:column>
+					<a href="person/edit.do?personId=${person.id}"> <spring:message
+							code="person.edit" />
 					</a>
 				</display:column>
 				
@@ -53,9 +62,14 @@
 				</display:column>
 				
 			</display:table>
+			
+			<input type="button"
+				onclick="redirect: location.href = 'person/create.do';"
+				value="<spring:message code='person.create' />" />
+
 		</jstl:when>
 		<jstl:otherwise>
-			<display:table class="displaytag" name="persons" pagesize="5" 
+		<display:table class="displaytag" name="persons" pagesize="5" 
 				requestURI="person/list.do" id="person">
 
 				<display:column titleKey="person.name" sortable="true">
@@ -65,21 +79,21 @@
 				<display:column titleKey="person.surname" sortable="true">
 					<jstl:out value="${person.surname}" />
 				</display:column>
-				
+
 				<jstl:choose>
 					<jstl:when test="${pageContext.response.locale.language == 'es'}">
 						<td><strong> <spring:message code="person.positions" />	: </strong></td>
-						<jstl:forEach items="${person.positions}" var="name">
-							<td><jstl:out value="${name.get('English')}"/></td>	
+						<jstl:forEach items="${person.positions}" var="position">
+							<td><jstl:out value="${position.name.get('Español')}"/></td>	
 						</jstl:forEach>
 					</jstl:when>
 					<jstl:otherwise>
 						<td><strong> <spring:message code="person.positions" />	: </strong></td>
 						<jstl:forEach items="${person.positions}" var="name">
-							<td><jstl:out value="${name.get('English')}"/></td>	
+							<td><jstl:out value="${position.name.get('English')}"/></td>	
 						</jstl:forEach>
 					</jstl:otherwise>
-				</jstl:choose>				
+				</jstl:choose>		
 
 				<display:column>
 					<a href="person/display.do?personId=${person.id}"> <spring:message
@@ -90,3 +104,5 @@
 			</display:table>
 		</jstl:otherwise>
 	</jstl:choose>
+	
+</security:authorize>

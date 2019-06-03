@@ -27,7 +27,7 @@
 	
 	<tr>
 		<td><strong> <spring:message code="film.runTime" /> : </strong></td>
-		<td><jstl:out value="${film.runTime}"></jstl:out>min</td>
+		<td><jstl:out value="${film.runTime}"></jstl:out> min</td>
 	</tr>
 	
 	<tr>
@@ -40,14 +40,51 @@
 		<td><jstl:out value="${film.ticker}"></jstl:out></td>
 	</tr>
 	
-	<tr>
-		<td><strong> <spring:message code="film.genres" /> : </strong></td>
-		<td><jstl:out value="${film.genres}"></jstl:out></td>
-	</tr>
+	<jstl:choose>
+		<jstl:when test="${pageContext.response.locale.language == 'es'}">
+			<tr>
+				<td><strong> <spring:message code="film.genres" /> : </strong></td>
+				<td>
+				-
+				<jstl:forEach items="${film.genres}" var="genre">
+					<jstl:out value="${genre.name.get('Español')}"/>	
+					-
+				</jstl:forEach>
+				</td>
+			</tr>
+		</jstl:when>
+		<jstl:otherwise>
+			<tr>
+				<td><strong> <spring:message code="film.genres" /> : </strong></td>
+				<td>
+				-
+				<jstl:forEach items="${film.genres}" var="genre">
+					<jstl:out value="${genre.name.get('English')}"/>	
+					-
+				</jstl:forEach>
+				</td>
+			</tr>
+		</jstl:otherwise>
+	</jstl:choose>
+	
+	<jstl:if test="${film.isDraft eq true}">
+		<spring:message var="status" code='film.draft.true' />
+	</jstl:if>
+	<jstl:if test="${film.isDraft eq false}">
+		<spring:message var="status" code='film.draft.false' />
+	</jstl:if>
+
+	<jstl:if test="${isPrincipal }">
+		<tr>
+			<td><strong> <spring:message code="film.isDraft" /> : </strong></td>
+			<td>${status}</td>
+		</tr>
+	</jstl:if>
+	
 </table>
 	
-<h1><spring:message code="film.saga.persons" /></h1>
-<display:table class="displaytag" name="persons" pagesize="5" 
+<h2><spring:message code="film.saga.persons" /></h2>
+<display:table class="displaytag" name="${film.persons}" pagesize="5" 
 		requestURI="film/display.do" id="person">
 
 	<display:column titleKey="film.person.name" sortable="true">
@@ -65,8 +102,8 @@
 	</display:column>
 </display:table>
 
-<h1><spring:message code="film.saga.sagas" /></h1>
-<display:table class="displaytag" name="sagas" pagesize="5" 
+<h2><spring:message code="film.saga.sagas" /></h2>
+<display:table class="displaytag" name="${film.sagas}" pagesize="5" 
 		requestURI="film/display.do" id="saga">
 
 	<display:column titleKey="film.saga.title" sortable="true">
@@ -80,5 +117,30 @@
 	</display:column>
 </display:table>
 
+<p><a href="visualization/list.do?filmId=${film.id}"> <spring:message
+		code="film.visualization.list" />
+</a></p>
+
+	<security:authorize access="hasAnyRole('MODERATOR','FILMENTHUSIAST')">
+	<p>
+		<a
+			href="group/listByFilm.do?Id=${film.id}">
+			<spring:message code="group.list" />
+		</a>
+	</p>
+	</security:authorize>
+	
+	<security:authorize access="hasRole('FILMENTHUSIAST')">
+	<p>
+		<a href="group/create.do?Id=${film.id}"> <spring:message
+				code="group.newcreate" />
+		</a>
+	</p>
+	</security:authorize>
+
+
+	<input type="button" name="back"
+		value="<spring:message code="sponsorship.back" />"
+		onclick="window.history.back()" />
 
 

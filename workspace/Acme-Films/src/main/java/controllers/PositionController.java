@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import services.ActorService;
-import services.FilmService;
 import services.PositionService;
 import domain.Actor;
 import domain.Position;
@@ -29,9 +28,6 @@ public class PositionController extends AbstractController {
 
 	@Autowired
 	private ActorService actorService;
-
-	@Autowired
-	private FilmService filmService;
 
 	/* Listing */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
@@ -96,11 +92,15 @@ public class PositionController extends AbstractController {
 	public ModelAndView edit(@RequestParam final int positionId) {
 		ModelAndView result;
 		Position position;
+		Collection<Position> positions;
 
 		position = this.positionService.findOne(positionId);
 		Assert.notNull(position);
+		
+		positions = this.positionService.findAll();
 
 		result = this.createEditModelAndView(position);
+		result.addObject("positions", positions);
 		return result;
 	}
 
@@ -136,29 +136,29 @@ public class PositionController extends AbstractController {
 	/* Delete position */
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "delete")
 	public ModelAndView delete(Position position, BindingResult binding) {
-		ModelAndView res;
+		ModelAndView result;
 		Actor principal;
-		Position toDelete;
-
+		boolean canBeDeleted = true;
+		
 		try {
 			principal = this.actorService.findByPrincipal();
 			Assert.isTrue(this.actorService.checkAuthority(principal,
 					"MODERATOR"));
-
-			toDelete = this.positionService.findOne(position.getId());
-
-			//TODO: isAssigned
-			//Assert.isTrue(!this.filmService.isAssigned(toDelete));
-
+			
+			Position toDelete = this.positionService.findOne(position.getId());
+			
+			canBeDeleted = this.positionService.checkPosition(position.getId());
+			
+			Assert.isTrue(canBeDeleted);
+			
 			this.positionService.delete(toDelete);
-
-			res = new ModelAndView("redirect:list.do");
-		} catch (Throwable oops) {
-			res = this.createEditModelAndView(
+			result = new ModelAndView("redirect:list.do");
+		} catch (final Throwable oops) {
+			result = this.createEditModelAndView(
 					this.positionService.findOne(position.getId()),
 					"position.cannot.delete");
 		}
-		return res;
+		return result;
 	}
 
 	// Manage methods

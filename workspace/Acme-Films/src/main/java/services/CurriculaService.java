@@ -15,7 +15,7 @@ import repositories.CurriculaRepository;
 import domain.Critic;
 import domain.Curricula;
 import domain.EducationData;
-import domain.MiscellaneousData;
+import domain.PersonalData;
 import domain.ProfessionalData;
 
 @Transactional
@@ -91,6 +91,14 @@ public class CurriculaService {
 
 		return result;
 	}
+	public Curricula saveNewCurricula(final PersonalData d) {
+		final Curricula c = this.create();
+		c.setPersonalData(d);
+		final Critic actor = (Critic) this.actorService.findByPrincipal();
+		Assert.isNull(actor.getCurricula());
+		final Curricula cur = this.curriculaRepository.save(c);
+		return cur;
+	}
 
 	//Finds
 	public Curricula findOne(final int curriculaId) {
@@ -135,14 +143,15 @@ public class CurriculaService {
 		Critic principal;
 		principal = (Critic) this.actorService.findByPrincipal();
 		Assert.isTrue(principal.getCurricula().equals(curricula));
-		final Curricula cv = curricula;
-		this.personalDataService.delete(cv.getPersonalData().getId());
-		for (final MiscellaneousData md : cv.getMiscellaneousData())
-			this.miscellaneousDataService.delete(md);
-		for (final EducationData ed : cv.getEducationData())
-			this.educationDataService.deleteEDCritic(ed);
-		for (final ProfessionalData pd : cv.getProfessionalData())
-			this.professionalDataService.deletePosCritic(pd);
+		final Curricula cv = principal.getCurricula();
+		//		this.personalDataService.delete(cv.getPersonalData().getId());
+		//		final Collection<MiscellaneousData> misc = cv.getMiscellaneousData();
+		//		for (final MiscellaneousData md : misc)
+		//			this.miscellaneousDataService.delete(md);
+		//		for (final EducationData ed : cv.getEducationData())
+		//			this.educationDataService.deleteEDCritic(ed);
+		//		for (final ProfessionalData pd : cv.getProfessionalData())
+		//			this.professionalDataService.deletePosCritic(pd);
 		this.curriculaRepository.delete(cv);
 
 	}

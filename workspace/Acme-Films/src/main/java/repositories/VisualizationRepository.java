@@ -10,6 +10,9 @@ import domain.Visualization;
 
 @Repository
 public interface VisualizationRepository extends JpaRepository<Visualization, Integer>{
+	
+	@Query("select v from Visualization v where v.film.id = ?1")
+	Collection<Visualization> visualizationsPerFilm(int filmId);
 
 	
 	@Query("select v from Visualization v where v.film.id= ?1")

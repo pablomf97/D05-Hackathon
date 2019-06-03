@@ -8,6 +8,7 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
+
 <jstl:choose>
 	<jstl:when test="${found}">
 		<!-- Actor Attributes -->
@@ -67,7 +68,8 @@
 
 					<jstl:if test="${permission}">
 						<display:column>
-							<button onclick="location.href='social/actor/edit.do'">
+							<button
+								onclick="location.href='social/actor/edit.do?id=${profile.id}'">
 								<spring:message code="social.edit" />
 							</button>
 						</display:column>
@@ -83,9 +85,19 @@
 		</fieldset>
 		<br />
 
-
-
-
+		<jstl:if test="${permission}">
+			<button onclick="location.href='social/actor/create.do'">
+				<spring:message code="social.create" />
+			</button>
+		</jstl:if>
+		<jstl:if test="${permission and empty critic.curricula}">
+			<button onclick="location.href='curricula/critic/create.do'">
+				<spring:message code="curricula.create" />
+			</button>
+		</jstl:if>
+		<button onclick="location.href='curricula/critic/display.do?curriculaId=${critic.curricula.id}'">
+			<spring:message code="curricula.display" />
+		</button>
 	</jstl:when>
 	<jstl:otherwise>
 		<p class="error">

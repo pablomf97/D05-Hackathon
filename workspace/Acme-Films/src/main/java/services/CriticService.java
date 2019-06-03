@@ -1,3 +1,4 @@
+
 package services;
 
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ import security.Authority;
 import security.UserAccount;
 import domain.Actor;
 import domain.Critic;
+import domain.Curricula;
 import domain.SocialProfile;
 import forms.EditionFormObject;
 import forms.RegisterFormObject;
@@ -28,25 +30,22 @@ public class CriticService {
 	/* Working repository */
 
 	@Autowired
-	private CriticRepository criticRepository;
+	private CriticRepository			criticRepository;
 
 	/* Services */
 
 	@Autowired
-	private ActorService actorService;
+	private ActorService				actorService;
 
 	@Autowired
 	private SystemConfigurationService systemConfigurationService;
-	
-	@Autowired
-	private SocialProfileService socialProfileService;
-	
-	@Autowired
-	private CurriculaService curriculaService;
-	
-	
+
 	@Autowired
 	private ReviewService reviewService;
+
+
+
+
 
 	/* Simple CRUD methods */
 
@@ -153,8 +152,7 @@ public class CriticService {
 	 * 
 	 * @return Critic
 	 */
-	public Critic reconstruct(final RegisterFormObject form,
-			final BindingResult binding) {
+	public Critic reconstruct(final RegisterFormObject form, final BindingResult binding) {
 
 		/* Creating admin */
 		final Critic res = this.create();
@@ -179,17 +177,14 @@ public class CriticService {
 
 		Md5PasswordEncoder encoder;
 		encoder = new Md5PasswordEncoder();
-		userAccount
-				.setPassword(encoder.encodePassword(form.getPassword(), null));
+		userAccount.setPassword(encoder.encodePassword(form.getPassword(), null));
 
 		res.setUserAccount(userAccount);
 
 		/* Password confirmation */
 		if (form.getPassword() != null)
 			try {
-				Assert.isTrue(
-						form.getPassword().equals(form.getPassConfirmation()),
-						"pass.confirm.error");
+				Assert.isTrue(form.getPassword().equals(form.getPassConfirmation()), "pass.confirm.error");
 			} catch (final Throwable oops) {
 				binding.rejectValue("password", "pass.confirm.error");
 			}
@@ -202,42 +197,33 @@ public class CriticService {
 				binding.rejectValue("termsAndConditions", "terms.error");
 			}
 
-		if (form.getEmail() != null) {
+		if (form.getEmail() != null)
 			try {
-				Assert.isTrue(
-						this.actorService.checkEmail(form.getEmail(), "CRITIC"),
-						"actor.email.error");
+				Assert.isTrue(this.actorService.checkEmail(form.getEmail(), "CRITIC"), "actor.email.error");
 
-			} catch (Throwable oops) {
+			} catch (final Throwable oops) {
 				binding.rejectValue("email", "email.error");
 			}
-		}
 
 		/* Username */
 		if (form.getUsername() != null)
 			try {
-				Assert.isTrue(
-						this.actorService.existsUsername(form.getUsername()),
-						"username.error");
+				Assert.isTrue(this.actorService.existsUsername(form.getUsername()), "username.error");
 			} catch (final Throwable oops) {
 				binding.rejectValue("username", "username.error");
 			}
 
-		if (form.getPhoneNumber() != null) {
+		if (form.getPhoneNumber() != null)
 			try {
 				final char[] phoneArray = form.getPhoneNumber().toCharArray();
-				if ((!form.getPhoneNumber().equals(null) && !form
-						.getPhoneNumber().equals("")))
-					if (phoneArray[0] != '+'
-							&& Character.isDigit(phoneArray[0])) {
-						final String cc = this.systemConfigurationService
-								.findMySystemConfiguration().getCountryCode();
+				if ((!form.getPhoneNumber().equals(null) && !form.getPhoneNumber().equals("")))
+					if (phoneArray[0] != '+' && Character.isDigit(phoneArray[0])) {
+						final String cc = this.systemConfigurationService.findMySystemConfiguration().getCountryCode();
 						form.setPhoneNumber(cc + " " + form.getPhoneNumber());
 					}
-			} catch (Throwable oops) {
+			} catch (final Throwable oops) {
 				binding.rejectValue("phoneNumber", "phone.error");
 			}
-		}
 
 		return res;
 	}
@@ -249,10 +235,9 @@ public class CriticService {
 	 * 
 	 * @return Critic
 	 */
-	public Critic reconstruct(final EditionFormObject form,
-			final BindingResult binding) {
+	public Critic reconstruct(final EditionFormObject form, final BindingResult binding) {
 
-		Actor principal = this.actorService.findByPrincipal();
+		final Actor principal = this.actorService.findByPrincipal();
 
 		/* Creating admin */
 		final Critic res = this.create();
@@ -268,35 +253,37 @@ public class CriticService {
 		res.setIsSpammer(principal.getIsSpammer());
 		res.setSocialProfile(principal.getSocialProfile());
 
-		if (form.getEmail() != null) {
+		if (form.getEmail() != null)
 			try {
-				Assert.isTrue(
-						this.actorService.checkEmail(form.getEmail(), "CRITIC"),
-						"actor.email.error");
+				Assert.isTrue(this.actorService.checkEmail(form.getEmail(), "CRITIC"), "actor.email.error");
 
-			} catch (Throwable oops) {
+			} catch (final Throwable oops) {
 				binding.rejectValue("email", "email.error");
 			}
-		}
 
 		/* Managing phone number */
-		if (form.getPhoneNumber() != null) {
+		if (form.getPhoneNumber() != null)
 			try {
 				final char[] phoneArray = form.getPhoneNumber().toCharArray();
-				if ((!form.getPhoneNumber().equals(null) && !form
-						.getPhoneNumber().equals("")))
-					if (phoneArray[0] != '+'
-							&& Character.isDigit(phoneArray[0])) {
-						final String cc = this.systemConfigurationService
-								.findMySystemConfiguration().getCountryCode();
+				if ((!form.getPhoneNumber().equals(null) && !form.getPhoneNumber().equals("")))
+					if (phoneArray[0] != '+' && Character.isDigit(phoneArray[0])) {
+						final String cc = this.systemConfigurationService.findMySystemConfiguration().getCountryCode();
 						form.setPhoneNumber(cc + " " + form.getPhoneNumber());
 					}
-			} catch (Throwable oops) {
+			} catch (final Throwable oops) {
 				binding.rejectValue("phoneNumber", "phone.error");
 			}
-		}
 
 		return res;
+	}
+
+	public void newCurricula(final Curricula c) {
+		final Actor principal = this.actorService.findByPrincipal();
+		Assert.isTrue(this.actorService.checkAuthority(principal, "CRITIC"));
+		final Critic cr = (Critic) principal;
+		Assert.isNull(cr.getCurricula());
+		cr.setCurricula(c);
+		this.criticRepository.save(cr);
 	}
 
 	public Critic findByUsername(final String username) {
@@ -308,37 +295,29 @@ public class CriticService {
 	}
 
 	public Collection<Critic> top3CriticsMoreProfessional() {
+
 		List<Critic> l = (List<Critic>) this.criticRepository
 				.top3CriticsMoreProfessional();
 		if(l.size()==0){
 			return l;
 		}else{
-		
-		return l.subList(0, 3);
+
+
+			return l.subList(0, 3);
 		}
 	}
 
 	public Collection<Critic> criticsWithHighestRatingReview() {
 		return this.criticRepository.criticsWithHighestRatingReview();
 	}
-	
+
 	public void DeleteCritic(Critic c ){
-		
-		
-	
-		//CURRICULA		
-	/*			if(c.getCurricula()!=null){
-					this.curriculaService.deleteCV(c.getCurricula());
-				}*/
-		//REVIEW
-				
-			this.reviewService.deleteReviewsCritics(c.getId());
-				
-		//MESSAGES BOXES
-				
-				
-				this.delete(c);
-		
-		
+
+		this.reviewService.deleteReviewsCritics(c.getId());
+
+
+		this.delete(c);
+
+
 	}
 }

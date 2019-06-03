@@ -9,6 +9,7 @@
  * http://www.tdg-seville.info/License.html
  --%>
 
+
 <%@page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 
@@ -30,7 +31,7 @@
 		<jstl:otherwise>
 			<h1><spring:message	code="genre.title.list" /></h1>
 			<display:table style="width: 40%" class="displaytag" name="genres"
-				requestURI="genre/administrator/list.do" id="genre">
+				requestURI="genre/moderator/list.do" id="genre">
 
 				<jstl:choose>
 					<jstl:when test="${pageContext.response.locale.language == 'es'}">
@@ -45,14 +46,27 @@
 					</jstl:otherwise>
 				</jstl:choose>
 				<display:column style="width: 15%">
-					<a href="genre/administrator/edit.do?genreId=${genre.id}"><spring:message
+					<a href="genre/moderator/edit.do?genreId=${genre.id}"><spring:message
 							code="genre.edit" /></a>
 				</display:column>
+				
+				<display:column>
+					<a href="genre/moderator/delete.do?genreId=${genre.id}"> <spring:message
+							code="genre.delete" />
+					</a>
+				</display:column>
+				
 			</display:table>
 			<input type="button"
-				onclick="redirect: location.href = 'genre/administrator/create.do';"
+				onclick="redirect: location.href = 'genre/moderator/create.do';"
 				value="<spring:message code='genre.create' />" />
 		</jstl:otherwise>
 	</jstl:choose>
 
+</security:authorize>
+
+<security:authorize access="!hasRole('MODERATOR')">
+		<p>
+			<spring:message	code="sponsorship.not.allowed" /><br>
+		</p>
 </security:authorize>

@@ -14,7 +14,7 @@
 		<put-attribute name="title" value="List group" />
 		<put-attribute name="body" value="/views/group/list.jsp" />
 	</definition>
-	
+
 	<definition name="group/display" extends="master.page">
 		<put-attribute name="title" value="Display group" />
 		<put-attribute name="body" value="/views/group/display.jsp" />
@@ -24,5 +24,8 @@
 		<put-attribute name="title" value="Save group" />
 		<put-attribute name="body" value="/views/group/edit.jsp" />
 	</definition>
-	
+	<definition name="group/active" extends="master.page">
+		<put-attribute name="title" value="Active group" />
+		<put-attribute name="body" value="/views/group/active.jsp" />
+	</definition>
 </tiles-definitions>

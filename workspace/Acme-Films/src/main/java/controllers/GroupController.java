@@ -1,3 +1,4 @@
+
 package controllers;
 
 import java.util.Collection;
@@ -17,9 +18,7 @@ import services.GroupService;
 import services.SagaService;
 import domain.Actor;
 import domain.Film;
-import domain.FilmEnthusiast;
 import domain.Forum;
-import domain.Moderator;
 import domain.Saga;
 
 @Controller
@@ -27,31 +26,49 @@ import domain.Saga;
 public class GroupController extends AbstractController {
 
 	@Autowired
-	private GroupService groupService;
+	private GroupService	groupService;
 
 	@Autowired
-	private ActorService actorService;
+	private ActorService	actorService;
 
 	@Autowired
-	private FilmService filmService;
+	private FilmService		filmService;
 
 	@Autowired
-	private SagaService sagaService;
+	private SagaService		sagaService;
+
 
 	public GroupController() {
 		super();
 	}
 
-	// Film enthusiast owner
+	//Groups without moderator
+	@RequestMapping(value = "/moderator/listWithout", method = RequestMethod.GET)
+	public ModelAndView listAllWithoutAsigne() {
+		ModelAndView result;
+		try {
+			final Collection<Forum> groups = this.groupService.findAllWithoutModerator();
+			result = new ModelAndView("group/list");
+			result.addObject("requestURI", "/group/listWithout.do");
+			result.addObject("groups", groups);
+			final Actor actor = this.actorService.findByPrincipal();
+			result.addObject("actor", actor);
+		} catch (final Throwable opps) {
+			result = new ModelAndView("redirect:/");
+		}
+		return result;
+	}
+
 	@RequestMapping(value = "/listByFilm", method = RequestMethod.GET)
 	public ModelAndView listAllByFilm(@RequestParam final int Id) {
 		ModelAndView result;
 		try {
-			final Collection<Forum> groups = this.groupService
-					.findAllByFilm(Id);
-			result = new ModelAndView("groups/list");
+			final Collection<Forum> groups = this.groupService.findAllByFilm(Id);
+			result = new ModelAndView("group/list");
 			result.addObject("requestURI", "/group/listByFilm.do");
 			result.addObject("groups", groups);
+			final Actor actor = this.actorService.findByPrincipal();
+			result.addObject("actor", actor);
 		} catch (final Throwable opps) {
 			result = new ModelAndView("redirect:/");
 		}
@@ -62,11 +79,12 @@ public class GroupController extends AbstractController {
 	public ModelAndView listAllBySaga(@RequestParam final int Id) {
 		ModelAndView result;
 		try {
-			final Collection<Forum> groups = this.groupService
-					.findAllBySaga(Id);
-			result = new ModelAndView("groups/list");
+			final Actor actor = this.actorService.findByPrincipal();
+			final Collection<Forum> groups = this.groupService.findAllBySaga(Id);
+			result = new ModelAndView("group/list");
 			result.addObject("requestURI", "/group/listBySaga.do");
 			result.addObject("groups", groups);
+			result.addObject("actor", actor);
 		} catch (final Throwable opps) {
 			result = new ModelAndView("redirect:/");
 		}
@@ -77,14 +95,14 @@ public class GroupController extends AbstractController {
 	public ModelAndView listLoged() {
 		ModelAndView result;
 		try {
+			Collection<Forum> groups = null;
 			result = new ModelAndView("group/list");
 			final Actor actor = this.actorService.findByPrincipal();
-			try {
-				result.addObject("name", actor.getUserAccount().getUsername());
-			} catch (final Throwable opps) {
-			}
-			final Collection<Forum> groups = this.groupService
-					.findAllByFilmEnthusiast(actor.getId());
+			result.addObject("actor", actor);
+			if (this.actorService.checkAuthority(actor, "MODERATOR"))
+				groups = this.groupService.findByModerator();
+			else
+				groups = this.groupService.findAllByFilmEnthusiast(actor.getId());
 			result.addObject("requestURI", "/group/list.do");
 			result.addObject("groups", groups);
 		} catch (final Throwable opps) {
@@ -101,11 +119,9 @@ public class GroupController extends AbstractController {
 			final Forum forum = this.groupService.findOne(Id);
 			this.groupService.delete(forum);
 			if (forum.getFilmAbout() != null)
-				result = new ModelAndView("redirect:listByFilm.do?Id="
-						+ forum.getFilmAbout().getId());
+				result = new ModelAndView("redirect:listByFilm.do?Id=" + forum.getFilmAbout().getId());
 			else
-				result = new ModelAndView("redirect:listBySaga.do?Id="
-						+ forum.getSagaAbout().getId());
+				result = new ModelAndView("redirect:listBySaga.do?Id=" + forum.getSagaAbout().getId());
 		} catch (final Throwable opps) {
 			result = new ModelAndView("redirect:../welcome/index.do");
 			result.addObject("messageCode", "group.commit.error");
@@ -118,8 +134,6 @@ public class GroupController extends AbstractController {
 		ModelAndView result;
 		Forum res = null;
 		try {
-			final Actor actor = this.actorService.findByPrincipal();
-
 			res = this.groupService.reconstruct(group, binding);
 			if (binding.hasErrors()) {
 				result = new ModelAndView("group/edit");
@@ -133,7 +147,6 @@ public class GroupController extends AbstractController {
 					result.addObject("messageCode", "group.commit.error");
 				}
 		} catch (final Throwable opps) {
-			// TODO: pantalla de error
 			result = new ModelAndView("redirect:../welcome/index.do");
 			result.addObject("messageCode", "group.commit.error");
 		}
@@ -147,7 +160,7 @@ public class GroupController extends AbstractController {
 		try {
 			group = this.groupService.findOne(Id);
 			result = new ModelAndView("group/edit");
-			result.addObject(group);
+			result.addObject("group", group);
 			final Actor actor = this.actorService.findByPrincipal();
 			Assert.isTrue(group.getCreator().equals(actor));
 		} catch (final Throwable opps) {
@@ -162,23 +175,15 @@ public class GroupController extends AbstractController {
 		ModelAndView result;
 		final Forum group;
 		Actor actor = null;
-		Boolean b = true;
+		final Boolean b = true;
 		try {
 			result = new ModelAndView("group/display");
 			group = this.groupService.findOne(Id);
-			try {
-				actor = this.actorService.findByPrincipal();
-				if (((group.getModerator() != ((Moderator) actor)) || group
-						.getCreator() != (FilmEnthusiast) actor)
-						&& (group.getIsActive() == false))
-					b = false;
-				result.addObject("name", actor.getUserAccount().getUsername());
-			} catch (final Throwable opps) {
-				if (group.getIsActive() == false)
-					b = false;
-			}
-			Assert.isTrue(b);
-			result.addObject(group);
+			actor = this.actorService.findByPrincipal();
+			if ((((group.getModerator() != actor) && group.getCreator() != actor)) && (group.getIsActive() == false))
+				Assert.isTrue(false);
+			result.addObject("actor", actor);
+			result.addObject("group", group);
 		} catch (final Throwable opps) {
 			result = new ModelAndView("redirect:../welcome/index.do");
 			result.addObject("messageCode", "group.commit.error");
@@ -192,8 +197,8 @@ public class GroupController extends AbstractController {
 		try {
 			final Film film = this.filmService.findOne(Id);
 			final Saga saga = this.sagaService.findOne(Id);
-			result = new ModelAndView("audit/edit");
-			Assert.isTrue(film != null || film != null);
+			result = new ModelAndView("group/edit");
+			Assert.isTrue(film != null || saga != null);
 			Forum group = null;
 			if (film != null)
 				group = this.groupService.createForFilm(film);
@@ -216,38 +221,35 @@ public class GroupController extends AbstractController {
 		try {
 			group = this.groupService.findOne(Id);
 			result = new ModelAndView("group/active");
-			result.addObject(group);
+			result.addObject("group", group);
 			Assert.isTrue(group.getModerator() == null);
 		} catch (final Throwable opps) {
-			result = new ModelAndView("redirect:../welcome/index.do");
+			result = new ModelAndView("redirect:../../welcome/index.do");
 			result.addObject("messageCode", "group.commit.error");
 		}
 		return result;
 	}
 
-	@RequestMapping(value = "/moderator/activate", method = RequestMethod.POST)
-	public ModelAndView activeGroup(final Forum group,
-			final BindingResult binding) {
+	@RequestMapping(value = "/moderator/save", params = "active", method = RequestMethod.POST)
+	public ModelAndView activeGroup(final Forum group, final BindingResult binding) {
 		ModelAndView result;
 		try {
 			this.groupService.activateGroup(group);
-			result = new ModelAndView("redirect:display.do?Id=" + group.getId());
+			result = new ModelAndView("redirect:../display.do?Id=" + group.getId());
 		} catch (final Throwable opps) {
-			result = new ModelAndView("redirect:../welcome/index.do");
+			result = new ModelAndView("redirect:../../welcome/index.do");
 			result.addObject("messageCode", "group.commit.error");
 		}
 		return result;
 	}
-
-	@RequestMapping(value = "/moderator/deactivated", method = RequestMethod.POST)
-	public ModelAndView deactiveGroup(final Forum group,
-			final BindingResult binding) {
+	@RequestMapping(value = "/moderator/save", params = "deactive", method = RequestMethod.POST)
+	public ModelAndView deactiveGroup(final Forum group, final BindingResult binding) {
 		ModelAndView result;
 		try {
 			this.groupService.deactivateGroup(group);
-			result = new ModelAndView("redirect:display.do?Id=" + group.getId());
+			result = new ModelAndView("redirect:../display.do?Id=" + group.getId());
 		} catch (final Throwable opps) {
-			result = new ModelAndView("redirect:../welcome/index.do");
+			result = new ModelAndView("redirect:../../welcome/index.do");
 			result.addObject("messageCode", "group.commit.error");
 		}
 		return result;
@@ -257,12 +259,12 @@ public class GroupController extends AbstractController {
 	@RequestMapping(value = "/filmenthusiast/request", method = RequestMethod.GET)
 	public ModelAndView requestGroup(@RequestParam final int Id) {
 		ModelAndView result;
-		final Forum group;
 		try {
+			final Forum group = this.groupService.findOne(Id);
 			this.groupService.requestGroup(Id);
-			result = new ModelAndView("redirect:display.do?Id=" + group.getId());
+			result = new ModelAndView("redirect:../display.do?Id=" + group.getId());
 		} catch (final Throwable opps) {
-			result = new ModelAndView("redirect:../welcome/index.do");
+			result = new ModelAndView("redirect:../../welcome/index.do");
 			result.addObject("messageCode", "group.commit.error");
 		}
 		return result;
@@ -286,10 +288,8 @@ public class GroupController extends AbstractController {
 
 	// Film enthusiast delete member by owner
 	@RequestMapping(value = "/filmenthusiast/delete", method = RequestMethod.GET)
-	public ModelAndView requesStatus(@RequestParam final int memberId,
-			@RequestParam final int groupId) {
+	public ModelAndView requesStatus(@RequestParam final int memberId, @RequestParam final int groupId) {
 		ModelAndView result;
-		final Forum group;
 		try {
 			this.groupService.deleteMember(memberId, groupId);
 			result = new ModelAndView("redirect:list.do");

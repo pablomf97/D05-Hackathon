@@ -16,6 +16,7 @@ import org.springframework.validation.Validator;
 
 import repositories.PositionRepository;
 import domain.Actor;
+import domain.Person;
 import domain.Position;
 import domain.SystemConfiguration;
 
@@ -34,6 +35,9 @@ public class PositionService {
 	
 	@Autowired
 	private SystemConfigurationService systemConfigurationService;
+	
+	@Autowired
+	private PersonService personService;
 	
 	@Autowired
 	private Validator validator;
@@ -76,7 +80,6 @@ public class PositionService {
 	
 	public Position save(final Position position) {
 		Position result;
-		final Position parent, root;
 		SystemConfiguration systemConf;
 		Set<String> idiomasPosition;
 		Actor principal;
@@ -86,9 +89,9 @@ public class PositionService {
 				this.actorService.checkAuthority(principal, "MODERATOR"),
 				"not.allowed");
 		
-		root = this.findRoot();
-		Assert.isTrue(position.getId() != root.getId());
-		Assert.notNull(position.getParentPosition());
+		//root = this.findRoot();
+		//Assert.isTrue(position.getId() != root.getId());
+		//Assert.notNull(position.getParentPosition());
 		Assert.notNull(position.getName());
 		
 		systemConf = systemConfigurationService.findMySystemConfiguration();
@@ -100,23 +103,11 @@ public class PositionService {
 		result = this.positionRepository.save(position);
 		Assert.notNull(result);
 		
-		parent = result.getParentPosition();
-
-		// Si aún no está guardado en la bbdd, actualizamos las categorías hija de su padre
-		if (position.getId() == 0)
-			this.newChild(parent, result);
-		else if (!position.getParentPosition().equals(parent)) {
-			this.deleteChild(position.getParentPosition(), position);
-			this.newChild(parent, position);
-		}
 		return result;
 	}
 
 	public void delete(final Position position) {
-		Position parent, root, aux;
-		Collection<Position> childPositions;
 		Actor principal;
-		boolean canBeDeleted = true;
 		
 		principal = this.actorService.findByPrincipal();
 		Assert.isTrue(
@@ -125,21 +116,6 @@ public class PositionService {
 		
 		Assert.notNull(position);
 		Assert.isTrue(position.getId() != 0);
-
-		// Comprobamos que no vamos a borrar la categoría ROOT
-		root = this.findRoot();
-		Assert.isTrue(position.getId() != root.getId(), "root.position"); 
-		
-		Assert.isTrue(canBeDeleted, "position.used");
-
-		childPositions = position.getChildPositions();
-		parent = position.getParentPosition();
-
-		if (!childPositions.isEmpty())
-			for (final Position pos : childPositions)
-				pos.setParentPosition(parent);
-
-		this.deleteChild(parent, position);
 		
 		this.positionRepository.delete(position);
 	}
@@ -172,37 +148,33 @@ public class PositionService {
 
 		return res;
 	}
-
-	public Collection<Position> findChildPositions(final int positionId) {
-		Collection<Position> result;
-
-		result = this.positionRepository.findChildPositions(positionId);
-
+	
+	public boolean checkPosition (int positionId) {
+		Collection<Person> persons;
+		boolean canBeDeleted = true;
+		
+		persons = this.personService.personsWithPosition(positionId);
+		
+		if(persons.size() > 0) {
+			canBeDeleted = false;
+		}
+		
+		return canBeDeleted;
+	}
+	
+	public Collection<Position> parsePositions (String [] array) {
+		Collection<Position> result = new ArrayList<>();
+		String a = null;
+		Integer n = 0;
+		Position pos = null;
+		
+		for (int i = 0; i <= array.length - 1; i++) {
+			a = array[i];
+			n = Integer.parseInt(a);
+			pos = this.findOne(n);
+			result.add(pos);
+		}
 		return result;
-	}
-
-	public Position findRoot() {
-		Position result;
-
-		result = this.positionRepository.findRoot();
-
-		return result;
-	}
-
-	private void newChild(final Position position, final Position child) {
-		Collection<Position> childPositions;
-
-		childPositions = position.getChildPositions();
-		childPositions.add(child);
-		position.setChildPositions(childPositions);
-	}
-
-	private void deleteChild(final Position position, final Position child) {
-		Collection<Position> childPositions;
-
-		childPositions = position.getChildPositions();
-		childPositions.remove(child);
-		position.setChildPositions(childPositions);
 	}
 }
 

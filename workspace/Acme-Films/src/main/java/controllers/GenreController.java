@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import services.ActorService;
-import services.FilmService;
 import services.GenreService;
 import domain.Actor;
 import domain.Genre;
@@ -29,9 +28,6 @@ public class GenreController extends AbstractController {
 
 	@Autowired
 	private ActorService actorService;
-
-	@Autowired
-	private FilmService filmService;
 
 	/* Listing */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
@@ -129,32 +125,27 @@ public class GenreController extends AbstractController {
 		return res;
 	}
 
-	/* Delete genre */
-	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "delete")
-	public ModelAndView delete(Genre genre, BindingResult binding) {
-		ModelAndView res;
+	@RequestMapping(value = "/delete", method = RequestMethod.GET)
+	public ModelAndView delete(@RequestParam final int genreId) {
+		ModelAndView result;
 		Actor principal;
-		Genre toDelete;
-
+		Genre toDelete = this.genreService.findOne(genreId);
+		
 		try {
 			principal = this.actorService.findByPrincipal();
 			Assert.isTrue(this.actorService.checkAuthority(principal,
 					"MODERATOR"));
-
-			toDelete = this.genreService.findOne(genre.getId());
-
-			//TODO: eliminar el género de las películas
-			//Assert.isTrue(!this.filmService.isAssigned(toDelete));
-
+			
+			this.genreService.deleteGenreFromFilms(toDelete);
+			
 			this.genreService.delete(toDelete);
-
-			res = new ModelAndView("redirect:list.do");
-		} catch (Throwable oops) {
-			res = this.createEditModelAndView(
-					this.genreService.findOne(genre.getId()),
+			result = new ModelAndView("redirect:list.do");
+		} catch (final Throwable oops) {
+			result = this.createEditModelAndView(
+					this.genreService.findOne(toDelete.getId()),
 					"genre.cannot.delete");
 		}
-		return res;
+		return result;
 	}
 
 	// Manage methods

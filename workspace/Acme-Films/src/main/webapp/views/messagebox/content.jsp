@@ -7,18 +7,20 @@
 <%@taglib prefix="security"
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
-		<h2>
-			<jstl:out value="${box.name}"></jstl:out>
-		</h2>
+<h2>
+	<jstl:out value="${box.name}"></jstl:out>
+</h2>
 <div>
 	<jstl:if test="${not empty messageCode}">
 		<h4>
 			<spring:message code="${messageCode}" />
 		</h4>
 	</jstl:if>
-	<h3><spring:message code="messagebox.boxes" /></h3>
-	<display:table name="messageBoxes" id="messagebox" requestURI="${requestURI}"
-		pagesize="10">
+	<h3>
+		<spring:message code="messagebox.boxes" />
+	</h3>
+	<display:table name="messageBoxes" id="messagebox"
+		requestURI="${requestURI}" pagesize="10">
 		<display:column>
 			<jstl:out value="${messagebox.name}"></jstl:out>
 		</display:column>
@@ -49,23 +51,36 @@
 
 	</display:table>
 	<br />
-		<h3><spring:message code="message.messages" /></h3>
-	
+	<h3>
+		<spring:message code="message.messages" />
+	</h3>
+
 	<display:table name="messages" id="row" pagesize="5"
 		requestURI="${requestURI}">
-<display:column titleKey="message.subject">
+		<display:column titleKey="message.subject">
 			<jstl:out value="${row.subject}"></jstl:out>
+
 		</display:column>
-				<display:column titleKey="message.actor.sender"  >
+		
+		<jstl:if test="${row.sender != null }">
+		<display:column titleKey="message.actor.sender">
 			<jstl:out value="${row.sender.userAccount.username}"></jstl:out>
 		</display:column>
-				<display:column titleKey="message.sendTime">
+		</jstl:if>
+		
+		<jstl:if test="${row.sender == null }">
+		<display:column titleKey="message.actor.sender">
+			
+		</display:column>
+		</jstl:if>
+
+		<display:column titleKey="message.sendTime">
 			<jstl:out value="${row.sendMoment}"></jstl:out>
 		</display:column>
-				<display:column titleKey="message.priority">
+		<display:column titleKey="message.priority">
 			<jstl:out value="${row.priority}"></jstl:out>
 		</display:column>
-				<display:column titleKey="message.tags">
+		<display:column titleKey="message.tags">
 			<jstl:out value="${row.tag}"></jstl:out>
 		</display:column>
 		<display:column titleKey="message.move">
@@ -74,13 +89,13 @@
 				<spring:message code="message.move" />
 			</button>
 		</display:column>
-				<display:column titleKey="message.display">
+		<display:column titleKey="message.display">
 			<button
 				onClick="window.location.href='message/actor/display.do?messageId=${row.id}'">
 				<spring:message code="message.display" />
 			</button>
 		</display:column>
 
-	</display:table> 
+	</display:table>
 
 </div>

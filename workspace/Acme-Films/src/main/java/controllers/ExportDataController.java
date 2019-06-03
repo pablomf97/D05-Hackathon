@@ -188,8 +188,7 @@ public class ExportDataController extends AbstractController {
 			res+="Personal Data "+"\r\n\r\n";
 			res+="Full name:"+actor.getCurricula().getPersonalData().getFullName()+"\r\n"+"linkedIn: "+actor.getCurricula().getPersonalData().getLinkedIn()+"\r\n"+
 					"Statement: "+actor.getCurricula().getPersonalData().getStatement()+"\r\n"+
-					"Phone Number: "+actor.getCurricula().getPersonalData().getPhoneNumber()+"\r\n"+
-					"Github profile: "+actor.getCurricula().getPersonalData().getGithubProfile()+"\r\n";
+					"Phone Number: "+actor.getCurricula().getPersonalData().getPhoneNumber()+"\r\n";
 			
 			
 			for(MiscellaneousData m : actor.getCurricula().getMiscellaneousData()){

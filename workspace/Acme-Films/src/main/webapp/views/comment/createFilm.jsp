@@ -8,6 +8,7 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags"%>
+
 <security:authorize access="hasRole('FILMENTHUSIAST')">
 	<jstl:if test="${possible == true && comment.id==0}">
 		<form:form action="comment/filmEnthusiast/createFilm.do"

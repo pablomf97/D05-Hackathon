@@ -73,4 +73,6 @@ public class MessageBox extends DomainEntity {
 		this.owner = owner;
 	}
 
+
 }
+

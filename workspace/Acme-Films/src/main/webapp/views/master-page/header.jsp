@@ -46,14 +46,20 @@
 
 
 		<security:authorize access="isAuthenticated()">
-
-			<li><a class="fNiv"><spring:message
-						code="master.page.visualization" /></a>
+			<li><a class="fNiv"><spring:message code="master.page.film" /></a>
 				<ul>
 					<li class="arrow"></li>
-					<li><a href="visualization/list.do"><spring:message
-								code="master.page.visualization.list" /></a></li>
+					<li><a href="film/list.do"><spring:message
+								code="master.page.film.list" /></a></li>
 				</ul></li>
+			<security:authorize access="hasAnyRole('MODERATOR','FILMENTHUSIAST')">
+				<li><a class="fNiv"><spring:message code="master.page.group" /></a>
+					<ul>
+						<li class="arrow"></li>
+						<li><a href="group/list.do"><spring:message
+									code="master.page.mygroup" /></a></li>
+					</ul></li>
+			</security:authorize>
 
 			<li><a class="fNiv"><spring:message code="master.page.saga" /></a>
 				<ul>
@@ -61,6 +67,51 @@
 					<li><a href="saga/list.do"><spring:message
 								code="master.page.saga.list" /></a></li>
 				</ul></li>
+				
+			<security:authorize access="hasRole('MODERATOR')">
+
+			<li><a class="fNiv"><spring:message
+						code="master.page.position" /></a>
+				<ul>
+					<li class="arrow"></li>
+					<li><a href="position/moderator/list.do"><spring:message
+								code="master.page.position.list" /></a></li>
+				</ul></li>
+
+			<li><a class="fNiv"><spring:message code="master.page.genre" /></a>
+				<ul>
+					<li class="arrow"></li>
+					<li><a href="genre/moderator/list.do"><spring:message
+								code="master.page.genre.list" /></a></li>
+				</ul></li>
+
+
+			<li><a class="fNiv"><spring:message code="master.page.saga" /></a>
+
+				
+			</security:authorize>
+
+			<li><a class="fNiv"><spring:message
+						code="master.page.person" /></a>
+
+				<ul>
+					<li class="arrow"></li>
+					<li><a href="person/list.do"><spring:message
+								code="master.page.person.list" /></a></li>
+				</ul></li>
+			
+			<security:authorize access="hasAnyRole('MODERATOR','SPONSOR')">
+
+			<li><a class="fNiv"><spring:message
+						code="master.page.sponsorship" /></a>
+				<ul>
+					<li class="arrow"></li>
+					<li><a href="sponsorship/list.do"><spring:message
+								code="master.page.sponsorship.list" /></a></li>
+				</ul></li>
+				
+			</security:authorize>
+
 		</security:authorize>
 
 		<security:authorize access="hasRole('FILMENTHUSIAST')">

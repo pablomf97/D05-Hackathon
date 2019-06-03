@@ -30,29 +30,29 @@ public class FilmService {
 
 	@Autowired
 	private FilmRepository filmRepository;
-	
+
 	@Autowired
 	private ActorService actorService;
-	
+
 	@Autowired
 	private Validator validator;
-	
+
 	@Autowired
 	private VisualizationService visualizationService;
-	
+
 	@Autowired
 	private CommentService commentService;
-	
-	
+
+
 	@Autowired
 	private GroupService groupService;
-	
+
 	@Autowired
 	private ReviewService reviewService;
-	
+
 	@Autowired
 	private SponsorshipService sponsorshipService;
-	
+
 	public Film create() {
 		Actor principal;
 		Film result;
@@ -66,7 +66,8 @@ public class FilmService {
 		result.setPersons(new ArrayList<Person>());
 		result.setSagas(new ArrayList<Saga>());
 		result.setModerator((Moderator) principal);
-		
+		result.setIsDraft(true);
+
 		return result;
 	}
 
@@ -83,23 +84,23 @@ public class FilmService {
 
 		return result;
 	}
-	
+
 	public Film save(final Film film) {
 		Actor principal;
 		Film result;
 
 		principal = this.actorService.findByPrincipal();
 		Assert.isTrue(this.actorService.checkAuthority(principal, "MODERATOR"), "not.allowed");
-		
+
 		Assert.notNull(film.getTitle());
 		Assert.notNull(film.getSynopsis());
 		Assert.notNull(film.getReleaseDate());
-		
+
 		result = this.filmRepository.save(film);
 
 		return result;
 	}
-	
+
 	public void delete(final Film film) {
 		Actor principal;
 
@@ -112,30 +113,38 @@ public class FilmService {
 
 		this.filmRepository.delete(film.getId());
 	}
-	
+
 	// Other business methods -------------------------------
-	
+
 	public Film reconstruct(final Film film,
-			 BindingResult binding) {
+			BindingResult binding) {
 		Film result;
 		Actor principal;
-		
+
 		principal = this.actorService.findByPrincipal();
 		Assert.isTrue(this.actorService.checkAuthority(principal, "MODERATOR"),
 				"not.allowed");
-		
-		Assert.notNull(film.getTitle());
-		Assert.notNull(film.getSynopsis());
-		Assert.notNull(film.getReleaseDate());
-		
+
 		if (film.getId() == 0) {
 			result = this.create();
-			film.setTicker(this.generateTicker(film.getReleaseDate()));
+			if (film.getReleaseDate() != null)
+				try {
+					result.setTicker(this.generateTicker(film.getReleaseDate()));
+				} catch (final Throwable oops) {
+					binding.rejectValue("releaseDate", "date.error");
+				}
+
 		} else {
 			result = this.findOne(film.getId());
 		}
-		
-		if(film.getIsDraft()) {
+
+		try {
+			Assert.notEmpty(film.getPersons());
+		} catch (final Throwable oops) {
+			binding.rejectValue("persons", "empty.persons");
+		}
+
+		if(result.getIsDraft()) {
 			result.setTitle(film.getTitle());
 			result.setSynopsis(film.getSynopsis());
 			result.setPoster(film.getPoster());
@@ -143,15 +152,15 @@ public class FilmService {
 			result.setRunTime(film.getRunTime());
 			result.setGenres(film.getGenres());
 		}
-		
+
 		result.setPersons(film.getPersons());
 		result.setSagas(film.getSagas());
-		
+
 		this.validator.validate(result, binding);
-		
+
 		return result;
 	}
-	
+
 
 	public Double [] statsCommentsPerFilm(){
 
@@ -174,8 +183,8 @@ public class FilmService {
 		if(l.size()==0){
 			return l;
 		}else{
-		
-		return l.subList(0,5);
+
+			return l.subList(0,5);
 		}
 	}
 	public Double[] statsPointsVisualizationPerFilm(){
@@ -212,7 +221,7 @@ public class FilmService {
 		}
 		return uniqueTicker;
 	}
-	
+
 	public String randomString() {
 
 		final String possibleChars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -227,23 +236,24 @@ public class FilmService {
 		return stringBuilder.toString();
 
 	}
-	
+
 	public Collection<Film> filmsOfSaga (int sagaId) {
 		Collection<Film> result;
-		
+
 		result = this.filmRepository.filmsOfSaga(sagaId);
-		
+
 		return result;
 	}
 	public Collection<Film> filmsByModerator(int moderatorId){
 		return this.filmRepository.filmsByModerator(moderatorId);
 	}
-	
-	public void deleteFilms(int id){
-		
-		
 
-		
+
+	public void deleteFilms(int id){
+
+
+
+
 		for(Film f:	this.filmsByModerator(id)){
 			this.visualizationService.DeletevisPerFilm(f.getId());
 			this.commentService.deleteCommentsPerFilms(f.getId());
@@ -251,10 +261,34 @@ public class FilmService {
 			this.reviewService.deleteReviewPerFilm(f.getId());
 			this.sponsorshipService.deleteSponsorshipsPerFilms(f);
 			this.delete(f);
+
 			
-			//this.groupService.
-			//sponsorships
 		}
+	}
+
+	public Collection<Film> filmsOfPerson (int personId) {
+		Collection<Film> result;
+
+		result = this.filmRepository.filmsOfPerson(personId);
+
+		return result;
+	}
+
+	public Collection<Film> filmsWithGenre(int genreId) {
+		Collection<Film> result;
+
+		result = this.filmRepository.filmsWithGenre(genreId);
+
+		return result;
+	}
+
+	public Collection<Film> publishedFilms() {
+		Collection<Film> result;
+
+		result = this.filmRepository.publishedFilms();
+
+		return result;
+
 	}
 
 }
