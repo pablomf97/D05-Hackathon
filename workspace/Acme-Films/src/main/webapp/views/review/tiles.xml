@@ -9,11 +9,42 @@
        "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
 
 <tiles-definitions>
-	<definition name="administrator/statistics" extends="master.page">
-		<put-attribute name="title" value="Administrator: statistic dashboard" />
-		<put-attribute name="body"
-			value="/views/administrator/statistics.jsp" />
+	<definition name="review/listAll" extends="master.page">
+		<put-attribute name="title" value="List for critic" />
+		<put-attribute name="body" value="/views/review/listAll.jsp" />
+	</definition>
+	
+	<definition name="review/create" extends="master.page">
+		<put-attribute name="title" value="Create review" />
+		<put-attribute name="body" value="/views/review/edit.jsp" />
+	</definition>
+	
+	<definition name="review/edit" extends="master.page">
+		<put-attribute name="title" value="Edit review" />
+		<put-attribute name="body" value="/views/review/edit.jsp" />
+	</definition>
+	
+	<definition name="review/listToAssign" extends="master.page">
+		<put-attribute name="title" value="List to assign" />
+		<put-attribute name="body" value="/views/review/listToAssign.jsp" />
 	</definition>
 
+	<definition name="review/listByFilm" extends="master.page">
+		<put-attribute name="title" value="Film's critics" />
+		<put-attribute name="body" value="/views/review/listByFilm.jsp" />
+	</definition>
 
+	<definition name="review/displayNon" extends="master.page">
+		<put-attribute name="title" value="Show review" />
+		<put-attribute name="body" value="/views/review/displayNon.jsp" />
+	</definition>
+	
+	<definition name="review/listMyReviews" extends="master.page">
+		<put-attribute name="title" value="My reviews" />
+		<put-attribute name="body" value="/views/review/listMyReviews.jsp" />
+	</definition>
+		<definition name="review/display" extends="master.page">
+		<put-attribute name="title" value="Show review" />
+		<put-attribute name="body" value="/views/review/display.jsp" />
+	</definition>
 </tiles-definitions>

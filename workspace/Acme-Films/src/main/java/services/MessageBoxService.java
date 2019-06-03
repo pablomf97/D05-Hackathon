@@ -65,7 +65,10 @@ public class MessageBoxService {
 			boxBD.setMessages(messageBox.getMessages());
 			result = this.messageBoxRepository.save(boxBD);
 		} else
+			Assert.notNull(messageBox.getName());
+		
 			result = this.messageBoxRepository.save(messageBox);
+		
 		return result;
 	}
 

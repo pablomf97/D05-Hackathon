@@ -77,7 +77,7 @@ public class Review extends DomainEntity{
 	public void setIsDraft(boolean isDraft) {
 		this.isDraft = isDraft;
 	}
-	@Pattern(regexp="^PENDING|ACCEPTED|REJECTED$")
+	@Pattern(regexp="^PENDING|ACCEPTED|REJECTED| $")
 	public String getStatus() {
 		return status;
 	}

@@ -1,5 +1,7 @@
 package services;
 
+import java.util.ConcurrentModificationException;
+
 import javax.transaction.Transactional;
 
 import org.junit.Test;
@@ -62,7 +64,10 @@ public class MessageServiceTest extends AbstractTest {
 	public void driverExchangeMessage() {
 		Object testingData[][] = { { "admin", "test", "test", "critic1",
 				"HIGH", null },
-		// Positive test case
+				// Positive test case
+				{"admin", null , "test", "critic1",
+					"HIGH", IllegalArgumentException.class}
+				//Not null subject
 
 		};
 
@@ -107,7 +112,9 @@ public class MessageServiceTest extends AbstractTest {
 	@Test
 	public void driverBroadcast() {
 		Object testingData[][] = { { "admin", "test", "test", "HIGH", null },
-		// Positive test case
+				// Positive test case
+				{ "critic1", "test", "test", "HIGH", IllegalArgumentException.class }
+				//Only admin can send broadcast message
 
 		};
 
@@ -127,8 +134,6 @@ public class MessageServiceTest extends AbstractTest {
 		try {
 
 			this.authenticate(username);
-			Actor recipient = this.actorService.findOne(this
-					.getEntityId(receiver));
 
 			Message message = this.messageService.create();
 
@@ -178,31 +183,31 @@ public class MessageServiceTest extends AbstractTest {
 
 	@Test
 	public void driverDelete() {
-		Object testingData[][] = { { "admin", "message1", null },
+		Object testingData[][] = { { "admin", "message1", ConcurrentModificationException.class },
+				{ "admin", "message2", ConcurrentModificationException.class }
 		// Positive test case
 
 		};
 
 		for (int i = 0; i < testingData.length; i++) {
 			this.templateDelete((String) testingData[i][0],
-					(String) testingData[i][1], (Class<?>) testingData[i][2]);
+					 (String) testingData[i][1],
+					(Class<?>) testingData[i][2]);
 		}
 
 	}
 
-	protected void templateDelete(String username, String message,
-			Class<?> expected) {
+	protected void templateDelete(String username, String message, Class<?> expected) {
 
 		Class<?> caught = null;
 
 		try {
 
 			this.authenticate(username);
+			Message m = this.messageService.findOne(this.getEntityId(message));
+			
 
-			Message messageBD = this.messageService.findOne(this
-					.getEntityId(message));
-
-			this.messageService.delete(messageBD);
+			this.messageService.delete(m);
 
 			this.unauthenticate();
 

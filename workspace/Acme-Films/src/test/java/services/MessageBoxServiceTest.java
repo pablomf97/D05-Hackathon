@@ -9,25 +9,19 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import utilities.AbstractTest;
-import domain.Comment;
+import domain.MessageBox;
 
 @ContextConfiguration(locations = { "classpath:spring/junit.xml" })
 @RunWith(SpringJUnit4ClassRunner.class)
 @Transactional
-public class CommentServiceTest extends AbstractTest{
-	
+public class MessageBoxServiceTest extends AbstractTest{
+
 	@Autowired
-	private CommentService commentService;
-	
-	@Autowired
-	private FilmService filmService;
-	
-	@Autowired
-	private GroupService forumService;
+	private MessageBoxService messageBoxService;
 
 	@Autowired
 	private ActorService actorService;
-	
+
 	/*
 	 * Total coverage of all tests
 	 * 
@@ -57,45 +51,41 @@ public class CommentServiceTest extends AbstractTest{
 	 * 
 	 * /* ####################### TEST EXCHANGE MESSAGES #######################
 	 */
-	
 	@Test
-	public void driverComment() {
-		Object testingData[][] = { { "filmEnthusiast1", "body", 2.0, "film1","forum1",
-				null },
+	public void driverCreate() {
+		Object testingData[][] = { { "admin", "new box","inBoxAdmin1",
+			null },
+			// Positive test case
+			{ "admin", null ,"inBoxAdmin1",
+				IllegalArgumentException.class },
 				// Positive test case
-				{ "filmEnthusiast1", "body", 2.0, "","",
-					IllegalArgumentException.class },
-				//Negative test case , need to comment a film or a group
-				
+
 		};
 
 		for (int i = 0; i < testingData.length; i++) {
-			this.templateComment((String) testingData[i][0],
-					(String) testingData[i][1], (Double) testingData[i][2],
-					(String) testingData[i][3], (String) testingData[i][4],
-					(Class<?>) testingData[i][5]);
+			this.templateCreate((String) testingData[i][0],
+					(String) testingData[i][1], (String) testingData[i][2],
+
+					(Class<?>) testingData[i][3]);
 		}
 
 	}
 
-	protected void templateComment(String username, String body,
-			Double rating, String film, String forum, Class<?> expected) {
+	protected void templateCreate(String username, String name,
+			String parentBox, Class<?> expected) {
 
 		Class<?> caught = null;
 
 		try {
 
 			this.authenticate(username);
-			
-			Comment comment = this.commentService.create();
 
-			comment.setBody(body);
-			comment.setRating(rating);
-			comment.setFilm(this.filmService.findOne(this.getEntityId(film)));
-			comment.setForum(this.forumService.findOne(this.getEntityId(forum)));
-			
+			MessageBox mb = this.messageBoxService.create();
 
-			this.commentService.save(comment);
+			mb.setName(name);
+			mb.setParentMessageBox(this.messageBoxService.findOne(this.getEntityId(parentBox)));
+
+			this.messageBoxService.save(mb);
 
 			this.unauthenticate();
 
@@ -105,40 +95,56 @@ public class CommentServiceTest extends AbstractTest{
 		}
 		super.checkExceptions(expected, caught);
 	}
-	
+
 	@Test
 	public void driverDelete() {
-		Object testingData[][] = { { "filmEnthusiast1", "comment1",null },
-				// Positive test case
-				{ "critic1", "comment1",ClassCastException.class},
-				//Negative test case , wrong actor
-				
+		Object testingData[][] = { { "admin", "new box",null,
+			null },
+			// Positive test case
+			{ "admin", null ,"inBoxAdmin1",
+				IllegalArgumentException.class },
+				// Negative test case, can't delete predefined box
+
 		};
 
 		for (int i = 0; i < testingData.length; i++) {
 			this.templateDelete((String) testingData[i][0],
-					 (String) testingData[i][1],
-					(Class<?>) testingData[i][2]);
+					(String) testingData[i][1], (String) testingData[i][2],
+
+					(Class<?>) testingData[i][3]);
 		}
 
 	}
 
-	protected void templateDelete(String username, String comment, Class<?> expected) {
+	protected void templateDelete(String username, String name,
+			String box, Class<?> expected) {
 
 		Class<?> caught = null;
 
 		try {
 
-			this.authenticate(username);
-			
-			Comment c = this.commentService.findOne(this.getEntityId(comment));
+			if(box == null){
+				this.authenticate(username);
 
-			
-			
+				MessageBox mb = this.messageBoxService.create();
 
-			this.commentService.delete(c);
+				mb.setName(name);
 
-			this.unauthenticate();
+				this.messageBoxService.save(mb);
+
+				this.messageBoxService.delete(mb);
+
+				this.unauthenticate();
+			}else{
+				this.authenticate(username);
+
+				MessageBox mb = this.messageBoxService.findOne(this.getEntityId(box));
+
+				this.messageBoxService.delete(mb);
+
+
+				this.unauthenticate();
+			}
 
 		} catch (Throwable oops) {
 
@@ -147,5 +153,4 @@ public class CommentServiceTest extends AbstractTest{
 		super.checkExceptions(expected, caught);
 	}
 
-	
 }

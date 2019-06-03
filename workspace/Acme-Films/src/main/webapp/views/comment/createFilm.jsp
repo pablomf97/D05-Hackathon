@@ -8,7 +8,6 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags"%>
-
 <security:authorize access="hasRole('FILMENTHUSIAST')">
 	<jstl:if test="${possible == true && comment.id==0}">
 		<form:form action="comment/filmEnthusiast/createFilm.do"
@@ -19,26 +18,63 @@
 	</form:label>
 			<form:select path="film">
 				<form:option label="-----" value="0" />
-				<form:options items="${films}" itemLabel="comment.film"
-					itemValue="id" />
+				<form:options items="${films}" itemLabel="title" itemValue="id" />
 			</form:select>
 			<form:errors cssClass="error" path="film" />
 			<br />
 			<br />
 
+			<form:label path="forum">
+				<spring:message code="comment.forum" />:
+	</form:label>
+			<form:select path="forum">
+				<form:option label="-----" value="0" />
+				<form:options items="${forums}" itemLabel="name" itemValue="id" />
+			</form:select>
+			<form:errors cssClass="error" path="forum" />
+			<br />
+			<br />
 
 
 
-			<acme:textbox code="film.body" path="body" />
+
+			<acme:textarea code="comment.body" path="body" />
 			<br>
 			<br>
 
 			<form:label path="rating">
 				<spring:message code="comment.rating" />
 			</form:label>
-			<form:input path="rating" type="text" min="0" value="0" />
+			<form:input path="rating" type="number" min="0" max="10" step="any" />
 			<form:errors cssClass="error" path="rating" />
 
+			<br>
+			<br>
+
+
+			<acme:submit name="save" code="comment.save" />
+
+			<acme:cancel url="../" code="comment.back" />
+
+
 		</form:form>
+
+
 	</jstl:if>
+
+	<jstl:if test="${possible == false && comment.id!=0}">
+		<spring:message code="comment.nopermission" var="permission"></spring:message>
+
+		<strong><jstl:out value="${permission}">
+			</jstl:out></strong>
+	</jstl:if>
+
+	<jstl:if test="${possible == false && comment.id ==0}">
+		
+
+			<strong><jstl:out value="${error}"></jstl:out></strong>
+		
+	</jstl:if>
+	
 </security:authorize>
+

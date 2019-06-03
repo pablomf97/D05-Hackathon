@@ -12,7 +12,7 @@ import domain.Review;
 @Repository
 public interface ReviewRepository extends JpaRepository<Review, Integer>{
 
-	@Query("select f from Film f where f.isDraft = true")
+	@Query("select f from Film f where f.isDraft = false")
 	public Collection<Film> finalFilms();
 	
 	@Query("select r from Review r where r.critic.id = ?1")
@@ -27,6 +27,11 @@ public interface ReviewRepository extends JpaRepository<Review, Integer>{
 	@Query("select r from Review r where r.moderator.id = ?1 and r.isDraft = false")
 	public Collection<Review> getMyReviews(int moderatorId);
 	
+
+	@Query("select r from Review r where r.film.id= ?1 and r.isDraft = false")
+	public Collection<Review> getReviewsByFilm(int filmId);
+	
+
 	@Query("select f from Review f where f.moderator.id= ?1")
 	public Collection<Review> reviewPerModerator(int id);
 	
@@ -34,5 +39,6 @@ public interface ReviewRepository extends JpaRepository<Review, Integer>{
 	 public Collection<Review> reviewPerFilm(int id);
 	
 }
+
 
 
