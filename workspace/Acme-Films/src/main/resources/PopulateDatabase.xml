@@ -525,9 +525,7 @@
 				<ref bean="socialProfileCritic3" />
 			</list>
 		</property>
-		<property name="curricula" ref="curricula3">
 
-		</property>
 
 	</bean>
 
@@ -1567,24 +1565,7 @@
 			</list>
 		</property>
 	</bean>
-	<bean id="curricula3" class="domain.Curricula">
-		<property name="personalData" ref="personalData3" />
-		<property name="educationData">
-			<list>
-
-			</list>
-		</property>
-		<property name="miscellaneousData">
-			<list>
-
-			</list>
-		</property>
-		<property name="professionalData">
-			<list>
-
-			</list>
-		</property>
-	</bean>
+	
 
 	<!-- **************************** PERSONAL DATA **************************** -->
 
