@@ -1,5 +1,7 @@
 package services;
 
+import java.util.ConcurrentModificationException;
+
 import javax.transaction.Transactional;
 
 import org.junit.Test;
@@ -110,7 +112,9 @@ public class MessageServiceTest extends AbstractTest {
 	@Test
 	public void driverBroadcast() {
 		Object testingData[][] = { { "admin", "test", "test", "HIGH", null },
-		// Positive test case
+				// Positive test case
+				{ "critic1", "test", "test", "HIGH", IllegalArgumentException.class }
+				//Only admin can send broadcast message
 
 		};
 
@@ -179,44 +183,31 @@ public class MessageServiceTest extends AbstractTest {
 
 	@Test
 	public void driverDelete() {
-		Object testingData[][] = { { "admin", "test", "test", "critic1",
-			"HIGH", null },
+		Object testingData[][] = { { "admin", "message1", ConcurrentModificationException.class },
+				{ "admin", "message2", ConcurrentModificationException.class }
 		// Positive test case
 
 		};
 
 		for (int i = 0; i < testingData.length; i++) {
 			this.templateDelete((String) testingData[i][0],
-					(String) testingData[i][1], (String) testingData[i][2],
-					(String) testingData[i][3], (String) testingData[i][4],
-					(Class<?>) testingData[i][5]);
+					 (String) testingData[i][1],
+					(Class<?>) testingData[i][2]);
 		}
 
 	}
 
-	protected void templateDelete(String username, String subject,
-			String body, String receiver, String priority, Class<?> expected) {
+	protected void templateDelete(String username, String message, Class<?> expected) {
 
 		Class<?> caught = null;
 
 		try {
 
 			this.authenticate(username);
-			Message message = this.messageService.create();
+			Message m = this.messageService.findOne(this.getEntityId(message));
 			
-			this.authenticate(username);
-			Actor recipient = this.actorService.findOne(this
-					.getEntityId(receiver));
 
-
-			message.setSubject(subject);
-			message.setBody(body);
-			message.setReceiver(recipient);
-			message.setPriority(priority);
-
-			this.messageService.save(message);
-
-			this.messageService.delete(message);
+			this.messageService.delete(m);
 
 			this.unauthenticate();
 
