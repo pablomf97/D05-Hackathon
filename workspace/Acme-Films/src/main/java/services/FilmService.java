@@ -50,6 +50,9 @@ public class FilmService {
 	@Autowired
 	private ReviewService reviewService;
 	
+	@Autowired
+	private SponsorshipService sponsorshipService;
+	
 	public Film create() {
 		Actor principal;
 		Film result;
@@ -246,6 +249,7 @@ public class FilmService {
 			this.commentService.deleteCommentsPerFilms(f.getId());
 			this.groupService.deleteGroupPerFilm(f.getId());
 			this.reviewService.deleteReviewPerFilm(f.getId());
+			this.sponsorshipService.deleteSponsorshipsPerFilms(f);
 			this.delete(f);
 			
 			//this.groupService.

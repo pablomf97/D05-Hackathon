@@ -32,6 +32,8 @@ public class EventService {
 
 	@Autowired
 	private GroupRepository groupRepository;
+	
+	
 
 	@Autowired
 	private Validator validator;
@@ -160,6 +162,24 @@ public class EventService {
 	public void deleteEventPerForum(int id) {
 		
 		this.eventRepository.deleteInBatch(this.eventRepository.findAllByGroup(id));
+		
+	}
+
+	public void deleteEventPerFilmEnthusiast(FilmEnthusiast f) {
+		
+		for(Event e : this.findAll()){
+			
+			if(e.getAttenders().contains(f)){
+				//this.groupRepository.delete(e.getForum());
+				this.delete(e);
+				
+				
+			}
+			
+			
+			
+		}
+		
 		
 	}
 }

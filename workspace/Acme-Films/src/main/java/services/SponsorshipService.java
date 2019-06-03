@@ -160,5 +160,19 @@ public class SponsorshipService {
 			
 			this.sponsorshipRepository.deleteInBatch(this.sponsorshipPerSponsor(id));
 		}
+
+		public void deleteSponsorshipsPerFilms(Film f) {
+			
+			for(Sponsorship s :this.findAll()){
+				
+				if(s.getFilms().contains(f)){
+					this.sponsorshipRepository.delete(s);
+					
+				}
+			}
+			
+			
+			
+		}
 }
 

@@ -264,7 +264,7 @@ public class ModeratorController extends AbstractController {
 			} catch (final Throwable oops) {
 
 				result = this.createEditModelAndView(editionFormObject,
-						"moderator.commit.error");
+						"commit.error");
 			}
 		return result;
 	}

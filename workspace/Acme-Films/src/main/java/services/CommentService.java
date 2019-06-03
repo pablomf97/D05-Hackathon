@@ -90,4 +90,10 @@ public class CommentService {
 	public void deleteCommentsPerFilms(int filmId){
 		this.commentRepository.deleteInBatch(this.commentRepository.vPerFilm(filmId));
 	}
+
+	public void deleteCommentsPerForum(Forum g) {
+		
+		this.commentRepository.deleteInBatch(this.commentRepository.CommentsPerForum(g.getId()));
+		
+	}
 }

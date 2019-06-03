@@ -36,6 +36,9 @@ public class GroupService {
 	
 	@Autowired
 	private EventService eventService;
+	
+	@Autowired
+	private CommentService commentService;
 
 
 	public Forum createForFilm(final Film film) {
@@ -248,6 +251,18 @@ public class GroupService {
 			this.eventService.deleteEventPerForum(g.getId());
 			this.groupRepository.delete(g);
 		}
+		
+	}
+
+	public void deleteGroupPerFilmEnthusiast(FilmEnthusiast f) {
+		
+		for(Forum g: this.findAll()){
+			if(g.getGroupMembers().contains(f)||g.getCreator().getId()==f.getId()){
+				this.commentService.deleteCommentsPerForum(g);
+				//this.groupRepository.delete(g);
+			}
+		}
+		
 		
 	}
 
