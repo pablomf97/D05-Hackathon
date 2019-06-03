@@ -57,3 +57,9 @@
 	</jstl:otherwise>
 	</jstl:choose>
 </security:authorize>
+
+<security:authorize access="!hasRole('SPONSOR')">
+		<p>
+			<spring:message	code="sponsorship.not.allowed" /><br>
+		</p>
+</security:authorize>

@@ -46,8 +46,9 @@
 				
 			</display:table>
 			
-						<br><a href="visualization/create.do?filmId=${film.id }"> <spring:message
-					code="visualization.create" /></a>
+			<input type="button"
+				onclick="redirect: location.href = 'visualization/create.do?filmId=${film.id }';"
+				value="<spring:message code='visualization.create' />" />
 					
 		</jstl:when>
 		<jstl:otherwise>

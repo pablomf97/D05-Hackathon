@@ -15,7 +15,7 @@
 
 	<jstl:choose>
 		<jstl:when test="${isPrincipal}">
-		<h1><spring:message	code="sponsorship.title.edit" /></h1>
+		<h1><spring:message	code="sponsorship.title.create" /></h1>
 		<form:form modelAttribute="createSponsorshipFormObject" action="sponsorship/create.do"
 			id="form">
 	
@@ -49,4 +49,10 @@
 		</p>
 	</jstl:otherwise>
 	</jstl:choose>
+</security:authorize>
+
+<security:authorize access="!hasRole('SPONSOR')">
+		<p>
+			<spring:message	code="sponsorship.not.allowed" /><br>
+		</p>
 </security:authorize>

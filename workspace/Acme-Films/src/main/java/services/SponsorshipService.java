@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.Validator;
 
 import repositories.SponsorshipRepository;
 import domain.Actor;
@@ -36,9 +35,6 @@ public class SponsorshipService {
 	
 	@Autowired
 	private CreditCardService creditCardService;
-	
-	@Autowired
-	private Validator validator;
 	
 	public Sponsorship create() {
 		Actor principal;
@@ -83,6 +79,10 @@ public class SponsorshipService {
 			} else if (this.actorService.checkAuthority(principal, "MODERATOR")) {
 				Assert.isTrue(sponsorship.getSponsor().equals((Sponsor) (principal)), "not.allowed");
 			}
+		}
+		
+		for(Film film : sponsorship.getFilms()) {
+			Assert.isTrue(!film.getIsDraft());
 		}
 		
 		Assert.notNull(sponsorship.getTitle());
@@ -134,8 +134,12 @@ public class SponsorshipService {
 
 		sponsorship.setCreditCard(creditCard);
 		
-		this.validator.validate(sponsorship, binding);
-
+		try {
+			Assert.notNull(form.getFilms(), "no.films");
+		} catch (Throwable oops) {
+			binding.rejectValue("films", "films.error");
+		}
+		
 		/* Credit card */
 		if (form.getNumber() != null) {
 			try {
@@ -174,12 +178,18 @@ public class SponsorshipService {
 	
 	public Sponsorship reconstruct(EditSponsorshipFormObject form,
 			BindingResult binding) {
+		
+		Sponsorship sponsorship = this.create();
 
 		/* Creating sponsorship */
-		Sponsorship sponsorship = this.findOne(form.getId());
+		Sponsorship aux = this.findOne(form.getId());
 
 //		sponsorship.setId(form.getId());
 //		sponsorship.setVersion(form.getVersion());
+		
+		sponsorship.setId(aux.getId());
+		sponsorship.setVersion(aux.getVersion());
+		sponsorship.setIsActive(aux.getIsActive());
 		
 		if(sponsorship.getIsActive() == null) {
 			
@@ -201,7 +211,13 @@ public class SponsorshipService {
 
 		sponsorship.setCreditCard(creditCard);
 		
-		this.validator.validate(sponsorship, binding);
+		//this.validator.validate(sponsorship, binding);
+		
+		try {
+			Assert.notNull(form.getFilms(), "no.films");
+		} catch (Throwable oops) {
+			binding.rejectValue("films", "films.error");
+		}
 
 		/* Credit card */
 		if (form.getNumber() != null) {

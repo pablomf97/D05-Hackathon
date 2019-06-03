@@ -20,9 +20,9 @@
 	</tr>
 </table>
 
-<h1>
+<h2>
 	<spring:message code="saga.films" />
-</h1>
+</h2>
 <display:table class="displaytag" name="films" pagesize="5"
 	requestURI="saga/display.do" id="film">
 
@@ -59,3 +59,7 @@
 			code="group.newcreate" />
 	</a>
 </security:authorize>
+
+	<input type="button" name="back"
+		value="<spring:message code="sponsorship.back" />"
+		onclick="window.history.back()" />

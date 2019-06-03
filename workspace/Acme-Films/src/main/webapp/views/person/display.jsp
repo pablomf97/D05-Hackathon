@@ -19,10 +19,22 @@
 		<td><strong> <spring:message code="person.surname" />	: </strong></td>
 		<td><jstl:out value="${person.surname}"/></td>
 	</tr>	
-	<tr>	
-		<td><strong> <spring:message code="person.gender" />	: </strong></td>
-		<td><jstl:out value="${person.gender}"/></td>
-	</tr>	
+	
+	<jstl:if test="${person.gender == 0}">
+		<spring:message var="gender" code='person.gender.male' />
+	</jstl:if>
+	<jstl:if test="${person.gender == 1}">
+		<spring:message var="gender" code='person.gender.female' />
+	</jstl:if>
+	<jstl:if test="${person.gender == 2}">
+		<spring:message var="gender" code='person.gender.notspecified' />
+	</jstl:if>
+
+	<tr>
+		<td><strong> <spring:message code="person.gender" /> : </strong></td>
+		<td>${gender}</td>
+	</tr>
+	
 	<tr>	
 		<td><strong> <spring:message code="person.nationality" />	: </strong></td>
 		<td><jstl:out value="${person.nationality}"/></td>
@@ -63,6 +75,7 @@
 	
 </table>
 		
+<h2><spring:message code="person.films.title.display" /></h2>
 <display:table class="displaytag" name="films" pagesize="5" 
 		requestURI="person/display.do" id="film">
 
@@ -84,3 +97,7 @@
 		</a>
 	</display:column>
 </display:table>
+
+	<input type="button" name="back"
+		value="<spring:message code="sponsorship.back" />"
+		onclick="window.history.back()" />

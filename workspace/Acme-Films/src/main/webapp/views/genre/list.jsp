@@ -63,3 +63,9 @@
 	</jstl:choose>
 
 </security:authorize>
+
+<security:authorize access="!hasRole('MODERATOR')">
+		<p>
+			<spring:message	code="sponsorship.not.allowed" /><br>
+		</p>
+</security:authorize>

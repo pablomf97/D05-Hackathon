@@ -32,7 +32,7 @@
 	
 	<jstl:otherwise>
 		<p>
-			<spring:message	code="saga.not.allowed" /><br>
+			<spring:message	code="sponsorship.not.allowed" /><br>
 		</p>
 	</jstl:otherwise>
 	</jstl:choose>

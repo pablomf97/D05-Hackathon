@@ -50,18 +50,17 @@ public class PersonController extends AbstractController {
 		try {
 			person = this.personService.findOne(personId);
 
-			// TODO: list of films where a person works
 			films = this.filmService.filmsOfPerson(personId);
 
 			result = new ModelAndView("person/display");
 			result.addObject("person", person);
 			result.addObject("isPrincipal", isPrincipal);
+			result.addObject("films", films);
 			result.addObject("requestURI", "person/display.do?personId="
 					+ personId);
 		} catch (final Throwable oops) {
 			result = new ModelAndView("redirect:../welcome/index.do");
 			result.addObject("messageCode", "position.commit.error");
-			result.addObject("permission", false);
 		}
 		return result;
 	}
@@ -71,7 +70,7 @@ public class PersonController extends AbstractController {
 		final ModelAndView result = new ModelAndView("person/list");
 		Collection<Person> persons = this.personService.findAll();
 		Actor principal;
-		boolean isPrincipal;
+		boolean isPrincipal = false;
 
 		try {
 			if (filmId == null)
@@ -79,13 +78,17 @@ public class PersonController extends AbstractController {
 			else {
 				persons = this.filmService.findOne(filmId).getPersons();
 			}
+			
+			principal = this.actorService.findByPrincipal();
+			if (this.actorService.checkAuthority(principal, "MODERATOR"))
+				isPrincipal = true;
 
 			result.addObject("persons", persons);
-			result.addObject("isPrincipal", true);
+			result.addObject("isPrincipal", isPrincipal);
 
 		} catch (final Throwable oops) {
 			result.addObject("errMsg", oops);
-			result.addObject("isPrincipal", false);
+			result.addObject("isPrincipal", isPrincipal);
 		}
 		return result;
 	}
@@ -154,16 +157,21 @@ public class PersonController extends AbstractController {
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
 	public ModelAndView save(Person person,
-			@RequestParam("positionsArray") String[] positionsArray,
+			@RequestParam(value = "positionsArray", required = false) String[] positionsArray,
 			BindingResult binding) {
 		ModelAndView result;
 		Collection<Position> positionsToSave = new ArrayList<>();
 		
-		positionsToSave = this.positionService.parsePositions(positionsArray);
+		try {
+			positionsToSave = this.positionService.parsePositions(positionsArray);
+			
+			person.setPositions(positionsToSave);
+			
+		} catch (Exception e) {
+			
+		}
 		
-		person.setPositions(positionsToSave);
-		
-		Person toSave = this.personService.validate(person, binding);
+			Person toSave = this.personService.validate(person, binding);
 
 		if (binding.hasErrors()) {
 			Collection<Position> positions = this.positionService.findAll();

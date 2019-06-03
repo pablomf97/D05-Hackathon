@@ -51,8 +51,9 @@ public class SponsorshipController extends AbstractController {
 			sponsorship = this.sponsorshipService.findOne(sponsorshipId);
 			try {
 				principal = this.actorService.findByPrincipal();
-				if (sponsorship.getSponsor().equals((Sponsor) principal));
+				if (sponsorship.getSponsor().equals((Sponsor) principal) || this.actorService.checkAuthority(principal, "MODERATOR")) {
 					isPrincipal = true;
+				}
 			} catch (final Throwable oops) {}
 
 			result = new ModelAndView("sponsorship/display");
@@ -115,7 +116,7 @@ public class SponsorshipController extends AbstractController {
 
 		sponsorship = this.sponsorshipService.findOne(sponsorshipId);
 		
-		if(sponsorship.getSponsor().equals((Sponsor)principal)) {
+		if(sponsorship.getSponsor().equals((Sponsor) principal)) {
 			isPrincipal = true;
 		}
 
@@ -142,12 +143,14 @@ public class SponsorshipController extends AbstractController {
 
 			sponsorship = this.sponsorshipService.reconstruct(createSponsorshipFormObject, binding);
 			
-			Assert.isTrue(sponsorship.getSponsor().equals((Sponsor) principal), "not.allowed");
-
-			if (binding.hasErrors())
+			if (binding.hasErrors()) {
 				res = this.createNewModelAndView(createSponsorshipFormObject);
+				res.addObject("isPrincipal", true);
+			}
 			else
 				try {
+					
+					Assert.isTrue(sponsorship.getSponsor().equals((Sponsor) principal), "not.allowed");
 
 					this.sponsorshipService.save(sponsorship);
 
@@ -180,12 +183,14 @@ public class SponsorshipController extends AbstractController {
 
 			sponsorship = this.sponsorshipService.reconstruct(editSponsorshipFormObject, binding);
 			
-			Assert.isTrue(sponsorship.getSponsor().equals((Sponsor) principal), "not.allowed");
-
-			if (binding.hasErrors())
+			if (binding.hasErrors()) {
 				res = this.createEditModelAndView(editSponsorshipFormObject);
+				res.addObject("isPrincipal", true);
+				res.addObject("isActive", sponsorship.getIsActive());
+			}
 			else
 				try {
+					Assert.isTrue(sponsorship.getSponsor().equals((Sponsor) principal), "not.allowed");
 
 					this.sponsorshipService.save(sponsorship);
 
@@ -204,36 +209,6 @@ public class SponsorshipController extends AbstractController {
 		}
 		return res;
 	}
-
-//	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-//	public ModelAndView save(final Sponsorship sponsorship, final BindingResult binding) {
-//		ModelAndView result;
-//		Sponsorship aux;
-//		try {
-//			aux = this.sponsorshipService.reconstruct(sponsorship, binding);
-//			if (binding.hasErrors()) {
-//
-//				result = new ModelAndView("sponsorship/edit");
-//				result.addObject("sponsorship", sponsorship);
-//				result.addObject("binding", binding);
-//				result.addObject("isPrincipal", true);
-//			} else
-//				try {
-//					this.sponsorshipService.save(aux);
-//					result = new ModelAndView("redirect:list.do");
-//				} catch (final Throwable oops) {
-//					result = new ModelAndView("sponsorship/edit");
-//					result.addObject("sponsorship", aux);
-//					result.addObject("messageCode", oops.getMessage());
-//				}
-//		} catch (final Throwable oops) {
-//			if (binding.hasErrors())
-//				result = this.createEditModelAndView(sponsorship, "jpa.error");
-//			else
-//				result = this.createEditModelAndView(sponsorship, "commit.error");
-//		}
-//		return result;
-//	}
 
 	/* Accept or reject an sponsorship */
 	@RequestMapping(value = "/action", method = RequestMethod.GET)
@@ -333,24 +308,4 @@ public class SponsorshipController extends AbstractController {
 		return result;
 	}
 
-
-//	protected ModelAndView createEditModelAndView(final Sponsorship sponsorship, final String messageCode) {
-//		final ModelAndView result;
-//		Actor principal;
-//		boolean isPrincipal = true;
-//
-//		if (messageCode == null) {
-//			principal = this.actorService.findByPrincipal();
-//
-//			if (!sponsorship.getSponsor().equals((Sponsor) principal))
-//				isPrincipal = false;
-//		}
-//
-//		result = new ModelAndView("sponsorship/edit");
-//		result.addObject("sponsorship", sponsorship);
-//		result.addObject("isPrincipal", isPrincipal);
-//		result.addObject("message", messageCode);
-//
-//		return result;
-//	}
 }

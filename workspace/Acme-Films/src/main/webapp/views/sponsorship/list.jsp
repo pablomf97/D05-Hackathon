@@ -9,6 +9,8 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 
+<security:authorize access="hasAnyRole('MODERATOR','SPONSOR')">
+
 <h1><spring:message	code="sponsorship.title.list" />
 <jstl:out value="${(film.title)}" /></h1>
 	<jstl:choose>
@@ -112,7 +114,17 @@
 				</jstl:if>
 				</display:column>
 			</display:table>
-			<br><a href="sponsorship/create.do"> <spring:message
-								code="sponsorship.create" /></a>
+			
+			<input type="button"
+				onclick="redirect: location.href = 'sponsorship/create.do';"
+				value="<spring:message code='sponsorship.create' />" />
 		</jstl:otherwise>
 	</jstl:choose>
+	
+</security:authorize>
+
+<security:authorize access="!hasAnyRole('MODERATOR','SPONSOR')">
+		<p>
+			<spring:message	code="sponsorship.not.allowed" /><br>
+		</p>
+</security:authorize>

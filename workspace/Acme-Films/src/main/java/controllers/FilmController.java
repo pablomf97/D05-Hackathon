@@ -76,7 +76,7 @@ public class FilmController extends AbstractController {
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public ModelAndView list() {
 		final ModelAndView result = new ModelAndView("film/list");
-		Collection<Film> films;
+		Collection<Film> films = new ArrayList<>();
 		Actor principal;
 		boolean isPrincipal = false;
 
@@ -84,12 +84,15 @@ public class FilmController extends AbstractController {
 			
 			try {
 				principal = this.actorService.findByPrincipal();
-				if (this.actorService.checkAuthority(principal, "MODERATOR"))
+				if (this.actorService.checkAuthority(principal, "MODERATOR")) {
 					isPrincipal = true;
+					films = this.filmService.findAll();
+				} else {
+					films = this.filmService.publishedFilms();
+				}
+					
 			} catch (Exception e) {}
 			
-			films = this.filmService.findAll();
-
 			result.addObject("films", films);
 			result.addObject("isPrincipal", isPrincipal);
 
@@ -141,7 +144,7 @@ public class FilmController extends AbstractController {
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
 	public ModelAndView save(Film film, BindingResult binding,
-			@RequestParam("personsArray") String[] personsArray, 
+			@RequestParam(value = "personsArray", required = false) String[] personsArray, 
 			@RequestParam(value = "genresArray", required = false) String[] genresArray) {
 		ModelAndView result;
 		Film aux;
@@ -149,21 +152,28 @@ public class FilmController extends AbstractController {
 		Collection<Genre> genresToSave = new ArrayList<>();
 		
 		try {
-			personsToSave = this.personService.parsePersons(personsArray);
-			if(genresArray != null) {
-				genresToSave = this.genreService.parseGenres(genresArray);
-			}
-					
-			film.setPersons(personsToSave);
-			film.setGenres(genresToSave);
+			try {
+				personsToSave = this.personService.parsePersons(personsArray);
+				if(genresArray != null) {
+					genresToSave = this.genreService.parseGenres(genresArray);
+				}
+						
+				film.setPersons(personsToSave);
+				film.setGenres(genresToSave);
+			} catch (Exception e) {}
 			
 			aux = this.filmService.reconstruct(film, binding);
 			if (binding.hasErrors()) {
+				
+				film.setIsDraft(aux.getIsDraft());
 
 				result = new ModelAndView("film/edit");
 				result.addObject("film", film);
 				result.addObject("binding", binding);
 				result.addObject("isPrincipal", true);
+				result.addObject("sagas", this.sagaService.findAll());
+				result.addObject("genres", this.genreService.findAll());
+				result.addObject("persons", this.personService.findAll());
 			} else
 				try {
 					this.filmService.save(aux);
@@ -194,6 +204,9 @@ public class FilmController extends AbstractController {
 				result.addObject("film", film);
 				result.addObject("binding", binding);
 				result.addObject("isPrincipal", true);
+				result.addObject("sagas", this.sagaService.findAll());
+				result.addObject("genres", this.genreService.findAll());
+				result.addObject("persons", this.personService.findAll());
 			} else
 				try {
 					aux.setIsDraft(false);

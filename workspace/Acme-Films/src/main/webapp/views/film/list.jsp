@@ -13,7 +13,6 @@
 <jstl:out value="${film.film.title}" /></h1>
 	<jstl:choose>
 		<jstl:when test="${isPrincipal}">
-
 			<display:table class="displaytag" name="films" pagesize="5" 
 				requestURI="film/list.do" id="film">
 
@@ -25,6 +24,11 @@
 					<jstl:out value="${film.releaseDate}" />
 				</display:column>
 				
+				
+				<display:column titleKey="film.rating" sortable="true">
+					<jstl:out value="${film.rating}" />
+				</display:column>
+				
 				<display:column>
 					<a href="film/display.do?filmId=${film.id}"> <spring:message
 							code="film.display" />
@@ -32,21 +36,25 @@
 				</display:column>
 				
 				<display:column>
-					<a href="film/edit.do?filmId=${film.id}"> <spring:message
-							code="film.edit" />
-					</a>
+					<jstl:if test="${film.isDraft }">
+						<a href="film/edit.do?filmId=${film.id}"> <spring:message
+								code="film.edit" />
+						</a>
+					</jstl:if>
 				</display:column>
-				
+					
 				<display:column>
-					<a href="film/delete.do?filmId=${film.id}"> <spring:message
-							code="film.delete" />
-					</a>
+					<jstl:if test="${film.isDraft }">
+						<a href="film/delete.do?filmId=${film.id}"> <spring:message
+								code="film.delete" />
+						</a>
+					</jstl:if>
 				</display:column>
-				
 			</display:table>
 			
-			<a href="film/create.do"> <spring:message
-				code="film.create" /></a>
+			<input type="button"
+				onclick="redirect: location.href = 'film/create.do';"
+				value="<spring:message code='film.create' />" />
 				
 		</jstl:when>
 		<jstl:otherwise>

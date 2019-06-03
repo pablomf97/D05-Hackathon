@@ -23,7 +23,12 @@
 			
 			<acme:textbox code="person.name" path="name" size="100px" /><br> <br>
 			<acme:textbox code="person.surname" path="surname" size="100px" /><br> <br>
-			<acme:textbox code="person.gender" path="gender" size="100px" /><br> <br>
+			<spring:message	code="person.gender" />
+			<form:select path="gender" style="width:200px;">
+				<form:option value="${0}"><spring:message code="person.gender.male" /></form:option>	
+				<form:option value="${1}"><spring:message code="person.gender.female" /></form:option>	
+				<form:option value="${2}"><spring:message code="person.gender.notspecified" /></form:option>			
+			</form:select><br> <br>
 			<acme:textbox code="person.nationality" path="nationality" size="100px" /><br> <br>
 			<acme:textbox code="person.birthDate" path="birthDate" size="100px" /><br> <br>
 			<acme:textbox code="person.photo" path="photo" size="100px" /><br> <br>
@@ -47,6 +52,7 @@
 					</select>
 				</jstl:otherwise>
 			</jstl:choose>
+			<form:errors cssClass="error" path="positions" />
 			<br><br>
 			<acme:submit code="person.save" name="save" />&nbsp;
 			<acme:cancel url="person/list.do" code="person.cancel" />
@@ -57,7 +63,7 @@
 	
 	<jstl:otherwise>
 		<p>
-			<spring:message	code="person.not.allowed" /><br>
+			<spring:message	code="sponsorship.not.allowed" /><br>
 		</p>
 	</jstl:otherwise>
 	</jstl:choose>

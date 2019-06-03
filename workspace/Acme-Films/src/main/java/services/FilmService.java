@@ -50,6 +50,7 @@ public class FilmService {
 		result.setPersons(new ArrayList<Person>());
 		result.setSagas(new ArrayList<Saga>());
 		result.setModerator((Moderator) principal);
+		result.setIsDraft(true);
 		
 		return result;
 	}
@@ -109,18 +110,25 @@ public class FilmService {
 				"not.allowed");
 		
 		if (film.getId() == 0) {
-			
-			Assert.notNull(film.getTitle());
-			Assert.notNull(film.getSynopsis());
-			Assert.notNull(film.getReleaseDate());
-			
 			result = this.create();
-			film.setTicker(this.generateTicker(film.getReleaseDate()));
+			if (film.getReleaseDate() != null)
+				try {
+					result.setTicker(this.generateTicker(film.getReleaseDate()));
+				} catch (final Throwable oops) {
+					binding.rejectValue("releaseDate", "date.error");
+				}
+			
 		} else {
 			result = this.findOne(film.getId());
 		}
 		
-		if(film.getIsDraft()) {
+		try {
+			Assert.notEmpty(film.getPersons());
+		} catch (final Throwable oops) {
+			binding.rejectValue("persons", "empty.persons");
+		}
+		
+		if(result.getIsDraft()) {
 			result.setTitle(film.getTitle());
 			result.setSynopsis(film.getSynopsis());
 			result.setPoster(film.getPoster());

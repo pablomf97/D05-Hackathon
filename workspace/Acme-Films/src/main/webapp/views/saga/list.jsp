@@ -40,9 +40,10 @@
 				</display:column>
 				
 			</display:table>
-			
-			<a href="saga/create.do"> <spring:message
-					code="saga.create" /></a>
+
+			<input type="button"
+				onclick="redirect: location.href = 'saga/create.do';"
+				value="<spring:message code='saga.create' />" />
 					
 		</jstl:when>
 		<jstl:otherwise>

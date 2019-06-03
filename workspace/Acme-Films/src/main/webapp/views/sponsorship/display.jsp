@@ -8,6 +8,10 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
+<jstl:choose>
+<jstl:when test="${isPrincipal }">
+<security:authorize access="hasAnyRole('MODERATOR','SPONSOR')">
+
 <h1><spring:message code="sponsorship.title.display" /></h1>
 <table class="displayStyle">
 	<tr>
@@ -25,12 +29,25 @@
 		<td><jstl:out value="${sponsorship.targetPage}"></jstl:out></td>
 	</tr>
 	
+	<jstl:if test="${sponsorship.isActive eq true}">
+		<spring:message var="status" code='sponsorship.active' />
+	</jstl:if>
+	<jstl:if test="${sponsorship.isActive eq null}">
+		<spring:message var="status" code='sponsorship.pending' />
+	</jstl:if>
+	<jstl:if test="${sponsorship.isActive eq false}">
+		<spring:message var="status" code='sponsorship.rejected' />
+	</jstl:if>
+
 	<tr>
 		<td><strong> <spring:message code="sponsorship.isActive" /> : </strong></td>
-		<td><jstl:out value="${sponsorship.isActive}"></jstl:out></td>
+		<td>${status}</td>
 	</tr>
 	
 </table>
+</security:authorize>
+
+<security:authorize access="hasRole('SPONSOR')">
 
 <h2><spring:message code="sponsorship.title.creditcard.display" /></h2>
 <table class="displayStyle">
@@ -60,7 +77,11 @@
 	</tr>
 	
 </table>
+
+</security:authorize>
 	
+<security:authorize access="hasAnyRole('MODERATOR','SPONSOR')">
+
 <h2><spring:message code="sponsorship.display.films" /></h2>
 <display:table class="displaytag" name="${sponsorship.films}" pagesize="5" 
 		requestURI="sponsorship/display.do" id="film">
@@ -75,3 +96,24 @@
 		</a>
 	</display:column>
 </display:table>
+
+	<input type="button" name="back"
+		value="<spring:message code="sponsorship.back" />"
+		onclick="window.history.back()" />
+
+</security:authorize>
+
+<security:authorize access="!hasAnyRole('MODERATOR','SPONSOR')">
+		<p>
+			<spring:message	code="sponsorship.not.allowed" /><br>
+		</p>
+</security:authorize>
+</jstl:when>
+<jstl:otherwise>
+
+<p>
+	<spring:message	code="sponsorship.not.allowed" /><br>
+</p>
+
+</jstl:otherwise>
+</jstl:choose>

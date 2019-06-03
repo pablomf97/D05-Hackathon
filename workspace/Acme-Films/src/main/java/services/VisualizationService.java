@@ -69,6 +69,7 @@ public class VisualizationService {
 		Assert.notNull(visualization.getPrice());
 		Assert.notNull(visualization.getLink());
 		Assert.notNull(visualization.getFilm());
+		Assert.isTrue(!visualization.getFilm().getIsDraft());
 		
 		result = this.visualizationRepository.save(visualization);
 
