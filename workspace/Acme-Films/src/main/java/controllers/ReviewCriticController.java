@@ -2,7 +2,7 @@ package controllers;
 
 import java.util.Collection;
 
-import javax.validation.Valid;
+import javax.validation.ValidationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -54,65 +54,114 @@ public class ReviewCriticController extends AbstractController {
 		return result;
 	}
 
-	@RequestMapping(value = "/create", method = RequestMethod.POST, params = "saveDraft")
+	@RequestMapping(value = "/create", method = RequestMethod.POST, params = "saveDraft2")
+	public ModelAndView saveDraft2(Review review, BindingResult binding) {
+		ModelAndView result;
+		boolean finalMode = false;
+		Boolean accepted = null;
+
+		try {
+			review = this.reviewService.reconstruct(review, binding);
+
+			this.reviewService.save(review, finalMode, accepted);
+			// TODO: redirect
+			result = new ModelAndView("redirect:listAll.do");
+		}catch(ValidationException oops){
+			result = this.createEditModelAndView(review);
+		} catch (Throwable oops) {
+			result = this.createEditModelAndView(review, "Commir error");
+		}
+
+
+		return result;
+
+	}
+
+
+	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "saveDraft")
 	public ModelAndView saveDraft(Review review, BindingResult binding) {
 		ModelAndView result;
 		boolean finalMode = false;
 		Boolean accepted = null;
-		
-		Review validReview = this.reviewService.reconstruct(review, binding);
-		
-		if (binding.hasErrors()) {
-			result = this.createEditModelAndView(validReview,
-					binding.getNestedPath());
-		} else {
-			try {
-				this.reviewService.save(validReview, finalMode, accepted);
-				// TODO: redirect
-				result = new ModelAndView("redirect:listAll.do");
-			} catch (Throwable oops) {
-				result = this.createEditModelAndView(validReview, "Commir error");
-			}
+
+
+		try {
+			review = this.reviewService.reconstruct(review, binding);
+
+			this.reviewService.save(review, finalMode, accepted);
+			// TODO: redirect
+			result = new ModelAndView("redirect:listAll.do");
+		}catch(ValidationException oops){
+			result = this.createEditModelAndView(review);
+		} catch (Throwable oops) {
+			result = this.createEditModelAndView(review, "Commit error");
+		}
+
+		return result;
+	}
+
+
+	@RequestMapping(value = "/create", method = RequestMethod.POST, params = "saveFinal2")
+	public ModelAndView saveFinal2(Review review, BindingResult binding) {
+		ModelAndView result;
+		boolean finalMode = true;
+		Boolean accepted = null;
+
+
+		try {
+
+			review = this.reviewService.reconstruct(review, binding);
+
+			this.reviewService.save(review, finalMode, accepted);
+			// TODO: redirect
+			result = new ModelAndView("redirect:listAll.do");
+		}catch(ValidationException oops){
+			result = this.createEditModelAndView(review);
+		} catch (Throwable oops) {
+			result = this.createEditModelAndView(review, "Commit error");
+
 		}
 		return result;
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "saveFinal")
-	public ModelAndView saveFinal(@Valid Review review, BindingResult binding) {
+	public ModelAndView saveFinal(Review review, BindingResult binding) {
 		ModelAndView result;
 		boolean finalMode = true;
 		Boolean accepted = null;
-		if (binding.hasErrors()) {
-			result = this.createEditModelAndView(review,
-					binding.getNestedPath());
-		} else {
-			try {
-				this.reviewService.save(review, finalMode, accepted);
-				// TODO: redirect
-				result = new ModelAndView("redirect:");
-			} catch (Throwable oops) {
-				result = this.createEditModelAndView(review, "Commir error");
-			}
+
+		try {
+			review = this.reviewService.reconstruct(review, binding);
+
+			this.reviewService.save(review, finalMode, accepted);
+			// TODO: redirect
+			result = new ModelAndView("redirect:listAll.do");
+		}catch(ValidationException oops){
+			result = this.createEditModelAndView(review);
+		} catch (Throwable oops) {
+			result = this.createEditModelAndView(review, "Commit error");
 		}
+
 		return result;
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "delete")
-	public ModelAndView delete(@Valid Review review, BindingResult binding) {
+	public ModelAndView delete(Review review, BindingResult binding) {
 		ModelAndView result;
 
-		if (binding.hasErrors()) {
-			result = this.createEditModelAndView(review,
-					binding.getNestedPath());
-		} else {
-			try {
-				this.reviewService.delete(review);
-				// TODO: redirect
-				result = new ModelAndView("redirect:");
-			} catch (Throwable oops) {
-				result = this.createEditModelAndView(review, "Commir error");
-			}
+
+		try {
+			review = this.reviewService.reconstruct(review, binding);
+
+			this.reviewService.delete(review);
+			// TODO: redirect
+			result = new ModelAndView("redirect:listAll.do");
+		}catch(ValidationException oops){
+			result = this.createEditModelAndView(review);
+		} catch (Throwable oops) {
+			result = this.createEditModelAndView(review, "Commir error");
 		}
+
 		return result;
 	}
 
@@ -141,7 +190,7 @@ public class ReviewCriticController extends AbstractController {
 		ModelAndView result;
 		Review review = this.reviewService.findOne(reviewId);
 		boolean possible = false;
-		
+
 		Actor principal = this.actorService.findByPrincipal();
 
 		if (review.getCritic().getId() == principal.getId()) {
@@ -169,6 +218,8 @@ public class ReviewCriticController extends AbstractController {
 		Collection<Film> finalFilms = this.reviewService.getFinalFilms();
 		boolean possible = false;
 		Actor principal = this.actorService.findByPrincipal();
+
+		review.setCritic((Critic)principal);
 
 		if (review.getCritic().equals((Critic) principal)) {
 			possible = true;

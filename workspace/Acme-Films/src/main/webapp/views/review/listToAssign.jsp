@@ -12,6 +12,7 @@
 <security:authorize access="hasRole('MODERATOR')">
 	<!-- Listing grid -->
 	<jstl:if test="${possible}">
+
 		<display:table pagesize="5" class="displaytag" name="reviews"
 			requestURI="review/moderator/listToAssign.do" id="row">
 
@@ -44,27 +45,24 @@
 				<jstl:out value="${row.isDraft}"></jstl:out>
 			</display:column>
 
-			<jstl:if test="${row.moderator != null}">
-
-				<display:column titleKey="review.moderator" sortable="true">
-					<jstl:out value="${row.moderator.userAccount.username}"></jstl:out>
-				</display:column>
-			</jstl:if>
 			<display:column>
-				<a href="review/critic/display.do?reviewId=${row.id}"> <spring:message
+				<a href="review/moderator/display.do?reviewId=${row.id}"> <spring:message
 						code="review.display" />
 				</a>
 			</display:column>
 
-			<jstl:if test="${row.isDraft == true}">
-				<display:column>
-					<a href="review/critic/edit.do?reviewId=${row.id}"> <spring:message
-							code="review.edit" />
-					</a>
-				</display:column>
-			</jstl:if>
+
+			<display:column>
+				<a href="review/moderator/assign.do?reviewId=${row.id}"> <spring:message
+						code="review.assign" />
+				</a>
+			</display:column>
+
+
+
 
 		</display:table>
+
 
 
 	</jstl:if>

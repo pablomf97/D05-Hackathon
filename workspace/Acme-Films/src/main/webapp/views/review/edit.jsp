@@ -43,10 +43,10 @@
 			<br />
 
 
-			<acme:submit name="saveFinal" code="review.saveFinal" />
+			<acme:submit name="saveFinal2" code="review.saveFinal" />
 			
 
-			<acme:submit name="saveDraft" code="review.saveDraft" />
+			<acme:submit name="saveDraft2" code="review.saveDraft" />
 			
 
 			<acme:cancel url="review/critic/listAll.do" code="review.cancel" />
@@ -54,11 +54,13 @@
 
 
 		</form:form>
+		
+		
 	</jstl:if>
 
 	<jstl:if test="${possible && review.id!=0 && review.isDraft}">
-		<form:form action="review/critic/edit.do?reviewId=${review.id}"
-			modelAttribute="review">
+			<form:form action="review/critic/edit.do?reviewId=${review.id}"
+				modelAttribute="review">
 
 			<form:hidden path="id" />
 
@@ -102,4 +104,22 @@
 		</h4>
 	</jstl:if>
 
+</security:authorize>
+
+<security:authorize access="hasRole('MODERATOR')">
+	<form:form action="review/moderator/reject.do" modelAttribute="review">
+
+			<form:hidden path="id"/>
+			
+			<acme:textarea code="review.rejectReason" path="rejectReason" />
+			<br>
+			<br>
+
+
+			<acme:cancel url="review/moderator/listMyReviews.do" code="review.cancel" />
+
+
+			<acme:submit name="reject" code="review.reject"/>
+		</form:form>
+	
 </security:authorize>

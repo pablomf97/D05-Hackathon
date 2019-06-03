@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.Date;
 
 import javax.transaction.Transactional;
+import javax.validation.ValidationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -52,7 +53,8 @@ public class CommentService {
 
 		Assert.isTrue(principal.getId() == comment.getFilmEnthusiast().getId());
 		Assert.isTrue(comment.getId() == 0);
-
+	
+		Assert.isTrue((comment.getFilm() != null) || (comment.getForum()!= null), "Need select one at least.");
 		comment.setPublishedMoment(new Date(System.currentTimeMillis() - 1));
 
 
@@ -92,7 +94,12 @@ public class CommentService {
 			
 		}
 		
+		
 		this.validator.validate(comment, binding);
+		
+		if(binding.hasErrors()){
+			throw new ValidationException();
+		}
 		
 		return comment;
 	}

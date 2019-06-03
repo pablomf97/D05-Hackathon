@@ -17,6 +17,31 @@
 
 			<!-- Attributes-->
 
+
+			<jstl:if test="${row.status == 'PENDING'}">
+				<display:column>
+					<a href="review/moderator/accept.do?reviewId=${row.id}"> <spring:message
+							code="review.accept" />
+					</a>
+				</display:column>
+
+				<display:column>
+					<a href="review/moderator/reject.do?reviewId=${row.id}"> <spring:message
+							code="review.reject" />
+					</a>
+				</display:column>
+			</jstl:if>
+			
+			<jstl:if test="${row.status != 'PENDING'}">
+				<display:column>
+					
+				</display:column>
+
+				<display:column>
+					
+				</display:column>
+			</jstl:if>
+
 			<display:column titleKey="review.title" sortable="true">
 				<jstl:out value="${row.title }"></jstl:out>
 			</display:column>
@@ -43,25 +68,20 @@
 				<jstl:out value="${row.isDraft}"></jstl:out>
 			</display:column>
 
-			<jstl:if test="${row.moderator != null}">
+			<display:column titleKey="review.moderator">
+				<jstl:out value="${row.moderator.userAccount.username}"></jstl:out>
+			</display:column>
 
-				<display:column titleKey="review.moderator" sortable="true">
-					<jstl:out value="${row.moderator.userAccount.username}"></jstl:out>
-				</display:column>
-			</jstl:if>
+
 			<display:column>
-				<a href="review/critic/display.do?reviewId=${row.id}"> <spring:message
+				<a href="review/moderator/display.do?reviewId=${row.id}"> <spring:message
 						code="review.display" />
 				</a>
 			</display:column>
 
-			<jstl:if test="${row.isDraft == true}">
-				<display:column>
-					<a href="review/critic/edit.do?reviewId=${row.id}"> <spring:message
-							code="review.edit" />
-					</a>
-				</display:column>
-			</jstl:if>
+
+
+
 
 		</display:table>
 		<jstl:if test="${!possible}">

@@ -2,6 +2,8 @@ package controllers;
 
 import java.util.Collection;
 
+import javax.validation.ValidationException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -45,7 +47,7 @@ public class CommentController extends AbstractController {
 				.findByPrincipal();
 		Collection<Film> films = this.filmService.findAll();
 		Collection<Forum> forums = this.forumService.findAll();
-		
+
 		Comment comment = this.commentService.create();
 
 		boolean possible = false;
@@ -58,49 +60,53 @@ public class CommentController extends AbstractController {
 		result.addObject("films", films);
 		result.addObject("comment", comment);
 		result.addObject("forums",forums);
-		
+
 		return result;
 
 	}
 
-	
+
 
 	// POST METHODS
 
 	@RequestMapping(value = "/createFilm", method = RequestMethod.POST, params = "save")
-	public ModelAndView saveFilm(final Comment comment,
+	public ModelAndView saveFilm(Comment comment,
 			final BindingResult binding) {
 		ModelAndView result;
-	
-		Comment validComment = this.commentService.reconstruct(comment, binding);
-		
-		if (binding.hasErrors()) {
-			result = new ModelAndView("comment/createFilm");
-			
-			result.addObject("error", "comment.binding.error");
-		} else {
-			try {
-				this.commentService.save(validComment);
-				result = new ModelAndView("redirect:/comment/filmEnthusiast/list.do");
-			} catch (Throwable oops) {
-				result = new ModelAndView("comment/createFilm");
 
-				result.addObject("error", "comment.commit.error");
-			}
+		Collection<Film> films = this.filmService.findAll();
+		Collection<Forum> forums = this.forumService.findAll();
+
+		try {
+			comment = this.commentService.reconstruct(comment, binding);
+			this.commentService.save(comment);
+			result = new ModelAndView("redirect:/comment/filmEnthusiast/list.do");
+		}catch(ValidationException oops){
+			result = new ModelAndView("comment/createFilm");
+			result.addObject("comment", comment);
+			result.addObject("possible", true);
+			result.addObject("films", films);
+			result.addObject("forums",forums);
+		} catch (Throwable oops) {
+			result = new ModelAndView("comment/createFilm");
+			result.addObject("comment", comment);
+			result.addObject("error", oops.getMessage());
+			result.addObject("possible", false);
 		}
+
 
 		return result;
 	}
-	
+
 	@RequestMapping(value="/list")
 	public ModelAndView list(){
 		ModelAndView result;
-		
-		
-		
+
+
+
 		FilmEnthusiast principal = (FilmEnthusiast) this.actorService
 				.findByPrincipal();
-		
+
 		Collection<Comment> comments = this.commentService.getCommentsByOwner(principal.getId());
 
 		boolean possible = false;
@@ -110,15 +116,15 @@ public class CommentController extends AbstractController {
 				break;
 			}
 		}
-		
+
 
 		result = new ModelAndView("comment/list");
-		
+
 		result.addObject("comments", comments);
 		result.addObject("possible", possible);
-		
+
 		return result;
-		
+
 	}
 
 
@@ -126,9 +132,9 @@ public class CommentController extends AbstractController {
 	public ModelAndView delete(final Comment comment,
 			final BindingResult binding) {
 		ModelAndView result;
-		
+
 		Comment validComment = this.commentService.reconstruct(comment, binding);
-		
+
 		if (binding.hasErrors()) {
 			result = new ModelAndView("comment/display");
 
@@ -146,7 +152,7 @@ public class CommentController extends AbstractController {
 
 		return result;
 	}
-	
+
 	@RequestMapping(value = "/display", method = RequestMethod.GET)
 	public ModelAndView display(@RequestParam final int id) {
 		ModelAndView result;
@@ -162,9 +168,9 @@ public class CommentController extends AbstractController {
 		result = new ModelAndView("comment/display");
 		result.addObject("comment", comment);
 		result.addObject("possible", possible);
-		
+
 		return result;
 	}
-	
+
 
 }

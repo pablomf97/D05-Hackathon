@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.Date;
 
 import javax.transaction.Transactional;
+import javax.validation.ValidationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -118,7 +119,7 @@ public class ReviewService {
 	public Review save(final Review review, boolean finalMode, Boolean accepted) {
 		Review result = new Review();
 		Actor principal = this.actorService.findByPrincipal();
-
+		
 		Assert.notNull(principal);
 
 		if (!(finalMode)) {
@@ -143,7 +144,7 @@ public class ReviewService {
 					Review reviewBD = this.findOne(review.getId());
 
 					Assert.isTrue(review.getFilm() != null);
-					Assert.isTrue(review.getFilm().getIsDraft() == true,
+					Assert.isTrue(review.getFilm().getIsDraft() == false,
 							"Not final film");
 					Assert.isTrue(review.getFilm().equals(reviewBD.getFilm()),
 							"Wrong film");
@@ -248,35 +249,66 @@ public class ReviewService {
 	}
 
 	public Review reconstruct(final Review review, final BindingResult binding) {
-		Review result = this.create();
+		Actor principal = this.actorService.findByPrincipal();
+		Review result;
+		if(this.actorService.checkAuthority(principal, "CRITIC")){
+			result = this.create();
 
-		if (review.getId() == 0) {
-			
-			result.setFilm(review.getFilm());
-			result.setBody(review.getBody());
-			result.setRating(review.getRating());
-			result.setTitle(review.getTitle());
-			
+			if (review.getId() == 0) {
 
-		} else {
-			final Review orig = this.findOne(review.getId());
-			result.setBody(orig.getBody());
-			result.setCritic(orig.getCritic());
-			result.setModerator(orig.getModerator());
-			result.setFilm(orig.getFilm());
-			result.setCreationDate(orig.getCreationDate());
-			result.setId(orig.getId());
-			result.setIsDraft(orig.getIsDraft());
-			result.setRating(orig.getRating());
-			result.setRejectReason(orig.getRejectReason());
-			result.setTitle(orig.getTitle());
+				result.setFilm(review.getFilm());
+				result.setBody(review.getBody());
+				result.setRating(review.getRating());
+				result.setTitle(review.getTitle());
 
+
+			} else {
+				final Review orig = this.findOne(review.getId());
+
+				review.setCritic(orig.getCritic());
+				review.setModerator(orig.getModerator());
+				review.setFilm(orig.getFilm());
+				review.setCreationDate(orig.getCreationDate());
+				review.setIsDraft(orig.getIsDraft());
+				review.setRating(orig.getRating());
+				review.setRejectReason(orig.getRejectReason());
+				review.setStatus(orig.getStatus());
+
+				result = review;
+
+			}
+		}else{
+			result = new Review();
+
+			Review bd = this.findOne(review.getId());
+
+			bd.setRejectReason(review.getRejectReason());
+
+			result = bd;
 		}
 
+
+
+
 		this.validator.validate(result, binding);
+		
+		if(binding.hasErrors()){
+			throw new ValidationException();
+		}
 
 		return result;
 	}
+
+	public Review reconstructModerator(int reviewId,BindingResult binding){
+
+		Review bd = this.findOne(reviewId);
+
+		this.validator.validate(bd, binding);
+
+		return bd;
+	}
+
+
 
 	public Collection<Film> getFinalFilms() {
 
@@ -314,23 +346,23 @@ public class ReviewService {
 	}
 	public void deleteReviewsCritics(int id){
 		this.reviewRepository.deleteInBatch(this.reviewRepository.getReviewsByCritic(id));
-		
+
 	}
 
 	public void deleteReviewPerModerator(int id) {
-		
+
 		this.reviewRepository.deleteInBatch(this.reviewRepository.reviewPerModerator(id));
-		
+
 	}
 
 
 	public Collection<Review> getReviewsByFilm(int filmId){
 		Collection<Review> result = this.reviewRepository.getReviewsByFilm(filmId);
-		
+
 		return result;
 	}
 	public void deleteReviewPerFilm(int id) {
-		
+
 		this.reviewRepository.deleteInBatch(this.reviewRepository.reviewPerFilm(id));
 
 	}

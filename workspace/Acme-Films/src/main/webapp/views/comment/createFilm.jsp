@@ -55,20 +55,26 @@
 			<acme:submit name="save" code="comment.save" />
 
 			<acme:cancel url="../" code="comment.back" />
+
+
 		</form:form>
+
+
 	</jstl:if>
 
 	<jstl:if test="${possible == false && comment.id!=0}">
 		<spring:message code="comment.nopermission" var="permission"></spring:message>
-		
+
 		<strong><jstl:out value="${permission}">
 			</jstl:out></strong>
 	</jstl:if>
-</security:authorize>
-<jstl:if test="${error != null}">
-	<spring:message code="comment.binding.error" var="binding">
 
-	</spring:message>
-	<strong><jstl:out value="${binding}">
-		</jstl:out></strong>
-</jstl:if>
+	<jstl:if test="${possible == false && comment.id ==0}">
+		
+
+			<strong><jstl:out value="${error}"></jstl:out></strong>
+		
+	</jstl:if>
+	
+</security:authorize>
+

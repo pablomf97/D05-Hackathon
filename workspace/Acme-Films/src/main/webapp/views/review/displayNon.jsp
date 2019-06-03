@@ -74,7 +74,7 @@
 
 	</table>
 
-	<acme:cancel url="review/critic/listAll.do" code="review.cancel" />
+	<acme:cancel url="review/listByFilm.do?filmId=${review.film.id}" code="review.cancel" />
 
 
 </jstl:if>

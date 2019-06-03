@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Date;
 
 import javax.validation.Valid;
+import javax.validation.ValidationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -84,23 +85,24 @@ public class MessageController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(final Message mensaje, final BindingResult binding) {
+	public ModelAndView save(Message mensaje, final BindingResult binding) {
 		ModelAndView result;
-		Message m;
 
-		m = this.messageService.reconstruct(mensaje, binding);
 
-		if(binding.hasErrors()){
-			result = this.createEditModelAndView(m);
-		}else{
-			try {
-				this.messageService.save(m);
-				result = new ModelAndView("redirect:/messagebox/list.do");
-			} catch (final Throwable oops) {
-				result = this.createEditModelAndView(m,
-						"message.commit.error");
-			}
+
+		try {
+
+			mensaje = this.messageService.reconstruct(mensaje, binding);
+
+			this.messageService.save(mensaje);
+			result = new ModelAndView("redirect:/messagebox/list.do");
+		}catch(final ValidationException oops){
+			result = this.createEditModelAndView(mensaje,"message.error.binding");
+		} catch (final Throwable oops) {
+			result = this.createEditModelAndView(mensaje,
+					"message.commit.error");
 		}
+
 
 		return result;
 
@@ -172,12 +174,12 @@ public class MessageController extends AbstractController {
 	protected ModelAndView createEditModelAndView(final Message mensaje,
 			final String messageError) {
 		ModelAndView result;
-		Collection<MessageBox> boxes, messageBoxes;
+		Collection<MessageBox> boxes, messageBoxes = null;
 		Collection<Message> messages;
-		Actor sender;
+		Actor sender = null;
 		boolean possible = false;
 		Actor principal;
-		Date sentMoment;
+		Date sentMoment = null;
 		Collection<Actor> recipients;
 
 		String[] priorities;
@@ -205,7 +207,7 @@ public class MessageController extends AbstractController {
 			}
 
 			if(!possible){
-				
+
 				for(final MessageBox m : this.messageBoxService.findByOwner(mensaje.getReceiver().getId())){
 					if (m.getMessages().contains(mensaje)
 							&& mensaje.getReceiver().equals(principal)){
@@ -217,14 +219,22 @@ public class MessageController extends AbstractController {
 			}
 
 		} else {
-			if (mensaje.getSender().equals(principal)) {
+			if(mensaje.getSender()!=null){
+				if (mensaje.getSender().equals(principal)) {
+					possible = true;
+				}
+			}else{
 				possible = true;
 			}
+
 		}
 
-		sentMoment = mensaje.getSendMoment();
-		messageBoxes = mensaje.getMessageBoxes();
-		sender = mensaje.getSender();
+		if((mensaje.getSendMoment()!= null) && (!mensaje.getMessageBoxes().isEmpty()) && (mensaje.getSender()!=null)){
+			sentMoment = mensaje.getSendMoment();
+			messageBoxes = mensaje.getMessageBoxes();
+			sender = mensaje.getSender();
+		}
+
 
 		recipients = this.actorService.findAllExceptPrincipal();
 
@@ -241,7 +251,15 @@ public class MessageController extends AbstractController {
 		priorities2.add("HIGH");
 		priorities2.add("NEUTRAL");
 		priorities2.add("LOW");
-
+		
+		boolean binding = false;
+		
+		if(messageError != null){
+			if(messageError.equals("message.error.binding")){
+				 binding = true;
+			}
+		}
+		
 		result = new ModelAndView("message/edit");
 		result.addObject("sentMoment", sentMoment);
 		result.addObject("messageBoxes", messageBoxes);
@@ -253,7 +271,7 @@ public class MessageController extends AbstractController {
 		result.addObject("broadcast", false);
 		result.addObject("message", messageError);
 		result.addObject("recipients", recipients);
-
+		result.addObject("isBinding", binding);
 		result.addObject("priorities", priorities2);
 
 		return result;

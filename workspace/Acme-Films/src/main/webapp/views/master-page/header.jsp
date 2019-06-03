@@ -68,11 +68,11 @@
 			<li><a class="fNiv"><spring:message
 						code="master.page.comments" /></a>
 				<ul>
-					
+
 					<li><a href="comment/filmEnthusiast/list.do"><spring:message
 								code="master.page.comment.list" /></a></li>
 
-					
+
 					<li><a href="comment/filmEnthusiast/createFilm.do"><spring:message
 								code="master.page.comment.create" /></a></li>
 
@@ -80,6 +80,44 @@
 
 
 		</security:authorize>
+
+		<security:authorize access="hasRole('CRITIC')">
+
+			<li><a class="fNiv"><spring:message
+						code="master.page.reviews" /></a>
+				<ul>
+
+					<li><a href="review/critic/listAll.do"><spring:message
+								code="master.page.review.listAll" /></a></li>
+
+
+					<li><a href="review/critic/create.do"><spring:message
+								code="master.page.review.create" /></a></li>
+
+				</ul></li>
+
+
+		</security:authorize>
+
+		<security:authorize access="hasRole('MODERATOR')">
+
+			<li><a class="fNiv"><spring:message
+						code="master.page.reviews" /></a>
+				<ul>
+
+					<li><a href="review/moderator/listToAssign.do"><spring:message
+								code="master.page.review.listToAssign" /></a></li>
+
+					<li><a href="review/moderator/listMyReviews.do"><spring:message
+								code="master.page.review.listMyReviews" /></a></li>
+
+
+
+				</ul></li>
+
+
+		</security:authorize>
+
 
 		<security:authorize access="isAnonymous()">
 			<!-- Sign up -->
@@ -127,7 +165,7 @@
 									code="actor.view" /></a></li>
 						<li><a href="moderator/moderator/edit.do"><spring:message
 									code="master.page.actor.edit" /></a></li>
-									<li><a href="moderator/export.do"><spring:message
+						<li><a href="moderator/export.do"><spring:message
 									code="export" /></a></li>
 					</security:authorize>
 
@@ -136,7 +174,7 @@
 									code="actor.view" /></a></li>
 						<li><a href="sponsor/sponsor/edit.do"><spring:message
 									code="master.page.actor.edit" /></a></li>
-									<li><a href="sponsor/export.do"><spring:message
+						<li><a href="sponsor/export.do"><spring:message
 									code="export" /></a></li>
 					</security:authorize>
 
@@ -150,7 +188,7 @@
 
 
 
-									<li><a href="filmEnthusiast/export.do"><spring:message
+						<li><a href="filmEnthusiast/export.do"><spring:message
 									code="export" /></a></li>
 
 					</security:authorize>
@@ -160,7 +198,7 @@
 									code="actor.view" /></a></li>
 						<li><a href="critic/critic/edit.do"><spring:message
 									code="master.page.actor.edit" /></a></li>
-									<li><a href="critic/export.do"><spring:message
+						<li><a href="critic/export.do"><spring:message
 									code="export" /></a></li>
 					</security:authorize>
 

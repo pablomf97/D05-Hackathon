@@ -9,8 +9,8 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
-<jstl:if test="${possible == true && mensaje.id==0 && (!broadcast)}">
-	<jstl:if test="${(mensaje.id == 0) && (!broadcast)}">
+<jstl:if test="${possible == true and (!broadcast)}">
+	<jstl:if test="${(mensaje.id == 0)}">
 		<form:form action="message/actor/edit.do" modelAttribute="mensaje">
 
 			<form:label path="receiver">
@@ -26,16 +26,21 @@
 			<br />
 
 
-			<acme:textbox code="message.subject" path="subject"/><br><br>
-			
-			<spring:message code="message.body" /><br />
-			<form:textarea code="message.body" path="body"/><br><br>
+			<acme:textbox code="message.subject" path="subject" />
+			<br>
+			<br>
+
+			<spring:message code="message.body" />
+			<br />
+			<form:textarea code="message.body" path="body" />
+			<br>
+			<br>
 
 
 			<form:label path="priority">
 				<spring:message code="message.priority" />:
 	</form:label>
-			<form:select path="priority" >
+			<form:select path="priority">
 				<form:options items="${priorities}" />
 			</form:select>
 			<form:errors cssClass="error" path="priority" />
@@ -53,13 +58,8 @@
 			<br />
 		</form:form>
 	</jstl:if>
-</jstl:if>
 
-<jstl:if test="${possible}">
-
-
-
-	<jstl:if test="${mensaje.id != 0 && !(broadcast)}">
+	<jstl:if test="${mensaje.id != 0}">
 		<form:form action="message/actor/edit.do" modelAttribute="mensaje">
 
 			<form:hidden path="id" />
@@ -86,6 +86,12 @@
 		</form:form>
 
 	</jstl:if>
-
-
 </jstl:if>
+
+<jstl:if test="${!possible}">
+
+	<spring:message code="message.nopermission" var="permission"></spring:message>
+	<strong><jstl:out value="${permission}">
+		</jstl:out></strong>
+</jstl:if>
+

@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Date;
 
 import javax.transaction.Transactional;
+import javax.validation.ValidationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -60,6 +61,12 @@ public class MessageService {
 		Actor principal = this.actorService.findByPrincipal();
 		MessageBox inSpamBox = null;
 
+		Assert.notNull(message.getBody());
+		Assert.notNull(message.getSubject());
+		Assert.notNull(message.getBody());
+		Assert.notNull(message.getPriority());
+		Assert.notNull(message.getReceiver());
+		
 		// Checking sender is the principal
 		Assert.isTrue(message.getSender().getId() == principal.getId(),
 				"Not your message");
@@ -150,7 +157,7 @@ public class MessageService {
 		Actor principal;
 		MessageBox trashBoxPrincipal;
 		Collection<Message> messagesTrashBox;
-		Message bd  = this.findOne(message.getId());
+		
 		
 		principal = this.actorService.findByPrincipal();
 		Assert.notNull(principal);
@@ -402,6 +409,10 @@ public class MessageService {
 
 			this.validator.validate(result, binding);
 
+		}
+		
+		if(binding.hasErrors()){
+			throw new ValidationException();
 		}
 		return result;
 	}
