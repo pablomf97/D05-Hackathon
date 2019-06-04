@@ -98,7 +98,7 @@
 	<!-- Request -->
 	<security:authorize access="hasRole('FILMENTHUSIAST')">
 		<jstl:if
-			test="${not contains and not(actor.userAccount.username eq group.creator.userAccount.username)}">
+			test="${not contains2 and not(actor.userAccount.username eq group.creator.userAccount.username)}">
 			<a href="group/filmenthusiast/request.do?Id=${group.id}"> <spring:message
 					code="group.request" />
 			</a>
