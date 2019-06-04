@@ -3,9 +3,9 @@ package services;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
-import java.util.HashSet;
+
 import java.util.List;
-import java.util.Set;
+
 
 import javax.transaction.Transactional;
 
@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 
+import org.apache.commons.lang.time.DateUtils;
 import domain.Actor;
 import domain.Film;
 import domain.FilmEnthusiast;
@@ -25,7 +26,7 @@ import repositories.FinderRepository;
 @Transactional
 @Service
 public class FinderService {
-	
+
 
 	// Managed repository ------------------------------
 	@Autowired
@@ -35,12 +36,11 @@ public class FinderService {
 	@Autowired
 	private ActorService actorService;
 
-/*
+	
 	@Autowired
 	private SystemConfigurationService systemConfigurationService;
+	 
 
-*/
-	
 	// Constructors
 	public FinderService() {
 		super();
@@ -79,7 +79,7 @@ public class FinderService {
 		return result;
 
 	}
-	
+
 	public Finder save(Finder finder){
 		Finder result;
 
@@ -89,8 +89,8 @@ public class FinderService {
 
 		principal = (FilmEnthusiast)this.actorService.findByPrincipal();
 		Assert.isTrue(
-		this.actorService.checkAuthority(principal, "FILMENTHUSIAST"),
-			"not.allowed");
+				this.actorService.checkAuthority(principal, "FILMENTHUSIAST"),
+				"not.allowed");
 		Assert.isTrue(principal.getFinder().equals(finder),"not.allowed");
 		Assert.notNull(finder, "not.allowed");
 
@@ -100,7 +100,7 @@ public class FinderService {
 
 		return result;
 	}
-	
+
 	public void delete(Finder finder){
 		FilmEnthusiast principal;
 
@@ -115,7 +115,7 @@ public class FinderService {
 		finder.setKeyWord(null);
 		finder.setMaximumDuration(null);
 		finder.setMinimumRating(null);
-		finder.setSearchMoment(null);//Watch out!
+		finder.setSearchMoment(null);
 		finder.setMaximumRating(null);
 
 		this.finderRepository.save(finder);
@@ -123,103 +123,110 @@ public class FinderService {
 
 	//Ancillary methods
 
-		public void deleteExpiredFinder(Finder finder){
-			Date maxLivedMoment = new Date();
-			int timeChachedFind;
-			Date currentMoment;
-			currentMoment = new Date(System.currentTimeMillis() - 1);
+	public void deleteExpiredFinder(Finder finder){
+		Date maxLivedMoment = new Date();
+		int timeChachedFind;
+		Date currentMoment;
+		currentMoment = new Date(System.currentTimeMillis() - 1);
 
-/*			timeChachedFind = this.systemConfigurationService
+				timeChachedFind = this.systemConfigurationService
 					.findMySystemConfiguration().getTimeResultsCached();
 			maxLivedMoment = DateUtils.addHours(currentMoment, -timeChachedFind);
-			*/if (finder.getSearchMoment().before(maxLivedMoment)) {
+		 if (finder.getSearchMoment().before(maxLivedMoment)) {
 
-				finder.setResults(null);
-				finder.setKeyWord(null);
-				finder.setMaximumDuration(null);
-				finder.setMinimumRating(null);
-				finder.setSearchMoment(null);//Watch out!
-				finder.setMaximumRating(null);
+			 finder.setResults(null);
+			 finder.setKeyWord(null);
+			 finder.setMaximumDuration(null);
+			 finder.setMinimumRating(null);
+			 finder.setSearchMoment(null);
+			 finder.setMaximumRating(null);
 
-				this.finderRepository.save(finder);
-
-
-			}
-		}
-		public Collection<Film> search(Finder finder){
-
-			Collection<Film> results=new ArrayList<Film>();
-			String keyWord;
-			Double maximumDuration;
-			Double minimumRating;
-			Double maximumRating;
-			int nResults;
-			
-
-			Collection<Film> resultsPageables = new ArrayList<Film>();
-
-			nResults =10; //this.systemConfigurationService.findMySystemConfiguration()
-				//	.getMaxResults();
-			keyWord = (finder.getKeyWord() == null || finder.getKeyWord().isEmpty()) ? ""
-					: finder.getKeyWord();
-
-			minimumRating=(finder.getMinimumRating() == null ) ? 0.0
-					: finder.getMinimumRating();
-			maximumRating=(finder.getMaximumRating() == null ) ? 10.0
-					: finder.getMaximumRating();
-			maximumDuration=(finder.getMaximumDuration() == null ) ? 1000.0
-					: finder.getMaximumDuration();
+			 this.finderRepository.save(finder);
 
 
-		
+		 }
+	}
+	public Collection<Film> search(Finder finder){
 
-			if((finder.getKeyWord()==null||finder.getKeyWord().isEmpty())&& 
-					finder.getMinimumRating()==null&&
-					finder.getMaximumRating()==null&& 
-					finder.getMaximumDuration()==null){
-				results=this.allFilmsFinal();
-			}else{
-				
-					
-					results=this.finderRepository.search(keyWord, maximumDuration, minimumRating, maximumRating);
-					List<Film> r = new ArrayList<Film>();
-					r.addAll(this.finderRepository.searchV(keyWord, maximumDuration, minimumRating, maximumRating));
-					
-					Set <Film> s=new HashSet<Film>(r);
-					for(Film f :s){
+		Collection<Film> results=new ArrayList<Film>();
+		String keyWord;
+		Integer maximumDuration;
+		Double minimumRating;
+		Double maximumRating;
+		int nResults;
+
+
+		Collection<Film> resultsPageables = new ArrayList<Film>();
+
+		nResults =this.systemConfigurationService.findMySystemConfiguration()
+			.getMaxResults();
+		keyWord = (finder.getKeyWord() == null || finder.getKeyWord().isEmpty()) ? ""
+				: finder.getKeyWord();
+
+		minimumRating=(finder.getMinimumRating() == null ) ? 0.0
+				: finder.getMinimumRating();
+		maximumRating=(finder.getMaximumRating() == null ) ? 10.0
+				: finder.getMaximumRating();
+		maximumDuration=(finder.getMaximumDuration() == null ) ? 1000
+				: finder.getMaximumDuration();
+
+
+
+
+		if((finder.getKeyWord()==null||finder.getKeyWord().isEmpty())&& 
+				finder.getMinimumRating()==null&&
+				finder.getMaximumRating()==null&& 
+				finder.getMaximumDuration()==null){
+			results=this.allFilmsFinal();
+		}else{
+
+
+			results=this.finderRepository.search(keyWord, maximumDuration, minimumRating, maximumRating);
+			List<Film> r = new ArrayList<Film>();
+			if(keyWord != ""){
+				r.addAll(this.finderRepository.searchV(keyWord, maximumDuration, minimumRating, maximumRating));
+
+
+				for(Film f :r){
+
+					if(!results.contains(f)){
 						results.add(f);
+
 					}
-				
-				
-			}
-			
 
-			int count=0;
-
-			for(Film p : results){
-				resultsPageables.add(p);
-				count++;
-				if(count>=nResults){
-					break;
 				}
 			}
-			finder.setResults(resultsPageables);
 
 
-			this.save(finder);
-
-
-			return resultsPageables;
-			
 		}
 
-		public Collection<Film> allFilmsFinal(){
-			return this.finderRepository.allFilmsFinal();
+
+		int count=0;
+
+		for(Film p : results){
+			resultsPageables.add(p);
+			count++;
+			if(count>=nResults){
+				break;
+			}
 		}
-		
-		public Double RatioFindersEmpty(){
-			return this.finderRepository.RatioFindersEmpty();
-		}
+		finder.setResults(resultsPageables);
+
+
+		this.save(finder);
+
+
+		return resultsPageables;
+
+	}
+
+	public Collection<Film> allFilmsFinal(){
+		return this.finderRepository.allFilmsFinal();
+	}
+
+	public Double RatioFindersEmpty(){
+		return this.finderRepository.RatioFindersEmpty();
+	}
 	public Double[] StatsFinder(){
 		return this.finderRepository.StatsFinder();
 	}

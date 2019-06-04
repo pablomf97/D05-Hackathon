@@ -252,14 +252,15 @@ public class AdministratorController extends AbstractController {
 
 		administrator = this.administratorService.findOne(editionFormObject
 				.getId());
+		final int count = this.administratorService.findAll().size();
 
-		if (binding.hasErrors())
+		if (binding.hasErrors() || count < 2)
 			result = this.createEditModelAndView(editionFormObject,
 					"administrator.commit.error");
 		else
 			try {
 
-				this.administratorService.delete(administrator);
+				this.administratorService.deleteAdmin(administrator);
 				session.invalidate();
 				result = new ModelAndView("redirect:/welcome/index.do");
 			} catch (final Throwable oops) {
@@ -269,4 +270,5 @@ public class AdministratorController extends AbstractController {
 			}
 		return result;
 	}
+	
 }

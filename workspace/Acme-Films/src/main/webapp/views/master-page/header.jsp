@@ -37,6 +37,8 @@
 								code="master.page.register.admin" /></a></li>
 					<li><a href="administrator/statistics.do"><spring:message
 								code="master.page.dashboard" /></a></li>
+					<li><a href="message/administrator/broadcast.do"><spring:message
+								code="master.page.message.broadcast" /></a></li>
 
 				</ul></li>
 
@@ -65,6 +67,8 @@
 					<li><a href="saga/list.do"><spring:message
 								code="master.page.saga.list" /></a></li>
 				</ul></li>
+				
+			<security:authorize access="hasRole('MODERATOR')">
 
 			<li><a class="fNiv"><spring:message
 						code="master.page.position" /></a>
@@ -81,13 +85,22 @@
 								code="master.page.genre.list" /></a></li>
 				</ul></li>
 
+
+			<li><a class="fNiv"><spring:message code="master.page.saga" /></a>
+
+				
+			</security:authorize>
+
 			<li><a class="fNiv"><spring:message
 						code="master.page.person" /></a>
+
 				<ul>
 					<li class="arrow"></li>
 					<li><a href="person/list.do"><spring:message
 								code="master.page.person.list" /></a></li>
 				</ul></li>
+			
+			<security:authorize access="hasAnyRole('MODERATOR','SPONSOR')">
 
 			<li><a class="fNiv"><spring:message
 						code="master.page.sponsorship" /></a>
@@ -96,8 +109,66 @@
 					<li><a href="sponsorship/list.do"><spring:message
 								code="master.page.sponsorship.list" /></a></li>
 				</ul></li>
+				
+			</security:authorize>
 
 		</security:authorize>
+
+		<security:authorize access="hasRole('FILMENTHUSIAST')">
+
+			<li><a class="fNiv"><spring:message
+						code="master.page.comments" /></a>
+				<ul>
+
+					<li><a href="comment/filmEnthusiast/list.do"><spring:message
+								code="master.page.comment.list" /></a></li>
+
+
+					<li><a href="comment/filmEnthusiast/createFilm.do"><spring:message
+								code="master.page.comment.create" /></a></li>
+
+				</ul></li>
+
+
+		</security:authorize>
+
+		<security:authorize access="hasRole('CRITIC')">
+
+			<li><a class="fNiv"><spring:message
+						code="master.page.reviews" /></a>
+				<ul>
+
+					<li><a href="review/critic/listAll.do"><spring:message
+								code="master.page.review.listAll" /></a></li>
+
+
+					<li><a href="review/critic/create.do"><spring:message
+								code="master.page.review.create" /></a></li>
+
+				</ul></li>
+
+
+		</security:authorize>
+
+		<security:authorize access="hasRole('MODERATOR')">
+
+			<li><a class="fNiv"><spring:message
+						code="master.page.reviews" /></a>
+				<ul>
+
+					<li><a href="review/moderator/listToAssign.do"><spring:message
+								code="master.page.review.listToAssign" /></a></li>
+
+					<li><a href="review/moderator/listMyReviews.do"><spring:message
+								code="master.page.review.listMyReviews" /></a></li>
+
+
+
+				</ul></li>
+
+
+		</security:authorize>
+
 
 		<security:authorize access="isAnonymous()">
 			<!-- Sign up -->
@@ -145,6 +216,8 @@
 									code="actor.view" /></a></li>
 						<li><a href="moderator/moderator/edit.do"><spring:message
 									code="master.page.actor.edit" /></a></li>
+						<li><a href="moderator/export.do"><spring:message
+									code="export" /></a></li>
 					</security:authorize>
 
 					<security:authorize access="hasRole('SPONSOR')">
@@ -152,6 +225,8 @@
 									code="actor.view" /></a></li>
 						<li><a href="sponsor/sponsor/edit.do"><spring:message
 									code="master.page.actor.edit" /></a></li>
+						<li><a href="sponsor/export.do"><spring:message
+									code="export" /></a></li>
 					</security:authorize>
 
 					<security:authorize access="hasRole('FILMENTHUSIAST')">
@@ -161,6 +236,12 @@
 									code="actor.view" /></a></li>
 						<li><a href="filmEnthusiast/filmEnthusiast/edit.do"><spring:message
 									code="master.page.actor.edit" /></a></li>
+
+
+
+						<li><a href="filmEnthusiast/export.do"><spring:message
+									code="export" /></a></li>
+
 					</security:authorize>
 
 					<security:authorize access="hasRole('CRITIC')">
@@ -168,7 +249,19 @@
 									code="actor.view" /></a></li>
 						<li><a href="critic/critic/edit.do"><spring:message
 									code="master.page.actor.edit" /></a></li>
+						<li><a href="critic/export.do"><spring:message
+									code="export" /></a></li>
 					</security:authorize>
+
+
+					<li><a href="messagebox/list.do"><spring:message
+								code="master.page.profile.message.boxes" /></a></li>
+					<li><a href="messagebox/create.do"><spring:message
+								code="master.page.box.new" /></a></li>
+					<li><a href="message/actor/create.do"><spring:message
+								code="master.page.message.new" /></a></li>
+
+
 
 					<li><a href="j_spring_security_logout"><spring:message
 								code="master.page.logout" /> </a></li>

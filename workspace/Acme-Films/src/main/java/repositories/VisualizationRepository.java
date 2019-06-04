@@ -14,4 +14,9 @@ public interface VisualizationRepository extends JpaRepository<Visualization, In
 	@Query("select v from Visualization v where v.film.id = ?1")
 	Collection<Visualization> visualizationsPerFilm(int filmId);
 
+	
+	@Query("select v from Visualization v where v.film.id= ?1")
+	Collection<Visualization> visPerFilm(int id);
+	
+	
 }

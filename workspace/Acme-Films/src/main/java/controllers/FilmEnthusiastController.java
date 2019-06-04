@@ -260,7 +260,7 @@ public class FilmEnthusiastController extends AbstractController {
 		else
 			try {
 
-				this.filmEnthusiastService.delete(filmEnthusiast);
+				this.filmEnthusiastService.deleteFilmEnthusiast(filmEnthusiast);
 				session.invalidate();
 				result = new ModelAndView("redirect:/welcome/index.do");
 			} catch (final Throwable oops) {

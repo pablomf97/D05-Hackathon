@@ -34,6 +34,12 @@ public class FilmEnthusiastService {
 
 	@Autowired
 	private ActorService actorService;
+	
+	@Autowired
+	private EventService eventService;
+	
+	@Autowired
+	private GroupService groupService;
 
 	@Autowired
 	private SystemConfigurationService systemConfigurationService;
@@ -297,4 +303,13 @@ public class FilmEnthusiastService {
 	public void flush() {
 		this.filmEnthusiastRepository.flush();
 	}
+	
+	public void deleteFilmEnthusiast(FilmEnthusiast f){
+		
+		//this.groupService.deleteGroupPerFilmEnthusiast(f);
+	//	this.eventService.deleteEventPerFilmEnthusiast(f);
+		
+		this.delete(f);
+	}
+	
 }

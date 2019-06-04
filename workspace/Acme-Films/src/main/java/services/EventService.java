@@ -31,7 +31,7 @@ public class EventService {
 	private EventRepository	eventRepository;
 
 	@Autowired
-	private GroupRepository	groupRepository;
+	private GroupRepository groupRepository;
 
 	@Autowired
 	private Validator		validator;
@@ -131,7 +131,38 @@ public class EventService {
 	}
 
 	public Collection<Event> top3EventsWithMorePeople() {
-		final List<Event> l = (List<Event>) this.eventRepository.top3EventsWithMorePeople();
-		return l.subList(0, 3);
+
+		List<Event> l = (List<Event>) this.eventRepository
+				.top3EventsWithMorePeople();
+		if(l.size()==0){
+			return l;
+		}else{
+
+
+			return l.subList(0, 3);
+		}
+	}
+
+	public void deleteEventPerForum(int id) {
+
+		this.eventRepository.deleteInBatch(this.eventRepository.findAllByGroup(id));
+
+	}
+
+	public void deleteEventPerFilmEnthusiast(FilmEnthusiast f) {
+
+		for(Event e : this.findAll()){
+
+			if(e.getAttenders().contains(f)){
+				this.delete(e);
+
+
+			}
+
+
+
+		}
+
+
 	}
 }

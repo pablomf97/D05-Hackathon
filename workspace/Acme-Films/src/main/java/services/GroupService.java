@@ -15,6 +15,7 @@ import org.springframework.validation.Validator;
 
 import repositories.GroupRepository;
 import domain.Actor;
+import domain.Event;
 import domain.Film;
 import domain.FilmEnthusiast;
 import domain.Forum;
@@ -32,6 +33,12 @@ public class GroupService {
 	private GroupRepository	groupRepository;
 	@Autowired
 	private Validator		validator;
+	
+	@Autowired
+	private EventService eventService;
+	
+	@Autowired
+	private CommentService commentService;
 
 
 	public Forum createForFilm(final Film film) {
@@ -48,7 +55,7 @@ public class GroupService {
 		result.setFilmAbout(film);
 		final Collection<FilmEnthusiast> groupMembers = new ArrayList<>();
 		result.setGroupMembers(groupMembers);
-
+		result.setIsActive(false);
 		return result;
 	}
 
@@ -66,6 +73,8 @@ public class GroupService {
 		result.setSagaAbout(saga);
 		final Collection<FilmEnthusiast> groupMembers = new ArrayList<>();
 		result.setGroupMembers(groupMembers);
+		result.setIsActive(false);
+
 		return result;
 	}
 
@@ -163,7 +172,6 @@ public class GroupService {
 					result = this.createForSaga(forum.getSagaAbout());
 				final Date moment = new Date();
 				result.setCreationDate(moment);
-				result.setSagaAbout(forum.getSagaAbout());
 
 			} else {
 				orig = this.findOne(forum.getId());
@@ -232,6 +240,36 @@ public class GroupService {
 		Assert.isTrue(res.getGroupMembers().contains(member));
 		res.getGroupMembers().remove(member);
 		this.groupRepository.save(res);
+	}
+
+	public void deleteGroupModerator(int id) {
+		
+		this.groupRepository.deleteInBatch(this.groupRepository.forumPerModerator(id));
+		
+	
+		
+	}
+
+	public void deleteGroupPerFilm(int id) {
+		
+		for(Forum g :this.groupRepository.forumPerFilmDefault(id)){
+			
+			this.eventService.deleteEventPerForum(g.getId());
+			this.groupRepository.delete(g);
+		}
+		
+	}
+
+	public void deleteGroupPerFilmEnthusiast(FilmEnthusiast f) {
+		
+		for(Forum g: this.findAll()){
+			if(g.getGroupMembers().contains(f)||g.getCreator().getId()==f.getId()){
+				this.commentService.deleteCommentsPerForum(g);
+				//this.groupRepository.delete(g);
+			}
+		}
+		
+		
 	}
 
 }

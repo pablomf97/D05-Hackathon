@@ -10,6 +10,8 @@
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
 
+
+
 <security:authorize access="hasRole('FILMENTHUSIAST')">
 	<jstl:if test="${forum.creator eq actor }">
 

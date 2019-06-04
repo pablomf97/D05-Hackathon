@@ -10,6 +10,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
+
 <security:authorize access="hasAnyRole('FILMENTHUSIAST','MODERATOR')">
 	<table class="displayStyle">
 		<tr>

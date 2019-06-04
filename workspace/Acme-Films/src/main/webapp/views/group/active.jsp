@@ -10,6 +10,7 @@
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
 
+
 <security:authorize access="hasRole('MODERATOR')">
 		<form:form modelAttribute="group"
 			action="group/moderator/save.do" id="form">

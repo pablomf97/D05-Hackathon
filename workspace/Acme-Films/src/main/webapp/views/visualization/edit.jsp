@@ -11,6 +11,7 @@
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
 
+
 <security:authorize access="hasRole('MODERATOR')">
 
 	<jstl:choose>

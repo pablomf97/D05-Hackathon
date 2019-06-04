@@ -38,7 +38,13 @@ public class CriticService {
 	private ActorService				actorService;
 
 	@Autowired
-	private SystemConfigurationService	systemConfigurationService;
+	private SystemConfigurationService systemConfigurationService;
+
+	@Autowired
+	private ReviewService reviewService;
+
+
+
 
 
 	/* Simple CRUD methods */
@@ -289,11 +295,29 @@ public class CriticService {
 	}
 
 	public Collection<Critic> top3CriticsMoreProfessional() {
-		final List<Critic> l = (List<Critic>) this.criticRepository.top3CriticsMoreProfessional();
-		return l.subList(0, 3);
+
+		List<Critic> l = (List<Critic>) this.criticRepository
+				.top3CriticsMoreProfessional();
+		if(l.size()==0){
+			return l;
+		}else{
+
+
+			return l.subList(0, 3);
+		}
 	}
 
 	public Collection<Critic> criticsWithHighestRatingReview() {
 		return this.criticRepository.criticsWithHighestRatingReview();
+	}
+
+	public void DeleteCritic(Critic c ){
+
+		this.reviewService.deleteReviewsCritics(c.getId());
+
+
+		this.delete(c);
+
+
 	}
 }

@@ -28,7 +28,6 @@
 				<acme:textbox code="film.poster" path="poster" size="100px" /><br/> <br/>
 				<acme:textbox code="film.releaseDate" path="releaseDate" size="100px" /><br/> <br/>
 				<acme:textbox code="film.runTime" path="runTime" size="100px" /><br/> <br/>
-				<acme:textbox code="film.rating" path="rating" size="100px" /><br/> 
 				<form:label path="genres"><spring:message code="film.genres" /></form:label><br>
 				<jstl:if test="${!position.isDraft || film.id == 0}">
 					<jstl:choose>
@@ -61,11 +60,14 @@
 						<jstl:out value="${person.name} ${person.surname}" />
 					</option>
 				</jstl:forEach>
-			</select><br><br>
+			</select>
+			<form:errors cssClass="error" path="persons" />
+			<br><br>
 			
 			<acme:multipleSelect items="${sagas}" itemLabel="title" code="film.sagas" path="sagas"/><br>
 			
 			<acme:submit code="film.save" name="save" />&nbsp;
+			<acme:submit code="film.saveFinal" name="saveFinal" />&nbsp;
 			<acme:cancel url="film/list.do" code="film.cancel" />
 			<br />
 	
@@ -73,7 +75,7 @@
 		</jstl:when>		
 	<jstl:otherwise>
 		<p>
-			<spring:message	code="film.not.allowed" /><br>
+			<spring:message	code="sponsorship.not.allowed" /><br>
 		</p>
 	</jstl:otherwise>
 	</jstl:choose>

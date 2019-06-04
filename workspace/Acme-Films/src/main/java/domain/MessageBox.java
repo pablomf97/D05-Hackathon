@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -62,7 +63,8 @@ public class MessageBox extends DomainEntity {
 	}
 
 	@Valid
-	@ManyToOne
+	@NotNull
+	@ManyToOne(optional = false)
 	public Actor getOwner() {
 		return this.owner;
 	}
@@ -71,4 +73,6 @@ public class MessageBox extends DomainEntity {
 		this.owner = owner;
 	}
 
+
 }
+

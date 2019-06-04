@@ -8,6 +8,7 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
+
 <security:authorize access="hasRole('MODERATOR')">
 
 	<h1><spring:message	code="position.title.edit" /></h1>
@@ -86,4 +87,10 @@
 							}
 						});
 	</script>
+</security:authorize>
+
+<security:authorize access="!hasRole('MODERATOR')">
+		<p>
+			<spring:message	code="sponsorship.not.allowed" /><br>
+		</p>
 </security:authorize>

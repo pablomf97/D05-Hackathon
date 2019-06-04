@@ -9,6 +9,7 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
+
 <display:table pagesize="10" class="displaytag" name="professionalData"
 	requestURI="professionalData/critic/list.do?curriculaId=${currentCurricula.id}"
 	id="row">

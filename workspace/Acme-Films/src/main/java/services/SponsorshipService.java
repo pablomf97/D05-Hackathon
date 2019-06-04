@@ -9,13 +9,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.Validator;
 
 import repositories.SponsorshipRepository;
 import domain.Actor;
+import domain.CreditCard;
 import domain.Film;
 import domain.Sponsor;
 import domain.Sponsorship;
+import forms.CreateSponsorshipFormObject;
+import forms.EditSponsorshipFormObject;
 
 @Transactional
 @Service
@@ -32,7 +34,7 @@ public class SponsorshipService {
 	private ActorService actorService;
 	
 	@Autowired
-	private Validator validator;
+	private CreditCardService creditCardService;
 	
 	public Sponsorship create() {
 		Actor principal;
@@ -79,6 +81,10 @@ public class SponsorshipService {
 			}
 		}
 		
+		for(Film film : sponsorship.getFilms()) {
+			Assert.isTrue(!film.getIsDraft());
+		}
+		
 		Assert.notNull(sponsorship.getTitle());
 		Assert.notNull(sponsorship.getBanner());
 		Assert.notNull(sponsorship.getTargetPage());
@@ -105,48 +111,148 @@ public class SponsorshipService {
 	
 	// Other business methods -------------------------------
 	
-	public Sponsorship reconstruct(final Sponsorship sponsorship,
-			 BindingResult binding) {
-		Sponsorship result;
-		Actor principal;
+	public Sponsorship reconstruct(CreateSponsorshipFormObject form,
+			BindingResult binding) {
+
+		/* Creating sponsorship */
+		Sponsorship sponsorship = this.create();
+
+		sponsorship.setTitle(form.getTitle());
+		sponsorship.setBanner(form.getBanner());
+		sponsorship.setTargetPage(form.getTargetPage());
+		sponsorship.setFilms(form.getFilms());
+
+		/* Creating credit card */
+		CreditCard creditCard = new CreditCard();
+
+		creditCard.setHolder(form.getHolder());
+		creditCard.setMake(form.getMake());
+		creditCard.setNumber(form.getNumber());
+		creditCard.setExpirationMonth(form.getExpirationMonth());
+		creditCard.setExpirationYear(form.getExpirationYear());
+		creditCard.setCVV(form.getCVV());
+
+		sponsorship.setCreditCard(creditCard);
 		
-		principal = this.actorService.findByPrincipal();
-		Assert.isTrue(this.actorService.checkAuthority(principal, "SPONSOR"),
-				"not.allowed");
-		
-		Assert.isTrue(principal.getId() == sponsorship.getSponsor().getId());
-		
-		Assert.notNull(sponsorship.getTitle());
-		Assert.notNull(sponsorship.getBanner());
-		Assert.notNull(sponsorship.getTargetPage());
-		Assert.notNull(sponsorship.getCreditCard());
-		Assert.notNull(sponsorship.getSponsor());
-		
-		if (sponsorship.getId() == 0) {
-			result = this.create();
-			
-			result.setBanner(sponsorship.getBanner());
-			result.setTargetPage(sponsorship.getTargetPage());
-			result.setTitle(sponsorship.getTitle());
-			result.setFilms(sponsorship.getFilms());
-			
-		} else {
-			result = this.findOne(sponsorship.getId());
-			
-			if(!sponsorship.getIsActive()) {
-				
-				result.setBanner(sponsorship.getBanner());
-				result.setTargetPage(sponsorship.getTargetPage());
-				result.setTitle(sponsorship.getTitle());
-				result.setFilms(sponsorship.getFilms());
-			}
+		try {
+			Assert.notNull(form.getFilms(), "no.films");
+		} catch (Throwable oops) {
+			binding.rejectValue("films", "films.error");
 		}
 		
-		result.setCreditCard(sponsorship.getCreditCard());
+		/* Credit card */
+		if (form.getNumber() != null) {
+			try {
+				Assert.isTrue(this.creditCardService
+						.checkCreditCardNumber(creditCard.getNumber()),
+						"card.number.error");
+			} catch (Throwable oops) {
+				binding.rejectValue("number", "number.error");
+			}
+		}
 
-		this.validator.validate(result, binding);
+		if (creditCard.getExpirationMonth() != null
+				&& creditCard.getExpirationYear() != null) {
+
+			try {
+				Assert.isTrue(
+						!this.creditCardService.checkIfExpired(
+								creditCard.getExpirationMonth(),
+								creditCard.getExpirationYear()),
+						"card.date.error");
+			} catch (Throwable oops) {
+				binding.rejectValue("expirationMonth", "card.date.error");
+			}
+
+			if (form.getCVV() != null) {
+				try {
+					Assert.isTrue(form.getCVV() < 999 && form.getCVV() > 100,
+							"CVV.error");
+				} catch (Throwable oops) {
+					binding.rejectValue("CVV", "CVV.error");
+				}
+			}
+		}
+		return sponsorship;
+	}
+	
+	public Sponsorship reconstruct(EditSponsorshipFormObject form,
+			BindingResult binding) {
 		
-		return result;
+		Sponsorship sponsorship = this.create();
+
+		/* Creating sponsorship */
+		Sponsorship aux = this.findOne(form.getId());
+
+//		sponsorship.setId(form.getId());
+//		sponsorship.setVersion(form.getVersion());
+		
+		sponsorship.setId(aux.getId());
+		sponsorship.setVersion(aux.getVersion());
+		sponsorship.setIsActive(aux.getIsActive());
+		
+		if(sponsorship.getIsActive() == null) {
+			
+			sponsorship.setTitle(form.getTitle());
+			sponsorship.setBanner(form.getBanner());
+			sponsorship.setTargetPage(form.getTargetPage());
+		}
+		sponsorship.setFilms(form.getFilms());
+
+		/* Creating credit card */
+		CreditCard creditCard = new CreditCard();
+
+		creditCard.setHolder(form.getHolder());
+		creditCard.setMake(form.getMake());
+		creditCard.setNumber(form.getNumber());
+		creditCard.setExpirationMonth(form.getExpirationMonth());
+		creditCard.setExpirationYear(form.getExpirationYear());
+		creditCard.setCVV(form.getCVV());
+
+		sponsorship.setCreditCard(creditCard);
+		
+		//this.validator.validate(sponsorship, binding);
+		
+		try {
+			Assert.notNull(form.getFilms(), "no.films");
+		} catch (Throwable oops) {
+			binding.rejectValue("films", "films.error");
+		}
+
+		/* Credit card */
+		if (form.getNumber() != null) {
+			try {
+				Assert.isTrue(this.creditCardService
+						.checkCreditCardNumber(creditCard.getNumber()),
+						"card.number.error");
+			} catch (Throwable oops) {
+				binding.rejectValue("number", "number.error");
+			}
+		}
+
+		if (creditCard.getExpirationMonth() != null
+				&& creditCard.getExpirationYear() != null) {
+
+			try {
+				Assert.isTrue(
+						!this.creditCardService.checkIfExpired(
+								creditCard.getExpirationMonth(),
+								creditCard.getExpirationYear()),
+						"card.date.error");
+			} catch (Throwable oops) {
+				binding.rejectValue("expirationMonth", "card.date.error");
+			}
+
+			if (form.getCVV() != null) {
+				try {
+					Assert.isTrue(form.getCVV() < 999 && form.getCVV() > 100,
+							"CVV.error");
+				} catch (Throwable oops) {
+					binding.rejectValue("CVV", "CVV.error");
+				}
+			}
+		}
+		return sponsorship;
 	}
 	
 	public Collection<Sponsorship> sponsorshipsPerFilm(int filmId) {
@@ -157,6 +263,30 @@ public class SponsorshipService {
 		return res;
 	}
 	
+
+		public Collection <Sponsorship> sponsorshipPerSponsor(int id){
+			return this.sponsorshipRepository.sponsorshipPerSponsor(id);
+		}
+		
+		public void deleteSponsorships(int id){
+			
+			this.sponsorshipRepository.deleteInBatch(this.sponsorshipPerSponsor(id));
+		}
+
+		public void deleteSponsorshipsPerFilms(Film f) {
+			
+			for(Sponsorship s :this.findAll()){
+				
+				if(s.getFilms().contains(f)){
+					this.sponsorshipRepository.delete(s);
+					
+				}
+			}
+			
+			
+			
+		}
+
 	public Collection<Sponsorship> sponsorshipsPerSponsor(int sponsorId) {
 		Collection<Sponsorship> res = new ArrayList<>();
 		
@@ -172,5 +302,6 @@ public class SponsorshipService {
 		
 		return res;
 	}
+
 }
 

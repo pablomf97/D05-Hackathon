@@ -8,6 +8,8 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
+
+
 <script>
 	function checkPhone(msg) {
 		var phone = document.getElementById("phoneNumber").value;
@@ -149,6 +151,9 @@
 			onclick="javascript: relativeRedir('/critic/display.do')">
 			<spring:message code="form.cancel" />
 		</button>
+		<input type="submit" name="deleteCritic"
+				value="<spring:message code="actor.delete"/>"
+				onclick="return confirm('<spring:message code="actor.confirm.delete"/>')" />
 
 	</form:form>
 </security:authorize>

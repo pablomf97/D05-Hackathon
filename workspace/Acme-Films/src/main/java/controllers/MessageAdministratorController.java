@@ -1,0 +1,131 @@
+package controllers;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
+
+import services.ActorService;
+import services.MessageService;
+import domain.Actor;
+import domain.Message;
+import domain.MessageBox;
+
+@Controller
+@RequestMapping("/message/administrator")
+public class MessageAdministratorController extends AbstractController {
+
+	// Services -----------------------------------------------------------
+
+	@Autowired
+	private MessageService messageService;
+
+	@Autowired
+	private ActorService actorService;
+
+	// Creation --------------------------------------------------------
+
+	@RequestMapping(value = "/broadcast", method = RequestMethod.GET)
+	public ModelAndView broadcast() {
+		final ModelAndView result;
+		Message mensaje;
+
+		mensaje = this.messageService.create();
+
+		mensaje.setReceiver(this.actorService.findByPrincipal());
+
+		result = this.createEditModelAndView(mensaje);
+
+		return result;
+	}
+
+	// Broadcast ---------------------------------------------------------------
+
+	@RequestMapping(value = "/broadcast", method = RequestMethod.POST, params = "save")
+	public ModelAndView broadcast(final Message mensaje,
+			final BindingResult binding) {
+		ModelAndView result;
+		Message message;
+
+		message = this.messageService.reconstructBroadcast(mensaje, binding);
+
+		if (binding.hasErrors()) {
+			result = this.createEditModelAndView(message);
+		} else {
+			try {
+				this.messageService.broadcast(message);
+				result = new ModelAndView("redirect:/messagebox/list.do");
+
+			} catch (final Throwable oops) {
+				result = this.createEditModelAndView(message,
+						"message.commit.error");
+			}
+
+		}
+		return result;
+	}
+
+	// Ancillary methods
+	// ---------------------------------------------------------------
+
+	protected ModelAndView createEditModelAndView(final Message mensaje) {
+		ModelAndView result;
+
+		result = this.createEditModelAndView(mensaje, null);
+
+		return result;
+	}
+
+	protected ModelAndView createEditModelAndView(final Message mensaje,
+			final String messageError) {
+
+		final ModelAndView result;
+		Date sentMoment;
+		Collection<MessageBox> messageBoxes;
+		Actor sender;
+		Actor recipient;
+		boolean possible = false;
+		boolean broadcast = false;
+
+		sentMoment = mensaje.getSendMoment();
+		messageBoxes = mensaje.getMessageBoxes();
+		sender = mensaje.getSender();
+
+		recipient = this.actorService.findOne(this.actorService
+				.findByPrincipal().getId());
+
+		if (sender.equals(recipient)) {
+			possible = true;
+			broadcast = true;
+		}
+		
+		Collection<String> priorities2 = new ArrayList<String>();
+
+		priorities2.add("HIGH");
+		priorities2.add("NEUTRAL");
+		priorities2.add("LOW");
+
+		
+		result = new ModelAndView("message/broadcast");
+		result.addObject("sentMoment", sentMoment);
+		result.addObject("messageBoxes", messageBoxes);
+		result.addObject("sender", sender);
+		result.addObject("mensaje", mensaje);
+
+		result.addObject("recipient", recipient);
+		result.addObject("broadcast", broadcast);
+		result.addObject("possible", possible);
+		result.addObject("requestURI", "message/administrator/broadcast.do");
+		result.addObject("message", messageError);
+		
+		result.addObject("priorities", priorities2);
+		
+		return result;
+	}
+}

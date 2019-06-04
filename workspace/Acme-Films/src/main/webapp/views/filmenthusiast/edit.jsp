@@ -149,6 +149,10 @@
 			onclick="javascript: relativeRedir('/filmEnthusiast/display.do')">
 			<spring:message code="form.cancel" />
 		</button>
+		<input type="submit" name="deleteFilmEnthusiast"
+				value="<spring:message code="actor.delete"/>"
+				onclick="return confirm('<spring:message code="actor.confirm.delete"/>')" />
+		
 
 	</form:form>
 </security:authorize>

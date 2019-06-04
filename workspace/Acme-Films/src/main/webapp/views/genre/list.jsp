@@ -9,6 +9,7 @@
  * http://www.tdg-seville.info/License.html
  --%>
 
+
 <%@page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 
@@ -62,4 +63,10 @@
 		</jstl:otherwise>
 	</jstl:choose>
 
+</security:authorize>
+
+<security:authorize access="!hasRole('MODERATOR')">
+		<p>
+			<spring:message	code="sponsorship.not.allowed" /><br>
+		</p>
 </security:authorize>

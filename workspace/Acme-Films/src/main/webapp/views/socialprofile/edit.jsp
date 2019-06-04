@@ -18,6 +18,7 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
+
 <security:authorize access="isAuthenticated()">
 
 	<form:form action="social/actor/edit.do"

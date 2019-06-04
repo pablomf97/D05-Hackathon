@@ -11,25 +11,41 @@
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
 
-<security:authorize access="hasRole('MODERATOR')">
+
+<security:authorize access="hasRole('SPONSOR')">
 
 	<jstl:choose>
 		<jstl:when test="${isPrincipal}">
-		<h1><spring:message	code="visualization.title.edit" /></h1>
-		<form:form modelAttribute="visualization" action="visualization/edit.do"
+		<h1><spring:message	code="sponsorship.title.edit" /></h1>
+		<form:form modelAttribute="editSponsorshipFormObject" action="sponsorship/edit.do"
 			id="form">
-	
-			<form:hidden path="id"/>
-			<jstl:if test="${visualization.id == 0}">
-				<form:hidden path="film"/>
-			</jstl:if>
 			
-			<acme:textbox code="visualization.siteName" path="siteName" size="100px" /><br> <br>
-			<acme:textbox code="visualization.price" path="price" size="100px" /><br> <br>
-			<acme:textbox code="visualization.link" path="link" size="100px" /><br> <br>
+			<form:hidden path="id" />
 			
-			<acme:submit code="visualization.save" name="save" />&nbsp;
-			<acme:cancel url="visualization/list.do?filmId=${visualization.film.id }" code="visualization.cancel" />
+			<jstl:choose>
+				<jstl:when test="${isActive eq null}">
+					<acme:textbox code="sponsorship.title" path="title" size="100px" /><br> <br>
+					<acme:textbox code="sponsorship.banner" path="banner" size="100px" /><br> <br>
+					<acme:textbox code="sponsorship.targetPage" path="targetPage" size="100px" /><br> <br>
+					<acme:multipleSelect items="${films}" itemLabel="title" code="sponsorship.films" path="films"/><br>
+				</jstl:when>	
+				<jstl:otherwise>
+					<form:hidden path="title" />
+					<form:hidden path="banner" />
+					<form:hidden path="targetPage" />
+					<form:hidden path="films" />
+				</jstl:otherwise>
+			</jstl:choose>
+			
+			<acme:textbox code="sponsorship.holder" path="holder" size="100px" /><br> <br>
+			<acme:textbox code="sponsorship.make" path="make" size="100px" /><br> <br>
+			<acme:textbox code="sponsorship.number" path="number" size="100px" /><br> <br>
+			<acme:textbox code="sponsorship.expirationMonth" path="expirationMonth" size="100px" /><br> <br>
+			<acme:textbox code="sponsorship.expirationYear" path="expirationYear" size="100px" /><br> <br>
+			<acme:textbox code="sponsorship.CVV" path="CVV" size="100px" /><br> <br>
+			
+			<acme:submit code="sponsorship.save" name="save" />&nbsp;
+			<acme:cancel url="sponsorship/list.do" code="sponsorship.cancel" />
 			<br />
 	
 		</form:form>
@@ -37,8 +53,14 @@
 	
 	<jstl:otherwise>
 		<p>
-			<spring:message	code="visualization.not.allowed" /><br>
+			<spring:message	code="sponsorship.not.allowed" /><br>
 		</p>
 	</jstl:otherwise>
 	</jstl:choose>
+</security:authorize>
+
+<security:authorize access="!hasRole('SPONSOR')">
+		<p>
+			<spring:message	code="sponsorship.not.allowed" /><br>
+		</p>
 </security:authorize>

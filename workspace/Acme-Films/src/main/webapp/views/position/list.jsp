@@ -19,6 +19,7 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
+
 <security:authorize access="hasRole('MODERATOR')">
 
 	<jstl:choose>
@@ -80,4 +81,10 @@
 		</jstl:otherwise>
 	</jstl:choose>
 
+</security:authorize>
+
+<security:authorize access="!hasRole('MODERATOR')">
+		<p>
+			<spring:message	code="sponsorship.not.allowed" /><br>
+		</p>
 </security:authorize>

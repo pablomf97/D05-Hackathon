@@ -8,6 +8,7 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
+
 <h1>
 	<spring:message code="saga.title.display" />
 </h1>
@@ -20,9 +21,9 @@
 	</tr>
 </table>
 
-<h1>
+<h2>
 	<spring:message code="saga.films" />
-</h1>
+</h2>
 <display:table class="displaytag" name="films" pagesize="5"
 	requestURI="saga/display.do" id="film">
 
@@ -46,9 +47,20 @@
 
 
 </display:table>
-	<security:authorize access="hasAnyRole('MODERATOR','FILMENTHUSIAST')">
-		<a
-			href="group/listBySaga.do?Id=${saga.id}">
-			<spring:message code="group.list" />
-		</a>
-	</security:authorize>
+<security:authorize access="hasAnyRole('MODERATOR','FILMENTHUSIAST')">
+	<a href="group/listBySaga.do?Id=${saga.id}"> <spring:message
+			code="group.list" />
+	</a>
+</security:authorize>
+<br/>
+<br/>
+
+<security:authorize access="hasRole('FILMENTHUSIAST')">
+	<a href="group/create.do?Id=${saga.id}"> <spring:message
+			code="group.newcreate" />
+	</a>
+</security:authorize>
+
+	<input type="button" name="back"
+		value="<spring:message code="sponsorship.back" />"
+		onclick="window.history.back()" />

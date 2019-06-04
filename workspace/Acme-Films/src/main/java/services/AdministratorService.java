@@ -37,6 +37,8 @@ public class AdministratorService {
 
 	@Autowired
 	private SystemConfigurationService systemConfigurationService;
+	
+	
 
 	/* Simple CRUD methods */
 
@@ -316,4 +318,11 @@ public class AdministratorService {
 	public void flush() {
 		this.administratorRepository.flush();
 	}
+	
+	public void deleteAdmin(Administrator a){	
+		this.delete(a);
+	}
+	
+	
+	
 }

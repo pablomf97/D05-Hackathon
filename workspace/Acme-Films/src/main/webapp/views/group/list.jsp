@@ -9,6 +9,7 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
+
 <security:authorize access="hasAnyRole('FILMENTHUSIAST','MODERATOR')">
 
 	<display:table pagesize="10" class="displaytag" name="groups"

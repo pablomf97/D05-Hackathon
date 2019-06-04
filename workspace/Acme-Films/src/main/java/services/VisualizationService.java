@@ -17,20 +17,20 @@ import domain.Visualization;
 @Transactional
 @Service
 public class VisualizationService {
-	
+
 	// Managed repository ------------------------------------
-	
+
 	@Autowired
 	private VisualizationRepository visualizationRepository;
-	
+
 	// Supporting services -----------------------------------
-	
+
 	@Autowired
 	private ActorService actorService;
-	
+
 	@Autowired
 	private Validator validator;
-	
+
 	public Visualization create() {
 		Actor principal;
 		Visualization result;
@@ -57,24 +57,25 @@ public class VisualizationService {
 
 		return result;
 	}
-	
+
 	public Visualization save(final Visualization visualization) {
 		Actor principal;
 		Visualization result;
 
 		principal = this.actorService.findByPrincipal();
 		Assert.isTrue(this.actorService.checkAuthority(principal, "MODERATOR"), "not.allowed");
-		
+
 		Assert.notNull(visualization.getSiteName());
 		Assert.notNull(visualization.getPrice());
 		Assert.notNull(visualization.getLink());
 		Assert.notNull(visualization.getFilm());
-		
+		Assert.isTrue(!visualization.getFilm().getIsDraft());
+
 		result = this.visualizationRepository.save(visualization);
 
 		return result;
 	}
-	
+
 	public void delete(final Visualization visualization) {
 		Actor principal;
 
@@ -87,43 +88,51 @@ public class VisualizationService {
 
 		this.visualizationRepository.delete(visualization.getId());
 	}
-	
+
 	// Other business methods -------------------------------
-	
+
 	public Visualization reconstruct(final Visualization visualization,
-			 BindingResult binding) {
+			BindingResult binding) {
 		Visualization result;
 		Actor principal;
-		
+
 		principal = this.actorService.findByPrincipal();
 		Assert.isTrue(this.actorService.checkAuthority(principal, "MODERATOR"),
 				"not.allowed");
-		
+
 		if (visualization.getId() == 0) {
 			result = this.create();
-			
+
 			result.setFilm(visualization.getFilm());
-			
+
 		} else {
 			result = this.findOne(visualization.getId());
 		}
-		
+
 		result.setSiteName(visualization.getSiteName());
 		result.setPrice(visualization.getPrice());
 		result.setLink(visualization.getLink());
 
 		this.validator.validate(result, binding);
-		
+
 		return result;
 	}
-	
+
+
+
+	public void DeletevisPerFilm(int id){
+		this.visualizationRepository.deleteInBatch(this.visualizationRepository.visPerFilm(id));
+
+	}
+
 	public Collection<Visualization> visualizationsPerFilm(int filmId) {
 		Collection<Visualization> result;
-		
+
 		result = this.visualizationRepository.visualizationsPerFilm(filmId);
-		
+
 		return result;
+
 	}
-	
+
 }
 

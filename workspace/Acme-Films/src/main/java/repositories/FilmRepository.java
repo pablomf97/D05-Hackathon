@@ -31,6 +31,10 @@ public interface FilmRepository extends JpaRepository<Film, Integer> {
 
 	@Query("select f from Film f join f.sagas s where s.id = ?1")
 	Collection<Film> filmsOfSaga(int sagaId);
+
+	@Query("select f from Film f where f.moderator.id = ?1")
+	Collection<Film> filmsByModerator(int moderatorId);
+
 	
 	@Query("select f from Film f join f.persons p where p.id = ?1")
 	Collection<Film> filmsOfPerson(int personId);
@@ -40,5 +44,6 @@ public interface FilmRepository extends JpaRepository<Film, Integer> {
 
 	@Query("select f from Film f where f.isDraft = false")
 	Collection<Film> publishedFilms();
+
 
 }

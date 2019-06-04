@@ -9,6 +9,7 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 
+
 <h1><spring:message	code="visualization.title.list" />
 <jstl:out value="${(film.title)}" /></h1>
 	<jstl:choose>
@@ -46,8 +47,9 @@
 				
 			</display:table>
 			
-						<br><a href="visualization/create.do?filmId=${film.id }"> <spring:message
-					code="visualization.create" /></a>
+			<input type="button"
+				onclick="redirect: location.href = 'visualization/create.do?filmId=${film.id }';"
+				value="<spring:message code='visualization.create' />" />
 					
 		</jstl:when>
 		<jstl:otherwise>

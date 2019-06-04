@@ -33,6 +33,7 @@ public class Visualization extends DomainEntity{
 		this.siteName = siteName;
 	}
 	
+	@NotBlank
 	@URL
 	public String getLink() {
 		return link;
@@ -41,6 +42,7 @@ public class Visualization extends DomainEntity{
 		this.link = link;
 	}
 	
+	@NotNull
 	@Range(min=0)
 	public Double getPrice() {
 		return price;
