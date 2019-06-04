@@ -2133,9 +2133,8 @@
 		<property name="rejectReason" value="" />
 		<property name="creator" ref="filmEnthusiast3" />
 		<property name="groupMembers">
-			<list>
-				<ref bean="filmEnthusiast1" />
-			</list>
+			<null />
+
 		</property>
 		<property name="sagaAbout">
 			<null />
@@ -2151,9 +2150,8 @@
 		<property name="rejectReason" value="" />
 		<property name="creator" ref="filmEnthusiast3" />
 		<property name="groupMembers">
-			<list>
-				<ref bean="filmEnthusiast1" />
-			</list>
+			<null />
+
 		</property>
 		<property name="sagaAbout">
 			<null />
@@ -2666,5 +2664,4 @@ Films! Tu sitio para compartir opiniones sobre tus peliculas favoritas." />
 		<property name="flatRate" value="2.50" />
 
 	</bean>
-	
 </beans>
