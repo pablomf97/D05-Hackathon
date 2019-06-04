@@ -81,7 +81,7 @@
 			onclick="redirect: location.href = 'event/filmenthusiast/listMembers.do?Id=${event.id}';" />
 	</jstl:if>
 
-	<jstl:if test="${event.forum.creator.userAccount.username eq actor.userAccount.username }">
+	<jstl:if test="${event.forum.creator.userAccount.username eq actor.userAccount.username and eventDate}">
 
 
 		<input type="button" name="list"
@@ -99,7 +99,7 @@
 		
 	</jstl:if>
 	<jstl:if
-		test="${contains2 eq 'yes' and contains eq 'no' and event.maximumCapacity gt fn:length(event.attenders)}">
+		test="${contains2 eq 'yes' and contains eq 'no' and event.maximumCapacity gt fn:length(event.attenders) and eventDate}">
 		<input type="button" name="list"
 			value="<spring:message code="event.request.members"	/>"
 			onclick="redirect: location.href = 'event/filmenthusiast/request.do?Id=${event.id}';" />

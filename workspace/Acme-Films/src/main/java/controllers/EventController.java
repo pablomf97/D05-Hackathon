@@ -2,6 +2,7 @@
 package controllers;
 
 import java.util.Collection;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -129,7 +130,11 @@ public class EventController extends AbstractController {
 			result = new ModelAndView("event/display");
 			event = this.eventService.findOne(Id);
 			Assert.isTrue(event.getForum().getGroupMembers().contains(actor) || event.getForum().getCreator().equals(actor));
-
+			final Date d = new Date();
+			Boolean eventDate = true;
+			if (event.getSigninDeadline().after(d))
+				eventDate = false;
+			result.addObject("eventDate", eventDate);
 			result.addObject("event", event);
 			result.addObject("actor", actor);
 		} catch (final Throwable opps) {
