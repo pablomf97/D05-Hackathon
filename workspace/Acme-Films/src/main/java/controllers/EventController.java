@@ -186,11 +186,26 @@ public class EventController extends AbstractController {
 
 			result = new ModelAndView("filmEnthusiast/list");
 			result.addObject("filmenthusiasts", event.getAttenders());
+			result.addObject("actor", principal);
 			result.addObject("isMember", isMember);
 			result.addObject("isCreator", isCreator);
 			result.addObject("groupId", 0);
 			result.addObject("eventId", Id);
 
+		} catch (final Throwable opps) {
+			result = new ModelAndView("redirect:../welcome/index.do");
+			result.addObject("messageCode", "group.commit.error");
+		}
+		return result;
+	}
+
+	// Film enthusiast delete member
+	@RequestMapping(value = "/filmenthusiast/delete", method = RequestMethod.GET)
+	public ModelAndView requesStatus(@RequestParam final int eventId) {
+		ModelAndView result;
+		try {
+			this.eventService.deleteMember(eventId);
+			result = new ModelAndView("redirect:../../welcome/index.do");
 		} catch (final Throwable opps) {
 			result = new ModelAndView("redirect:../welcome/index.do");
 			result.addObject("messageCode", "group.commit.error");

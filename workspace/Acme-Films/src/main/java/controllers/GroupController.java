@@ -141,8 +141,9 @@ public class GroupController extends AbstractController {
 		try {
 			res = this.groupService.reconstruct(group, binding);
 			if (binding.hasErrors()) {
+				System.out.println(binding.getFieldError());
 				result = new ModelAndView("group/edit");
-				result.addObject("group", group);
+				result.addObject("group", res);
 			} else
 				try {
 					this.groupService.save(res);
@@ -185,7 +186,7 @@ public class GroupController extends AbstractController {
 			result = new ModelAndView("group/display");
 			group = this.groupService.findOne(Id);
 			actor = this.actorService.findByPrincipal();
-			if ((((group.getModerator() != actor) && group.getCreator() != actor)) && (group.getIsActive() == false))
+			if ((((group.getModerator() != actor && group.getModerator() != null) && group.getCreator() != actor)) && (group.getIsActive() == false))
 				Assert.isTrue(false);
 			result.addObject("actor", actor);
 			result.addObject("group", group);

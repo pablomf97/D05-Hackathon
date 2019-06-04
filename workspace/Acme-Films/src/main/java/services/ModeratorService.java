@@ -16,6 +16,8 @@ import repositories.ModeratorRepository;
 import security.Authority;
 import security.UserAccount;
 import domain.Actor;
+import domain.Message;
+import domain.MessageBox;
 import domain.Moderator;
 import domain.SocialProfile;
 import forms.EditionFormObject;
@@ -39,12 +41,20 @@ public class ModeratorService {
 
 	@Autowired
 	private SystemConfigurationService systemConfigurationService;
-	
+
 	@Autowired
 	private FilmService filmService;
-	
+
 	@Autowired
 	private GroupService groupService;
+	
+	
+	@Autowired
+	private MessageService messageService;
+	
+	@Autowired
+	private MessageBoxService MessageBoxService ;
+
 
 	/* Simple CRUD methods */
 
@@ -123,24 +133,18 @@ public class ModeratorService {
 			Assert.isTrue(this.actorService.checkAuthority(principal, "ADMIN"),
 					"no.permission");
 
-			/* Managing phone number */
-			final char[] phoneArray = moderator.getPhoneNumber().toCharArray();
-			if ((!moderator.getPhoneNumber().equals(null) && !moderator
-					.getPhoneNumber().equals("")))
-				if (phoneArray[0] != '+' && Character.isDigit(phoneArray[0])) {
-					final String cc = this.systemConfigurationService
-							.findMySystemConfiguration().getCountryCode();
-					moderator.setPhoneNumber(cc + " "
-							+ moderator.getPhoneNumber());
-				}
+			res = this.moderatorRepository.save(moderator);
+
+			this.MessageBoxService.initializeDefaultBoxes(res);
 		} else {
 
 			Assert.isTrue(principal.getId() == moderator.getId(),
 					"no.permission");
 
 			moderator.setUserAccount(principal.getUserAccount());
+			res = this.moderatorRepository.save(moderator);
 		}
-		res = this.moderatorRepository.save(moderator);
+
 		return res;
 	}
 
@@ -323,14 +327,34 @@ public class ModeratorService {
 	public Double[] statsReviewsPerModerator() {
 		return this.moderatorRepository.statsReviewsPerModerator();
 	}
-	
-	public void DeleteModerator(Moderator c){
-		
+
+	public void DeleteModerator(Moderator c) {
+
 		this.reviewService.deleteReviewPerModerator(c.getId());
 		this.filmService.deleteFilms(c.getId());
+
 		
-	
+		for(Message m :this.messageService.messagesInvolved(c.getId())){
+			for(MessageBox mb:this.MessageBoxService.findAll()){
+				
+				if(mb.getMessages().contains(m)){
+					mb.getMessages().remove(m);
+				}
+				
+			}
+			
+			this.messageService.deleteMessage(m);
+		}
+		
+		for(MessageBox mb:this.MessageBoxService.findAll()){
+			
+			if(mb.getOwner()==c){
+				this.MessageBoxService.deleteBox(mb);
+			}
+		}
+		
+
 		this.delete(c);
-		
+
 	}
 }

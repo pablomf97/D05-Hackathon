@@ -129,9 +129,9 @@ public class CommentService {
 
 	}
 
-	public void deleteCommentsPerForum(Forum g) {
+	public void deleteCommentsPerForum(int id) {
 		
-		this.commentRepository.deleteInBatch(this.commentRepository.CommentsPerForum(g.getId()));
+		this.commentRepository.deleteInBatch(this.commentRepository.CommentsPerForum(id));
 		
 	}
 	

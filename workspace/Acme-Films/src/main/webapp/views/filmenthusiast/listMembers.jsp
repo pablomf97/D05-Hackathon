@@ -20,6 +20,7 @@
 <security:authorize access="hasAnyRole('FILMENTHUSIAST')">
 	<jstl:choose>
 		<jstl:when test="${isMember or isCreator}">
+
 			<display:table pagesize="10" class="displaytag"
 				name="filmenthusiasts" requestURI="${requestURI}" id="enthusiast">
 
@@ -44,7 +45,7 @@
 
 				<display:column>
 					<spring:message code="delete.confirm" var="confirmation" />
-					<jstl:if test="${not(groupId  eq 0) and eventId eq 0}">
+					<jstl:if test="${not(groupId eq 0) and eventId eq 0 and isCreator}">
 						<button
 							<%-- href="filmenthusiast/delete.do?memberId=${enthusiast.id}&groupId=${groupId}" --%>
 						
@@ -53,15 +54,13 @@
 							<spring:message code="enthusiast.delete" />
 						</button>
 					</jstl:if>
-<%-- 					<jstl:if test="${eventId != 0}">
-						<button
-							href="filmenthusiast/delete.do?memberId=${enthusiast.id}&groupId=${groupId}"
-						
-						onclick="YNconfirm('group/filmenthusiast/delete.do?memberId=${enthusiast.id}&groupId=${groupId}','${confirmation}')">
+					<jstl:if test="${not(eventId eq 0) and groupId eq 0 and isMember and enthusiast.id eq actor.id }">
+							<button
+								onclick="YNconfirm('event/filmenthusiast/delete.do?eventId=${eventId}','${confirmation}')">
 
-							<spring:message code="enthusiast.delete" />
-						</button>
-					</jstl:if> --%>
+								<spring:message code="enthusiast.delete" />
+							</button>
+					</jstl:if>
 				</display:column>
 
 			</display:table>

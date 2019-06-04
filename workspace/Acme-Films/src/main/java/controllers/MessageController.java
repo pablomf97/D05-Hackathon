@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
-import javax.validation.Valid;
 import javax.validation.ValidationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +18,6 @@ import org.springframework.web.servlet.ModelAndView;
 import services.ActorService;
 import services.MessageBoxService;
 import services.MessageService;
-import services.SystemConfigurationService;
 import domain.Actor;
 import domain.Message;
 import domain.MessageBox;
@@ -36,9 +34,6 @@ public class MessageController extends AbstractController {
 
 	@Autowired
 	private MessageBoxService messageBoxService;
-
-	@Autowired
-	private SystemConfigurationService systemConfigurationService;
 
 	// Create
 	// ----------------------------------------------------------------------

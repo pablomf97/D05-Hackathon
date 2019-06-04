@@ -77,9 +77,10 @@ public class FinderController extends AbstractController {
 		
 		 Assert.isTrue( this.actorService.checkAuthority(principal,
 		 "FILMENTHUSIAST"), "not.allowed"); 
+		 
 		 Date maxLivedMoment = new Date();
 		 
-		 finder = principal.getFinder();
+	
 			if (finder.getSearchMoment() != null) {
 				final int timeChachedFind = this.systemConfigurationService.findMySystemConfiguration().getTimeResultsCached();
 				maxLivedMoment = DateUtils.addHours(maxLivedMoment, -timeChachedFind);

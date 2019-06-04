@@ -23,6 +23,7 @@
 				</bean>
 			</list>
 		</property>
+		<property name="isBanned" value="false" />
 	</bean>
 
 	<bean id="userAdmin2" class="security.UserAccount">
@@ -35,6 +36,7 @@
 				</bean>
 			</list>
 		</property>
+		<property name="isBanned" value="false" />
 	</bean>
 
 	<bean id="userModerator1" class="security.UserAccount">
@@ -47,6 +49,7 @@
 				</bean>
 			</list>
 		</property>
+		<property name="isBanned" value="false" />
 	</bean>
 	<bean id="userModerator2" class="security.UserAccount">
 		<property name="username" value="moderator2" />
@@ -58,6 +61,7 @@
 				</bean>
 			</list>
 		</property>
+		<property name="isBanned" value="false" />
 	</bean>
 	<bean id="userModerator3" class="security.UserAccount">
 		<property name="username" value="moderator3" />
@@ -69,6 +73,7 @@
 				</bean>
 			</list>
 		</property>
+		<property name="isBanned" value="false" />
 	</bean>
 
 
@@ -82,6 +87,7 @@
 				</bean>
 			</list>
 		</property>
+		<property name="isBanned" value="false" />
 	</bean>
 	<bean id="userSponsor2" class="security.UserAccount">
 		<property name="username" value="sponsor2" />
@@ -93,6 +99,7 @@
 				</bean>
 			</list>
 		</property>
+		<property name="isBanned" value="false" />
 	</bean>
 	<bean id="userSponsor3" class="security.UserAccount">
 		<property name="username" value="sponsor3" />
@@ -104,6 +111,7 @@
 				</bean>
 			</list>
 		</property>
+		<property name="isBanned" value="false" />
 	</bean>
 
 
@@ -117,6 +125,7 @@
 				</bean>
 			</list>
 		</property>
+		<property name="isBanned" value="false" />
 	</bean>
 	<bean id="userCritic2" class="security.UserAccount">
 		<property name="username" value="critic2" />
@@ -128,6 +137,7 @@
 				</bean>
 			</list>
 		</property>
+		<property name="isBanned" value="false" />
 	</bean>
 	<bean id="userCritic3" class="security.UserAccount">
 		<property name="username" value="critic3" />
@@ -139,6 +149,7 @@
 				</bean>
 			</list>
 		</property>
+		<property name="isBanned" value="false" />
 	</bean>
 
 	<bean id="userFilmEnthusiast1" class="security.UserAccount">
@@ -151,6 +162,7 @@
 				</bean>
 			</list>
 		</property>
+		<property name="isBanned" value="false" />
 	</bean>
 
 	<bean id="userFilmEnthusiast2" class="security.UserAccount">
@@ -163,10 +175,11 @@
 				</bean>
 			</list>
 		</property>
+		<property name="isBanned" value="false" />
 	</bean>
 	<bean id="userFilmEnthusiast3" class="security.UserAccount">
 		<property name="username" value="filmEnthusiast3" />
-		<property name="password" value="2f619abf35f35d487e1cee32c70fffc2" />
+		<property name="password" value="6dd9167e8f7e0b007d73b7cc7225086c" />
 		<property name="authorities">
 			<list>
 				<bean class="security.Authority">
@@ -174,6 +187,7 @@
 				</bean>
 			</list>
 		</property>
+		<property name="isBanned" value="false" />
 	</bean>
 
 
@@ -296,7 +310,7 @@
 		<property name="phoneNumber" value="+34611987654" />
 		<property name="address" value="C/ Atlántica sex, 1 (Málaga)" />
 		<property name="userAccount" ref="userAdmin2" />
-		<property name="isSpammer" value="false" />
+		<property name="isSpammer" value="true" />
 		<property name="socialProfile">
 			<list>
 				<ref bean="socialProfileAdmin2" />
@@ -349,7 +363,7 @@
 		<property name="phoneNumber" value="+34611987654" />
 		<property name="address" value="C/ Atlántica sex, 1 (Málaga)" />
 		<property name="userAccount" ref="userModerator3" />
-		<property name="isSpammer" value="false" />
+		<property name="isSpammer" value="true" />
 		<property name="socialProfile">
 			<list>
 				<ref bean="socialProfileModerator3" />
@@ -403,7 +417,7 @@
 		<property name="phoneNumber" value="+34611987654" />
 		<property name="address" value="C/ Atlántica sex, 1 (Málaga)" />
 		<property name="userAccount" ref="userSponsor2" />
-		<property name="isSpammer" value="false" />
+		<property name="isSpammer" value="true" />
 		<property name="socialProfile">
 			<list>
 				<ref bean="socialProfileSponsor2" />
@@ -458,7 +472,7 @@
 		<property name="phoneNumber" value="+34611987654" />
 		<property name="address" value="C/ Atlántica sex, 1 (Málaga)" />
 		<property name="userAccount" ref="userFilmEnthusiast3" />
-		<property name="isSpammer" value="false" />
+		<property name="isSpammer" value="true" />
 		<property name="socialProfile">
 			<list>
 				<ref bean="socialProfileFilmEnthusiast3" />
@@ -491,7 +505,7 @@
 
 	</bean>
 	<bean id="critic2" class="domain.Critic">
-		<property name="name" value="Antonio" />
+		<property name="name" value="Carlos" />
 		<property name="surname" value="Bayona" />
 		<property name="photo"
 			value="https://ih1.redbubble.net/image.376305132.3400/flat,550x550,075,f.u1.jpg" />
@@ -511,7 +525,7 @@
 
 	</bean>
 	<bean id="critic3" class="domain.Critic">
-		<property name="name" value="Antonio" />
+		<property name="name" value="Juan" />
 		<property name="surname" value="Bayona" />
 		<property name="photo"
 			value="https://ih1.redbubble.net/image.376305132.3400/flat,550x550,075,f.u1.jpg" />
@@ -519,7 +533,7 @@
 		<property name="phoneNumber" value="+34611987654" />
 		<property name="address" value="C/ Atlántica sex, 1 (Málaga)" />
 		<property name="userAccount" ref="userCritic3" />
-		<property name="isSpammer" value="false" />
+		<property name="isSpammer" value="true" />
 		<property name="socialProfile">
 			<list>
 				<ref bean="socialProfileCritic3" />
@@ -1565,7 +1579,7 @@
 			</list>
 		</property>
 	</bean>
-	
+
 
 	<!-- **************************** PERSONAL DATA **************************** -->
 
@@ -1850,7 +1864,7 @@
 
 	<bean id="film1" class="domain.Film">
 		<property name="title"
-			value="El Señor de los Anillos I - La Comunidad del Anillo" />
+			value="La Comunidad del Anillo" />
 
 
 		<property name="synopsis" value="Synopsis 1" />
@@ -1883,7 +1897,7 @@
 	</bean>
 
 	<bean id="film2" class="domain.Film">
-		<property name="title" value="El Señor de los Anillos II - Las Dos Torres" />
+		<property name="title" value="Las Dos Torres" />
 
 
 		<property name="synopsis" value="Synopsis 2" />
@@ -1914,7 +1928,7 @@
 	</bean>
 	<bean id="film3" class="domain.Film">
 		<property name="title"
-			value="El Señor de los Anillos III - El Retorno del Rey" />
+			value="El Retorno del Rey" />
 
 
 		<property name="synopsis" value="Synopsis 3" />
@@ -1987,7 +2001,7 @@
 		<property name="runTime" value="113" />
 		<property name="rating" value="2.6" />
 		<property name="ticker" value="08993416-A2JJK3" />
-		<property name="isDraft" value="true" />
+		<property name="isDraft" value="false" />
 		<property name="moderator" ref="moderator2" />
 		<property name="genres">
 			<list>
@@ -2009,7 +2023,7 @@
 			</list>
 		</property>
 
-	</bean>
+	</bean> 
 
 
 
@@ -2108,7 +2122,7 @@
 		<property name="rejectReason" value="" />
 		<property name="creator" ref="filmEnthusiast3" />
 		<property name="groupMembers">
-		<list></list>
+			<list></list>
 		</property>
 		<property name="sagaAbout">
 			<null />
@@ -2124,7 +2138,7 @@
 		<property name="rejectReason" value="" />
 		<property name="creator" ref="filmEnthusiast3" />
 		<property name="groupMembers">
-		<list></list>
+			<list></list>
 
 		</property>
 		<property name="sagaAbout">

@@ -14,8 +14,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import services.ActorService;
 import services.FilmEnthusiastService;
+import services.FinderService;
 import domain.Actor;
 import domain.FilmEnthusiast;
+import domain.Finder;
 import forms.EditionFormObject;
 import forms.RegisterFormObject;
 
@@ -30,6 +32,9 @@ public class FilmEnthusiastController extends AbstractController {
 
 	@Autowired
 	private ActorService actorService;
+
+	@Autowired
+	private FinderService finderService;
 
 	/* Methods */
 
@@ -54,14 +59,14 @@ public class FilmEnthusiastController extends AbstractController {
 				toDisplay = (FilmEnthusiast) this.actorService.findOne(id);
 				if (toDisplay == null)
 					found = false;
-				if (this.actorService
-						.findByPrincipal() != null) {
+				if (this.actorService.findByPrincipal() != null) {
 					permission = (toDisplay.getId() == this.actorService
 							.findByPrincipal().getId()) ? true : false;
 				}
 				requestURI += "?id=" + id;
 			} else {
-				toDisplay = (FilmEnthusiast) this.actorService.findByPrincipal();
+				toDisplay = (FilmEnthusiast) this.actorService
+						.findByPrincipal();
 				permission = true;
 			}
 
@@ -113,12 +118,17 @@ public class FilmEnthusiastController extends AbstractController {
 		FilmEnthusiast filmEnthusiast = new FilmEnthusiast();
 		filmEnthusiast = this.filmEnthusiastService.create();
 
-		filmEnthusiast = this.filmEnthusiastService.reconstruct(registerFormObject, binding);
+		filmEnthusiast = this.filmEnthusiastService.reconstruct(
+				registerFormObject, binding);
 
 		if (binding.hasErrors())
 			res = this.createRegisterModelAndView(registerFormObject);
 		else
 			try {
+				Finder finder = this.finderService.create();
+				finder = this.finderService.save(finder);
+
+				filmEnthusiast.setFinder(finder);
 
 				this.filmEnthusiastService.save(filmEnthusiast);
 
@@ -174,8 +184,8 @@ public class FilmEnthusiastController extends AbstractController {
 			FilmEnthusiast filmEnthusiast = new FilmEnthusiast();
 			filmEnthusiast = this.filmEnthusiastService.create();
 
-			filmEnthusiast = this.filmEnthusiastService.reconstruct(editionFormObject,
-					binding);
+			filmEnthusiast = this.filmEnthusiastService.reconstruct(
+					editionFormObject, binding);
 
 			if (binding.hasErrors()) {
 				res = this.createEditModelAndView(editionFormObject);
@@ -252,7 +262,8 @@ public class FilmEnthusiastController extends AbstractController {
 		ModelAndView result;
 		FilmEnthusiast filmEnthusiast;
 
-		filmEnthusiast = this.filmEnthusiastService.findOne(editionFormObject.getId());
+		filmEnthusiast = this.filmEnthusiastService.findOne(editionFormObject
+				.getId());
 
 		if (binding.hasErrors())
 			result = this.createEditModelAndView(editionFormObject,
