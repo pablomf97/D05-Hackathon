@@ -2168,7 +2168,6 @@
 		<property name="publishedMoment" value="12/12/2017 12:12" />
 		<property name="body" value="Great job by Matt Ross as director." />
 		<property name="rating" value="8.9" />
-		<property name="film" ref="film1" />
 		<property name="forum" ref="forum1" />
 		<property name="filmEnthusiast" ref="filmEnthusiast1" />
 
@@ -2182,7 +2181,6 @@
 		<property name="body" value="Great job by Matt Ross as director." />
 		<property name="rating" value="8.9" />
 		<property name="film" ref="film4" />
-		<property name="forum" ref="forum3" />
 		<property name="filmEnthusiast" ref="filmEnthusiast2" />
 
 
@@ -2194,7 +2192,6 @@
 		<property name="publishedMoment" value="12/12/2017 12:12" />
 		<property name="body" value="Great job by Matt Ross as director." />
 		<property name="rating" value="8.9" />
-		<property name="film" ref="film4" />
 		<property name="forum" ref="forum2" />
 		<property name="filmEnthusiast" ref="filmEnthusiast3" />
 
@@ -2207,7 +2204,6 @@
 		<property name="body" value="Great job by Matt Ross as director." />
 		<property name="rating" value="8.9" />
 		<property name="film" ref="film1" />
-		<property name="forum" ref="forum1" />
 		<property name="filmEnthusiast" ref="filmEnthusiast1" />
 
 
@@ -2217,7 +2213,6 @@
 		<property name="publishedMoment" value="12/12/2017 12:12" />
 		<property name="body" value="Great job by Matt Ross as director." />
 		<property name="rating" value="8.9" />
-		<property name="film" ref="film1" />
 		<property name="forum" ref="forum1" />
 		<property name="filmEnthusiast" ref="filmEnthusiast1" />
 
@@ -2230,7 +2225,6 @@
 		<property name="body" value="Great job by Matt Ross as director." />
 		<property name="rating" value="7.9" />
 		<property name="film" ref="film2" />
-		<property name="forum" ref="forum1" />
 		<property name="filmEnthusiast" ref="filmEnthusiast1" />
 
 
@@ -2240,7 +2234,6 @@
 		<property name="publishedMoment" value="12/12/2017 12:12" />
 		<property name="body" value="Great job by Matt Ross as director." />
 		<property name="rating" value="5.9" />
-		<property name="film" ref="film2" />
 		<property name="forum" ref="forum1" />
 		<property name="filmEnthusiast" ref="filmEnthusiast1" />
 

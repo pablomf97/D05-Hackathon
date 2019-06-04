@@ -13,10 +13,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import services.ActorService;
+import services.CommentService;
 import services.FilmService;
 import services.GroupService;
 import services.SagaService;
 import domain.Actor;
+import domain.Comment;
 import domain.Film;
 import domain.Forum;
 import domain.Saga;
@@ -36,6 +38,9 @@ public class GroupController extends AbstractController {
 
 	@Autowired
 	private SagaService		sagaService;
+
+	@Autowired
+	private CommentService	commentsRepository;
 
 
 	public GroupController() {
@@ -275,10 +280,50 @@ public class GroupController extends AbstractController {
 	public ModelAndView requestList(@RequestParam final int Id) {
 		ModelAndView result;
 		Forum group;
+		boolean isMember = false;
+		boolean isCreator = false;
+
 		try {
 			group = this.groupService.findOne(Id);
-			result = new ModelAndView("filmenthusiast/list");
+
+			final Actor principal = this.actorService.findByPrincipal();
+
+			if (group.getGroupMembers().contains(principal))
+				isMember = true;
+			if (group.getCreator().getId() == principal.getId())
+				isCreator = true;
+
+			result = new ModelAndView("filmEnthusiast/list");
 			result.addObject("filmenthusiasts", group.getGroupMembers());
+			result.addObject("isMember", isMember);
+			result.addObject("isCreator", isCreator);
+			result.addObject("groupId", Id);
+			result.addObject("eventId", 0);
+		} catch (final Throwable opps) {
+			result = new ModelAndView("redirect:../welcome/index.do");
+			result.addObject("messageCode", "group.commit.error");
+		}
+		return result;
+	}
+	@RequestMapping(value = "/comments", method = RequestMethod.GET)
+	public ModelAndView commentsGroup(@RequestParam final int Id) {
+		ModelAndView result;
+		final Forum group;
+		Actor actor = null;
+		final Boolean b = true;
+		try {
+			result = new ModelAndView("comment/list");
+			group = this.groupService.findOne(Id);
+			actor = this.actorService.findByPrincipal();
+			if ((((group.getModerator() != actor) && group.getCreator() != actor)) && (group.getIsActive() == false))
+				Assert.isTrue(false);
+			final Collection<Comment> comments = this.commentsRepository.getCommentsByGroup(group.getId());
+			result.addObject("requestURI", "/group/comments.do");
+			result.addObject("actor", actor);
+			result.addObject("group", group);
+			result.addObject("possible", true);
+			result.addObject("permission", true);
+			result.addObject("comments", comments);
 		} catch (final Throwable opps) {
 			result = new ModelAndView("redirect:../welcome/index.do");
 			result.addObject("messageCode", "group.commit.error");
