@@ -72,7 +72,9 @@ public class GroupServiceTest extends AbstractTest {
 	 * ####################### TEST CREATE FORUM By FILM #######################
 	 */
 	@Test
-	public void driverCreateForumByFilm() {
+	public void driverCreateForumByFilm() throws InterruptedException {
+		TimeUnit.SECONDS.sleep(2);
+
 		final Object testingData[][] = {
 			{
 				"filmEnthusiast1", "film1", null, "name", "description", new Date(System.currentTimeMillis() - 1), "rejectReason", false, null
@@ -129,7 +131,7 @@ public class GroupServiceTest extends AbstractTest {
 	 */
 	@Test
 	public void driverCreateForumBySaga() throws InterruptedException {
-		TimeUnit.SECONDS.sleep(2);
+		TimeUnit.SECONDS.sleep(4);
 		final Object testingData[][] = {
 			{
 				"filmEnthusiast1", null, "saga1", "name", "description", new Date(System.currentTimeMillis() - 1), "rejectReason", false, null

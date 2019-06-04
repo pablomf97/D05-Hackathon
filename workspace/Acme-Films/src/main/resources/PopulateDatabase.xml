@@ -2133,8 +2133,7 @@
 		<property name="rejectReason" value="" />
 		<property name="creator" ref="filmEnthusiast3" />
 		<property name="groupMembers">
-			<null />
-
+		<list></list>
 		</property>
 		<property name="sagaAbout">
 			<null />
@@ -2150,7 +2149,7 @@
 		<property name="rejectReason" value="" />
 		<property name="creator" ref="filmEnthusiast3" />
 		<property name="groupMembers">
-			<null />
+		<list></list>
 
 		</property>
 		<property name="sagaAbout">
