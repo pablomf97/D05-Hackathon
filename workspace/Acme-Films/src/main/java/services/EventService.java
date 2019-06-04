@@ -31,7 +31,7 @@ public class EventService {
 	private EventRepository	eventRepository;
 
 	@Autowired
-	private GroupRepository groupRepository;
+	private GroupRepository	groupRepository;
 
 	@Autowired
 	private Validator		validator;
@@ -121,8 +121,9 @@ public class EventService {
 		final Event event = this.findOne(Id);
 		Assert.isTrue(event.getAttenders().size() < event.getMaximumCapacity(), "capacity exceded");
 		final Actor actor = this.actorService.findByPrincipal();
-		Assert.isTrue(!event.getAttenders().contains(actor) || event.getForum().getGroupMembers().equals(actor));
+		Assert.isTrue(!event.getAttenders().contains(actor) && event.getForum().getGroupMembers().contains(actor));
 		event.getAttenders().add((FilmEnthusiast) actor);
+		this.eventRepository.save(event);
 
 	}
 
@@ -132,37 +133,27 @@ public class EventService {
 
 	public Collection<Event> top3EventsWithMorePeople() {
 
-		List<Event> l = (List<Event>) this.eventRepository
-				.top3EventsWithMorePeople();
-		if(l.size()==0){
+		final List<Event> l = (List<Event>) this.eventRepository.top3EventsWithMorePeople();
+		if (l.size() == 0)
 			return l;
-		}else{
-
-
+		else
 			return l.subList(0, 3);
-		}
 	}
 
-	public void deleteEventPerForum(int id) {
+	public void deleteEventPerForum(final int id) {
 
 		this.eventRepository.deleteInBatch(this.eventRepository.findAllByGroup(id));
 
 	}
 
-	public void deleteEventPerFilmEnthusiast(FilmEnthusiast f) {
+	public void deleteEventPerFilmEnthusiast(final FilmEnthusiast f) {
 
-		for(Event e : this.findAll()){
-
-			if(e.getAttenders().contains(f)){
+		for (final Event e : this.findAll())
+			if (e.getAttenders().contains(f))
 				this.delete(e);
 
-
-			}
-
-
-
-		}
-
-
+	}
+	public void flush() {
+		this.eventRepository.flush();
 	}
 }

@@ -44,11 +44,24 @@
 
 				<display:column>
 					<spring:message code="delete.confirm" var="confirmation" />
-					<button
-						<%-- href="filmenthusiast/delete.do?memberId=${enthusiast.id}&groupId=${groupId}" --%>
+					<jstl:if test="${not(groupId  eq 0) and eventId eq 0}">
+						<button
+							<%-- href="filmenthusiast/delete.do?memberId=${enthusiast.id}&groupId=${groupId}" --%>
+						
 						onclick="YNconfirm('group/filmenthusiast/delete.do?memberId=${enthusiast.id}&groupId=${groupId}','${confirmation}')">
-						<spring:message code="enthusiast.delete" />
-					</button>
+
+							<spring:message code="enthusiast.delete" />
+						</button>
+					</jstl:if>
+<%-- 					<jstl:if test="${eventId != 0}">
+						<button
+							href="filmenthusiast/delete.do?memberId=${enthusiast.id}&groupId=${groupId}"
+						
+						onclick="YNconfirm('group/filmenthusiast/delete.do?memberId=${enthusiast.id}&groupId=${groupId}','${confirmation}')">
+
+							<spring:message code="enthusiast.delete" />
+						</button>
+					</jstl:if> --%>
 				</display:column>
 
 			</display:table>

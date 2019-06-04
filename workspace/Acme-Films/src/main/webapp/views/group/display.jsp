@@ -53,16 +53,19 @@
 		</tr>
 
 	</table>
-	<!--  Lista de comentarios
-	  <jstl:if test="${group.creator eq actor }">
+	<jstl:set var="contains2" value="false" />
+		<jstl:forEach var="item2" items="${group.groupMembers}">
+			<jstl:if
+				test="${item2.userAccount.username eq actor.userAccount.username}">
+				<jstl:set var="contains2" value="true" />
+			</jstl:if>
+		</jstl:forEach>
+	<!--  Lista de comentarios -->
+	  <jstl:if test="${group.creator eq actor or contains2}">
 		<input type="button" name="list"
-			value="<spring:message code="group.list.members"	/>"
-			onclick="redirect: location.href = 'group/filmenthusiast/listMembers.do?Id=${group.id}';" />
-			
-			<input type="button" name="list"
-			value="<spring:message code="group.delete"	/>"
-			onclick="redirect: location.href = 'group/delete.do?Id=${group.id}';" />
-	</jstl:if>-->
+			value="<spring:message code="group.list.comments"/>"
+			onclick="redirect: location.href = 'group/comments.do?Id=${group.id}';" />
+	</jstl:if>
 	<!-- Delete -->
 	<jstl:if
 		test="${group.creator.userAccount.username eq actor.userAccount.username and not group.isActive}">
@@ -89,13 +92,7 @@
 	<acme:cancel url="group/list.do" code="group.cancel" />
 	<!-- Request -->
 	<security:authorize access="hasRole('FILMENTHUSIAST')">
-		<jstl:set var="contains2" value="false" />
-		<jstl:forEach var="item2" items="${group.groupMembers}">
-			<jstl:if
-				test="${item2.userAccount.username eq actor.userAccount.username}">
-				<jstl:set var="contains2" value="true" />
-			</jstl:if>
-		</jstl:forEach>
+		
 		<jstl:if test="${contains2}">
 			<a href="group/filmenthusiast/request.do?Id=${group.id}"> <spring:message
 					code="group.request" />

@@ -63,7 +63,7 @@ public class ProfessionalDataServiceTest extends AbstractTest {
 	 */
 
 	/*
-	 * ####################### TEST CREATE POSITIONDATA #######################
+	 * ####################### TEST CREATE PROFESSIONALDATA #######################
 	 */
 
 	@Test
@@ -124,7 +124,7 @@ public class ProfessionalDataServiceTest extends AbstractTest {
 	}
 
 	/*
-	 * ####################### TEST EDIT POSITIONDATA #######################
+	 * ####################### TEST EDIT PROFESSIONALDATA #######################
 	 */
 
 	@Test
@@ -183,7 +183,7 @@ public class ProfessionalDataServiceTest extends AbstractTest {
 	}
 
 	/*
-	 * ####################### TEST DELETE POSITIONDATA #######################
+	 * ####################### TEST DELETE PROFESSIONALDATA #######################
 	 */
 
 	@Test

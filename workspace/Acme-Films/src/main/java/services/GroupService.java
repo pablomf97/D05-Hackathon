@@ -15,7 +15,6 @@ import org.springframework.validation.Validator;
 
 import repositories.GroupRepository;
 import domain.Actor;
-import domain.Event;
 import domain.Film;
 import domain.FilmEnthusiast;
 import domain.Forum;
@@ -33,12 +32,15 @@ public class GroupService {
 	private GroupRepository	groupRepository;
 	@Autowired
 	private Validator		validator;
-	
 	@Autowired
-	private EventService eventService;
-	
+	private FilmService		filmService;
 	@Autowired
-	private CommentService commentService;
+	private SagaService		sagaService;
+	@Autowired
+	private CommentService	commentService;
+
+	@Autowired
+	private EventService	eventService;
 
 
 	public Forum createForFilm(final Film film) {
@@ -47,7 +49,7 @@ public class GroupService {
 
 		principal = this.actorService.findByPrincipal();
 		Assert.isTrue(this.actorService.checkAuthority(principal, "FILMENTHUSIAST"), "not.allowed");
-
+		Assert.isTrue(film.getIsDraft() == false);
 		result = new Forum();
 		final Date d = new Date();
 		result.setCreationDate(d);
@@ -93,12 +95,18 @@ public class GroupService {
 
 	public Collection<Forum> findAllByFilm(final Integer id) {
 		Assert.notNull(id);
-		return this.groupRepository.forumsPerFilm(id);
+		final Film film = this.filmService.findOne(id);
+		Assert.notNull(film);
+		final Collection<Forum> forums = this.groupRepository.forumsPerFilm(film.getId());
+		return forums;
 	}
 
 	public Collection<Forum> findAllBySaga(final Integer id) {
 		Assert.notNull(id);
-		return this.groupRepository.forumsPerSaga(id);
+		final Saga saga = this.sagaService.findOne(id);
+		Assert.notNull(saga);
+		final Collection<Forum> forums = this.groupRepository.forumsPerSaga(saga.getId());
+		return forums;
 	}
 	public Collection<Forum> findAllByFilmEnthusiast(final Integer id) {
 		Assert.notNull(id);
@@ -122,10 +130,14 @@ public class GroupService {
 		principal = this.actorService.findByPrincipal();
 		Forum result = null;
 		Assert.isTrue(forum.getFilmAbout() != null || forum.getSagaAbout() != null);
-		if (forum.getFilmAbout() != null)
+		if (forum.getFilmAbout() != null) {
+			Assert.isNull(forum.getSagaAbout());
 			result = this.createForFilm(forum.getFilmAbout());
-		else
+
+		} else {
+			Assert.isNull(forum.getFilmAbout());
 			result = this.createForSaga(forum.getSagaAbout());
+		}
 		Assert.isTrue(this.actorService.checkAuthority(principal, "FILMENTHUSIAST"), "not.allowed");
 		Assert.isTrue(forum.getCreator().equals(principal));
 		if (forum.getId() == 0) {
@@ -242,34 +254,33 @@ public class GroupService {
 		this.groupRepository.save(res);
 	}
 
-	public void deleteGroupModerator(int id) {
-		
-		this.groupRepository.deleteInBatch(this.groupRepository.forumPerModerator(id));
-		
-	
-		
+	public void flush() {
+		this.groupRepository.flush();
 	}
 
-	public void deleteGroupPerFilm(int id) {
-		
-		for(Forum g :this.groupRepository.forumPerFilmDefault(id)){
-			
+	public void deleteGroupModerator(final int id) {
+
+		this.groupRepository.deleteInBatch(this.groupRepository.forumPerModerator(id));
+
+	}
+
+	public void deleteGroupPerFilm(final int id) {
+
+		for (final Forum g : this.groupRepository.forumPerFilmDefault(id)) {
+
 			this.eventService.deleteEventPerForum(g.getId());
 			this.groupRepository.delete(g);
 		}
-		
+
 	}
 
-	public void deleteGroupPerFilmEnthusiast(FilmEnthusiast f) {
-		
-		for(Forum g: this.findAll()){
-			if(g.getGroupMembers().contains(f)||g.getCreator().getId()==f.getId()){
+	public void deleteGroupPerFilmEnthusiast(final FilmEnthusiast f) {
+
+		for (final Forum g : this.findAll())
+			if (g.getGroupMembers().contains(f) || g.getCreator().getId() == f.getId())
 				this.commentService.deleteCommentsPerForum(g);
-				//this.groupRepository.delete(g);
-			}
-		}
-		
-		
+		//this.groupRepository.delete(g);
+
 	}
 
 }

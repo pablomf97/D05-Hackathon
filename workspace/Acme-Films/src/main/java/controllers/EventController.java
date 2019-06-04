@@ -167,22 +167,35 @@ public class EventController extends AbstractController {
 		}
 		return result;
 	}
-
-	//Film enthusiast group list
 	@RequestMapping(value = "/filmenthusiast/listMembers", method = RequestMethod.GET)
 	public ModelAndView requestList(@RequestParam final int Id) {
 		ModelAndView result;
 		Event event;
+		boolean isMember = false;
+		boolean isCreator = false;
+
 		try {
 			event = this.eventService.findOne(Id);
-			result = new ModelAndView("filmenthusiast/list");
+
+			final Actor principal = this.actorService.findByPrincipal();
+
+			if (event.getAttenders().contains(principal))
+				isMember = true;
+			if (event.getForum().getCreator().getId() == principal.getId())
+				isCreator = true;
+
+			result = new ModelAndView("filmEnthusiast/list");
 			result.addObject("filmenthusiasts", event.getAttenders());
-			final Actor actor = this.actorService.findByPrincipal();
-			Assert.isTrue(event.getAttenders().contains(actor) || event.getForum().getCreator().equals(actor));
+			result.addObject("isMember", isMember);
+			result.addObject("isCreator", isCreator);
+			result.addObject("groupId", 0);
+			result.addObject("eventId", Id);
+
 		} catch (final Throwable opps) {
 			result = new ModelAndView("redirect:../welcome/index.do");
-			result.addObject("messageCode", "event.commit.error");
+			result.addObject("messageCode", "group.commit.error");
 		}
 		return result;
 	}
+
 }

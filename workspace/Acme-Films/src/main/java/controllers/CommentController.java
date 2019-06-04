@@ -1,3 +1,4 @@
+
 package controllers;
 
 import java.util.Collection;
@@ -27,16 +28,17 @@ public class CommentController extends AbstractController {
 
 	// Services
 	@Autowired
-	private CommentService commentService;
+	private CommentService	commentService;
 
 	@Autowired
-	private ActorService actorService;
+	private ActorService	actorService;
 
 	@Autowired
-	private FilmService filmService;
+	private FilmService		filmService;
 
 	@Autowired
-	private GroupService forumService;
+	private GroupService	forumService;
+
 
 	// Create
 
@@ -65,8 +67,6 @@ public class CommentController extends AbstractController {
 
 	}
 
-
-
 	// POST METHODS
 
 	@RequestMapping(value = "/createFilm", method = RequestMethod.POST, params = "save")
@@ -94,7 +94,6 @@ public class CommentController extends AbstractController {
 			result.addObject("possible", false);
 		}
 
-
 		return result;
 	}
 
@@ -119,7 +118,7 @@ public class CommentController extends AbstractController {
 
 
 		result = new ModelAndView("comment/list");
-
+		result.addObject("requestURI", "comment/filmEnthusiast/list.do");
 		result.addObject("comments", comments);
 		result.addObject("possible", possible);
 
@@ -127,28 +126,25 @@ public class CommentController extends AbstractController {
 
 	}
 
-
 	@RequestMapping(value = "/display", method = RequestMethod.POST, params = "delete")
-	public ModelAndView delete(final Comment comment,
-			final BindingResult binding) {
+	public ModelAndView delete(final Comment comment, final BindingResult binding) {
 		ModelAndView result;
 
-		Comment validComment = this.commentService.reconstruct(comment, binding);
+		final Comment validComment = this.commentService.reconstruct(comment, binding);
 
 		if (binding.hasErrors()) {
 			result = new ModelAndView("comment/display");
 
 			result.addObject("error", "comment.binding.error");
-		} else {
+		} else
 			try {
 				this.commentService.delete(validComment);
 				result = new ModelAndView("redirect:/comment/filmEnthusiast/list.do");
-			} catch (Throwable oops) {
+			} catch (final Throwable oops) {
 				result = new ModelAndView("comment/list");
 
 				result.addObject("error", "comment.commit.error");
 			}
-		}
 
 		return result;
 	}
@@ -157,13 +153,11 @@ public class CommentController extends AbstractController {
 	public ModelAndView display(@RequestParam final int id) {
 		ModelAndView result;
 		Comment comment;
-		FilmEnthusiast principal = (FilmEnthusiast) this.actorService
-				.findByPrincipal();
+		final FilmEnthusiast principal = (FilmEnthusiast) this.actorService.findByPrincipal();
 		comment = this.commentService.findOne(id);
 		boolean possible = false;
-		if (comment.getFilmEnthusiast().equals(principal)) {
+		if (comment.getFilmEnthusiast().equals(principal))
 			possible = true;
-		}
 
 		result = new ModelAndView("comment/display");
 		result.addObject("comment", comment);
