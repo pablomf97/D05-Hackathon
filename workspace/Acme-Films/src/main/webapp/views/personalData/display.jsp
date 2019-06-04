@@ -12,17 +12,6 @@
 
 
 <table class="displayStyle">
-	<tr>
-
-		<td><strong><spring:message code="personalData.github" />
-				: </strong></td>
-		<td><jstl:out value="${data.githubProfile}">
-
-			</jstl:out></td>
-
-
-	</tr>
-
 
 	<tr>
 
@@ -75,5 +64,5 @@
 </security:authorize>
 	<acme:cancel
 		url="/"
-		code="personalData.cancel.cancel" />
+		code="personalData.cancel" />
 
