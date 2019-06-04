@@ -35,13 +35,8 @@
 					<li class="arrow"></li>
 					<li><a href="administrator/administrator/register.do"><spring:message
 								code="master.page.register.admin" /></a></li>
-					<li><a href="administrator/statistics.do"><spring:message
-								code="master.page.dashboard" /></a></li>
-					<li><a href="message/administrator/broadcast.do"><spring:message
-								code="master.page.message.broadcast" /></a></li>
-					<li><a href="/administrator/listSuspicious.do"><spring:message
-								code="master.page.register.admin" /></a></li>
-
+					<li><a href="moderator/administrator/register.do"><spring:message
+								code="master.page.register.moderator" /></a></li>
 				</ul></li>
 
 		</security:authorize>
@@ -208,7 +203,8 @@
 					<security:authorize access="hasRole('ADMIN')">
 						<li><a href="statistics/administrator/display.do"><spring:message
 									code="master.page.dashboard" /></a></li>
-
+						<li><a href="message/administrator/broadcast.do"><spring:message
+								code="master.page.message.broadcast" /></a></li>
 						<li><a href="sysconfig/administrator/display.do"><spring:message
 									code="master.page.system" /></a></li>
 
@@ -218,6 +214,9 @@
 									code="export" /></a></li>
 						<li><a href="administrator/administrator/edit.do"><spring:message
 									code="master.page.actor.edit" /></a></li>
+						
+						<li><a href="/administrator/listSuspicious.do"><spring:message
+								code="master.page.list.suspicious" /></a></li>
 
 					</security:authorize>
 
