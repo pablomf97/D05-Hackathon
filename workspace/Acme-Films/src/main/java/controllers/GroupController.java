@@ -328,5 +328,4 @@ public class GroupController extends AbstractController {
 		}
 		return result;
 	}
-
 }
