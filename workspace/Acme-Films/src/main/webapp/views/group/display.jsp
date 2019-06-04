@@ -91,7 +91,7 @@
 	<jstl:if test="${empty group.moderator and not group.isActive}">
 		<input type="button" name="list"
 			value="<spring:message code="group.active"	/>"
-			onclick="redirect: location.href = 'group/moderator/activate.do?Id=${group.id}';" />
+			onclick="redirect: location.href = 'group/moderator/edit.do?Id=${group.id}';" />
 	</jstl:if>
 	<!-- Cancelar -->
 	<acme:cancel url="group/list.do" code="group.cancel" />

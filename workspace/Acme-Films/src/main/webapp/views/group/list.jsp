@@ -35,12 +35,9 @@
 		</display:column>
 
 		<display:column titleKey="group.display">
-			<jstl:if
-				test="${group.isActive or group.creator.userAccount.username eq actor.userAccount.username or group.moderator.userAccount.username eq actor.userAccount.username}">
-				<a href="group/display.do?Id=${group.id}"> <spring:message
+			<a href="group/display.do?Id=${group.id}"> <spring:message
 						code="group.display" />
 				</a>
-			</jstl:if>
 		</display:column>
 		<!-- Solicitar membresía -->
 		<display:column titleKey="group.request">
