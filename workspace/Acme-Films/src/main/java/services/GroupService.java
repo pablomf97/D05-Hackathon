@@ -271,5 +271,11 @@ public class GroupService {
 		
 		
 	}
+	
+	public Collection<Forum> getForumsToComment(int id){
+		Collection<Forum> result = this.groupRepository.getForumsToComment(id);
+		
+		return result;
+	}
 
 }

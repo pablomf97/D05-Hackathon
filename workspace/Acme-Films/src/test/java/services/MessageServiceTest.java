@@ -62,10 +62,10 @@ public class MessageServiceTest extends AbstractTest {
 
 	@Test
 	public void driverExchangeMessage() {
-		Object testingData[][] = { { "admin", "test", "test", "critic1",
+		Object testingData[][] = { { "filmEnthusias1", "test", "test", "critic1",
 				"HIGH", null },
 				// Positive test case
-				{"admin", null , "test", "critic1",
+				{"filmEnthusiast1", null , "test", "critic1",
 					"HIGH", IllegalArgumentException.class}
 				//Not null subject
 

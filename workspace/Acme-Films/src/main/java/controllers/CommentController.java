@@ -16,6 +16,7 @@ import services.ActorService;
 import services.CommentService;
 import services.FilmService;
 import services.GroupService;
+import services.ReviewService;
 import domain.Comment;
 import domain.Film;
 import domain.FilmEnthusiast;
@@ -37,7 +38,9 @@ public class CommentController extends AbstractController {
 
 	@Autowired
 	private GroupService forumService;
-
+	
+	@Autowired
+	private ReviewService reviewService;
 	// Create
 
 	@RequestMapping(value = "/createFilm", method = RequestMethod.GET)
@@ -45,8 +48,8 @@ public class CommentController extends AbstractController {
 		ModelAndView result;
 		FilmEnthusiast principal = (FilmEnthusiast) this.actorService
 				.findByPrincipal();
-		Collection<Film> films = this.filmService.findAll();
-		Collection<Forum> forums = this.forumService.findAll();
+		Collection<Film> films = this.reviewService.getFinalFilms();
+		Collection<Forum> forums = this.forumService.getForumsToComment(principal.getId());
 
 		Comment comment = this.commentService.create();
 
@@ -73,9 +76,10 @@ public class CommentController extends AbstractController {
 	public ModelAndView saveFilm(Comment comment,
 			final BindingResult binding) {
 		ModelAndView result;
-
-		Collection<Film> films = this.filmService.findAll();
-		Collection<Forum> forums = this.forumService.findAll();
+		FilmEnthusiast principal = (FilmEnthusiast)this.actorService.findByPrincipal();
+		
+		Collection<Film> films = this.reviewService.getFinalFilms();
+		Collection<Forum> forums = this.forumService.getForumsToComment(principal.getId());
 
 		try {
 			comment = this.commentService.reconstruct(comment, binding);
