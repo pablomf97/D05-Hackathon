@@ -199,4 +199,18 @@ public class EventController extends AbstractController {
 		return result;
 	}
 
+	// Film enthusiast delete member
+	@RequestMapping(value = "/filmenthusiast/delete", method = RequestMethod.GET)
+	public ModelAndView requesStatus(@RequestParam final int eventId) {
+		ModelAndView result;
+		try {
+			this.eventService.deleteMember(eventId);
+			result = new ModelAndView("redirect:../../welcome/index.do");
+		} catch (final Throwable opps) {
+			result = new ModelAndView("redirect:../welcome/index.do");
+			result.addObject("messageCode", "group.commit.error");
+		}
+		return result;
+	}
+
 }

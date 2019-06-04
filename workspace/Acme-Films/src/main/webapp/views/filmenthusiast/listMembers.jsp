@@ -56,8 +56,7 @@
 					</jstl:if>
 					<jstl:if test="${not(eventId eq 0) and groupId eq 0 and isMember and enthusiast.id eq actor.id }">
 							<button
-								href="filmenthusiast/delete.do?memberId=${enthusiast.id}&groupId=${groupId}"
-								onclick="YNconfirm('group/filmenthusiast/delete.do?memberId=${enthusiast.id}&groupId=${groupId}','${confirmation}')">
+								onclick="YNconfirm('event/filmenthusiast/delete.do?eventId=${eventId}','${confirmation}')">
 
 								<spring:message code="enthusiast.delete" />
 							</button>
