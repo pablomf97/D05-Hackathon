@@ -96,7 +96,7 @@
 			<!-- Action links -->
 
 			<display:column>
-				<a href="film/display.do?Id=${row.id}"> <spring:message
+				<a href="film/display.do?filmId=${row.id}"> <spring:message
 						code="film.display" />
 				</a>
 			</display:column>

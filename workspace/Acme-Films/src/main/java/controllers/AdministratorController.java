@@ -270,5 +270,5 @@ public class AdministratorController extends AbstractController {
 			}
 		return result;
 	}
-	
+
 }

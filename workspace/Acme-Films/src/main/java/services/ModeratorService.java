@@ -39,12 +39,12 @@ public class ModeratorService {
 
 	@Autowired
 	private SystemConfigurationService systemConfigurationService;
-	
+
 	@Autowired
 	private FilmService filmService;
-	
+
 	@Autowired
-	private GroupService groupService;
+	private MessageBoxService messageBoxService;
 
 	/* Simple CRUD methods */
 
@@ -123,24 +123,18 @@ public class ModeratorService {
 			Assert.isTrue(this.actorService.checkAuthority(principal, "ADMIN"),
 					"no.permission");
 
-			/* Managing phone number */
-			final char[] phoneArray = moderator.getPhoneNumber().toCharArray();
-			if ((!moderator.getPhoneNumber().equals(null) && !moderator
-					.getPhoneNumber().equals("")))
-				if (phoneArray[0] != '+' && Character.isDigit(phoneArray[0])) {
-					final String cc = this.systemConfigurationService
-							.findMySystemConfiguration().getCountryCode();
-					moderator.setPhoneNumber(cc + " "
-							+ moderator.getPhoneNumber());
-				}
+			res = this.moderatorRepository.save(moderator);
+
+			this.messageBoxService.initializeDefaultBoxes(res);
 		} else {
 
 			Assert.isTrue(principal.getId() == moderator.getId(),
 					"no.permission");
 
 			moderator.setUserAccount(principal.getUserAccount());
+			res = this.moderatorRepository.save(moderator);
 		}
-		res = this.moderatorRepository.save(moderator);
+
 		return res;
 	}
 
@@ -323,14 +317,13 @@ public class ModeratorService {
 	public Double[] statsReviewsPerModerator() {
 		return this.moderatorRepository.statsReviewsPerModerator();
 	}
-	
-	public void DeleteModerator(Moderator c){
-		
+
+	public void DeleteModerator(Moderator c) {
+
 		this.reviewService.deleteReviewPerModerator(c.getId());
 		this.filmService.deleteFilms(c.getId());
-		
-	
+
 		this.delete(c);
-		
+
 	}
 }

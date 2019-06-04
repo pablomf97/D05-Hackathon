@@ -37,8 +37,9 @@ public class AdministratorService {
 
 	@Autowired
 	private SystemConfigurationService systemConfigurationService;
-	
-	
+
+	@Autowired
+	private MessageBoxService messageBoxService;
 
 	/* Simple CRUD methods */
 
@@ -117,25 +118,19 @@ public class AdministratorService {
 			Assert.isTrue(this.actorService.checkAuthority(principal, "ADMIN"),
 					"no.permission");
 
-			/* Managing phone number */
-			final char[] phoneArray = administrator.getPhoneNumber()
-					.toCharArray();
-			if ((!administrator.getPhoneNumber().equals(null) && !administrator
-					.getPhoneNumber().equals("")))
-				if (phoneArray[0] != '+' && Character.isDigit(phoneArray[0])) {
-					final String cc = this.systemConfigurationService
-							.findMySystemConfiguration().getCountryCode();
-					administrator.setPhoneNumber(cc + " "
-							+ administrator.getPhoneNumber());
-				}
+			res = this.administratorRepository.save(administrator);
+
+			this.messageBoxService.initializeDefaultBoxes(res);
 		} else {
 
 			Assert.isTrue(principal.getId() == administrator.getId(),
 					"no.permission");
 
 			administrator.setUserAccount(principal.getUserAccount());
+
+			res = this.administratorRepository.save(administrator);
 		}
-		res = this.administratorRepository.save(administrator);
+
 		return res;
 	}
 
@@ -318,11 +313,9 @@ public class AdministratorService {
 	public void flush() {
 		this.administratorRepository.flush();
 	}
-	
-	public void deleteAdmin(Administrator a){	
+
+	public void deleteAdmin(Administrator a) {
 		this.delete(a);
 	}
-	
-	
-	
+
 }
