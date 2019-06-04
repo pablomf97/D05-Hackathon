@@ -11,6 +11,7 @@
 <form:form action="messagebox/edit.do" modelAttribute="messageBox">
 
 	<form:hidden path="id" />
+	<form:hidden path="owner" />
 
 	<h3>
 		<spring:message code="messagebox.header" />

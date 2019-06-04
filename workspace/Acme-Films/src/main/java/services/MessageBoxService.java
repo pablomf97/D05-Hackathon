@@ -49,8 +49,8 @@ public class MessageBoxService {
 
 	public MessageBox save(final MessageBox messageBox) {
 		MessageBox result;
+		MessageBox boxBD = this.findOne(messageBox.getId());
 		if (messageBox.getId() != 0) {
-			MessageBox boxBD = this.findOne(messageBox.getId());
 			Assert.isTrue(this.actorService.findByPrincipal().equals(
 					messageBox.getOwner())
 					|| this.actorService.findByPrincipal().equals(
@@ -60,11 +60,9 @@ public class MessageBoxService {
 			Assert.isTrue(this.checkParentBox(boxBD, messageBox));
 			boxBD.setParentMessageBox(messageBox.getParentMessageBox());
 			boxBD.setMessages(messageBox.getMessages());
-			result = this.messageBoxRepository.save(boxBD);
 		} else
 			Assert.notNull(messageBox.getName());
-
-		result = this.messageBoxRepository.save(messageBox);
+		result = this.messageBoxRepository.save(boxBD);
 
 		return result;
 	}
@@ -151,7 +149,7 @@ public class MessageBoxService {
 		boolean bool = true;
 		final Actor actor = this.actorService.findByPrincipal();
 		final MessageBox mb = this.findByName(actor.getId(), box.getName());
-		if (mb != null)
+		if (mb != null && mb.getId() != box.getId())
 			bool = false;
 		return bool;
 	}
@@ -172,6 +170,7 @@ public class MessageBoxService {
 		if (messageBox.getId() == 0) {
 			result.setName(messageBox.getName());
 			result.setParentMessageBox(messageBox.getParentMessageBox());
+			result.setOwner(this.actorService.findByPrincipal());
 			this.validator.validate(result, binding);
 		} else {
 			final MessageBox bd = this.messageBoxRepository.findOne(messageBox
@@ -179,9 +178,11 @@ public class MessageBoxService {
 			Assert.notNull(bd);
 			result.setName(messageBox.getName());
 			result.setParentMessageBox(messageBox.getParentMessageBox());
+			result.setOwner(messageBox.getOwner());
 			this.validator.validate(result, binding);
 			if (!binding.hasErrors()) {
 				result.setId(bd.getId());
+				result.setVersion(bd.getVersion());
 				result.setIsPredefined(bd.getIsPredefined());
 				result.setParentMessageBox(messageBox.getParentMessageBox());
 			}
