@@ -186,6 +186,7 @@ public class EventController extends AbstractController {
 
 			result = new ModelAndView("filmEnthusiast/list");
 			result.addObject("filmenthusiasts", event.getAttenders());
+			result.addObject("actor", principal);
 			result.addObject("isMember", isMember);
 			result.addObject("isCreator", isCreator);
 			result.addObject("groupId", 0);
