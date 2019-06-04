@@ -43,7 +43,9 @@ public class FilmService {
 	@Autowired
 	private CommentService commentService;
 
-
+	@Autowired
+	private SagaService sagaService;
+	
 	@Autowired
 	private GroupService groupService;
 
@@ -289,6 +291,26 @@ public class FilmService {
 
 		return result;
 
+	}
+	
+	public void deleteSagaFromFilms(int sagaId) {
+		Collection<Film> films;
+		Saga toDelete = this.sagaService.findOne(sagaId); 
+		
+		films = this.filmsWithSaga(sagaId);
+		
+		for(Film film : films) {
+			film.getSagas().remove(toDelete);
+			this.save(film);
+		}
+	}
+	
+	public Collection<Film> filmsWithSaga(int sagaId) {
+		Collection<Film> result;
+
+		result = this.filmRepository.filmsWithSaga(sagaId);
+
+		return result;
 	}
 
 }

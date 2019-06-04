@@ -44,6 +44,8 @@ public interface FilmRepository extends JpaRepository<Film, Integer> {
 
 	@Query("select f from Film f where f.isDraft = false")
 	Collection<Film> publishedFilms();
-
-
+	
+	@Query("select f from Film f join f.sagas s where s.id = ?1")
+	Collection<Film> filmsWithSaga(int sagaId);
+	
 }

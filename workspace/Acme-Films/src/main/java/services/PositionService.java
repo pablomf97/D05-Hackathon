@@ -55,8 +55,6 @@ public class PositionService {
 
 		result = new Position();
 		
-		result.setChildPositions(new ArrayList<Position>());
-
 		return result;
 	}
 	
@@ -175,6 +173,10 @@ public class PositionService {
 			result.add(pos);
 		}
 		return result;
+	}
+	
+	public void flush(){
+		this.positionRepository.flush();
 	}
 }
 

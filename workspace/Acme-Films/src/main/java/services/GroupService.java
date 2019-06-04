@@ -15,7 +15,6 @@ import org.springframework.validation.Validator;
 
 import repositories.GroupRepository;
 import domain.Actor;
-import domain.Event;
 import domain.Film;
 import domain.FilmEnthusiast;
 import domain.Forum;
@@ -268,8 +267,14 @@ public class GroupService {
 				//this.groupRepository.delete(g);
 			}
 		}
-		
-		
 	}
+	
+//	public Collection<Forum> groupsWithSaga(int sagaId) {
+//		Collection<Forum> result;
+//
+//		result = this.groupRepository.groupsWithSaga(sagaId);
+//
+//		return result;
+//	}
 
 }

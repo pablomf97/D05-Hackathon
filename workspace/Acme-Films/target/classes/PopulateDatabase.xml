@@ -1727,13 +1727,6 @@
 			<null />
 		</property>
 
-		<property name="childPositions">
-			<list>
-				<null />
-			</list>
-
-		</property>
-
 
 	</bean>
 	<bean id="position2" class="domain.Position">
@@ -1750,12 +1743,6 @@
 			<null />
 		</property>
 
-		<property name="childPositions">
-			<list>
-				<null />
-			</list>
-
-		</property>
 
 
 	</bean>
@@ -1773,12 +1760,6 @@
 			<null />
 		</property>
 
-		<property name="childPositions">
-			<list>
-				<null />
-			</list>
-
-		</property>
 
 
 	</bean>
@@ -1796,12 +1777,6 @@
 			<null />
 		</property>
 
-		<property name="childPositions">
-			<list>
-				<null />
-			</list>
-
-		</property>
 
 
 	</bean>
