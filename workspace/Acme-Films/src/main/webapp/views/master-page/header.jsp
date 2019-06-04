@@ -85,8 +85,6 @@
 									code="master.page.genre.list" /></a></li>
 					</ul></li>
 
-
-				<li><a class="fNiv"><spring:message code="master.page.saga" /></a>
 			</security:authorize>
 
 			<li><a class="fNiv"><spring:message
@@ -169,6 +167,12 @@
 
 
 		<security:authorize access="isAnonymous()">
+			<li><a class="fNiv"><spring:message code="master.page.film" /></a>
+				<ul>
+					<li class="arrow"></li>
+					<li><a href="film/list.do"><spring:message
+								code="master.page.film.list" /></a></li>
+				</ul></li>
 			<!-- Sign up -->
 			<li><a class="fNiv"><spring:message
 						code="master.page.singup" /></a>

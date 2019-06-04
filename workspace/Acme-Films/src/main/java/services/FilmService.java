@@ -93,6 +93,11 @@ public class FilmService {
 
 		principal = this.actorService.findByPrincipal();
 		Assert.isTrue(this.actorService.checkAuthority(principal, "MODERATOR"), "not.allowed");
+		
+		if(film.getIsDraft()) {
+			Assert.isTrue(film.getModerator().equals((Moderator) principal),
+					"not.allowed");
+		}
 
 		Assert.notNull(film.getTitle());
 		Assert.notNull(film.getSynopsis());
@@ -110,7 +115,7 @@ public class FilmService {
 		Assert.isTrue(film.getId() != 0, "wrong.id");
 
 		principal = this.actorService.findByPrincipal();
-		Assert.isTrue(this.actorService.checkAuthority(principal, "MODERATOR"),
+		Assert.isTrue(film.getModerator().equals((Moderator) principal),
 				"not.allowed");
 
 		this.filmRepository.delete(film.getId());
@@ -124,8 +129,6 @@ public class FilmService {
 		Actor principal;
 
 		principal = this.actorService.findByPrincipal();
-		Assert.isTrue(this.actorService.checkAuthority(principal, "MODERATOR"),
-				"not.allowed");
 
 		if (film.getId() == 0) {
 			result = this.create();
@@ -139,7 +142,7 @@ public class FilmService {
 		} else {
 			result = this.findOne(film.getId());
 		}
-
+		
 		try {
 			Assert.notEmpty(film.getPersons());
 		} catch (final Throwable oops) {
@@ -147,6 +150,9 @@ public class FilmService {
 		}
 
 		if(result.getIsDraft()) {
+			Assert.isTrue(result.getModerator().equals((Moderator) principal),
+					"not.allowed");
+			
 			result.setTitle(film.getTitle());
 			result.setSynopsis(film.getSynopsis());
 			result.setPoster(film.getPoster());
@@ -309,6 +315,13 @@ public class FilmService {
 		Collection<Film> result;
 
 		result = this.filmRepository.filmsWithSaga(sagaId);
+
+		return result;
+	}
+	
+	public Collection<Film> findFilmsPublishedAndMine(int moderatorId) {
+		
+		Collection<Film> result = this.filmRepository.findFilmsPublishedAndMine(moderatorId);;
 
 		return result;
 	}

@@ -27,7 +27,7 @@
 				</display:column>
 				
 				<display:column titleKey="visualization.link" sortable="true">
-					<a href="${visualization.link}"> 
+					<a href="${visualization.link}" target="_blank"> 
 						<spring:message
 							code="visualization.link.goto" />
 					</a>

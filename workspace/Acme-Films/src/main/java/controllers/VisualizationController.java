@@ -124,7 +124,7 @@ public class VisualizationController extends AbstractController {
 			result = this.createEditModelAndView(visualization);
 			result.addObject("visualizationId", visualizationId);
 		} catch (final Throwable oops) {
-			result = new ModelAndView("redirect:/welcome/index.do");
+			result = new ModelAndView("redirect:../welcome/index.do");
 		}
 		return result;
 	}

@@ -46,7 +46,7 @@ public class PersonController extends AbstractController {
 		ModelAndView result;
 		Person person;
 		boolean isPrincipal = false;
-		Actor principal;
+		//Actor principal;
 		Collection<Film> films;
 
 		try {
@@ -77,6 +77,7 @@ public class PersonController extends AbstractController {
 		Collection<Person> persons = this.personService.findAll();
 		Actor principal;
 		boolean isPrincipal = false;
+		Collection<Person> noDelete = this.personService.personsInFilms();
 
 		try {
 			if (filmId == null)
@@ -92,6 +93,7 @@ public class PersonController extends AbstractController {
 
 
 			result.addObject("persons", persons);
+			result.addObject("noDelete", noDelete);
 			result.addObject("isPrincipal", isPrincipal);
 
 		} catch (final Throwable oops) {
@@ -158,7 +160,7 @@ public class PersonController extends AbstractController {
 			result.addObject("positions", positions);
 
 		} catch (final Throwable oops) {
-			result = new ModelAndView("redirect:/welcome/index.do");
+			result = new ModelAndView("redirect:../welcome/index.do");
 		}
 		return result;
 	}
@@ -169,18 +171,25 @@ public class PersonController extends AbstractController {
 			BindingResult binding) {
 		ModelAndView result;
 		Collection<Position> positionsToSave = new ArrayList<>();
+		Person aux = new Person();
 		
 		try {
 			positionsToSave = this.positionService.parsePositions(positionsArray);
+			//aux = this.personService.findOne(person.getId());
 			
-			person.setPositions(positionsToSave);
+			aux.setBirthDate(person.getBirthDate());
+			aux.setGender(person.getGender());
+			aux.setId(person.getId());
+			aux.setName(person.getName());
+			aux.setNationality(person.getNationality());
+			aux.setPhoto(person.getPhoto());
+			aux.setSurname(person.getSurname());
+			aux.setPositions(positionsToSave);
+			//person.setPositions(positionsToSave);
 			
-		} catch (Exception e) {
-			
-		}
+		} catch (Exception e) {}
 		
-			Person toSave = this.personService.validate(person, binding);
-
+			Person a = this.personService.validate(aux, binding);
 
 		if (binding.hasErrors()) {
 			Collection<Position> positions = this.positionService.findAll();
@@ -191,7 +200,8 @@ public class PersonController extends AbstractController {
 			result.addObject("positions", positions);
 		} else {
 			try {
-				this.personService.save(toSave);
+				this.personService.flush();
+				this.personService.save(aux);
 				result = new ModelAndView("redirect:list.do");
 			} catch (final Throwable oops) {
 				result = new ModelAndView("person/edit");
@@ -199,7 +209,6 @@ public class PersonController extends AbstractController {
 				result.addObject("messageCode", oops.getMessage());
 			}
 		}
-
 		return result;
 	}
 
