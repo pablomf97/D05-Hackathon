@@ -46,11 +46,30 @@
 		</tr>
 		<tr>
 
+
+
 			<td><strong><spring:message code="group.description" />
 					: </strong></td>
 			<td><jstl:out value="${group.description}">
 				</jstl:out></td>
 		</tr>
+
+
+
+		<tr>
+
+
+
+			<td><strong><spring:message code="group.isActive" /> :
+			</strong></td>
+			<jstl:if test="${group.isActive}">
+				<td><spring:message code="group.activeGroup"/></td>
+			</jstl:if>
+			<jstl:if test="${empty group.isActive}">
+				<td><spring:message code="group.deactiveGroup"/>"</td>
+			</jstl:if>
+		</tr>
+
 
 	</table>
 	<jstl:set var="contains2" value="false" />
