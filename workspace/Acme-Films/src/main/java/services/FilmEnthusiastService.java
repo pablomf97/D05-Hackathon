@@ -27,7 +27,7 @@ import forms.RegisterFormObject;
 @Service
 public class FilmEnthusiastService {
 
-	/* Working repository */
+	/* Working repository */ 
 
 	@Autowired
 	private FilmEnthusiastRepository filmEnthusiastRepository;
@@ -36,12 +36,6 @@ public class FilmEnthusiastService {
 
 	@Autowired
 	private ActorService actorService;
-	
-	@Autowired
-	private EventService eventService;
-	
-	@Autowired
-	private GroupService groupService;
 
 	@Autowired
 	private MessageService messageService;
@@ -51,6 +45,9 @@ public class FilmEnthusiastService {
 	
 	@Autowired
 	private SystemConfigurationService systemConfigurationService;
+
+	@Autowired
+	private MessageBoxService messageBoxService;
 
 	/* Simple CRUD methods */
 
@@ -129,8 +126,13 @@ public class FilmEnthusiastService {
 
 			filmEnthusiast.setUserAccount(principal.getUserAccount());
 			filmEnthusiast.setFinder(principal.getFinder());
+
+			res = this.filmEnthusiastRepository.save(filmEnthusiast);
+		} else {
+			res = this.filmEnthusiastRepository.save(filmEnthusiast);
+			this.messageBoxService.initializeDefaultBoxes(res);
 		}
-		res = this.filmEnthusiastRepository.save(filmEnthusiast);
+
 		return res;
 	}
 
@@ -311,6 +313,7 @@ public class FilmEnthusiastService {
 	public void flush() {
 		this.filmEnthusiastRepository.flush();
 	}
+
 	
 	public void deleteFilmEnthusiast(FilmEnthusiast f){
 		
@@ -337,7 +340,8 @@ public class FilmEnthusiastService {
 		}
 
 		
+
 		this.delete(f);
 	}
-	
+
 }

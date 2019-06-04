@@ -35,8 +35,10 @@
 					<li class="arrow"></li>
 					<li><a href="administrator/administrator/register.do"><spring:message
 								code="master.page.register.admin" /></a></li>
-					<li><a href="moderator/administrator/register.do"><spring:message
-								code="master.page.register.moderator" /></a></li>
+					<li><a href="administrator/statistics.do"><spring:message
+								code="master.page.dashboard" /></a></li>
+					<li><a href="message/administrator/broadcast.do"><spring:message
+								code="master.page.message.broadcast" /></a></li>
 
 				</ul></li>
 
@@ -57,6 +59,10 @@
 						<li class="arrow"></li>
 						<li><a href="group/list.do"><spring:message
 									code="master.page.mygroup" /></a></li>
+						<security:authorize access="hasRole('MODERATOR')">
+							<li><a href="group/moderator/listWithout.do"><spring:message
+										code="master.page.deactiveGroups" /></a></li>
+						</security:authorize>
 					</ul></li>
 			</security:authorize>
 
@@ -187,22 +193,6 @@
 		</security:authorize>
 
 		<security:authorize access="isAuthenticated()">
-			<li><a class="fNiv"><spring:message
-						code="master.page.messaging" /></a>
-				<ul>
-					<li class="arrow"></li>
-					<li><a href="messagebox/list.do"><spring:message
-								code="master.page.profile.message.boxes" /></a></li>
-					<li><a href="messagebox/create.do"><spring:message
-								code="master.page.box.new" /></a></li>
-					<li><a href="message/actor/create.do"><spring:message
-								code="master.page.message.new" /></a></li>
-					<security:authorize access="hasRole('ADMIN')">
-						<li><a href="message/administrator/broadcast.do"><spring:message
-									code="master.page.message.broadcast" /></a></li>
-					</security:authorize>
-				</ul></li>
-
 			<li><a class="fNiv"> <spring:message
 						code="master.page.profile" /> (<security:authentication
 						property="principal.username" />)
@@ -266,6 +256,15 @@
 						<li><a href="critic/export.do"><spring:message
 									code="export" /></a></li>
 					</security:authorize>
+
+
+					<li><a href="messagebox/list.do"><spring:message
+								code="master.page.profile.message.boxes" /></a></li>
+					<li><a href="messagebox/create.do"><spring:message
+								code="master.page.box.new" /></a></li>
+					<li><a href="message/actor/create.do"><spring:message
+								code="master.page.message.new" /></a></li>
+
 
 
 					<li><a href="j_spring_security_logout"><spring:message

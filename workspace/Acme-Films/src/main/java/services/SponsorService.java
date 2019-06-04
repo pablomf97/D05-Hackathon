@@ -39,12 +39,10 @@ public class SponsorService {
 
 	@Autowired
 	private SystemConfigurationService systemConfigurationService;
-	
-	@Autowired
-	private SocialProfileService socialProfileService;
-	
+
 	@Autowired
 	private SponsorshipService sponsorshipService;
+
 
 	
 	@Autowired
@@ -53,6 +51,8 @@ public class SponsorService {
 	@Autowired
 	private MessageBoxService MessageBoxService ;
 	
+
+
 	/* Simple CRUD methods */
 
 	/**
@@ -128,8 +128,12 @@ public class SponsorService {
 			Assert.isTrue(principal.getId() == sponsor.getId(), "no.permission");
 
 			sponsor.setUserAccount(principal.getUserAccount());
+
+			res = this.sponsorRepository.save(sponsor);
+		} else {
+			res = this.sponsorRepository.save(sponsor);
+			this.MessageBoxService.initializeDefaultBoxes(res);
 		}
-		res = this.sponsorRepository.save(sponsor);
 		return res;
 	}
 
@@ -312,13 +316,12 @@ public class SponsorService {
 	public Double[] statsSponsorshipsPerSponsor() {
 		return this.sponsorRepository.statsSponsorshipsPerSponsor();
 	}
-	
-	public void deleteSponsor(Sponsor c){
-		
-	
-		
-		//Sponsorships
+
+	public void deleteSponsor(Sponsor c) {
+
+		// Sponsorships
 		this.sponsorshipService.deleteSponsorships(c.getId());
+
 		
 		for(Message m :this.messageService.messagesInvolved(c.getId())){
 			for(MessageBox mb:this.MessageBoxService.findAll()){
@@ -338,6 +341,7 @@ public class SponsorService {
 				this.MessageBoxService.deleteBox(mb);
 			}
 		}
+
 
 		this.delete(c);
 	}
