@@ -318,4 +318,8 @@ public class AdministratorService {
 		this.delete(a);
 	}
 
+	public Collection<Actor> findSpammers() {
+		return this.administratorRepository.findSpammers();
+	}
+
 }

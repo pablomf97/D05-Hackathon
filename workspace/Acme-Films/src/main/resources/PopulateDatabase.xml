@@ -23,6 +23,7 @@
 				</bean>
 			</list>
 		</property>
+		<property name="isBanned" value="false" />
 	</bean>
 
 	<bean id="userAdmin2" class="security.UserAccount">
@@ -35,6 +36,7 @@
 				</bean>
 			</list>
 		</property>
+		<property name="isBanned" value="false" />
 	</bean>
 
 	<bean id="userModerator1" class="security.UserAccount">
@@ -47,6 +49,7 @@
 				</bean>
 			</list>
 		</property>
+		<property name="isBanned" value="false" />
 	</bean>
 	<bean id="userModerator2" class="security.UserAccount">
 		<property name="username" value="moderator2" />
@@ -58,6 +61,7 @@
 				</bean>
 			</list>
 		</property>
+		<property name="isBanned" value="false" />
 	</bean>
 	<bean id="userModerator3" class="security.UserAccount">
 		<property name="username" value="moderator3" />
@@ -69,6 +73,7 @@
 				</bean>
 			</list>
 		</property>
+		<property name="isBanned" value="false" />
 	</bean>
 
 
@@ -82,6 +87,7 @@
 				</bean>
 			</list>
 		</property>
+		<property name="isBanned" value="false" />
 	</bean>
 	<bean id="userSponsor2" class="security.UserAccount">
 		<property name="username" value="sponsor2" />
@@ -93,6 +99,7 @@
 				</bean>
 			</list>
 		</property>
+		<property name="isBanned" value="false" />
 	</bean>
 	<bean id="userSponsor3" class="security.UserAccount">
 		<property name="username" value="sponsor3" />
@@ -104,6 +111,7 @@
 				</bean>
 			</list>
 		</property>
+		<property name="isBanned" value="false" />
 	</bean>
 
 
@@ -117,6 +125,7 @@
 				</bean>
 			</list>
 		</property>
+		<property name="isBanned" value="false" />
 	</bean>
 	<bean id="userCritic2" class="security.UserAccount">
 		<property name="username" value="critic2" />
@@ -128,6 +137,7 @@
 				</bean>
 			</list>
 		</property>
+		<property name="isBanned" value="false" />
 	</bean>
 	<bean id="userCritic3" class="security.UserAccount">
 		<property name="username" value="critic3" />
@@ -139,6 +149,7 @@
 				</bean>
 			</list>
 		</property>
+		<property name="isBanned" value="false" />
 	</bean>
 
 	<bean id="userFilmEnthusiast1" class="security.UserAccount">
@@ -151,6 +162,7 @@
 				</bean>
 			</list>
 		</property>
+		<property name="isBanned" value="false" />
 	</bean>
 
 	<bean id="userFilmEnthusiast2" class="security.UserAccount">
@@ -163,6 +175,7 @@
 				</bean>
 			</list>
 		</property>
+		<property name="isBanned" value="false" />
 	</bean>
 	<bean id="userFilmEnthusiast3" class="security.UserAccount">
 		<property name="username" value="filmEnthusiast3" />
@@ -174,6 +187,7 @@
 				</bean>
 			</list>
 		</property>
+		<property name="isBanned" value="false" />
 	</bean>
 
 
@@ -296,7 +310,7 @@
 		<property name="phoneNumber" value="+34611987654" />
 		<property name="address" value="C/ Atlántica sex, 1 (Málaga)" />
 		<property name="userAccount" ref="userAdmin2" />
-		<property name="isSpammer" value="false" />
+		<property name="isSpammer" value="true" />
 		<property name="socialProfile">
 			<list>
 				<ref bean="socialProfileAdmin2" />
@@ -349,7 +363,7 @@
 		<property name="phoneNumber" value="+34611987654" />
 		<property name="address" value="C/ Atlántica sex, 1 (Málaga)" />
 		<property name="userAccount" ref="userModerator3" />
-		<property name="isSpammer" value="false" />
+		<property name="isSpammer" value="true" />
 		<property name="socialProfile">
 			<list>
 				<ref bean="socialProfileModerator3" />
@@ -403,7 +417,7 @@
 		<property name="phoneNumber" value="+34611987654" />
 		<property name="address" value="C/ Atlántica sex, 1 (Málaga)" />
 		<property name="userAccount" ref="userSponsor2" />
-		<property name="isSpammer" value="false" />
+		<property name="isSpammer" value="true" />
 		<property name="socialProfile">
 			<list>
 				<ref bean="socialProfileSponsor2" />
@@ -458,7 +472,7 @@
 		<property name="phoneNumber" value="+34611987654" />
 		<property name="address" value="C/ Atlántica sex, 1 (Málaga)" />
 		<property name="userAccount" ref="userFilmEnthusiast3" />
-		<property name="isSpammer" value="false" />
+		<property name="isSpammer" value="true" />
 		<property name="socialProfile">
 			<list>
 				<ref bean="socialProfileFilmEnthusiast3" />
@@ -519,7 +533,7 @@
 		<property name="phoneNumber" value="+34611987654" />
 		<property name="address" value="C/ Atlántica sex, 1 (Málaga)" />
 		<property name="userAccount" ref="userCritic3" />
-		<property name="isSpammer" value="false" />
+		<property name="isSpammer" value="true" />
 		<property name="socialProfile">
 			<list>
 				<ref bean="socialProfileCritic3" />
@@ -1565,7 +1579,7 @@
 			</list>
 		</property>
 	</bean>
-	
+
 
 	<!-- **************************** PERSONAL DATA **************************** -->
 
@@ -2108,7 +2122,7 @@
 		<property name="rejectReason" value="" />
 		<property name="creator" ref="filmEnthusiast3" />
 		<property name="groupMembers">
-		<list></list>
+			<list></list>
 		</property>
 		<property name="sagaAbout">
 			<null />
@@ -2124,7 +2138,7 @@
 		<property name="rejectReason" value="" />
 		<property name="creator" ref="filmEnthusiast3" />
 		<property name="groupMembers">
-		<list></list>
+			<list></list>
 
 		</property>
 		<property name="sagaAbout">

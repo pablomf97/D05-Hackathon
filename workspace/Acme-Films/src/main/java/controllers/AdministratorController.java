@@ -1,5 +1,7 @@
 package controllers;
 
+import java.util.Collection;
+
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -269,6 +271,70 @@ public class AdministratorController extends AbstractController {
 						"administrator.commit.error");
 			}
 		return result;
+	}
+
+	@RequestMapping(value = "/listSuspicious", method = RequestMethod.GET)
+	public ModelAndView list() {
+		ModelAndView res;
+		Collection<Actor> suspiciousActors;
+
+		try {
+			suspiciousActors = this.administratorService.findSpammers();
+			res = new ModelAndView("administrator/listSuspicious");
+			res.addObject("suspiciousActors", suspiciousActors);
+		} catch (final Throwable oops) {
+			res = new ModelAndView("redirect:/welcome/index.do");
+		}
+
+		return res;
+	}
+
+	@RequestMapping(value = "/ban", method = RequestMethod.GET)
+	public ModelAndView ban(@RequestParam int id) {
+		ModelAndView res;
+		Actor suspiciousActor;
+		Collection<Actor> suspiciousActors;
+
+		try {
+			Assert.isTrue(this.actorService.checkAuthority(
+					this.actorService.findByPrincipal(), "ADMIN"));
+
+			suspiciousActor = this.actorService.findOne(id);
+			Assert.isTrue(suspiciousActor.getIsSpammer());
+
+			suspiciousActor.getUserAccount().setIsBanned(true);
+
+			suspiciousActors = this.administratorService.findSpammers();
+			res = new ModelAndView("administrator/listSuspicious");
+			res.addObject("suspiciousActors", suspiciousActors);
+		} catch (final Throwable oops) {
+			res = new ModelAndView("redirect:/welcome/index.do");
+		}
+
+		return res;
+	}
+	
+	@RequestMapping(value = "/unban", method = RequestMethod.GET)
+	public ModelAndView unban(@RequestParam int id) {
+		ModelAndView res;
+		Actor suspiciousActor;
+		Collection<Actor> suspiciousActors;
+
+		try {
+			Assert.isTrue(this.actorService.checkAuthority(
+					this.actorService.findByPrincipal(), "ADMIN"));
+
+			suspiciousActor = this.actorService.findOne(id);
+			suspiciousActor.getUserAccount().setIsBanned(false);
+
+			suspiciousActors = this.administratorService.findSpammers();
+			res = new ModelAndView("administrator/listSuspicious");
+			res.addObject("suspiciousActors", suspiciousActors);
+		} catch (final Throwable oops) {
+			res = new ModelAndView("redirect:/welcome/index.do");
+		}
+
+		return res;
 	}
 
 }
