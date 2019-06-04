@@ -134,4 +134,12 @@ public class CommentService {
 		this.commentRepository.deleteInBatch(this.commentRepository.CommentsPerForum(g.getId()));
 		
 	}
+	
+	public Collection<Comment> getCommentsByGroup(int groupId) {
+		Collection<Comment> result;
+		
+		result = this.commentRepository.CommentsPerForum(groupId);
+		
+		return result;
+	}
 }

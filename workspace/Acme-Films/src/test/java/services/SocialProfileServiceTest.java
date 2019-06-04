@@ -34,10 +34,10 @@ public class SocialProfileServiceTest extends AbstractTest {
 	 * Total coverage by exclusively executing this test class
 	 * 
 	 * 
-	 * Coverage of the total project (%):
+	 * Coverage of the total project (%): 4,1
 	 * 
 	 * 
-	 * Coverage of the total project (lines of codes):
+	 * Coverage of the total project (lines of codes): 1.473
 	 */
 
 	/*
@@ -103,21 +103,21 @@ public class SocialProfileServiceTest extends AbstractTest {
 	public void driverEditLegalRecord() {
 		Object testingData[][] = {
 
-				{ "admin", 198, "https://www.instagram.com/", "Zodd",
+				{ "admin", 199, "https://www.instagram.com/", "Zodd",
 						"Instagram", null },
 
 				/* Incorrect Testing */
 
-				{ "admin", 198, "https://www.linkedin.com/", "Griffith", "",
+				{ "admin", 199, "https://www.linkedin.com/", "Griffith", "",
 						ConstraintViolationException.class },
 
-				{ "admin", 198, "vk", "Judeau", "vk",
+				{ "admin", 199, "vk", "Judeau", "vk",
 						ConstraintViolationException.class },
 
-				{ "", 198, "https://www.pinterest.com/", "Pipin", "Pinterest",
+				{ "", 199, "https://www.pinterest.com/", "Pipin", "Pinterest",
 						IllegalArgumentException.class },
 
-				{ "moderator", 198, "https://www.flickr.com/", "Puck",
+				{ "moderator", 199, "https://www.flickr.com/", "Puck",
 						"Flickr", IllegalArgumentException.class } };
 
 		for (int i = 0; i < testingData.length; i++)
@@ -161,13 +161,13 @@ public class SocialProfileServiceTest extends AbstractTest {
 	public void driverDeleteLegalRecord() {
 		Object testingData[][] = {
 
-		{ "admin", 198, null },
+		{ "admin", 199, null },
 
 		/* Incorrect Testing */
 
-		{ "moderator1", 198, IllegalArgumentException.class },
+		{ "moderator1", 199, IllegalArgumentException.class },
 
-		{ "", 198, IllegalArgumentException.class }
+		{ "", 199, IllegalArgumentException.class }
 
 		};
 
