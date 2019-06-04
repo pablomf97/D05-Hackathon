@@ -267,7 +267,7 @@ public class GroupService {
 	public void deleteGroupPerFilm(final int id) {
 
 		for (final Forum g : this.groupRepository.forumPerFilmDefault(id)) {
-
+			this.commentService.deleteCommentsPerForum(id);
 			this.eventService.deleteEventPerForum(g.getId());
 			this.groupRepository.delete(g);
 		}
@@ -278,7 +278,7 @@ public class GroupService {
 
 		for (final Forum g : this.findAll())
 			if (g.getGroupMembers().contains(f) || g.getCreator().getId() == f.getId())
-				this.commentService.deleteCommentsPerForum(g);
+				this.commentService.deleteCommentsPerForum(g.getId());
 
 		//this.groupRepository.delete(g);
 

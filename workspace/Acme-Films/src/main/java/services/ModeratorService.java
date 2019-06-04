@@ -16,6 +16,8 @@ import repositories.ModeratorRepository;
 import security.Authority;
 import security.UserAccount;
 import domain.Actor;
+import domain.Message;
+import domain.MessageBox;
 import domain.Moderator;
 import domain.SocialProfile;
 import forms.EditionFormObject;
@@ -45,6 +47,13 @@ public class ModeratorService {
 	
 	@Autowired
 	private GroupService groupService;
+	
+	
+	@Autowired
+	private MessageService messageService;
+	
+	@Autowired
+	private MessageBoxService MessageBoxService ;
 
 	/* Simple CRUD methods */
 
@@ -329,7 +338,25 @@ public class ModeratorService {
 		this.reviewService.deleteReviewPerModerator(c.getId());
 		this.filmService.deleteFilms(c.getId());
 		
-	
+		for(Message m :this.messageService.messagesInvolved(c.getId())){
+			for(MessageBox mb:this.MessageBoxService.findAll()){
+				
+				if(mb.getMessages().contains(m)){
+					mb.getMessages().remove(m);
+				}
+				
+			}
+			
+			this.messageService.deleteMessage(m);
+		}
+		
+		for(MessageBox mb:this.MessageBoxService.findAll()){
+			
+			if(mb.getOwner()==c){
+				this.MessageBoxService.deleteBox(mb);
+			}
+		}
+		
 		this.delete(c);
 		
 	}

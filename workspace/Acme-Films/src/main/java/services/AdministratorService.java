@@ -17,6 +17,8 @@ import security.Authority;
 import security.UserAccount;
 import domain.Actor;
 import domain.Administrator;
+import domain.Message;
+import domain.MessageBox;
 import domain.SocialProfile;
 import forms.EditionFormObject;
 import forms.RegisterFormObject;
@@ -37,6 +39,12 @@ public class AdministratorService {
 
 	@Autowired
 	private SystemConfigurationService systemConfigurationService;
+	
+	@Autowired
+	private MessageService messageService;
+	
+	@Autowired
+	private MessageBoxService MessageBoxService ;
 	
 	
 
@@ -320,6 +328,29 @@ public class AdministratorService {
 	}
 	
 	public void deleteAdmin(Administrator a){	
+		
+		
+
+		
+		for(Message m :this.messageService.messagesInvolved(a.getId())){
+			for(MessageBox mb:this.MessageBoxService.findAll()){
+				
+				if(mb.getMessages().contains(m)){
+					mb.getMessages().remove(m);
+				}
+				
+			}
+			
+			this.messageService.deleteMessage(m);
+		}
+		
+		for(MessageBox mb:this.MessageBoxService.findAll()){
+			
+			if(mb.getOwner()==a){
+				this.MessageBoxService.deleteBox(mb);
+			}
+		}
+
 		this.delete(a);
 	}
 	

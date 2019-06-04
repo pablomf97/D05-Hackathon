@@ -199,9 +199,9 @@ public class MessageBoxService {
 		return result;
 	}
 	
-	public void deleteBoxes( ){
+	public void deleteBox(MessageBox mb ){
 		
-		this.messageBoxRepository.deleteInBatch(this.findAll());
+		this.messageBoxRepository.delete(mb);
 		
 		
 	}

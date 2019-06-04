@@ -166,7 +166,7 @@
 	</bean>
 	<bean id="userFilmEnthusiast3" class="security.UserAccount">
 		<property name="username" value="filmEnthusiast3" />
-		<property name="password" value="2f619abf35f35d487e1cee32c70fffc2" />
+		<property name="password" value="6dd9167e8f7e0b007d73b7cc7225086c" />
 		<property name="authorities">
 			<list>
 				<bean class="security.Authority">
@@ -491,7 +491,7 @@
 
 	</bean>
 	<bean id="critic2" class="domain.Critic">
-		<property name="name" value="Antonio" />
+		<property name="name" value="Carlos" />
 		<property name="surname" value="Bayona" />
 		<property name="photo"
 			value="https://ih1.redbubble.net/image.376305132.3400/flat,550x550,075,f.u1.jpg" />
@@ -511,7 +511,7 @@
 
 	</bean>
 	<bean id="critic3" class="domain.Critic">
-		<property name="name" value="Antonio" />
+		<property name="name" value="Juan" />
 		<property name="surname" value="Bayona" />
 		<property name="photo"
 			value="https://ih1.redbubble.net/image.376305132.3400/flat,550x550,075,f.u1.jpg" />
@@ -1850,7 +1850,7 @@
 
 	<bean id="film1" class="domain.Film">
 		<property name="title"
-			value="El Señor de los Anillos I - La Comunidad del Anillo" />
+			value="La Comunidad del Anillo" />
 
 
 		<property name="synopsis" value="Synopsis 1" />
@@ -1883,7 +1883,7 @@
 	</bean>
 
 	<bean id="film2" class="domain.Film">
-		<property name="title" value="El Señor de los Anillos II - Las Dos Torres" />
+		<property name="title" value="Las Dos Torres" />
 
 
 		<property name="synopsis" value="Synopsis 2" />
@@ -1914,7 +1914,7 @@
 	</bean>
 	<bean id="film3" class="domain.Film">
 		<property name="title"
-			value="El Señor de los Anillos III - El Retorno del Rey" />
+			value="El Retorno del Rey" />
 
 
 		<property name="synopsis" value="Synopsis 3" />
@@ -1987,7 +1987,7 @@
 		<property name="runTime" value="113" />
 		<property name="rating" value="2.6" />
 		<property name="ticker" value="08993416-A2JJK3" />
-		<property name="isDraft" value="true" />
+		<property name="isDraft" value="false" />
 		<property name="moderator" ref="moderator2" />
 		<property name="genres">
 			<list>
@@ -2009,7 +2009,7 @@
 			</list>
 		</property>
 
-	</bean>
+	</bean> 
 
 
 
@@ -2108,9 +2108,7 @@
 		<property name="rejectReason" value="" />
 		<property name="creator" ref="filmEnthusiast3" />
 		<property name="groupMembers">
-			<list>
-				<ref bean="filmEnthusiast1" />
-			</list>
+		<list></list>
 		</property>
 		<property name="sagaAbout">
 			<null />
@@ -2126,9 +2124,8 @@
 		<property name="rejectReason" value="" />
 		<property name="creator" ref="filmEnthusiast3" />
 		<property name="groupMembers">
-			<list>
-				<ref bean="filmEnthusiast1" />
-			</list>
+		<list></list>
+
 		</property>
 		<property name="sagaAbout">
 			<null />
@@ -2146,7 +2143,6 @@
 		<property name="publishedMoment" value="12/12/2017 12:12" />
 		<property name="body" value="Great job by Matt Ross as director." />
 		<property name="rating" value="8.9" />
-		<property name="film" ref="film1" />
 		<property name="forum" ref="forum1" />
 		<property name="filmEnthusiast" ref="filmEnthusiast1" />
 
@@ -2160,7 +2156,6 @@
 		<property name="body" value="Great job by Matt Ross as director." />
 		<property name="rating" value="8.9" />
 		<property name="film" ref="film4" />
-		<property name="forum" ref="forum3" />
 		<property name="filmEnthusiast" ref="filmEnthusiast2" />
 
 
@@ -2172,7 +2167,6 @@
 		<property name="publishedMoment" value="12/12/2017 12:12" />
 		<property name="body" value="Great job by Matt Ross as director." />
 		<property name="rating" value="8.9" />
-		<property name="film" ref="film4" />
 		<property name="forum" ref="forum2" />
 		<property name="filmEnthusiast" ref="filmEnthusiast3" />
 
@@ -2185,7 +2179,6 @@
 		<property name="body" value="Great job by Matt Ross as director." />
 		<property name="rating" value="8.9" />
 		<property name="film" ref="film1" />
-		<property name="forum" ref="forum1" />
 		<property name="filmEnthusiast" ref="filmEnthusiast1" />
 
 
@@ -2195,7 +2188,6 @@
 		<property name="publishedMoment" value="12/12/2017 12:12" />
 		<property name="body" value="Great job by Matt Ross as director." />
 		<property name="rating" value="8.9" />
-		<property name="film" ref="film1" />
 		<property name="forum" ref="forum1" />
 		<property name="filmEnthusiast" ref="filmEnthusiast1" />
 
@@ -2208,7 +2200,6 @@
 		<property name="body" value="Great job by Matt Ross as director." />
 		<property name="rating" value="7.9" />
 		<property name="film" ref="film2" />
-		<property name="forum" ref="forum1" />
 		<property name="filmEnthusiast" ref="filmEnthusiast1" />
 
 
@@ -2218,7 +2209,6 @@
 		<property name="publishedMoment" value="12/12/2017 12:12" />
 		<property name="body" value="Great job by Matt Ross as director." />
 		<property name="rating" value="5.9" />
-		<property name="film" ref="film2" />
 		<property name="forum" ref="forum1" />
 		<property name="filmEnthusiast" ref="filmEnthusiast1" />
 
@@ -2641,5 +2631,4 @@ Films! Tu sitio para compartir opiniones sobre tus peliculas favoritas." />
 		<property name="flatRate" value="2.50" />
 
 	</bean>
-	
 </beans>
