@@ -16,6 +16,8 @@ import repositories.SponsorRepository;
 import security.Authority;
 import security.UserAccount;
 import domain.Actor;
+import domain.Message;
+import domain.MessageBox;
 import domain.SocialProfile;
 import domain.Sponsor;
 import forms.EditionFormObject;
@@ -41,8 +43,15 @@ public class SponsorService {
 	@Autowired
 	private SponsorshipService sponsorshipService;
 
+
+	
 	@Autowired
-	private MessageBoxService messageBoxService;
+	private MessageService messageService;
+	
+	@Autowired
+	private MessageBoxService MessageBoxService ;
+	
+
 
 	/* Simple CRUD methods */
 
@@ -123,7 +132,7 @@ public class SponsorService {
 			res = this.sponsorRepository.save(sponsor);
 		} else {
 			res = this.sponsorRepository.save(sponsor);
-			this.messageBoxService.initializeDefaultBoxes(res);
+			this.MessageBoxService.initializeDefaultBoxes(res);
 		}
 		return res;
 	}
@@ -312,6 +321,27 @@ public class SponsorService {
 
 		// Sponsorships
 		this.sponsorshipService.deleteSponsorships(c.getId());
+
+		
+		for(Message m :this.messageService.messagesInvolved(c.getId())){
+			for(MessageBox mb:this.MessageBoxService.findAll()){
+				
+				if(mb.getMessages().contains(m)){
+					mb.getMessages().remove(m);
+				}
+				
+			}
+			
+			this.messageService.deleteMessage(m);
+		}
+		
+		for(MessageBox mb:this.MessageBoxService.findAll()){
+			
+			if(mb.getOwner()==c){
+				this.MessageBoxService.deleteBox(mb);
+			}
+		}
+
 
 		this.delete(c);
 	}

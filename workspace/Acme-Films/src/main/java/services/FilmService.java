@@ -182,7 +182,7 @@ public class FilmService {
 	}
 	public Collection<Film> top5FilmsWithMoreRunTime(){
 		List<Film> l =(List<Film>) this.filmRepository.top5FilmsWithMoreRunTime();
-		if(l.size()==0){
+		if(l.size()<6){
 			return l;
 		}else{
 
@@ -258,8 +258,9 @@ public class FilmService {
 
 		for(Film f:	this.filmsByModerator(id)){
 			this.visualizationService.DeletevisPerFilm(f.getId());
-			this.commentService.deleteCommentsPerFilms(f.getId());
 			this.groupService.deleteGroupPerFilm(f.getId());
+			this.commentService.deleteCommentsPerFilms(f.getId());
+			
 			this.reviewService.deleteReviewPerFilm(f.getId());
 			this.sponsorshipService.deleteSponsorshipsPerFilms(f);
 			this.delete(f);

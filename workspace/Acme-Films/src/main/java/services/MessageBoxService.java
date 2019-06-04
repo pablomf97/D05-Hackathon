@@ -190,10 +190,13 @@ public class MessageBoxService {
 		return result;
 	}
 
-	public void deleteBoxes() {
-
-		this.messageBoxRepository.deleteInBatch(this.findAll());
+	
+	public void deleteBox(MessageBox mb ){
+		
+		this.messageBoxRepository.delete(mb);
+		
+		
 
 	}
-
+ 
 }

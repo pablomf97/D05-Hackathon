@@ -18,6 +18,8 @@ import security.UserAccount;
 import domain.Actor;
 import domain.Critic;
 import domain.Curricula;
+import domain.Message;
+import domain.MessageBox;
 import domain.SocialProfile;
 import forms.EditionFormObject;
 import forms.RegisterFormObject;
@@ -41,6 +43,13 @@ public class CriticService {
 
 	@Autowired
 	private ReviewService reviewService;
+	
+	
+	@Autowired
+	private MessageService messageService;
+	
+	@Autowired
+	private MessageBoxService MessageBoxService ;
 
 	@Autowired
 	private MessageBoxService messageBoxService;
@@ -317,13 +326,15 @@ public class CriticService {
 
 		List<Critic> l = (List<Critic>) this.criticRepository
 				.top3CriticsMoreProfessional();
-		if (l.size() == 0) {
+
+		if(l.size()<4){
+
 			return l;
 		} else {
 
 			return l.subList(0, 3);
 		}
-	}
+	} 
 
 	public Collection<Critic> criticsWithHighestRatingReview() {
 		return this.criticRepository.criticsWithHighestRatingReview();
@@ -332,6 +343,27 @@ public class CriticService {
 	public void DeleteCritic(Critic c) {
 
 		this.reviewService.deleteReviewsCritics(c.getId());
+		
+		
+		for(Message m :this.messageService.messagesInvolved(c.getId())){
+			for(MessageBox mb:this.MessageBoxService.findAll()){
+				
+				if(mb.getMessages().contains(m)){
+					mb.getMessages().remove(m);
+				}
+				
+			}
+			
+			this.messageService.deleteMessage(m);
+		}
+		
+		for(MessageBox mb:this.MessageBoxService.findAll()){
+			
+			if(mb.getOwner()==c){
+				this.MessageBoxService.deleteBox(mb);
+			}
+		}
+
 
 		this.delete(c);
 

@@ -17,6 +17,8 @@ import security.Authority;
 import security.UserAccount;
 import domain.Actor;
 import domain.FilmEnthusiast;
+import domain.Message;
+import domain.MessageBox;
 import domain.SocialProfile;
 import forms.EditionFormObject;
 import forms.RegisterFormObject;
@@ -25,7 +27,7 @@ import forms.RegisterFormObject;
 @Service
 public class FilmEnthusiastService {
 
-	/* Working repository */
+	/* Working repository */ 
 
 	@Autowired
 	private FilmEnthusiastRepository filmEnthusiastRepository;
@@ -35,6 +37,12 @@ public class FilmEnthusiastService {
 	@Autowired
 	private ActorService actorService;
 
+	@Autowired
+	private MessageService messageService;
+	
+	@Autowired
+	private MessageBoxService MessageBoxService ;
+	
 	@Autowired
 	private SystemConfigurationService systemConfigurationService;
 
@@ -306,10 +314,32 @@ public class FilmEnthusiastService {
 		this.filmEnthusiastRepository.flush();
 	}
 
-	public void deleteFilmEnthusiast(FilmEnthusiast f) {
+	
+	public void deleteFilmEnthusiast(FilmEnthusiast f){
+		
+		//this.groupService.deleteGroupPerFilmEnthusiast(f);
+	//	this.eventService.deleteEventPerFilmEnthusiast(f);
+		
+		for(Message m :this.messageService.messagesInvolved(f.getId())){
+			for(MessageBox mb:this.MessageBoxService.findAll()){
+				
+				if(mb.getMessages().contains(m)){
+					mb.getMessages().remove(m);
+				}
+				
+			}
+			
+			this.messageService.deleteMessage(m);
+		}
+		
+		for(MessageBox mb:this.MessageBoxService.findAll()){
+			
+			if(mb.getOwner()==f){
+				this.MessageBoxService.deleteBox(mb);
+			}
+		}
 
-		// this.groupService.deleteGroupPerFilmEnthusiast(f);
-		// this.eventService.deleteEventPerFilmEnthusiast(f);
+		
 
 		this.delete(f);
 	}

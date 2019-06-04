@@ -52,7 +52,7 @@
 						<jstl:set var="contains" value="true" />
 					</jstl:if>
 				</jstl:forEach>
-				<jstl:if test="${!contains and actor.userAccount.username != group.creator.userAccount.username}">
+				<jstl:if test="${not contains and not(actor.userAccount.username eq group.creator.userAccount.username)}">
 					<a href="group/filmenthusiast/request.do?Id=${group.id}"> <spring:message
 							code="group.request" />
 					</a>

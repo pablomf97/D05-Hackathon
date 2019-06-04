@@ -17,6 +17,8 @@ import security.Authority;
 import security.UserAccount;
 import domain.Actor;
 import domain.Administrator;
+import domain.Message;
+import domain.MessageBox;
 import domain.SocialProfile;
 import forms.EditionFormObject;
 import forms.RegisterFormObject;
@@ -24,7 +26,7 @@ import forms.RegisterFormObject;
 @Transactional
 @Service
 public class AdministratorService {
-
+ 
 	/* Working repository */
 
 	@Autowired
@@ -38,8 +40,15 @@ public class AdministratorService {
 	@Autowired
 	private SystemConfigurationService systemConfigurationService;
 
+	
 	@Autowired
-	private MessageBoxService messageBoxService;
+	private MessageService messageService;
+	
+	@Autowired
+	private MessageBoxService MessageBoxService ;
+	
+	
+
 
 	/* Simple CRUD methods */
 
@@ -120,7 +129,7 @@ public class AdministratorService {
 
 			res = this.administratorRepository.save(administrator);
 
-			this.messageBoxService.initializeDefaultBoxes(res);
+			this.MessageBoxService.initializeDefaultBoxes(res);
 		} else {
 
 			Assert.isTrue(principal.getId() == administrator.getId(),
@@ -314,7 +323,31 @@ public class AdministratorService {
 		this.administratorRepository.flush();
 	}
 
-	public void deleteAdmin(Administrator a) {
+	
+	public void deleteAdmin(Administrator a){	
+		
+		
+
+		
+		for(Message m :this.messageService.messagesInvolved(a.getId())){
+			for(MessageBox mb:this.MessageBoxService.findAll()){
+				
+				if(mb.getMessages().contains(m)){
+					mb.getMessages().remove(m);
+				}
+				
+			}
+			
+			this.messageService.deleteMessage(m);
+		}
+		
+		for(MessageBox mb:this.MessageBoxService.findAll()){
+			
+			if(mb.getOwner()==a){
+				this.MessageBoxService.deleteBox(mb);
+			}
+		}
+
 		this.delete(a);
 	}
 

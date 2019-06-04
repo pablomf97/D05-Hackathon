@@ -21,7 +21,7 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <security:authorize access="hasRole('ADMIN')">
-	<table class="displayStyle" >
+	<table class="displayStyle" style="width:100%">
 			<tr>
 				<th colspan="2"><spring:message
 						code="administrator.statistics" /></th>
@@ -47,7 +47,7 @@
 				<jstl:forEach var="c" items="${filmsWithHighestRating}">
 					<td style="text-align: right"><jstl:out
 							value="${c.title}" /></td>
-					<br />
+					
 				</jstl:forEach>
 			</tr>
 				<tr>
@@ -61,7 +61,7 @@
 				<jstl:forEach var="c" items="${top5FilmsWithMoreRunTime}">
 					<td style="text-align: right"><jstl:out
 							value="${c.title}" /></td>
-					<br />
+					
 				</jstl:forEach>
 			</tr>
 						<tr>
@@ -74,7 +74,7 @@
 				<jstl:forEach var="c" items="${EventsWithHigeshtMaximumCapacity}">
 					<td style="text-align: right"><jstl:out
 							value="${c.title}" /></td>
-					<br />
+					
 				</jstl:forEach>
 				
 			</tr>
@@ -84,7 +84,7 @@
 					<jstl:forEach var="c" items="${top3CriticsMoreProfessional}">
 					<td style="text-align: right"><jstl:out
 							value="${c.name}" /></td>
-					<br />
+				
 				</jstl:forEach>
 			</tr>
 				<tr>
@@ -93,7 +93,7 @@
 					<jstl:forEach var="c" items="${criticsWithHighestRatingReview}">
 					<td style="text-align: right"><jstl:out
 							value="${c.name}" /></td>
-					<br />
+				
 				</jstl:forEach>
 			</tr>
 			
@@ -116,7 +116,7 @@
 					<jstl:forEach var="event" items="${top3EventsWithMorePeople}">
 					<td style="text-align: right"><jstl:out
 							value="${event.title}" /></td>
-					<br />
+					
 				</jstl:forEach>
 			</tr>
 			<tr>

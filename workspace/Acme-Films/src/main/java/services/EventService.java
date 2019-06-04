@@ -153,6 +153,15 @@ public class EventService {
 				this.delete(e);
 
 	}
+	public void deleteMember(final int eventId) {
+		final Event res = this.findOne(eventId);
+		final Actor actor = this.actorService.findByPrincipal();
+		Assert.isTrue(this.actorService.checkAuthority(actor, "FILMENTHUSIAST"), "not.allowed");
+		Assert.isTrue(res.getAttenders().contains(actor));
+		res.getAttenders().remove(actor);
+		this.eventRepository.save(res);
+	}
+
 	public void flush() {
 		this.eventRepository.flush();
 	}

@@ -68,30 +68,35 @@
 		</tr>
 
 	</table>
-	<jstl:if test="${event.forum.creator eq actor }">
+	<jstl:set var="contains2" value="no" />
+
+		<jstl:forEach var="item2" items="${event.forum.groupMembers}">
+			<jstl:if test="${item2.userAccount.username eq actor.userAccount.username}">
+				<jstl:set var="contains2" value="yes" />
+			</jstl:if>
+		</jstl:forEach>
+	<jstl:if test="${event.forum.creator.userAccount.username eq actor.userAccount.username or contains2}">
 		<input type="button" name="list"
 			value="<spring:message code="event.list.members"	/>"
 			onclick="redirect: location.href = 'event/filmenthusiast/listMembers.do?Id=${event.id}';" />
+	</jstl:if>
+
+	<jstl:if test="${event.forum.creator.userAccount.username eq actor.userAccount.username }">
+
 
 		<input type="button" name="list"
 			value="<spring:message code="event.delete"	/>"
 			onclick="redirect: location.href = 'event/delete.do?Id=${event.id}';" />
 	</jstl:if>
-	<jstl:if test="${event.forum.creator != actor }">
+	<jstl:if test="${not(event.forum.creator.userAccount.username eq actor.userAccount.username) }">
 		<jstl:set var="contains" value="no" />
 
 		<jstl:forEach var="item" items="${event.attenders}">
-			<jstl:if test="${item eq actor}">
+			<jstl:if test="${item.userAccount.username eq actor.userAccount.username}">
 				<jstl:set var="contains" value="yes" />
 			</jstl:if>
 		</jstl:forEach>
-		<jstl:set var="contains2" value="no" />
-
-		<jstl:forEach var="item2" items="${event.forum.groupMembers}">
-			<jstl:if test="${item2 eq actor}">
-				<jstl:set var="contains2" value="yes" />
-			</jstl:if>
-		</jstl:forEach>
+		
 	</jstl:if>
 	<jstl:if
 		test="${contains2 eq 'yes' and contains eq 'no' and event.maximumCapacity gt fn:length(event.attenders)}">
