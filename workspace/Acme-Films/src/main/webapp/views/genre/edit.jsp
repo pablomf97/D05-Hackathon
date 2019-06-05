@@ -41,9 +41,9 @@
 		
 		<acme:submit code="genre.save" name="save"/>&nbsp;
 
-		<jstl:if test="${genre.id != 0}">
+<%-- 		<jstl:if test="${genre.id != 0}">
 			<acme:delete code="genre.delete" name="delete" confirmation="genre.confirm.delete"/>&nbsp;
-		</jstl:if>
+		</jstl:if> --%>
 		<acme:cancel code="genre.cancel" url="genre/moderator/list.do"/><br/><br/>
 		<form:errors cssClass="error" code="${message}" />
 	</form:form>

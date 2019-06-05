@@ -79,6 +79,11 @@
 			<td><strong> <spring:message code="film.isDraft" /> : </strong></td>
 			<td>${status}</td>
 		</tr>
+	
+		<tr>
+			<td><strong> <spring:message code="film.moderator" /> : </strong></td>
+			<td><jstl:out value="${film.moderator.name} ${film.moderator.surname}"></jstl:out></td>
+		</tr>
 	</jstl:if>
 	
 </table>

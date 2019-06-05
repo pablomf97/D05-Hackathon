@@ -172,6 +172,7 @@ public class PositionService {
 			pos = this.findOne(n);
 			result.add(pos);
 		}
+		this.flush();
 		return result;
 	}
 	

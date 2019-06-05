@@ -21,6 +21,7 @@ import services.SagaService;
 import domain.Actor;
 import domain.Film;
 import domain.Genre;
+import domain.Moderator;
 import domain.Person;
 import domain.Saga;
 
@@ -77,7 +78,7 @@ public class FilmController extends AbstractController {
 	public ModelAndView list() {
 		final ModelAndView result = new ModelAndView("film/list");
 		Collection<Film> films = new ArrayList<>();
-		Actor principal;
+		Actor principal = null;
 		boolean isPrincipal = false;
 
 		try {
@@ -86,12 +87,14 @@ public class FilmController extends AbstractController {
 				principal = this.actorService.findByPrincipal();
 				if (this.actorService.checkAuthority(principal, "MODERATOR")) {
 					isPrincipal = true;
-					films = this.filmService.findAll();
-				} else {
-					films = this.filmService.publishedFilms();
+					films = this.filmService.findFilmsPublishedAndMine(principal.getId());
 				}
 					
 			} catch (Exception e) {}
+			
+			if(principal == null || !(this.actorService.checkAuthority(principal, "MODERATOR"))) {
+				films = this.filmService.publishedFilms();
+			}
 			
 			result.addObject("films", films);
 			result.addObject("isPrincipal", isPrincipal);
@@ -130,14 +133,17 @@ public class FilmController extends AbstractController {
 			
 			try {
 				principal = this.actorService.findByPrincipal();
-				isPrincipal = this.actorService.checkAuthority(principal, "MODERATOR");
+				if(film.getModerator().equals((Moderator) principal) || 
+						(!film.getIsDraft() && this.actorService.checkAuthority(principal, "MODERATOR"))) {
+					isPrincipal = true;
+				}
 			} catch (Exception e) {}
 			
 			result = this.createEditModelAndView(film);
 			result.addObject("isPrincipal", isPrincipal);
 			result.addObject("filmId", filmId);
 		} catch (final Throwable oops) {
-			result = new ModelAndView("redirect:/welcome/index.do");
+			result = new ModelAndView("redirect:../welcome/index.do");
 		}
 		return result;
 	}
@@ -193,12 +199,28 @@ public class FilmController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "saveFinal")
-	public ModelAndView saveFinal(final Film film, final BindingResult binding) {
+	public ModelAndView saveFinal(final Film film, final BindingResult binding,
+			@RequestParam(value = "personsArray", required = false) String[] personsArray, 
+			@RequestParam(value = "genresArray", required = false) String[] genresArray) {
 		ModelAndView result;
 		Film aux;
+		Collection<Person> personsToSave = new ArrayList<>();
+		Collection<Genre> genresToSave = new ArrayList<>();
 		try {
+			
+			try {
+				personsToSave = this.personService.parsePersons(personsArray);
+				if(genresArray != null) {
+					genresToSave = this.genreService.parseGenres(genresArray);
+				}
+				film.setPersons(personsToSave);
+				film.setGenres(genresToSave);
+			} catch (Exception e) {}
+			
 			aux = this.filmService.reconstruct(film, binding);
 			if (binding.hasErrors()) {
+				
+				film.setIsDraft(aux.getIsDraft());
 
 				result = new ModelAndView("film/edit");
 				result.addObject("film", film);

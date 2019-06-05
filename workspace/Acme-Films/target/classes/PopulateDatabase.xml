@@ -2139,7 +2139,6 @@
 		<property name="creator" ref="filmEnthusiast3" />
 		<property name="groupMembers">
 			<list></list>
-
 		</property>
 		<property name="sagaAbout">
 			<null />

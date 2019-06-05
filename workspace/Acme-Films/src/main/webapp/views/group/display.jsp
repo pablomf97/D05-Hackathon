@@ -46,10 +46,28 @@
 		</tr>
 		<tr>
 
+
+
 			<td><strong><spring:message code="group.description" />
 					: </strong></td>
 			<td><jstl:out value="${group.description}">
 				</jstl:out></td>
+		</tr>
+
+
+
+		<tr>
+
+
+
+			<td><strong><spring:message code="group.isActive" /> :
+			</strong></td>
+			<jstl:if test="${group.isActive}">
+				<td><spring:message code="group.activeGroup"/></td>
+			</jstl:if>
+			<jstl:if test="${empty group.isActive}">
+				<td><spring:message code="group.deactiveGroup"/>"</td>
+			</jstl:if>
 		</tr>
 
 	</table>
@@ -91,7 +109,7 @@
 	<jstl:if test="${empty group.moderator and not group.isActive}">
 		<input type="button" name="list"
 			value="<spring:message code="group.active"	/>"
-			onclick="redirect: location.href = 'group/moderator/activate.do?Id=${group.id}';" />
+			onclick="redirect: location.href = 'group/moderator/edit.do?Id=${group.id}';" />
 	</jstl:if>
 	<!-- Cancelar -->
 	<acme:cancel url="group/list.do" code="group.cancel" />
