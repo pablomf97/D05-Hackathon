@@ -31,14 +31,14 @@
 					</a>
 				</display:column>
 			</jstl:if>
-			
+
 			<jstl:if test="${row.status != 'PENDING'}">
 				<display:column>
-					
+
 				</display:column>
 
 				<display:column>
-					
+
 				</display:column>
 			</jstl:if>
 
@@ -65,7 +65,14 @@
 			</display:column>
 
 			<display:column titleKey="review.draft">
-				<jstl:out value="${row.isDraft}"></jstl:out>
+				<jstl:choose>
+					<jstl:when test="${row.isDraft}">
+						<spring:message code="film.draft.true" />
+					</jstl:when>
+					<jstl:otherwise>
+						<spring:message code="film.draft.false" />
+					</jstl:otherwise>
+				</jstl:choose>
 			</display:column>
 
 			<display:column titleKey="review.moderator">

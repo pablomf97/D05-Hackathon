@@ -16,7 +16,7 @@
 			requestURI="review/critic/listAll.do" id="row">
 
 			<!-- Attributes-->
-			
+
 			<jstl:if test="${row.isDraft == true}">
 				<display:column>
 					<a href="review/critic/edit.do?reviewId=${row.id}"> <spring:message
@@ -26,7 +26,7 @@
 			</jstl:if>
 			<jstl:if test="${row.isDraft == false}">
 				<display:column>
-			
+
 				</display:column>
 			</jstl:if>
 			<display:column titleKey="review.title" sortable="true">
@@ -52,10 +52,15 @@
 			</display:column>
 
 			<display:column titleKey="review.draft">
-				<jstl:out value="${row.isDraft}"></jstl:out>
+				<jstl:choose>
+					<jstl:when test="${row.isDraft}">
+						<spring:message code="film.draft.true" />
+					</jstl:when>
+					<jstl:otherwise>
+						<spring:message code="film.draft.false" />
+					</jstl:otherwise>
+				</jstl:choose>
 			</display:column>
-			
-			
 
 			<jstl:if test="${row.moderator != null}">
 
@@ -63,22 +68,22 @@
 					<jstl:out value="${row.moderator.userAccount.username}"></jstl:out>
 				</display:column>
 			</jstl:if>
-			
+
 			<jstl:if test="${row.moderator == null}">
 
 				<display:column titleKey="review.moderator" sortable="true">
-					
+
 				</display:column>
 			</jstl:if>
-			
-				
+
+
 			<display:column>
 				<a href="review/critic/display.do?reviewId=${row.id}"> <spring:message
 						code="review.display" />
 				</a>
 			</display:column>
 
-			
+
 
 		</display:table>
 		<jstl:if test="${!possible}">

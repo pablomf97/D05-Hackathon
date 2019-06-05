@@ -47,7 +47,7 @@
 				<td>
 				-
 				<jstl:forEach items="${film.genres}" var="genre">
-					<jstl:out value="${genre.name.get('Español')}"/>	
+						<jstl:out value="${genre.name.get('Español')}" />	
 					-
 				</jstl:forEach>
 				</td>
