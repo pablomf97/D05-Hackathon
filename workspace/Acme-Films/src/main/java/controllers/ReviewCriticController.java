@@ -6,6 +6,7 @@ import javax.validation.ValidationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -66,17 +67,15 @@ public class ReviewCriticController extends AbstractController {
 			this.reviewService.save(review, finalMode, accepted);
 			// TODO: redirect
 			result = new ModelAndView("redirect:listAll.do");
-		}catch(ValidationException oops){
+		} catch (ValidationException oops) {
 			result = this.createEditModelAndView(review);
 		} catch (Throwable oops) {
 			result = this.createEditModelAndView(review, "Commir error");
 		}
 
-
 		return result;
 
 	}
-
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "saveDraft")
 	public ModelAndView saveDraft(Review review, BindingResult binding) {
@@ -84,14 +83,16 @@ public class ReviewCriticController extends AbstractController {
 		boolean finalMode = false;
 		Boolean accepted = null;
 
-
 		try {
 			review = this.reviewService.reconstruct(review, binding);
 
+			Assert.isTrue(this.actorService.findByPrincipal().getId() == review
+					.getCritic().getId());
+
 			this.reviewService.save(review, finalMode, accepted);
-			// TODO: redirect
+
 			result = new ModelAndView("redirect:listAll.do");
-		}catch(ValidationException oops){
+		} catch (ValidationException oops) {
 			result = this.createEditModelAndView(review);
 		} catch (Throwable oops) {
 			result = this.createEditModelAndView(review, "Commit error");
@@ -100,13 +101,11 @@ public class ReviewCriticController extends AbstractController {
 		return result;
 	}
 
-
 	@RequestMapping(value = "/create", method = RequestMethod.POST, params = "saveFinal2")
 	public ModelAndView saveFinal2(Review review, BindingResult binding) {
 		ModelAndView result;
 		boolean finalMode = true;
 		Boolean accepted = null;
-
 
 		try {
 
@@ -115,7 +114,7 @@ public class ReviewCriticController extends AbstractController {
 			this.reviewService.save(review, finalMode, accepted);
 			// TODO: redirect
 			result = new ModelAndView("redirect:listAll.do");
-		}catch(ValidationException oops){
+		} catch (ValidationException oops) {
 			result = this.createEditModelAndView(review);
 		} catch (Throwable oops) {
 			result = this.createEditModelAndView(review, "Commit error");
@@ -133,10 +132,13 @@ public class ReviewCriticController extends AbstractController {
 		try {
 			review = this.reviewService.reconstruct(review, binding);
 
+			Assert.isTrue(this.actorService.findByPrincipal().getId() == review
+					.getCritic().getId());
+
 			this.reviewService.save(review, finalMode, accepted);
-			// TODO: redirect
+
 			result = new ModelAndView("redirect:listAll.do");
-		}catch(ValidationException oops){
+		} catch (ValidationException oops) {
 			result = this.createEditModelAndView(review);
 		} catch (Throwable oops) {
 			result = this.createEditModelAndView(review, "Commit error");
@@ -149,14 +151,16 @@ public class ReviewCriticController extends AbstractController {
 	public ModelAndView delete(Review review, BindingResult binding) {
 		ModelAndView result;
 
-
 		try {
 			review = this.reviewService.reconstruct(review, binding);
 
+			Assert.isTrue(this.actorService.findByPrincipal().getId() == review
+					.getCritic().getId());
+
 			this.reviewService.delete(review);
-			// TODO: redirect
+
 			result = new ModelAndView("redirect:listAll.do");
-		}catch(ValidationException oops){
+		} catch (ValidationException oops) {
 			result = this.createEditModelAndView(review);
 		} catch (Throwable oops) {
 			result = this.createEditModelAndView(review, "Commir error");
@@ -183,7 +187,6 @@ public class ReviewCriticController extends AbstractController {
 
 		return result;
 	}
-
 
 	@RequestMapping(value = "/display", method = RequestMethod.GET)
 	public ModelAndView display(@RequestParam final int reviewId) {
@@ -215,22 +218,21 @@ public class ReviewCriticController extends AbstractController {
 	protected ModelAndView createEditModelAndView(final Review review,
 			final String messageCode) {
 		ModelAndView result;
-		Collection<Film> finalFilms = this.reviewService.getFinalFilms();
-		boolean possible = false;
-		Actor principal = this.actorService.findByPrincipal();
 
-		review.setCritic((Critic)principal);
+		try {
+			Collection<Film> finalFilms = this.reviewService.getFinalFilms();
+			Actor principal = this.actorService.findByPrincipal();
 
-		if (review.getCritic().equals((Critic) principal)) {
-			possible = true;
+			Assert.isTrue(review.getCritic().getId() == principal.getId());
+			Assert.isTrue(review.getIsDraft());
+			result = new ModelAndView("review/edit");
+
+			result.addObject("finalFilms", finalFilms);
+			result.addObject("review", review);
+			result.addObject("messageCode", messageCode);
+		} catch (Throwable oops) {
+			result = new ModelAndView("redirect:/welcome/index.do");
 		}
-
-		result = new ModelAndView("review/edit");
-
-		result.addObject("finalFilms", finalFilms);
-		result.addObject("possible", possible);
-		result.addObject("review", review);
-		result.addObject("messageCode", messageCode);
 
 		return result;
 	}

@@ -16,19 +16,15 @@
 			requestURI="review/critic/listAll.do" id="row">
 
 			<!-- Attributes-->
+			<display:column>
+				<jstl:if test="${row.isDraft}">
 
-			<jstl:if test="${row.isDraft == true}">
-				<display:column>
 					<a href="review/critic/edit.do?reviewId=${row.id}"> <spring:message
 							code="review.edit" />
 					</a>
-				</display:column>
-			</jstl:if>
-			<jstl:if test="${row.isDraft == false}">
-				<display:column>
-
-				</display:column>
-			</jstl:if>
+				</jstl:if>
+			</display:column>
+			
 			<display:column titleKey="review.title" sortable="true">
 				<jstl:out value="${row.title }"></jstl:out>
 			</display:column>
