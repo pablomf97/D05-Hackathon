@@ -35,11 +35,8 @@
 					<li class="arrow"></li>
 					<li><a href="administrator/administrator/register.do"><spring:message
 								code="master.page.register.admin" /></a></li>
-					<li><a href="administrator/statistics.do"><spring:message
-								code="master.page.dashboard" /></a></li>
-					<li><a href="message/administrator/broadcast.do"><spring:message
-								code="master.page.message.broadcast" /></a></li>
-
+					<li><a href="moderator/administrator/register.do"><spring:message
+								code="master.page.register.moderator" /></a></li>
 				</ul></li>
 
 		</security:authorize>
@@ -51,13 +48,22 @@
 					<li class="arrow"></li>
 					<li><a href="film/list.do"><spring:message
 								code="master.page.film.list" /></a></li>
+					<security:authorize access="hasRole('FILMENTHUSIAST')">
+											<li><a href="finder/filmEnthusiast/search.do"><spring:message
+									code="master.page.finder" /></a></li>
+					</security:authorize>
 				</ul></li>
 			<security:authorize access="hasAnyRole('MODERATOR','FILMENTHUSIAST')">
-				<li><a class="fNiv"><spring:message code="master.page.group" /></a>
+				<li><a class="fNiv"><spring:message
+							code="master.page.group" /></a>
 					<ul>
 						<li class="arrow"></li>
 						<li><a href="group/list.do"><spring:message
 									code="master.page.mygroup" /></a></li>
+						<security:authorize access="hasRole('MODERATOR')">
+							<li><a href="group/moderator/listWithout.do"><spring:message
+										code="master.page.deactiveGroups" /></a></li>
+						</security:authorize>
 					</ul></li>
 			</security:authorize>
 
@@ -67,28 +73,25 @@
 					<li><a href="saga/list.do"><spring:message
 								code="master.page.saga.list" /></a></li>
 				</ul></li>
-				
+
 			<security:authorize access="hasRole('MODERATOR')">
 
-			<li><a class="fNiv"><spring:message
-						code="master.page.position" /></a>
-				<ul>
-					<li class="arrow"></li>
-					<li><a href="position/moderator/list.do"><spring:message
-								code="master.page.position.list" /></a></li>
-				</ul></li>
+				<li><a class="fNiv"><spring:message
+							code="master.page.position" /></a>
+					<ul>
+						<li class="arrow"></li>
+						<li><a href="position/moderator/list.do"><spring:message
+									code="master.page.position.list" /></a></li>
+					</ul></li>
 
-			<li><a class="fNiv"><spring:message code="master.page.genre" /></a>
-				<ul>
-					<li class="arrow"></li>
-					<li><a href="genre/moderator/list.do"><spring:message
-								code="master.page.genre.list" /></a></li>
-				</ul></li>
+				<li><a class="fNiv"><spring:message
+							code="master.page.genre" /></a>
+					<ul>
+						<li class="arrow"></li>
+						<li><a href="genre/moderator/list.do"><spring:message
+									code="master.page.genre.list" /></a></li>
+					</ul></li>
 
-
-			<li><a class="fNiv"><spring:message code="master.page.saga" /></a>
-
-				
 			</security:authorize>
 
 			<li><a class="fNiv"><spring:message
@@ -99,17 +102,17 @@
 					<li><a href="person/list.do"><spring:message
 								code="master.page.person.list" /></a></li>
 				</ul></li>
-			
+
 			<security:authorize access="hasAnyRole('MODERATOR','SPONSOR')">
 
-			<li><a class="fNiv"><spring:message
-						code="master.page.sponsorship" /></a>
-				<ul>
-					<li class="arrow"></li>
-					<li><a href="sponsorship/list.do"><spring:message
-								code="master.page.sponsorship.list" /></a></li>
-				</ul></li>
-				
+				<li><a class="fNiv"><spring:message
+							code="master.page.sponsorship" /></a>
+					<ul>
+						<li class="arrow"></li>
+						<li><a href="sponsorship/list.do"><spring:message
+									code="master.page.sponsorship.list" /></a></li>
+					</ul></li>
+
 			</security:authorize>
 
 		</security:authorize>
@@ -124,7 +127,7 @@
 								code="master.page.comment.list" /></a></li>
 
 
-					<li><a href="comment/filmEnthusiast/createFilm.do"><spring:message
+					<li><a href="comment/filmEnthusiast/createComment.do"><spring:message
 								code="master.page.comment.create" /></a></li>
 
 				</ul></li>
@@ -171,6 +174,12 @@
 
 
 		<security:authorize access="isAnonymous()">
+			<li><a class="fNiv"><spring:message code="master.page.film" /></a>
+				<ul>
+					<li class="arrow"></li>
+					<li><a href="film/list.do"><spring:message
+								code="master.page.film.list" /></a></li>
+				</ul></li>
 			<!-- Sign up -->
 			<li><a class="fNiv"><spring:message
 						code="master.page.singup" /></a>
@@ -198,7 +207,8 @@
 					<security:authorize access="hasRole('ADMIN')">
 						<li><a href="statistics/administrator/display.do"><spring:message
 									code="master.page.dashboard" /></a></li>
-
+						<li><a href="message/administrator/broadcast.do"><spring:message
+								code="master.page.message.broadcast" /></a></li>
 						<li><a href="sysconfig/administrator/display.do"><spring:message
 									code="master.page.system" /></a></li>
 
@@ -208,6 +218,9 @@
 									code="export" /></a></li>
 						<li><a href="administrator/administrator/edit.do"><spring:message
 									code="master.page.actor.edit" /></a></li>
+						
+						<li><a href="/administrator/listSuspicious.do"><spring:message
+								code="master.page.list.suspicious" /></a></li>
 
 					</security:authorize>
 
@@ -230,8 +243,7 @@
 					</security:authorize>
 
 					<security:authorize access="hasRole('FILMENTHUSIAST')">
-						<li><a href="finder/filmEnthusiast/search.do"><spring:message
-									code="master.page.finder" /></a></li>
+
 						<li><a href="filmEnthusiast/display.do"><spring:message
 									code="actor.view" /></a></li>
 						<li><a href="filmEnthusiast/filmEnthusiast/edit.do"><spring:message

@@ -32,9 +32,6 @@ public class ReviewModeratorController extends AbstractController {
 	@Autowired
 	private ActorService actorService;
 
-	@Autowired
-	private Validator validator;
-
 	// List to assign
 
 	@RequestMapping(value = "/listToAssign", method = RequestMethod.GET)
@@ -44,7 +41,7 @@ public class ReviewModeratorController extends AbstractController {
 				.getReviewsFinalsToAssign();
 		boolean possible = false;
 
-		if(!(reviews.isEmpty())){
+		if (!(reviews.isEmpty())) {
 			possible = true;
 		}
 
@@ -63,19 +60,16 @@ public class ReviewModeratorController extends AbstractController {
 		Collection<Review> reviews = this.reviewService.getMyReviews(principal
 				.getId());
 
-		if(!(reviews.isEmpty())){
+		if (!(reviews.isEmpty())) {
 			if (reviews.iterator().next().getModerator().equals(principal)) {
 				possible = true;
 			}
 		}
 
-
-
 		result = new ModelAndView("review/listMyReviews");
 
 		result.addObject("reviews", reviews);
 		result.addObject("possible", possible);
-
 
 		return result;
 	}
@@ -90,88 +84,83 @@ public class ReviewModeratorController extends AbstractController {
 		return result;
 	}
 
-	//	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "accept")
-	//	public ModelAndView accept(@Valid Review review, BindingResult binding) {
-	//		ModelAndView result;
+	// @RequestMapping(value = "/edit", method = RequestMethod.POST, params =
+	// "accept")
+	// public ModelAndView accept(@Valid Review review, BindingResult binding) {
+	// ModelAndView result;
 	//
-	//		if (binding.hasErrors()) {
-	//			result = this.createEditModelAndView(review);
-	//		} else {
-	//			try {
-	//				this.reviewService.save(review, true, true);
-	//				result = new ModelAndView("review/listMyReviews");
-	//			} catch (Throwable oops) {
-	//				result = this.createEditModelAndView(review, "commit error");
-	//			}
-	//		}
+	// if (binding.hasErrors()) {
+	// result = this.createEditModelAndView(review);
+	// } else {
+	// try {
+	// this.reviewService.save(review, true, true);
+	// result = new ModelAndView("review/listMyReviews");
+	// } catch (Throwable oops) {
+	// result = this.createEditModelAndView(review, "commit error");
+	// }
+	// }
 	//
-	//		return result;
-	//	}
+	// return result;
+	// }
 	//
-	//	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "reject")
-	//	public ModelAndView reject(@Valid Review review, BindingResult binding) {
-	//		ModelAndView result;
+	// @RequestMapping(value = "/edit", method = RequestMethod.POST, params =
+	// "reject")
+	// public ModelAndView reject(@Valid Review review, BindingResult binding) {
+	// ModelAndView result;
 	//
-	//		if (binding.hasErrors()) {
-	//			result = this.createEditModelAndView(review);
-	//		} else {
-	//			try {
-	//				this.reviewService.save(review, true, false);
-	//				result = new ModelAndView("review/listMyReviews");
-	//			} catch (Throwable oops) {
-	//				result = this.createEditModelAndView(review, "commit error");
-	//			}
-	//		}
+	// if (binding.hasErrors()) {
+	// result = this.createEditModelAndView(review);
+	// } else {
+	// try {
+	// this.reviewService.save(review, true, false);
+	// result = new ModelAndView("review/listMyReviews");
+	// } catch (Throwable oops) {
+	// result = this.createEditModelAndView(review, "commit error");
+	// }
+	// }
 	//
-	//		return result;
-	//	}
+	// return result;
+	// }
 
-
-	@RequestMapping(value="/assign", method = RequestMethod.GET)
-	public ModelAndView assign(@RequestParam final int reviewId){
-
+	@RequestMapping(value = "/assign", method = RequestMethod.GET)
+	public ModelAndView assign(@RequestParam final int reviewId) {
 
 		ModelAndView result;
 
 		Review validReview = this.reviewService.findOne(reviewId);
 
-
-		try{
+		try {
 			this.reviewService.selfAssign(validReview);
 			result = new ModelAndView("redirect:listMyReviews.do");
-		}catch(Throwable oops){
+		} catch (Throwable oops) {
 			result = new ModelAndView("redirect:listToAssign.do");
 		}
-
 
 		return result;
 	}
 
-	@RequestMapping(value="/accept", method = RequestMethod.GET)
-	public ModelAndView accept(@RequestParam final int reviewId){
+	@RequestMapping(value = "/accept", method = RequestMethod.GET)
+	public ModelAndView accept(@RequestParam final int reviewId) {
 
 		BindingResult binding = null;
 
 		ModelAndView result;
 
-		Review validReview = this.reviewService.reconstructModerator(reviewId,binding);
+		Review validReview = this.reviewService.reconstructModerator(reviewId,
+				binding);
 
-
-		try{
+		try {
 			this.reviewService.save(validReview, true, true);
 			result = new ModelAndView("redirect:listMyReviews.do");
-		}catch(Throwable oops){
+		} catch (Throwable oops) {
 			result = new ModelAndView("redirect:listToAssign.do");
 		}
-
 
 		return result;
 	}
 
-	@RequestMapping(value="/reject", method = RequestMethod.GET)
-	public ModelAndView reject(@RequestParam final int reviewId){
-
-
+	@RequestMapping(value = "/reject", method = RequestMethod.GET)
+	public ModelAndView reject(@RequestParam final int reviewId) {
 
 		ModelAndView result;
 		Actor pricipal = this.actorService.findByPrincipal();
@@ -187,25 +176,28 @@ public class ReviewModeratorController extends AbstractController {
 		result = new ModelAndView("review/edit");
 
 		result.addObject("review", validReview);
+
 		result.addObject("possible", possible);
+
 
 		return result;
 	}
 
-	@RequestMapping(value="/reject", method = RequestMethod.POST , params = "reject")
-	public ModelAndView reject(Review review,BindingResult binding){
+	@RequestMapping(value = "/reject", method = RequestMethod.POST, params = "reject")
+	public ModelAndView reject(Review review, BindingResult binding) {
 
 		ModelAndView result;
 
 		Review validReview = this.reviewService.reconstruct(review, binding);
 
-		if(binding.hasErrors()){
-			result = new ModelAndView("redirect:listToAssign.do");
-		}else{
-			try{
+		if (binding.hasErrors()) {
+			result = new ModelAndView("review/edit");
+			result.addObject("validReview", validReview);
+		} else {
+			try {
 				this.reviewService.save(validReview, true, false);
 				result = new ModelAndView("redirect:listMyReviews.do");
-			}catch(Throwable oops){
+			} catch (Throwable oops) {
 				result = new ModelAndView("redirect:listToAssign.do");
 			}
 		}
@@ -218,11 +210,11 @@ public class ReviewModeratorController extends AbstractController {
 		Review review = this.reviewService.findOne(reviewId);
 		Boolean possible = null;
 		Actor principal = this.actorService.findByPrincipal();
-		
-		if(review.getModerator() != null){
-			if(principal.equals(review.getModerator())){
+
+		if (review.getModerator() != null) {
+			if (principal.equals(review.getModerator())) {
 				possible = true;
-			}else{
+			} else {
 				possible = false;
 			}
 		}
@@ -230,7 +222,7 @@ public class ReviewModeratorController extends AbstractController {
 		result = new ModelAndView("review/display");
 		result.addObject("review", review);
 		result.addObject("possible", possible);
-		
+
 		return result;
 	}
 
@@ -245,21 +237,25 @@ public class ReviewModeratorController extends AbstractController {
 	protected ModelAndView createEditModelAndView(final Review review,
 			final String messageCode) {
 		ModelAndView result;
-		Collection<Film> finalFilms = this.reviewService.getFinalFilms();
 		boolean possible = false;
-		Actor principal = this.actorService.findByPrincipal();
 
-		if (review.getModerator().equals((Moderator) principal)) {
-			possible = true;
+		try {
+			Actor principal = this.actorService.findByPrincipal();
+
+			if (review.getModerator().getId() == principal.getId()) {
+				possible = true;
+			}
+
+			result = new ModelAndView("review/edit");
+
+			result.addObject("possible", possible);
+			result.addObject("review", review);
+			result.addObject("messageCode", messageCode);
+			result.addObject("ACCEPTED", "ACCEPTED");
+			result.addObject("REJECTED", "REJECTED");
+		} catch (Throwable oops) {
+			result = new ModelAndView("redirect:/welcome/index.do");
 		}
-
-		result = new ModelAndView("review/edit");
-
-		result.addObject("possible", possible);
-		result.addObject("review", review);
-		result.addObject("messageCode", messageCode);
-		result.addObject("ACCEPTED", "ACCEPTED");
-		result.addObject("REJECTED", "REJECTED");
 
 		return result;
 	}

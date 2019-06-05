@@ -1,4 +1,3 @@
-
 package services;
 
 import java.util.ArrayList;
@@ -19,6 +18,8 @@ import security.UserAccount;
 import domain.Actor;
 import domain.Critic;
 import domain.Curricula;
+import domain.Message;
+import domain.MessageBox;
 import domain.SocialProfile;
 import forms.EditionFormObject;
 import forms.RegisterFormObject;
@@ -30,22 +31,28 @@ public class CriticService {
 	/* Working repository */
 
 	@Autowired
-	private CriticRepository			criticRepository;
+	private CriticRepository criticRepository;
 
 	/* Services */
 
 	@Autowired
-	private ActorService				actorService;
+	private ActorService actorService;
 
 	@Autowired
 	private SystemConfigurationService systemConfigurationService;
 
 	@Autowired
 	private ReviewService reviewService;
+	
+	
+	@Autowired
+	private MessageService messageService;
+	
+	@Autowired
+	private MessageBoxService MessageBoxService ;
 
-
-
-
+	@Autowired
+	private MessageBoxService messageBoxService;
 
 	/* Simple CRUD methods */
 
@@ -123,8 +130,12 @@ public class CriticService {
 
 			critic.setUserAccount(principal.getUserAccount());
 			critic.setCurricula(principal.getCurricula());
+			res = this.criticRepository.save(critic);
+		} else {
+			res = this.criticRepository.save(critic);
+			this.messageBoxService.initializeDefaultBoxes(res);
 		}
-		res = this.criticRepository.save(critic);
+
 		return res;
 	}
 
@@ -152,7 +163,8 @@ public class CriticService {
 	 * 
 	 * @return Critic
 	 */
-	public Critic reconstruct(final RegisterFormObject form, final BindingResult binding) {
+	public Critic reconstruct(final RegisterFormObject form,
+			final BindingResult binding) {
 
 		/* Creating admin */
 		final Critic res = this.create();
@@ -177,14 +189,17 @@ public class CriticService {
 
 		Md5PasswordEncoder encoder;
 		encoder = new Md5PasswordEncoder();
-		userAccount.setPassword(encoder.encodePassword(form.getPassword(), null));
+		userAccount
+				.setPassword(encoder.encodePassword(form.getPassword(), null));
 
 		res.setUserAccount(userAccount);
 
 		/* Password confirmation */
 		if (form.getPassword() != null)
 			try {
-				Assert.isTrue(form.getPassword().equals(form.getPassConfirmation()), "pass.confirm.error");
+				Assert.isTrue(
+						form.getPassword().equals(form.getPassConfirmation()),
+						"pass.confirm.error");
 			} catch (final Throwable oops) {
 				binding.rejectValue("password", "pass.confirm.error");
 			}
@@ -199,7 +214,9 @@ public class CriticService {
 
 		if (form.getEmail() != null)
 			try {
-				Assert.isTrue(this.actorService.checkEmail(form.getEmail(), "CRITIC"), "actor.email.error");
+				Assert.isTrue(
+						this.actorService.checkEmail(form.getEmail(), "CRITIC"),
+						"actor.email.error");
 
 			} catch (final Throwable oops) {
 				binding.rejectValue("email", "email.error");
@@ -208,7 +225,9 @@ public class CriticService {
 		/* Username */
 		if (form.getUsername() != null)
 			try {
-				Assert.isTrue(this.actorService.existsUsername(form.getUsername()), "username.error");
+				Assert.isTrue(
+						this.actorService.existsUsername(form.getUsername()),
+						"username.error");
 			} catch (final Throwable oops) {
 				binding.rejectValue("username", "username.error");
 			}
@@ -216,9 +235,12 @@ public class CriticService {
 		if (form.getPhoneNumber() != null)
 			try {
 				final char[] phoneArray = form.getPhoneNumber().toCharArray();
-				if ((!form.getPhoneNumber().equals(null) && !form.getPhoneNumber().equals("")))
-					if (phoneArray[0] != '+' && Character.isDigit(phoneArray[0])) {
-						final String cc = this.systemConfigurationService.findMySystemConfiguration().getCountryCode();
+				if ((!form.getPhoneNumber().equals(null) && !form
+						.getPhoneNumber().equals("")))
+					if (phoneArray[0] != '+'
+							&& Character.isDigit(phoneArray[0])) {
+						final String cc = this.systemConfigurationService
+								.findMySystemConfiguration().getCountryCode();
 						form.setPhoneNumber(cc + " " + form.getPhoneNumber());
 					}
 			} catch (final Throwable oops) {
@@ -235,7 +257,8 @@ public class CriticService {
 	 * 
 	 * @return Critic
 	 */
-	public Critic reconstruct(final EditionFormObject form, final BindingResult binding) {
+	public Critic reconstruct(final EditionFormObject form,
+			final BindingResult binding) {
 
 		final Actor principal = this.actorService.findByPrincipal();
 
@@ -255,7 +278,9 @@ public class CriticService {
 
 		if (form.getEmail() != null)
 			try {
-				Assert.isTrue(this.actorService.checkEmail(form.getEmail(), "CRITIC"), "actor.email.error");
+				Assert.isTrue(
+						this.actorService.checkEmail(form.getEmail(), "CRITIC"),
+						"actor.email.error");
 
 			} catch (final Throwable oops) {
 				binding.rejectValue("email", "email.error");
@@ -265,9 +290,12 @@ public class CriticService {
 		if (form.getPhoneNumber() != null)
 			try {
 				final char[] phoneArray = form.getPhoneNumber().toCharArray();
-				if ((!form.getPhoneNumber().equals(null) && !form.getPhoneNumber().equals("")))
-					if (phoneArray[0] != '+' && Character.isDigit(phoneArray[0])) {
-						final String cc = this.systemConfigurationService.findMySystemConfiguration().getCountryCode();
+				if ((!form.getPhoneNumber().equals(null) && !form
+						.getPhoneNumber().equals("")))
+					if (phoneArray[0] != '+'
+							&& Character.isDigit(phoneArray[0])) {
+						final String cc = this.systemConfigurationService
+								.findMySystemConfiguration().getCountryCode();
 						form.setPhoneNumber(cc + " " + form.getPhoneNumber());
 					}
 			} catch (final Throwable oops) {
@@ -298,26 +326,46 @@ public class CriticService {
 
 		List<Critic> l = (List<Critic>) this.criticRepository
 				.top3CriticsMoreProfessional();
-		if(l.size()==0){
-			return l;
-		}else{
 
+		if(l.size()<4){
+
+			return l;
+		} else {
 
 			return l.subList(0, 3);
 		}
-	}
+	} 
 
 	public Collection<Critic> criticsWithHighestRatingReview() {
 		return this.criticRepository.criticsWithHighestRatingReview();
 	}
 
-	public void DeleteCritic(Critic c ){
+	public void DeleteCritic(Critic c) {
 
 		this.reviewService.deleteReviewsCritics(c.getId());
+		
+		
+		for(Message m :this.messageService.messagesInvolved(c.getId())){
+			for(MessageBox mb:this.MessageBoxService.findAll()){
+				
+				if(mb.getMessages().contains(m)){
+					mb.getMessages().remove(m);
+				}
+				
+			}
+			
+			this.messageService.deleteMessage(m);
+		}
+		
+		for(MessageBox mb:this.MessageBoxService.findAll()){
+			
+			if(mb.getOwner()==c){
+				this.MessageBoxService.deleteBox(mb);
+			}
+		}
 
 
 		this.delete(c);
-
 
 	}
 }

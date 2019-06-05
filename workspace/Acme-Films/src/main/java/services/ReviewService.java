@@ -119,7 +119,7 @@ public class ReviewService {
 	public Review save(final Review review, boolean finalMode, Boolean accepted) {
 		Review result = new Review();
 		Actor principal = this.actorService.findByPrincipal();
-		
+
 		Assert.notNull(principal);
 
 		if (!(finalMode)) {
@@ -253,7 +253,7 @@ public class ReviewService {
 	public Review reconstruct(final Review review, final BindingResult binding) {
 		Actor principal = this.actorService.findByPrincipal();
 		Review result;
-		if(this.actorService.checkAuthority(principal, "CRITIC")){
+		if (this.actorService.checkAuthority(principal, "CRITIC")) {
 			result = this.create();
 
 			if (review.getId() == 0) {
@@ -262,7 +262,6 @@ public class ReviewService {
 				result.setBody(review.getBody());
 				result.setRating(review.getRating());
 				result.setTitle(review.getTitle());
-
 
 			} else {
 				final Review orig = this.findOne(review.getId());
@@ -279,30 +278,35 @@ public class ReviewService {
 				result = review;
 
 			}
-		}else{
+		} else {
 			result = new Review();
 
 			Review bd = this.findOne(review.getId());
 
-			bd.setRejectReason(review.getRejectReason());
+			try {
+				Assert.notNull(review.getRejectReason());
+				Assert.isTrue(review.getRejectReason().length() > 0);
+				bd.setRejectReason(review.getRejectReason());
+			} catch (Throwable oops) {
+				binding.rejectValue("rejectReason", "reason.error");
+			}
 
 			result = bd;
 		}
 
-
-
-
 		this.validator.validate(result, binding);
+
 		
 		if(binding.hasErrors()){
-			review.setCritic((Critic)this.actorService.findByPrincipal());
+		
 			throw new ValidationException();
 		}
+
 
 		return result;
 	}
 
-	public Review reconstructModerator(int reviewId,BindingResult binding){
+	public Review reconstructModerator(int reviewId, BindingResult binding) {
 
 		Review bd = this.findOne(reviewId);
 
@@ -310,8 +314,6 @@ public class ReviewService {
 
 		return bd;
 	}
-
-
 
 	public Collection<Film> getFinalFilms() {
 
@@ -347,26 +349,31 @@ public class ReviewService {
 
 		return result;
 	}
-	public void deleteReviewsCritics(int id){
-		this.reviewRepository.deleteInBatch(this.reviewRepository.getReviewsByCritic(id));
+
+	public void deleteReviewsCritics(int id) {
+		this.reviewRepository.deleteInBatch(this.reviewRepository
+				.getReviewsByCritic(id));
 
 	}
 
 	public void deleteReviewPerModerator(int id) {
 
-		this.reviewRepository.deleteInBatch(this.reviewRepository.reviewPerModerator(id));
+		this.reviewRepository.deleteInBatch(this.reviewRepository
+				.reviewPerModerator(id));
 
 	}
 
-
-	public Collection<Review> getReviewsByFilm(int filmId){
-		Collection<Review> result = this.reviewRepository.getReviewsByFilm(filmId);
+	public Collection<Review> getReviewsByFilm(int filmId) {
+		Collection<Review> result = this.reviewRepository
+				.getReviewsByFilm(filmId);
 
 		return result;
 	}
+
 	public void deleteReviewPerFilm(int id) {
 
-		this.reviewRepository.deleteInBatch(this.reviewRepository.reviewPerFilm(id));
+		this.reviewRepository.deleteInBatch(this.reviewRepository
+				.reviewPerFilm(id));
 
 	}
 }

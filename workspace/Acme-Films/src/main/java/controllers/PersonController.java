@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -37,7 +38,9 @@ public class PersonController extends AbstractController {
 
 	@Autowired
 	private PositionService positionService;
-
+	
+	@Autowired
+	private Validator validator;
 
 	// Display
 
@@ -46,7 +49,7 @@ public class PersonController extends AbstractController {
 		ModelAndView result;
 		Person person;
 		boolean isPrincipal = false;
-		Actor principal;
+		//Actor principal;
 		Collection<Film> films;
 
 		try {
@@ -65,7 +68,7 @@ public class PersonController extends AbstractController {
 			result.addObject("requestURI", "person/display.do?personId="
 					+ personId);
 		} catch (final Throwable oops) {
-			result = new ModelAndView("redirect:../welcome/index.do");
+			result = new ModelAndView("redirect:/welcome/index.do");
 			result.addObject("messageCode", "position.commit.error");
 		}
 		return result;
@@ -77,6 +80,7 @@ public class PersonController extends AbstractController {
 		Collection<Person> persons = this.personService.findAll();
 		Actor principal;
 		boolean isPrincipal = false;
+		Collection<Person> noDelete = this.personService.personsInFilms();
 
 		try {
 			if (filmId == null)
@@ -92,6 +96,7 @@ public class PersonController extends AbstractController {
 
 
 			result.addObject("persons", persons);
+			result.addObject("noDelete", noDelete);
 			result.addObject("isPrincipal", isPrincipal);
 
 		} catch (final Throwable oops) {
@@ -169,37 +174,43 @@ public class PersonController extends AbstractController {
 			BindingResult binding) {
 		ModelAndView result;
 		Collection<Position> positionsToSave = new ArrayList<>();
+		Person aux = this.personService.create();
 		
 		try {
 			positionsToSave = this.positionService.parsePositions(positionsArray);
+			aux = this.personService.findOne(person.getId());
 			
-			person.setPositions(positionsToSave);
+			aux.setBirthDate(person.getBirthDate());
+			aux.setGender(person.getGender());
+			aux.setName(person.getName());
+			aux.setNationality(person.getNationality());
+			aux.setPhoto(person.getPhoto());
+			aux.setSurname(person.getSurname());
+			aux.setPositions(positionsToSave);
 			
-		} catch (Exception e) {
-			
-		}
+		} catch (Exception e) {}
 		
-			Person toSave = this.personService.validate(person, binding);
-
+			this.validator.validate(aux, binding);
 
 		if (binding.hasErrors()) {
 			Collection<Position> positions = this.positionService.findAll();
 
 			result = new ModelAndView("person/edit");
-			result.addObject("person", person);
+			result.addObject("person", aux);
 			result.addObject("isPrincipal", true);
 			result.addObject("positions", positions);
 		} else {
 			try {
-				this.personService.save(toSave);
+				this.personService.flush();
+				aux.setId(person.getId());
+				this.personService.save(aux);
 				result = new ModelAndView("redirect:list.do");
 			} catch (final Throwable oops) {
 				result = new ModelAndView("person/edit");
-				result.addObject("person", person);
+				result.addObject("person", aux);
 				result.addObject("messageCode", oops.getMessage());
 			}
 		}
-
 		return result;
 	}
 

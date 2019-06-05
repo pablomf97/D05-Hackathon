@@ -68,11 +68,11 @@
 							code="position.edit" /></a>
 				</display:column>
 				
-<%-- 				<display:column>
+ 				<display:column>
 					<a href="position/moderator/delete.do?positionId=${position.id}"> <spring:message
 							code="position.delete" />
 					</a>
-				</display:column> --%>
+				</display:column>
 				
 			</display:table>
 			<input type="button"

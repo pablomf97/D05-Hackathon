@@ -6,6 +6,7 @@ import javax.persistence.AccessType;
 import javax.persistence.Entity;
 import javax.validation.constraints.Pattern;
 
+import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.URL;
@@ -41,7 +42,7 @@ public class PersonalData extends DomainEntity {
 	}
 
 	@NotBlank
-	@Length(max = 510)
+	@Type(type="text")
 	public String getStatement() {
 		return this.statement;
 	}

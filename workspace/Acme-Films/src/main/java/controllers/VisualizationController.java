@@ -58,7 +58,7 @@ public class VisualizationController extends AbstractController {
 					"visualization/display.do?visualizationId="
 							+ visualizationId);
 		} catch (final Throwable oops) {
-			result = new ModelAndView("redirect:../welcome/index.do");
+			result = new ModelAndView("redirect:/welcome/index.do");
 			result.addObject("messageCode", "position.commit.error");
 			result.addObject("permission", false);
 		}

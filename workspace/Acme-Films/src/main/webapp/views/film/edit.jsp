@@ -21,7 +21,7 @@
 	
 			<form:hidden path="id" />
 			
-			<jstl:if test="${film.isDraft || film.id == 0}">
+			<jstl:if test="${film.id == 0 || film.isDraft}">
 			
 				<acme:textbox code="film.title" path="title" size="100px" /><br/> <br/>
 				<acme:textbox code="film.synopsis" path="synopsis" size="100px" /><br/> <br/>
@@ -67,7 +67,9 @@
 			<acme:multipleSelect items="${sagas}" itemLabel="title" code="film.sagas" path="sagas"/><br>
 			
 			<acme:submit code="film.save" name="save" />&nbsp;
-			<acme:submit code="film.saveFinal" name="saveFinal" />&nbsp;
+			<jstl:if test="${film.isDraft}">
+				<acme:submit code="film.saveFinal" name="saveFinal" />&nbsp;
+			</jstl:if>
 			<acme:cancel url="film/list.do" code="film.cancel" />
 			<br />
 	

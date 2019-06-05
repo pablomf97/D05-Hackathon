@@ -10,10 +10,10 @@
 
 <tiles-definitions>
 	
-	<definition name="comment/createFilm" extends="master.page">
+	<definition name="comment/createComment" extends="master.page">
 		<put-attribute name="title" value="Comment film" />
 		<put-attribute name="body"
-			value="/views/comment/createFilm.jsp" />
+			value="/views/comment/createComment.jsp" />
 	</definition>
 	
 	<definition name="comment/createForum" extends="master.page">

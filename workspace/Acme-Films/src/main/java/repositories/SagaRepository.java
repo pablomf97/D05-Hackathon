@@ -7,5 +7,5 @@ import domain.Saga;
 
 @Repository
 public interface SagaRepository extends JpaRepository<Saga, Integer>{
-
+	
 }

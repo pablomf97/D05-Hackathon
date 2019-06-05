@@ -17,6 +17,8 @@ import security.Authority;
 import security.UserAccount;
 import domain.Actor;
 import domain.Administrator;
+import domain.Message;
+import domain.MessageBox;
 import domain.SocialProfile;
 import forms.EditionFormObject;
 import forms.RegisterFormObject;
@@ -24,7 +26,7 @@ import forms.RegisterFormObject;
 @Transactional
 @Service
 public class AdministratorService {
-
+ 
 	/* Working repository */
 
 	@Autowired
@@ -37,8 +39,16 @@ public class AdministratorService {
 
 	@Autowired
 	private SystemConfigurationService systemConfigurationService;
+
+	
+	@Autowired
+	private MessageService messageService;
+	
+	@Autowired
+	private MessageBoxService MessageBoxService ;
 	
 	
+
 
 	/* Simple CRUD methods */
 
@@ -117,25 +127,19 @@ public class AdministratorService {
 			Assert.isTrue(this.actorService.checkAuthority(principal, "ADMIN"),
 					"no.permission");
 
-			/* Managing phone number */
-			final char[] phoneArray = administrator.getPhoneNumber()
-					.toCharArray();
-			if ((!administrator.getPhoneNumber().equals(null) && !administrator
-					.getPhoneNumber().equals("")))
-				if (phoneArray[0] != '+' && Character.isDigit(phoneArray[0])) {
-					final String cc = this.systemConfigurationService
-							.findMySystemConfiguration().getCountryCode();
-					administrator.setPhoneNumber(cc + " "
-							+ administrator.getPhoneNumber());
-				}
+			res = this.administratorRepository.save(administrator);
+
+			this.MessageBoxService.initializeDefaultBoxes(res);
 		} else {
 
 			Assert.isTrue(principal.getId() == administrator.getId(),
 					"no.permission");
 
 			administrator.setUserAccount(principal.getUserAccount());
+
+			res = this.administratorRepository.save(administrator);
 		}
-		res = this.administratorRepository.save(administrator);
+
 		return res;
 	}
 
@@ -318,11 +322,37 @@ public class AdministratorService {
 	public void flush() {
 		this.administratorRepository.flush();
 	}
+
 	
 	public void deleteAdmin(Administrator a){	
+		
+		
+
+		
+		for(Message m :this.messageService.messagesInvolved(a.getId())){
+			for(MessageBox mb:this.MessageBoxService.findAll()){
+				
+				if(mb.getMessages().contains(m)){
+					mb.getMessages().remove(m);
+				}
+				
+			}
+			
+			this.messageService.deleteMessage(m);
+		}
+		
+		for(MessageBox mb:this.MessageBoxService.findAll()){
+			
+			if(mb.getOwner()==a){
+				this.MessageBoxService.deleteBox(mb);
+			}
+		}
+
 		this.delete(a);
 	}
-	
-	
-	
+
+	public Collection<Actor> findSpammers() {
+		return this.administratorRepository.findSpammers();
+	}
+
 }

@@ -14,7 +14,7 @@
 	<jstl:if test="${possible}">
 
 		<display:table pagesize="10" class="displaytag" name="comments"
-			requestURI="comment/filmEnthusiast/list.do" id="row">
+			requestURI="${requestURI}" id="row">
 
 			<display:column titleKey="comment.body">
 				<jstl:out value="${row.body}"></jstl:out>

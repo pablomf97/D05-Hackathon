@@ -1,5 +1,6 @@
 package services;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.transaction.Transactional;
@@ -10,6 +11,8 @@ import org.springframework.util.Assert;
 
 import repositories.SagaRepository;
 import domain.Actor;
+import domain.Film;
+import domain.Forum;
 import domain.Saga;
 
 @Transactional
@@ -25,6 +28,12 @@ public class SagaService {
 	
 	@Autowired
 	private ActorService actorService;
+	
+	@Autowired
+	private FilmService filmService;
+	
+	@Autowired
+	private GroupService groupService;
 	
 	public Saga create() {
 		Actor principal;
@@ -81,6 +90,25 @@ public class SagaService {
 	}
 	
 	// Other business methods -------------------------------
+	
+	public void flush() {
+		this.sagaRepository.flush();
+	}
+	
+	public Collection<Saga> sagasInUse() {
+		Collection<Saga> result = new ArrayList<>();
+		Collection<Forum> groups = this.groupService.findAll();
+		Collection<Film> films = this.filmService.findAll();
+		
+		for(Forum group : groups) {
+			result.add(group.getSagaAbout());
+		}
+		for(Film film : films) {
+			result.addAll(film.getSagas());
+		}
+		
+		return result;
+	}
 	
 	
 }

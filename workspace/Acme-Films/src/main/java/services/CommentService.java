@@ -4,7 +4,6 @@ import java.util.Collection;
 import java.util.Date;
 
 import javax.transaction.Transactional;
-import javax.validation.ValidationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,9 +13,7 @@ import org.springframework.validation.Validator;
 
 import repositories.CommentRepository;
 import domain.Comment;
-import domain.Film;
 import domain.FilmEnthusiast;
-import domain.Forum;
 
 @Service
 @Transactional
@@ -91,15 +88,28 @@ public class CommentService {
 		}else{
 			comment.setFilmEnthusiast((FilmEnthusiast)this.actorService.findByPrincipal());
 			comment.setPublishedMoment(new Date(System.currentTimeMillis()-1));
-			
 		}
 		
+		try {
+			Assert.isTrue(!((comment.getForum() == null) && (comment.getFilm() == null)));
+		} catch (final Throwable oops) {
+			binding.rejectValue("film", "empty.film.forum");
+		}
+		
+		try {
+			Assert.isTrue((comment.getForum() == null) || (comment.getFilm() == null));
+		} catch (final Throwable oops) {
+			binding.rejectValue("forum", "both.film.forum");
+		}
+		
+		try {
+			if(comment.getFilm() != null)
+				Assert.notNull(comment.getRating());
+		} catch (final Throwable oops) {
+			binding.rejectValue("rating", "no.rating.allowed");
+		}
 		
 		this.validator.validate(comment, binding);
-		
-		if(binding.hasErrors()){
-			throw new ValidationException();
-		}
 		
 		return comment;
 	}
@@ -129,9 +139,17 @@ public class CommentService {
 
 	}
 
-	public void deleteCommentsPerForum(Forum g) {
+	public void deleteCommentsPerForum(int id) {
 		
-		this.commentRepository.deleteInBatch(this.commentRepository.CommentsPerForum(g.getId()));
+		this.commentRepository.deleteInBatch(this.commentRepository.CommentsPerForum(id));
 		
+	}
+	
+	public Collection<Comment> getCommentsByGroup(int groupId) {
+		Collection<Comment> result;
+		
+		result = this.commentRepository.CommentsPerForum(groupId);
+		
+		return result;
 	}
 }

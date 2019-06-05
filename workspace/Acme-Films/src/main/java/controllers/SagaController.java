@@ -1,5 +1,6 @@
 package controllers;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.validation.Valid;
@@ -52,7 +53,7 @@ public class SagaController extends AbstractController {
 			result.addObject("isPrincipal", isPrincipal);
 			result.addObject("requestURI", "saga/display.do?sagaId=" + sagaId);
 		} catch (final Throwable oops) {
-			result = new ModelAndView("redirect:../welcome/index.do");
+			result = new ModelAndView("redirect:/welcome/index.do");
 			result.addObject("messageCode", "position.commit.error");
 			result.addObject("permission", false);
 		}
@@ -63,6 +64,7 @@ public class SagaController extends AbstractController {
 	public ModelAndView list() {
 		final ModelAndView result = new ModelAndView("saga/list");
 		Collection<Saga> sagas = this.sagaService.findAll();
+		Collection<Saga> noDelete;
 		Actor principal;
 		boolean isPrincipal = false;
 
@@ -70,8 +72,11 @@ public class SagaController extends AbstractController {
 			principal = this.actorService.findByPrincipal();
 			if (this.actorService.checkAuthority(principal, "MODERATOR"))
 				isPrincipal = true;
+			
+			noDelete = this.sagaService.sagasInUse();
 
 			result.addObject("sagas", sagas);
+			result.addObject("noDelete", noDelete);
 			result.addObject("isPrincipal", isPrincipal);
 
 		} catch (final Throwable oops) {
@@ -142,8 +147,14 @@ public class SagaController extends AbstractController {
 	@RequestMapping(value = "/delete", method = RequestMethod.GET)
 	public ModelAndView delete(@RequestParam final int sagaId) {
 		ModelAndView result;
+		Collection<Saga> noDelete = new ArrayList<>();
 		try {
 			final Saga saga = this.sagaService.findOne(sagaId);
+			
+			noDelete = this.sagaService.sagasInUse();
+			
+			Assert.isTrue(!noDelete.contains(saga));
+			
 			this.sagaService.delete(saga);
 			result = new ModelAndView("redirect:list.do");
 		} catch (final Throwable oops) {

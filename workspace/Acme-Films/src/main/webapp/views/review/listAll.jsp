@@ -14,9 +14,11 @@
 	<jstl:if test="${reviews.isEmpty()}">
 		<spring:message code="review.empty" var="nothing"></spring:message>
 
+
 		<strong><jstl:out value="${nothing}"></jstl:out></strong>
 
 	</jstl:if>
+
 	<jstl:if test="${!reviews.isEmpty()}">
 		<jstl:if test="${possible}">
 			<display:table pagesize="5" class="displaytag" name="reviews"
@@ -59,7 +61,14 @@
 				</display:column>
 
 				<display:column titleKey="review.draft">
-					<jstl:out value="${row.isDraft}"></jstl:out>
+					<jstl:choose>
+						<jstl:when test="${row.isDraft}">
+							<spring:message code="film.draft.true" />
+						</jstl:when>
+						<jstl:otherwise>
+							<spring:message code="film.draft.false" />
+						</jstl:otherwise>
+					</jstl:choose>
 				</display:column>
 
 
@@ -83,22 +92,26 @@
 					<a href="review/critic/display.do?reviewId=${row.id}"> <spring:message
 							code="review.display" />
 					</a>
+
 				</display:column>
 
 
 
 			</display:table>
-			<jstl:if test="${!possible}">
-				<h4>
-					<strong><jstl:out value="no.permission" /></strong>
-				</h4>
-			</jstl:if>
-
 		</jstl:if>
 
-
-
+	</jstl:if>
+	<jstl:if test="${!possible}">
+		<h4>
+			<strong><jstl:out value="no.permission" /></strong>
+		</h4>
 	</jstl:if>
 
+
+	<jstl:if test="${!possible}">
+		<h4>
+			<strong><jstl:out value="no.permission" /></strong>
+		</h4>
+	</jstl:if>
 </security:authorize>
 

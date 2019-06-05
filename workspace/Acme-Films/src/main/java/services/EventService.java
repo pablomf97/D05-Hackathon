@@ -3,6 +3,7 @@ package services;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -31,7 +32,7 @@ public class EventService {
 	private EventRepository	eventRepository;
 
 	@Autowired
-	private GroupRepository groupRepository;
+	private GroupRepository	groupRepository;
 
 	@Autowired
 	private Validator		validator;
@@ -90,6 +91,8 @@ public class EventService {
 		Actor principal;
 		Assert.notNull(event);
 		Assert.isTrue(event.getId() != 0, "wrong.id");
+		final Date d = new Date();
+		Assert.isTrue(event.getSigninDeadline().before(d), "event pass");
 		principal = this.actorService.findByPrincipal();
 		Assert.isTrue(this.actorService.checkAuthority(principal, "FILMENTHUSIAST"), "not.allowed");
 		final Event orig = this.findOne(event.getId());
@@ -113,16 +116,23 @@ public class EventService {
 			result.setTitle(event.getTitle());
 			Assert.isTrue(result.getForum().getCreator().equals(principal));
 		}
+		try {
+			Assert.isTrue(result.getSigninDeadline().before(result.getEventDate()));
+		} catch (final Throwable oops) {
+			binding.rejectValue("eventDate", "date.error");
+		}
 		this.validator.validate(result, binding);
 		return result;
 	}
-
 	public void requestEvent(final int Id) {
 		final Event event = this.findOne(Id);
 		Assert.isTrue(event.getAttenders().size() < event.getMaximumCapacity(), "capacity exceded");
+		final Date d = new Date();
+		Assert.isTrue(event.getSigninDeadline().before(d), "event pass");
 		final Actor actor = this.actorService.findByPrincipal();
-		Assert.isTrue(!event.getAttenders().contains(actor) || event.getForum().getGroupMembers().equals(actor));
+		Assert.isTrue(!event.getAttenders().contains(actor) && event.getForum().getGroupMembers().contains(actor));
 		event.getAttenders().add((FilmEnthusiast) actor);
+		this.eventRepository.save(event);
 
 	}
 
@@ -132,37 +142,36 @@ public class EventService {
 
 	public Collection<Event> top3EventsWithMorePeople() {
 
-		List<Event> l = (List<Event>) this.eventRepository
-				.top3EventsWithMorePeople();
-		if(l.size()==0){
+		final List<Event> l = (List<Event>) this.eventRepository.top3EventsWithMorePeople();
+		if (l.size() == 0)
 			return l;
-		}else{
-
-
+		else
 			return l.subList(0, 3);
-		}
 	}
 
-	public void deleteEventPerForum(int id) {
+	public void deleteEventPerForum(final int id) {
 
 		this.eventRepository.deleteInBatch(this.eventRepository.findAllByGroup(id));
 
 	}
 
-	public void deleteEventPerFilmEnthusiast(FilmEnthusiast f) {
+	public void deleteEventPerFilmEnthusiast(final FilmEnthusiast f) {
 
-		for(Event e : this.findAll()){
-
-			if(e.getAttenders().contains(f)){
+		for (final Event e : this.findAll())
+			if (e.getAttenders().contains(f))
 				this.delete(e);
 
+	}
+	public void deleteMember(final int eventId) {
+		final Event res = this.findOne(eventId);
+		final Actor actor = this.actorService.findByPrincipal();
+		Assert.isTrue(this.actorService.checkAuthority(actor, "FILMENTHUSIAST"), "not.allowed");
+		Assert.isTrue(res.getAttenders().contains(actor));
+		res.getAttenders().remove(actor);
+		this.eventRepository.save(res);
+	}
 
-			}
-
-
-
-		}
-
-
+	public void flush() {
+		this.eventRepository.flush();
 	}
 }

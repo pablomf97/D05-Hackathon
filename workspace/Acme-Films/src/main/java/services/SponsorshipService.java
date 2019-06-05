@@ -1,11 +1,14 @@
 package services;
 
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.expression.ParseException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
@@ -35,6 +38,9 @@ public class SponsorshipService {
 	
 	@Autowired
 	private CreditCardService creditCardService;
+	
+	@Autowired
+	private SystemConfigurationService sysConfigService;
 	
 	public Sponsorship create() {
 		Actor principal;
@@ -72,11 +78,12 @@ public class SponsorshipService {
 		Sponsorship result;
 
 		principal = this.actorService.findByPrincipal();
+		
+		Assert.isTrue(this.actorService.checkAuthority(principal, "MODERATOR") || this.actorService.checkAuthority(principal, "SPONSOR") ,
+				"not.allowed");
+		
 		if(sponsorship.getId() != 0) {
-			if(this.actorService.checkAuthority(principal, "MODERATOR")) {
-				Assert.isTrue(this.actorService.checkAuthority(principal, "MODERATOR"),
-						"not.allowed");
-			} else if (this.actorService.checkAuthority(principal, "MODERATOR")) {
+			if (this.actorService.checkAuthority(principal, "SPONSOR")) {
 				Assert.isTrue(sponsorship.getSponsor().equals((Sponsor) (principal)), "not.allowed");
 			}
 		}
@@ -301,6 +308,57 @@ public class SponsorshipService {
 		res = this.sponsorshipRepository.sponsorshipsToReview();
 		
 		return res;
+	}
+	
+	public Sponsorship findBanner(int filmId) {
+		Sponsorship result = new Sponsorship();
+		Collection<Sponsorship> sponsorships = this.findSponsorshipsByFilm(filmId);
+		
+		if(!sponsorships.isEmpty()) {
+			result = this.randomBanner(sponsorships);
+		}
+		
+		return result;
+	}
+	
+	public Collection<Sponsorship> findSponsorshipsByFilm(int filmId) {
+		Collection<Sponsorship> result = this.sponsorshipRepository.sponsorshipsPerFilm(filmId);
+		
+		return result;
+	}
+	
+	public Sponsorship randomBanner(final Collection<Sponsorship> sponsorships) {
+		Sponsorship result;
+		final SecureRandom rnd = new SecureRandom();
+		final List<Sponsorship> listSponsoships = new ArrayList<>(sponsorships);
+		final List<Sponsorship> listAux = new ArrayList<>(listSponsoships);
+
+		for (final Sponsorship s : listAux)
+			try {
+				if (this.creditCardService.checkIfExpired(s.getCreditCard().getExpirationMonth(), s.getCreditCard().getExpirationYear()))
+					listSponsoships.remove(s);
+			} catch (java.text.ParseException e) {
+				e.printStackTrace();
+			}
+
+		Integer a = (rnd.nextInt() % 10);
+		while (a < 0 || a > (sponsorships.size() - 1))
+			a = (rnd.nextInt() % 10);
+		result = listSponsoships.get(a);
+		
+		this.receivePaymentForSponsorship(result);
+
+		return result;
+	}
+	
+	private void receivePaymentForSponsorship(Sponsorship sponsorship) {
+		final Double tax = this.sysConfigService.findMySystemConfiguration().getVATTax();
+		final Double flatRate = this.sysConfigService.findMySystemConfiguration().getVATTax();
+		final Double paymentQuantity = flatRate + (flatRate*tax);
+		CreditCard sponsorCreditCard = sponsorship.getCreditCard();
+		
+		//Here would be our api call to the selected payment method
+
 	}
 
 }

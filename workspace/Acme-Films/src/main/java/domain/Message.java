@@ -15,6 +15,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
 
+import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -56,6 +57,7 @@ public class Message extends DomainEntity{
 	}
 	
 	@NotBlank
+	@Type(type="text")
 	public String getBody() {
 		return body;
 	}

@@ -51,17 +51,23 @@ public class SponsorshipController extends AbstractController {
 			sponsorship = this.sponsorshipService.findOne(sponsorshipId);
 			try {
 				principal = this.actorService.findByPrincipal();
-				if (sponsorship.getSponsor().equals((Sponsor) principal) || this.actorService.checkAuthority(principal, "MODERATOR")) {
+				if (this.actorService.checkAuthority(principal, "SPONSOR")) {
+					if(sponsorship.getSponsor().equals((Sponsor) principal)) {
+						isPrincipal = true;
+					}
+				} else if(this.actorService.checkAuthority(principal, "MODERATOR")) {
 					isPrincipal = true;
 				}
-			} catch (final Throwable oops) {}
+			} catch (final Throwable oops) {
+				System.out.println(oops.getMessage());
+			}
 
 			result = new ModelAndView("sponsorship/display");
 			result.addObject("sponsorship", sponsorship);
 			result.addObject("isPrincipal", isPrincipal);
 			result.addObject("requestURI", "sponsorship/display.do?sponsorshipId=" + sponsorshipId);
 		} catch (final Throwable oops) {
-			result = new ModelAndView("redirect:../welcome/index.do");
+			result = new ModelAndView("redirect:/welcome/index.do/");
 			result.addObject("messageCode", "position.commit.error");
 			result.addObject("permission", false);
 		}
@@ -113,18 +119,22 @@ public class SponsorshipController extends AbstractController {
 		Sponsorship sponsorship;
 		Actor principal = this.actorService.findByPrincipal();
 		boolean isPrincipal = false;
-
-		sponsorship = this.sponsorshipService.findOne(sponsorshipId);
 		
-		if(sponsorship.getSponsor().equals((Sponsor) principal)) {
-			isPrincipal = true;
+		try {
+			sponsorship = this.sponsorshipService.findOne(sponsorshipId);
+			
+			if(sponsorship.getSponsor().equals((Sponsor) principal)) {
+				isPrincipal = true;
+			}
+
+			final EditSponsorshipFormObject editSponsorshipFormObject = new EditSponsorshipFormObject(sponsorship);
+
+			res = this.createEditModelAndView(editSponsorshipFormObject);
+			res.addObject("isPrincipal", isPrincipal);
+			res.addObject("isActive", sponsorship.getIsActive());
+		} catch (final Throwable oops) {
+			res = new ModelAndView("redirect:list.do");
 		}
-
-		final EditSponsorshipFormObject editSponsorshipFormObject = new EditSponsorshipFormObject(sponsorship);
-
-		res = this.createEditModelAndView(editSponsorshipFormObject);
-		res.addObject("isPrincipal", isPrincipal);
-		res.addObject("isActive", sponsorship.getIsActive());
 
 		return res;
 	}
@@ -230,8 +240,8 @@ public class SponsorshipController extends AbstractController {
 			
 			if((this.actorService.checkAuthority(principal, "SPONSOR"))) {
 				Assert.isTrue(sponsorship.getIsActive());
+				Assert.isTrue(sponsorship.getSponsor().equals(principal));
 			}
-			
 
 			if (action.equals("accept")) {
 
@@ -260,7 +270,7 @@ public class SponsorshipController extends AbstractController {
 			this.sponsorshipService.delete(sponsorship);
 			result = new ModelAndView("redirect:list.do");
 		} catch (final Throwable oops) {
-			result = new ModelAndView("redirect:welcome.do");
+			result = new ModelAndView("redirect:/welcome/index.do");
 			result.addObject("messageCode", oops.getMessage());
 		}
 		return result;

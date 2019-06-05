@@ -17,6 +17,8 @@ import security.Authority;
 import security.UserAccount;
 import domain.Actor;
 import domain.FilmEnthusiast;
+import domain.Message;
+import domain.MessageBox;
 import domain.SocialProfile;
 import forms.EditionFormObject;
 import forms.RegisterFormObject;
@@ -25,7 +27,7 @@ import forms.RegisterFormObject;
 @Service
 public class FilmEnthusiastService {
 
-	/* Working repository */
+	/* Working repository */ 
 
 	@Autowired
 	private FilmEnthusiastRepository filmEnthusiastRepository;
@@ -34,15 +36,18 @@ public class FilmEnthusiastService {
 
 	@Autowired
 	private ActorService actorService;
-	
-	@Autowired
-	private EventService eventService;
-	
-	@Autowired
-	private GroupService groupService;
 
 	@Autowired
+	private MessageService messageService;
+	
+	@Autowired
+	private MessageBoxService MessageBoxService ;
+	
+	@Autowired
 	private SystemConfigurationService systemConfigurationService;
+
+	@Autowired
+	private MessageBoxService messageBoxService;
 
 	/* Simple CRUD methods */
 
@@ -121,8 +126,13 @@ public class FilmEnthusiastService {
 
 			filmEnthusiast.setUserAccount(principal.getUserAccount());
 			filmEnthusiast.setFinder(principal.getFinder());
+
+			res = this.filmEnthusiastRepository.save(filmEnthusiast);
+		} else {
+			res = this.filmEnthusiastRepository.save(filmEnthusiast);
+			this.messageBoxService.initializeDefaultBoxes(res);
 		}
-		res = this.filmEnthusiastRepository.save(filmEnthusiast);
+
 		return res;
 	}
 
@@ -303,13 +313,35 @@ public class FilmEnthusiastService {
 	public void flush() {
 		this.filmEnthusiastRepository.flush();
 	}
+
 	
 	public void deleteFilmEnthusiast(FilmEnthusiast f){
 		
 		//this.groupService.deleteGroupPerFilmEnthusiast(f);
 	//	this.eventService.deleteEventPerFilmEnthusiast(f);
 		
+		for(Message m :this.messageService.messagesInvolved(f.getId())){
+			for(MessageBox mb:this.MessageBoxService.findAll()){
+				
+				if(mb.getMessages().contains(m)){
+					mb.getMessages().remove(m);
+				}
+				
+			}
+			
+			this.messageService.deleteMessage(m);
+		}
+		
+		for(MessageBox mb:this.MessageBoxService.findAll()){
+			
+			if(mb.getOwner()==f){
+				this.MessageBoxService.deleteBox(mb);
+			}
+		}
+
+		
+
 		this.delete(f);
 	}
-	
+
 }

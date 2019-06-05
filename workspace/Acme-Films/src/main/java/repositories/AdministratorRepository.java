@@ -1,9 +1,12 @@
 package repositories;
 
+import java.util.Collection;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import domain.Actor;
 import domain.Administrator;
 
 @Repository
@@ -12,5 +15,8 @@ public interface AdministratorRepository extends
 
 	@Query("select a from Administrator a where a.userAccount.username = ?1")
 	Administrator findByUsername(String username);
+
+	@Query("select a from Actor a where a.isSpammer = true")
+	Collection<Actor> findSpammers();
 
 }

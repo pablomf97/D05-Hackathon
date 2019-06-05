@@ -29,6 +29,17 @@
 					<jstl:out value="${film.rating}" />
 				</display:column>
 				
+				<jstl:if test="${film.isDraft eq true}">
+					<spring:message var="status" code='film.draft.true' />
+				</jstl:if>
+				<jstl:if test="${film.isDraft eq false}">
+					<spring:message var="status" code='film.draft.false' />
+				</jstl:if>
+				
+				<display:column titleKey="film.isDraft" sortable="true">
+					<jstl:out value="${status}" />
+				</display:column>
+				
 				<display:column>
 					<a href="film/display.do?filmId=${film.id}"> <spring:message
 							code="film.display" />
@@ -36,11 +47,9 @@
 				</display:column>
 				
 				<display:column>
-					<jstl:if test="${film.isDraft }">
-						<a href="film/edit.do?filmId=${film.id}"> <spring:message
-								code="film.edit" />
-						</a>
-					</jstl:if>
+					<a href="film/edit.do?filmId=${film.id}"> <spring:message
+							code="film.edit" />
+					</a>
 				</display:column>
 					
 				<display:column>

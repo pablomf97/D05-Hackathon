@@ -8,6 +8,8 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
 
 
 <h1><spring:message	code="saga.title.list" />
@@ -17,7 +19,7 @@
 
 			<display:table class="displaytag" name="sagas" pagesize="5" 
 				requestURI="saga/list.do" id="saga">
-
+				
 				<display:column titleKey="saga.title" sortable="true">
 					<jstl:out value="${saga.title}" />
 				</display:column>
@@ -26,19 +28,30 @@
 					<a href="saga/display.do?sagaId=${saga.id}"> <spring:message
 							code="saga.display" />
 					</a>
+
 				</display:column>
 				
-				<display:column>
-					<a href="saga/edit.do?sagaId=${saga.id}"> <spring:message
-							code="saga.edit" />
-					</a>
-				</display:column>
+					<display:column>
+						<a href="saga/edit.do?sagaId=${saga.id}"> <spring:message
+								code="saga.edit" />
+						</a>
+					</display:column>
+					
+					<display:column>
+					<c:set var="contains" value="false" />
+					<c:forEach var="item" items="${noDelete}">
+					  <c:if test="${item eq saga}">
+					    <c:set var="contains" value="true" />
+					  </c:if>
+					</c:forEach>
+					<jstl:if test="${!contains}">
+						<a href="saga/delete.do?sagaId=${saga.id}"> <spring:message
+								code="saga.delete" />
+						</a>
+					</jstl:if>
+					</display:column>
 				
-				<display:column>
-					<a href="saga/delete.do?sagaId=${saga.id}"> <spring:message
-							code="saga.delete" />
-					</a>
-				</display:column>
+				
 				
 			</display:table>
 

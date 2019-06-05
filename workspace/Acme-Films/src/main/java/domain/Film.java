@@ -3,20 +3,19 @@ package domain;
 import java.util.Collection;
 import java.util.Date;
 
-
 import javax.persistence.Access;
 import javax.persistence.AccessType;
-
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 
+import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.Range;
 import org.hibernate.validator.constraints.URL;
@@ -55,6 +54,7 @@ public class Film extends DomainEntity{
 	}
 	
 	@NotBlank
+	@Type(type="text")
 	public String getSynopsis() {
 		return synopsis;
 	}
@@ -116,7 +116,7 @@ public class Film extends DomainEntity{
 	}
 
 	@Valid
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER)
 	public Collection<Genre> getGenres() {
 		return genres;
 	}
@@ -125,7 +125,7 @@ public class Film extends DomainEntity{
 	}
 	
 	@Valid
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER)
 	public Collection<Person> getPersons() {
 		return persons;
 	}
@@ -134,7 +134,7 @@ public class Film extends DomainEntity{
 	}
 	
 	@Valid
-	@ManyToMany
+	@ManyToMany(fetch=FetchType.EAGER)
 	public Collection<Saga> getSagas() {
 		return sagas;
 	}

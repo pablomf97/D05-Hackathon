@@ -1,13 +1,11 @@
 package domain;
 
-import java.util.Collection;
 import java.util.Map;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -20,7 +18,6 @@ public class Position extends DomainEntity{
 	
 	private Map<String,String> name;
 	private Position parentPosition;
-	private Collection<Position> childPositions;
 	
 	//Getters and setters
 	
@@ -43,15 +40,5 @@ public class Position extends DomainEntity{
 	public void setParentPosition(Position parentPosition) {
 		this.parentPosition = parentPosition;
 	}
-	
-	@Valid
-	@ManyToMany
-	public Collection<Position> getChildPositions() {
-		return childPositions;
-	}
 
-	public void setChildPositions(Collection<Position> childPositions) {
-		this.childPositions = childPositions;
-	}
-	
 }

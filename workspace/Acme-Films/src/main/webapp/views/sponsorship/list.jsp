@@ -83,8 +83,18 @@
 					<jstl:out value="${sponsorship.targetPage}" />
 				</display:column>
 				
+				<jstl:if test="${sponsorship.isActive eq true}">
+					<spring:message var="status" code='sponsorship.active' />
+				</jstl:if>
+				<jstl:if test="${sponsorship.isActive eq null}">
+					<spring:message var="status" code='sponsorship.pending' />
+				</jstl:if>
+				<jstl:if test="${sponsorship.isActive eq false}">
+					<spring:message var="status" code='sponsorship.rejected' />
+				</jstl:if>
+							
 				<display:column titleKey="sponsorship.isActive" sortable="true">
-					<jstl:out value="${sponsorship.isActive}" />
+					<jstl:out value="${status}" />
 				</display:column>
 				
 				<display:column>
@@ -94,9 +104,11 @@
 				</display:column>
 				
 				<display:column>
-					<a href="sponsorship/edit.do?sponsorshipId=${sponsorship.id}"> <spring:message
-							code="sponsorship.edit" />
-					</a>
+					<jstl:if test="${sponsorship.isActive ne false}">
+						<a href="sponsorship/edit.do?sponsorshipId=${sponsorship.id}"> <spring:message
+								code="sponsorship.edit" />
+						</a>
+					</jstl:if>
 				</display:column>
 				
 				<display:column>

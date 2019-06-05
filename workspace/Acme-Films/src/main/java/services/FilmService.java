@@ -11,6 +11,7 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
@@ -43,7 +44,9 @@ public class FilmService {
 	@Autowired
 	private CommentService commentService;
 
-
+	@Autowired
+	private SagaService sagaService;
+	
 	@Autowired
 	private GroupService groupService;
 
@@ -91,6 +94,11 @@ public class FilmService {
 
 		principal = this.actorService.findByPrincipal();
 		Assert.isTrue(this.actorService.checkAuthority(principal, "MODERATOR"), "not.allowed");
+		
+		if(film.getIsDraft()) {
+			Assert.isTrue(film.getModerator().equals((Moderator) principal),
+					"not.allowed");
+		}
 
 		Assert.notNull(film.getTitle());
 		Assert.notNull(film.getSynopsis());
@@ -108,7 +116,7 @@ public class FilmService {
 		Assert.isTrue(film.getId() != 0, "wrong.id");
 
 		principal = this.actorService.findByPrincipal();
-		Assert.isTrue(this.actorService.checkAuthority(principal, "MODERATOR"),
+		Assert.isTrue(film.getModerator().equals((Moderator) principal),
 				"not.allowed");
 
 		this.filmRepository.delete(film.getId());
@@ -122,8 +130,6 @@ public class FilmService {
 		Actor principal;
 
 		principal = this.actorService.findByPrincipal();
-		Assert.isTrue(this.actorService.checkAuthority(principal, "MODERATOR"),
-				"not.allowed");
 
 		if (film.getId() == 0) {
 			result = this.create();
@@ -137,7 +143,7 @@ public class FilmService {
 		} else {
 			result = this.findOne(film.getId());
 		}
-
+		
 		try {
 			Assert.notEmpty(film.getPersons());
 		} catch (final Throwable oops) {
@@ -145,6 +151,9 @@ public class FilmService {
 		}
 
 		if(result.getIsDraft()) {
+			Assert.isTrue(result.getModerator().equals((Moderator) principal),
+					"not.allowed");
+			
 			result.setTitle(film.getTitle());
 			result.setSynopsis(film.getSynopsis());
 			result.setPoster(film.getPoster());
@@ -180,7 +189,7 @@ public class FilmService {
 	}
 	public Collection<Film> top5FilmsWithMoreRunTime(){
 		List<Film> l =(List<Film>) this.filmRepository.top5FilmsWithMoreRunTime();
-		if(l.size()==0){
+		if(l.size()<6){
 			return l;
 		}else{
 
@@ -256,8 +265,9 @@ public class FilmService {
 
 		for(Film f:	this.filmsByModerator(id)){
 			this.visualizationService.DeletevisPerFilm(f.getId());
-			this.commentService.deleteCommentsPerFilms(f.getId());
 			this.groupService.deleteGroupPerFilm(f.getId());
+			this.commentService.deleteCommentsPerFilms(f.getId());
+			
 			this.reviewService.deleteReviewPerFilm(f.getId());
 			this.sponsorshipService.deleteSponsorshipsPerFilms(f);
 			this.delete(f);
@@ -289,6 +299,33 @@ public class FilmService {
 
 		return result;
 
+	}
+	
+	public void deleteSagaFromFilms(int sagaId) {
+		Collection<Film> films;
+		Saga toDelete = this.sagaService.findOne(sagaId); 
+		
+		films = this.filmsWithSaga(sagaId);
+		
+		for(Film film : films) {
+			film.getSagas().remove(toDelete);
+			this.save(film);
+		}
+	}
+	
+	public Collection<Film> filmsWithSaga(int sagaId) {
+		Collection<Film> result;
+
+		result = this.filmRepository.filmsWithSaga(sagaId);
+
+		return result;
+	}
+	
+	public Collection<Film> findFilmsPublishedAndMine(int moderatorId) {
+		
+		Collection<Film> result = this.filmRepository.findFilmsPublishedAndMine(moderatorId);;
+
+		return result;
 	}
 
 }

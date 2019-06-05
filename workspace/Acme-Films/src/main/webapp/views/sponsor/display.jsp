@@ -78,7 +78,7 @@
 			</div>
 
 			<div style="float: right;">
-				<img style="width: 200px; height: 200px" src="${profile.photo}"
+				<img style="width: 200px; height: 200px" src="${sponsor.photo}"
 					alt="User photo">
 			</div>
 

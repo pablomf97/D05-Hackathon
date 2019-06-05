@@ -13,6 +13,7 @@ import org.springframework.validation.Validator;
 
 import repositories.PersonRepository;
 import domain.Actor;
+import domain.Film;
 import domain.Person;
 import domain.Position;
 
@@ -29,6 +30,9 @@ public class PersonService {
 	
 	@Autowired
 	private ActorService actorService;
+	
+	@Autowired
+	private FilmService filmService;
 	
 	@Autowired
 	private Validator validator;
@@ -74,7 +78,8 @@ public class PersonService {
 		Assert.notNull(person.getNationality());
 		Assert.notNull(person.getBirthDate());
 		
-		result = this.personRepository.save(person);
+		this.flush();
+		result = this.personRepository.saveAndFlush(person);
 
 		return result;
 	}
@@ -123,6 +128,21 @@ public class PersonService {
 			person = this.findOne(n);
 			result.add(person);
 		}
+		return result;
+	}
+	
+	public void flush() {
+		this.personRepository.flush();
+	}
+	
+	public Collection<Person> personsInFilms() {
+		Collection<Film> films = this.filmService.findAll();
+		Collection<Person> result = new ArrayList<>();
+		
+		for(Film film : films) {
+			result.addAll(film.getPersons());
+		}
+		
 		return result;
 	}
 		

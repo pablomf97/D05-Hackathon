@@ -10,6 +10,7 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 
+import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -35,6 +36,7 @@ public class ProfessionalData extends DomainEntity{
 	}
 	
 	@NotBlank
+	@Type(type="text")
 	public String getDescription() {
 		return description;
 	}

@@ -5,6 +5,7 @@ import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -115,7 +116,14 @@ public class EducationDataController extends AbstractController {
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
 	public ModelAndView save(final EducationData data, final int curriculaId, final BindingResult binding) {
 		ModelAndView result;
-
+		try {
+			if (!(data.getEndDate() == null))
+				Assert.isTrue(data.getStartDate().before(data.getEndDate()));
+		} catch (final Throwable oops) {
+			binding.rejectValue("startDate", "date.error");
+		}
+		if (!(data.getEndDate() == null))
+			Assert.isTrue(data.getStartDate().before(data.getEndDate()));
 		this.validator.validate(data, binding);
 
 		if (binding.hasErrors())

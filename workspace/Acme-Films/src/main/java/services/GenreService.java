@@ -80,7 +80,7 @@ public class GenreService {
 		Assert.notNull(genre, "null.genre");
 		Assert.isTrue(!(genre.getName().get("Español").isEmpty() || genre
 				.getName().get("English").isEmpty()), "genre.name.empty");
-
+		
 		res = this.genreRepository.save(genre);
 
 		return res;
@@ -88,13 +88,15 @@ public class GenreService {
 
 	public void delete(Genre genre) {
 		Actor principal;
+		Collection<Film> films = this.filmService.filmsWithGenre(genre.getId());
+		
+		Assert.notNull(genre, "null.genre");
+		Assert.isTrue(films.isEmpty());
 
 		principal = this.actorService.findByPrincipal();
 		Assert.isTrue(
 				this.actorService.checkAuthority(principal, "MODERATOR"),
 				"not.allowed");
-
-		Assert.notNull(genre, "null.genre");
 
 		this.genreRepository.delete(genre);
 	}
@@ -189,5 +191,9 @@ public class GenreService {
 			result.add(genre);
 		}
 		return result;
+	}
+	
+	public void flush(){
+		this.genreRepository.flush();
 	}
 }

@@ -15,17 +15,24 @@
 	<display:table pagesize="10" class="displaytag" name="groups"
 		requestURI="${requestURI }" id="group">
 
-		<display:column titleKey="group.name">
+		<display:column titleKey="group.name" sortable="true">
 			<jstl:out value="${group.name}"></jstl:out>
 		</display:column>
 
-		<display:column titleKey="group.creationDate">
+		<display:column titleKey="group.creationDate" sortable="true">
 			<jstl:out value="${group.creationDate}"></jstl:out>
 		</display:column>
-		<display:column titleKey="group.creator">
-			<jstl:out value="${group.creator.userAccount.username}"></jstl:out>
+		<display:column titleKey="group.creator" sortable="true">
+			<jstl:if
+				test="${group.creator.userAccount.username eq actor.userAccount.username}">
+				<spring:message code="group.creator" />
+			</jstl:if>
+			<jstl:if
+				test="${not(group.creator.userAccount.username eq actor.userAccount.username)}">
+				<spring:message code="group.member" />
+			</jstl:if>
 		</display:column>
-		<display:column titleKey="group.about">
+		<display:column titleKey="group.about" sortable="true">
 			<jstl:if test="${not empty group.sagaAbout }">
 				<jstl:out value="${group.sagaAbout.title}"></jstl:out>
 			</jstl:if>
@@ -35,12 +42,9 @@
 		</display:column>
 
 		<display:column titleKey="group.display">
-			<jstl:if
-				test="${group.isActive or group.creator.userAccount.username eq actor.userAccount.username or group.moderator.userAccount.username eq actor.userAccount.username}">
-				<a href="group/display.do?Id=${group.id}"> <spring:message
-						code="group.display" />
-				</a>
-			</jstl:if>
+			<a href="group/display.do?Id=${group.id}"> <spring:message
+					code="group.display" />
+			</a>
 		</display:column>
 		<!-- Solicitar membresía -->
 		<display:column titleKey="group.request">
@@ -52,7 +56,8 @@
 						<jstl:set var="contains" value="true" />
 					</jstl:if>
 				</jstl:forEach>
-				<jstl:if test="${contains}">
+				<jstl:if
+					test="${not contains and not(actor.userAccount.username eq group.creator.userAccount.username)}">
 					<a href="group/filmenthusiast/request.do?Id=${group.id}"> <spring:message
 							code="group.request" />
 					</a>

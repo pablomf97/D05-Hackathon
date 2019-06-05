@@ -55,8 +55,6 @@ public class PositionService {
 
 		result = new Position();
 		
-		result.setChildPositions(new ArrayList<Position>());
-
 		return result;
 	}
 	
@@ -174,7 +172,12 @@ public class PositionService {
 			pos = this.findOne(n);
 			result.add(pos);
 		}
+		this.flush();
 		return result;
+	}
+	
+	public void flush(){
+		this.positionRepository.flush();
 	}
 }
 
