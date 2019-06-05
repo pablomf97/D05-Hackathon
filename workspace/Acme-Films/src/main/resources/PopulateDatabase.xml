@@ -2154,7 +2154,6 @@
 	<bean id="comment1" class="domain.Comment">
 		<property name="publishedMoment" value="12/12/2017 12:12" />
 		<property name="body" value="Great job by Matt Ross as director." />
-		<property name="rating" value="8.9" />
 		<property name="forum" ref="forum1" />
 		<property name="filmEnthusiast" ref="filmEnthusiast1" />
 
@@ -2178,7 +2177,6 @@
 	<bean id="comment10" class="domain.Comment">
 		<property name="publishedMoment" value="12/12/2017 12:12" />
 		<property name="body" value="Great job by Matt Ross as director." />
-		<property name="rating" value="8.9" />
 		<property name="forum" ref="forum2" />
 		<property name="filmEnthusiast" ref="filmEnthusiast3" />
 
@@ -2199,7 +2197,6 @@
 	<bean id="comment3" class="domain.Comment">
 		<property name="publishedMoment" value="12/12/2017 12:12" />
 		<property name="body" value="Great job by Matt Ross as director." />
-		<property name="rating" value="8.9" />
 		<property name="forum" ref="forum1" />
 		<property name="filmEnthusiast" ref="filmEnthusiast1" />
 
@@ -2220,7 +2217,6 @@
 	<bean id="comment5" class="domain.Comment">
 		<property name="publishedMoment" value="12/12/2017 12:12" />
 		<property name="body" value="Great job by Matt Ross as director." />
-		<property name="rating" value="5.9" />
 		<property name="forum" ref="forum1" />
 		<property name="filmEnthusiast" ref="filmEnthusiast1" />
 

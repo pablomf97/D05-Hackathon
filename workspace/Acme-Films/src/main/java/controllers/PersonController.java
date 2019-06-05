@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -37,7 +38,9 @@ public class PersonController extends AbstractController {
 
 	@Autowired
 	private PositionService positionService;
-
+	
+	@Autowired
+	private Validator validator;
 
 	// Display
 
@@ -65,7 +68,7 @@ public class PersonController extends AbstractController {
 			result.addObject("requestURI", "person/display.do?personId="
 					+ personId);
 		} catch (final Throwable oops) {
-			result = new ModelAndView("redirect:../welcome/index.do");
+			result = new ModelAndView("redirect:/welcome/index.do");
 			result.addObject("messageCode", "position.commit.error");
 		}
 		return result;
@@ -160,7 +163,7 @@ public class PersonController extends AbstractController {
 			result.addObject("positions", positions);
 
 		} catch (final Throwable oops) {
-			result = new ModelAndView("redirect:../welcome/index.do");
+			result = new ModelAndView("redirect:/welcome/index.do");
 		}
 		return result;
 	}
@@ -171,41 +174,40 @@ public class PersonController extends AbstractController {
 			BindingResult binding) {
 		ModelAndView result;
 		Collection<Position> positionsToSave = new ArrayList<>();
-		Person aux = new Person();
+		Person aux = this.personService.create();
 		
 		try {
 			positionsToSave = this.positionService.parsePositions(positionsArray);
-			//aux = this.personService.findOne(person.getId());
+			aux = this.personService.findOne(person.getId());
 			
 			aux.setBirthDate(person.getBirthDate());
 			aux.setGender(person.getGender());
-			aux.setId(person.getId());
 			aux.setName(person.getName());
 			aux.setNationality(person.getNationality());
 			aux.setPhoto(person.getPhoto());
 			aux.setSurname(person.getSurname());
 			aux.setPositions(positionsToSave);
-			//person.setPositions(positionsToSave);
 			
 		} catch (Exception e) {}
 		
-			Person a = this.personService.validate(aux, binding);
+			this.validator.validate(aux, binding);
 
 		if (binding.hasErrors()) {
 			Collection<Position> positions = this.positionService.findAll();
 
 			result = new ModelAndView("person/edit");
-			result.addObject("person", person);
+			result.addObject("person", aux);
 			result.addObject("isPrincipal", true);
 			result.addObject("positions", positions);
 		} else {
 			try {
 				this.personService.flush();
+				aux.setId(person.getId());
 				this.personService.save(aux);
 				result = new ModelAndView("redirect:list.do");
 			} catch (final Throwable oops) {
 				result = new ModelAndView("person/edit");
-				result.addObject("person", person);
+				result.addObject("person", aux);
 				result.addObject("messageCode", oops.getMessage());
 			}
 		}

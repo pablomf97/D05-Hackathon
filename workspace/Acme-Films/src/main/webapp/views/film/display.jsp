@@ -40,6 +40,7 @@
 		<td><jstl:out value="${film.ticker}"></jstl:out></td>
 	</tr>
 	
+	<security:authorize access="isAuthenticated()">
 	<jstl:choose>
 		<jstl:when test="${pageContext.response.locale.language == 'es'}">
 			<tr>
@@ -66,6 +67,7 @@
 			</tr>
 		</jstl:otherwise>
 	</jstl:choose>
+	</security:authorize>
 	
 	<jstl:if test="${film.isDraft eq true}">
 		<spring:message var="status" code='film.draft.true' />

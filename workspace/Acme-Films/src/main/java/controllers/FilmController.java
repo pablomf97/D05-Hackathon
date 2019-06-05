@@ -67,8 +67,8 @@ public class FilmController extends AbstractController {
 			result.addObject("isPrincipal", isPrincipal);
 			result.addObject("requestURI", "film/display.do?filmId=" + filmId);
 		} catch (final Throwable oops) {
-			result = new ModelAndView("redirect:../welcome/index.do");
-			result.addObject("messageCode", "position.commit.error");
+			result = new ModelAndView("redirect:/welcome/index.do");
+			result.addObject("messageCode", "film.commit.error");
 			result.addObject("permission", false);
 		}
 		return result;
@@ -143,7 +143,7 @@ public class FilmController extends AbstractController {
 			result.addObject("isPrincipal", isPrincipal);
 			result.addObject("filmId", filmId);
 		} catch (final Throwable oops) {
-			result = new ModelAndView("redirect:../welcome/index.do");
+			result = new ModelAndView("redirect:/welcome/index.do");
 		}
 		return result;
 	}
