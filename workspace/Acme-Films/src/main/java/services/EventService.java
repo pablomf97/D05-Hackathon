@@ -3,6 +3,7 @@ package services;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -90,6 +91,8 @@ public class EventService {
 		Actor principal;
 		Assert.notNull(event);
 		Assert.isTrue(event.getId() != 0, "wrong.id");
+		final Date d = new Date();
+		Assert.isTrue(event.getSigninDeadline().before(d), "event pass");
 		principal = this.actorService.findByPrincipal();
 		Assert.isTrue(this.actorService.checkAuthority(principal, "FILMENTHUSIAST"), "not.allowed");
 		final Event orig = this.findOne(event.getId());
@@ -113,13 +116,19 @@ public class EventService {
 			result.setTitle(event.getTitle());
 			Assert.isTrue(result.getForum().getCreator().equals(principal));
 		}
+		try {
+			Assert.isTrue(result.getSigninDeadline().before(result.getEventDate()));
+		} catch (final Throwable oops) {
+			binding.rejectValue("eventDate", "date.error");
+		}
 		this.validator.validate(result, binding);
 		return result;
 	}
-
 	public void requestEvent(final int Id) {
 		final Event event = this.findOne(Id);
 		Assert.isTrue(event.getAttenders().size() < event.getMaximumCapacity(), "capacity exceded");
+		final Date d = new Date();
+		Assert.isTrue(event.getSigninDeadline().before(d), "event pass");
 		final Actor actor = this.actorService.findByPrincipal();
 		Assert.isTrue(!event.getAttenders().contains(actor) && event.getForum().getGroupMembers().contains(actor));
 		event.getAttenders().add((FilmEnthusiast) actor);

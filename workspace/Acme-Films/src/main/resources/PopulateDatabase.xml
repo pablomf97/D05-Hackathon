@@ -1863,8 +1863,7 @@
 	<!-- **************************** FILM **************************** -->
 
 	<bean id="film1" class="domain.Film">
-		<property name="title"
-			value="La Comunidad del Anillo" />
+		<property name="title" value="La Comunidad del Anillo" />
 
 
 		<property name="synopsis" value="Synopsis 1" />
@@ -1927,8 +1926,7 @@
 
 	</bean>
 	<bean id="film3" class="domain.Film">
-		<property name="title"
-			value="El Retorno del Rey" />
+		<property name="title" value="El Retorno del Rey" />
 
 
 		<property name="synopsis" value="Synopsis 3" />
@@ -2023,7 +2021,7 @@
 			</list>
 		</property>
 
-	</bean> 
+	</bean>
 
 
 
@@ -2236,7 +2234,6 @@
 		<property name="status" value="PENDING" />
 		<property name="rejectReason" value="" />
 		<property name="critic" ref="critic1" />
-		<property name="moderator" ref="moderator1" />
 		<property name="film" ref="film1" />
 
 
@@ -2246,7 +2243,7 @@
 		<property name="body" value="spectacular execution by everyone" />
 		<property name="rating" value="8.7" />
 		<property name="creationDate" value="12/12/2017 12:12" />
-		<property name="isDraft" value="true" />
+		<property name="isDraft" value="false" />
 		<property name="status" value="REJECTED" />
 		<property name="rejectReason" value="Rechazado" />
 		<property name="critic" ref="critic2" />
@@ -2260,7 +2257,7 @@
 		<property name="body" value="spectacular execution by everyone" />
 		<property name="rating" value="8.7" />
 		<property name="creationDate" value="12/12/2017 12:12" />
-		<property name="isDraft" value="true" />
+		<property name="isDraft" value="false" />
 		<property name="status" value="ACCEPTED" />
 		<property name="rejectReason" value="" />
 		<property name="critic" ref="critic3" />
@@ -2279,7 +2276,6 @@
 		<property name="status" value="PENDING" />
 		<property name="rejectReason" value="" />
 		<property name="critic" ref="critic3" />
-		<property name="moderator" ref="moderator3" />
 		<property name="film" ref="film3" />
 
 
@@ -2290,7 +2286,7 @@
 		<property name="body" value="spectacular execution by everyone" />
 		<property name="rating" value="8.7" />
 		<property name="creationDate" value="12/12/2017 12:12" />
-		<property name="isDraft" value="true" />
+		<property name="isDraft" value="false" />
 		<property name="status" value="ACCEPTED" />
 		<property name="rejectReason" value="" />
 		<property name="critic" ref="critic2" />
@@ -2305,7 +2301,7 @@
 		<property name="body" value="spectacular execution by everyone" />
 		<property name="rating" value="8.7" />
 		<property name="creationDate" value="12/12/2017 12:12" />
-		<property name="isDraft" value="true" />
+		<property name="isDraft" value="false" />
 		<property name="status" value="ACCEPTED" />
 		<property name="rejectReason" value="" />
 		<property name="critic" ref="critic2" />
@@ -2319,7 +2315,7 @@
 		<property name="body" value="spectacular execution by everyone" />
 		<property name="rating" value="8.7" />
 		<property name="creationDate" value="12/12/2017 12:12" />
-		<property name="isDraft" value="true" />
+		<property name="isDraft" value="false" />
 		<property name="status" value="ACCEPTED" />
 		<property name="rejectReason" value="" />
 		<property name="critic" ref="critic1" />
