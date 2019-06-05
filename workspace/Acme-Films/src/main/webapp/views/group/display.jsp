@@ -70,7 +70,6 @@
 			</jstl:if>
 		</tr>
 
-
 	</table>
 	<jstl:set var="contains2" value="false" />
 	<jstl:forEach var="item2" items="${group.groupMembers}">

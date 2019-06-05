@@ -109,6 +109,7 @@ public class GroupController extends AbstractController {
 			else
 				groups = this.groupService.findAllByFilmEnthusiast(actor.getId());
 			result.addObject("requestURI", "/group/list.do");
+			result.addObject("actor", actor);
 			result.addObject("groups", groups);
 		} catch (final Throwable opps) {
 			result = new ModelAndView("redirect:../welcome/index.do");
