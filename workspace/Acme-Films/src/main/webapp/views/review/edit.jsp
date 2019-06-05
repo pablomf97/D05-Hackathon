@@ -110,17 +110,17 @@
 	<form:form action="review/moderator/reject.do" modelAttribute="review">
 
 		<form:hidden path="id" />
+		<form:hidden path="version" />
 
 		<acme:textarea code="review.rejectReason" path="rejectReason" />
 		<br>
 		<br>
 
+		<acme:submit name="reject" code="review.reject" />
 
 		<acme:cancel url="review/moderator/listMyReviews.do"
 			code="review.cancel" />
 
-
-		<acme:submit name="reject" code="review.reject" />
 	</form:form>
 
 </security:authorize>
