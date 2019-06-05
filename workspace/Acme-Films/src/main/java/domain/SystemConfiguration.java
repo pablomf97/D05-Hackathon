@@ -10,6 +10,7 @@ import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
+import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.Range;
@@ -123,6 +124,7 @@ public class SystemConfiguration extends DomainEntity{
 		this.flatRate = flatRate;
 	}
 
+	@Type(type="text")
 	public String getSpamWords() {
 		return spamWords;
 	}

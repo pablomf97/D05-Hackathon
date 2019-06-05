@@ -1866,13 +1866,14 @@
 		<property name="title" value="La Comunidad del Anillo" />
 
 
-		<property name="synopsis" value="Synopsis 1" />
+		<property name="synopsis" value="En la Tierra Media, el Señor Oscuro Saurón ordenó a los Elfos que forjaran los Grandes Anillos de Poder. 
+		Tres para los reyes Elfos, siete para los Señores Enanos, y nueve para los Hombres Mortales. Pero Saurón también forjó, en secreto, el Anillo Único, que tiene el poder de esclavizar toda la Tierra Media. Con la ayuda de sus amigos y de valientes aliados, el joven hobbit Frodo emprende un peligroso viaje con la misión de destruir el Anillo Único. Pero el malvado Sauron ordena la persecución del grupo, compuesto por Frodo y sus leales amigos hobbits, un mago, un hombre, un elfo y un enano. 
+		La misión es casi suicida pero necesaria, pues si Sauron con su ejército de orcos lograra recuperar el Anillo, sería el final de la Tierra Media. " />
 
-
-		<property name="poster" value="" />
-		<property name="releaseDate" value="08/06/2016 12:12" />
-		<property name="runTime" value="123" />
-		<property name="rating" value="5.6" />
+		<property name="poster" value="http://images.amcnetworks.com/amctv.es/wp-content/uploads/2016/12/LaComunidadDelAnillo_AMC-738x1024.png" />
+		<property name="releaseDate" value="08/06/2001 12:12" />
+		<property name="runTime" value="180" />
+		<property name="rating" value="8.0" />
 
 		<property name="ticker" value="08062016-A2J5L3" />
 		<property name="isDraft" value="false" />
@@ -2473,8 +2474,8 @@
 	<bean id="sponsorship3" class="domain.Sponsorship">
 		<property name="title" value="title sponsorship" />
 		<property name="banner"
-			value="https://www.eff.org/files/banner_library/google-spy-eye.png" />
-		<property name="targetPage" value="https://www.sponsorship1.com" />
+			value="https://www.informatica.us.es/images/logo-etsii251.png" />
+		<property name="targetPage" value="https://www.informatica.us.es/" />
 		<property name="isActive" value="true" />
 		<property name="sponsor" ref="sponsor1" />
 
@@ -2491,8 +2492,8 @@
 	<bean id="sponsorship4" class="domain.Sponsorship">
 		<property name="title" value="title sponsorship" />
 		<property name="banner"
-			value="https://www.eff.org/files/banner_library/google-spy-eye.png" />
-		<property name="targetPage" value="https://www.sponsorship1.com" />
+			value="https://static-s.aa-cdn.net/img/gp/20600000458044/x549LxwbVCUAMLZZDEYENW-7dNw6p3nC_hsMEjBA-GT-MxahtPpKZvdy6I2SVN5lQg=w300?v=1" />
+		<property name="targetPage" value="https://www.cinesa.es/" />
 
 		<property name="sponsor" ref="sponsor1" />
 

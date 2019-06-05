@@ -13,6 +13,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
 
+import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.Range;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -46,6 +47,7 @@ public class Review extends DomainEntity{
 	}
 	
 	@NotBlank
+	@Type(type="text")
 	public String getBody() {
 		return body;
 	}
@@ -84,6 +86,7 @@ public class Review extends DomainEntity{
 	public void setStatus(String status) {
 		this.status = status;
 	}
+	@Type(type="text")
 	public String getRejectReason() {
 		return rejectReason;
 	}

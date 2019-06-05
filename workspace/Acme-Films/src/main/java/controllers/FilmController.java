@@ -18,12 +18,14 @@ import services.FilmService;
 import services.GenreService;
 import services.PersonService;
 import services.SagaService;
+import services.SponsorshipService;
 import domain.Actor;
 import domain.Film;
 import domain.Genre;
 import domain.Moderator;
 import domain.Person;
 import domain.Saga;
+import domain.Sponsorship;
 
 @Controller
 @RequestMapping("/film")
@@ -43,6 +45,9 @@ public class FilmController extends AbstractController {
 	
 	@Autowired
 	private GenreService		genreService;
+	
+	@Autowired
+	private SponsorshipService		sponsorshipService;
 
 	// Display
 
@@ -52,9 +57,11 @@ public class FilmController extends AbstractController {
 		Film film;
 		boolean isPrincipal = false;
 		Actor principal;
+		Sponsorship spoBanner = null;
 
 		try {
 			film = this.filmService.findOne(filmId);
+			spoBanner = this.sponsorshipService.findBanner(filmId);
 			try {
 				principal = this.actorService.findByPrincipal();
 				if (this.actorService.checkAuthority(principal, "MODERATOR"))
@@ -64,6 +71,7 @@ public class FilmController extends AbstractController {
 
 			result = new ModelAndView("film/display");
 			result.addObject("film", film);
+			result.addObject("spoBanner", spoBanner);
 			result.addObject("isPrincipal", isPrincipal);
 			result.addObject("requestURI", "film/display.do?filmId=" + filmId);
 		} catch (final Throwable oops) {

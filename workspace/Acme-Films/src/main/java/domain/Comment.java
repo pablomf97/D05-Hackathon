@@ -13,6 +13,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 
+import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.Range;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -44,6 +45,7 @@ public class Comment extends DomainEntity {
 	}
 
 	@NotBlank
+	@Type(type="text")
 	public String getBody() {
 		return body;
 	}

@@ -14,6 +14,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.Range;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -53,6 +54,7 @@ public class Event extends DomainEntity{
 	}
 	
 	@NotBlank
+	@Type(type="text")
 	public String getDescription() {
 		return description;
 	}

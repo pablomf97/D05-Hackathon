@@ -8,8 +8,17 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
-<h1><spring:message code="film.title.display" /></h1>
+
+
+<h1><jstl:out value="${film.title}"/></h1>
+
+<div>
+<jstl:if test="${film.poster != null}">
+<img style="height: 400px;  margin-left:33% ;margin-bottom: 20px;" src="${film.poster}"
+					alt="<spring:message code="film.poster" /> ">
+	</jstl:if>
 <table class="displayStyle">
+
 	<tr>
 		<td><strong> <spring:message code="film.title" /> : </strong></td>
 		<td><jstl:out value="${film.title}"></jstl:out></td>
@@ -32,7 +41,7 @@
 	
 	<tr>
 		<td><strong> <spring:message code="film.rating" /> : </strong></td>
-		<td><jstl:out value="${film.rating}"></jstl:out></td>
+		<td><jstl:out value="${film.rating}"></jstl:out> / 10 </td>
 	</tr>
 	
 	<tr>
@@ -89,6 +98,7 @@
 	</jstl:if>
 	
 </table>
+</div>
 	
 <h2><spring:message code="film.saga.persons" /></h2>
 <display:table class="displaytag" name="${film.persons}" pagesize="5" 
@@ -144,7 +154,18 @@
 		</a>
 	</p>
 	</security:authorize>
-
+	
+<jstl:if test="${spoBanner.targetPage ne null}">
+	<div>
+		<h3>
+			<spring:message code="film.sponsored" />
+		</h3>
+		<a href="${spoBanner.targetPage }" target="_blank">
+			<img style="height: 100px" src="${spoBanner.banner}" 
+				alt="Banner" >
+		</a><br><br>
+	</div>
+</jstl:if>
 
 	<input type="button" name="back"
 		value="<spring:message code="sponsorship.back" />"

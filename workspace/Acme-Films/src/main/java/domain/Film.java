@@ -15,6 +15,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 
+import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.Range;
 import org.hibernate.validator.constraints.URL;
@@ -53,6 +54,7 @@ public class Film extends DomainEntity{
 	}
 	
 	@NotBlank
+	@Type(type="text")
 	public String getSynopsis() {
 		return synopsis;
 	}
