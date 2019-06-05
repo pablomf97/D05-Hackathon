@@ -1,9 +1,8 @@
 
 package controllers;
 
+import java.util.ArrayList;
 import java.util.Collection;
-
-import javax.validation.ValidationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,6 +16,7 @@ import services.ActorService;
 import services.CommentService;
 import services.FilmService;
 import services.GroupService;
+import domain.Actor;
 import domain.Comment;
 import domain.Film;
 import domain.FilmEnthusiast;
@@ -42,26 +42,35 @@ public class CommentController extends AbstractController {
 
 	// Create
 
-	@RequestMapping(value = "/createFilm", method = RequestMethod.GET)
-	public ModelAndView createFilm() {
+	@RequestMapping(value = "/createComment", method = RequestMethod.GET)
+	public ModelAndView createComment() {
 		ModelAndView result;
-		FilmEnthusiast principal = (FilmEnthusiast) this.actorService
-				.findByPrincipal();
-		Collection<Film> films = this.filmService.findAll();
-		Collection<Forum> forums = this.forumService.findAll();
+		
+		try {
+			FilmEnthusiast principal = (FilmEnthusiast) this.actorService
+					.findByPrincipal();
+			Collection<Film> films = this.filmService.publishedFilms();
+			Collection<Forum> forums = this.forumService.findAllByFilmEnthusiast(principal.getId());
 
-		Comment comment = this.commentService.create();
+			Comment comment = this.commentService.create();
 
-		boolean possible = false;
-		if (comment.getFilmEnthusiast().equals(principal)) {
-			possible = true;
+			boolean possible = false;
+			if (comment.getFilmEnthusiast().equals(principal)) {
+				possible = true;
+			}
+
+			result = new ModelAndView("comment/createComment");
+			result.addObject("possible", possible);
+			result.addObject("films", films);
+			result.addObject("comment", comment);
+			result.addObject("forums",forums);
+			
+		} catch (Throwable oops) {
+			result = new ModelAndView("redirect:/welcome/index.do");
+			result.addObject("messageCode", "comment.commit.error");
+			result.addObject("permission", false);
 		}
-
-		result = new ModelAndView("comment/createFilm");
-		result.addObject("possible", possible);
-		result.addObject("films", films);
-		result.addObject("comment", comment);
-		result.addObject("forums",forums);
+		
 
 		return result;
 
@@ -69,61 +78,66 @@ public class CommentController extends AbstractController {
 
 	// POST METHODS
 
-	@RequestMapping(value = "/createFilm", method = RequestMethod.POST, params = "save")
+	@RequestMapping(value = "/createComment", method = RequestMethod.POST, params = "save")
 	public ModelAndView saveFilm(Comment comment,
 			final BindingResult binding) {
-		ModelAndView result;
-
-		Collection<Film> films = this.filmService.findAll();
-		Collection<Forum> forums = this.forumService.findAll();
+		ModelAndView result = new ModelAndView("redirect:/welcome/index.do");;
 
 		try {
 			comment = this.commentService.reconstruct(comment, binding);
-			this.commentService.save(comment);
-			result = new ModelAndView("redirect:/comment/filmEnthusiast/list.do");
-		}catch(ValidationException oops){
-			result = new ModelAndView("comment/createFilm");
-			result.addObject("comment", comment);
-			result.addObject("possible", true);
-			result.addObject("films", films);
-			result.addObject("forums",forums);
-		} catch (Throwable oops) {
-			result = new ModelAndView("comment/createFilm");
-			result.addObject("comment", comment);
-			result.addObject("error", oops.getMessage());
-			result.addObject("possible", false);
-		}
+			
+			if(binding.hasErrors()) {
+				
+				Collection<Film> films = this.filmService.publishedFilms();
+				Collection<Forum> forums = this.forumService.findAllByFilmEnthusiast(comment.getFilmEnthusiast().getId());
+				
+				result = new ModelAndView("comment/createComment");
+				result.addObject("comment", comment);
+				result.addObject("binding", binding);
+				result.addObject("possible", true);
+				result.addObject("films", films);
+				result.addObject("forums",forums);
+			} else {
+				try {
+					this.commentService.save(comment);
+					result = new ModelAndView("redirect:/comment/filmEnthusiast/list.do");
+				} catch (Throwable oops) {
+					result = new ModelAndView("comment/createComment");
+					result.addObject("comment", comment);
+					result.addObject("error", oops.getMessage());
+					result.addObject("possible", false);				
+				}
+			}
+		} catch (Throwable oops) {}
 
 		return result;
 	}
 
 	@RequestMapping(value="/list")
 	public ModelAndView list(){
-		ModelAndView result;
-
-
-
-		FilmEnthusiast principal = (FilmEnthusiast) this.actorService
-				.findByPrincipal();
-
-		Collection<Comment> comments = this.commentService.getCommentsByOwner(principal.getId());
-
+		ModelAndView result = new ModelAndView("comment/list");
 		boolean possible = false;
-		for(Comment comment : comments){
-			if (comment.getFilmEnthusiast().equals(principal)) {
+		Actor principal;
+		Collection<Comment> comments = new ArrayList<>();
+		
+		try {
+			principal = this.actorService.findByPrincipal();
+
+			if(this.actorService.checkAuthority(principal, "FILMENTHUSIAST")) {
+				comments = this.commentService.getCommentsByOwner(principal.getId());
 				possible = true;
-				break;
+				
+				result.addObject("requestURI", "comment/filmEnthusiast/list.do");
+				result.addObject("comments", comments);
+				result.addObject("possible", possible);
+			} else {
+				result = new ModelAndView("redirect:/welcome/index.do");
 			}
+		} catch (Throwable oops) {
+			result = new ModelAndView("redirect:/welcome/index.do");
+			result.addObject("possible", false);
 		}
-
-
-		result = new ModelAndView("comment/list");
-		result.addObject("requestURI", "comment/filmEnthusiast/list.do");
-		result.addObject("comments", comments);
-		result.addObject("possible", possible);
-
 		return result;
-
 	}
 
 	@RequestMapping(value = "/display", method = RequestMethod.POST, params = "delete")
@@ -153,16 +167,21 @@ public class CommentController extends AbstractController {
 	public ModelAndView display(@RequestParam final int id) {
 		ModelAndView result;
 		Comment comment;
-		final FilmEnthusiast principal = (FilmEnthusiast) this.actorService.findByPrincipal();
-		comment = this.commentService.findOne(id);
-		boolean possible = false;
-		if (comment.getFilmEnthusiast().equals(principal))
-			possible = true;
+		
+		try {
+			final Actor principal = this.actorService.findByPrincipal();
+			comment = this.commentService.findOne(id);
+			boolean possible = false;
+			if (comment.getFilmEnthusiast().equals((FilmEnthusiast) principal))
+				possible = true;
 
-		result = new ModelAndView("comment/display");
-		result.addObject("comment", comment);
-		result.addObject("possible", possible);
-
+			result = new ModelAndView("comment/display");
+			result.addObject("comment", comment);
+			result.addObject("possible", possible);
+		} catch (Throwable e) {
+			result = new ModelAndView("redirect:/welcome/index.do");
+			result.addObject("possible", false);
+		}
 		return result;
 	}
 

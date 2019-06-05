@@ -103,7 +103,7 @@
 	</bean>
 	<bean id="userSponsor3" class="security.UserAccount">
 		<property name="username" value="sponsor3" />
-		<property name="password" value="3dc67f80a03324e01b1640f45d107485" />
+		<property name="password" value="857a54956061fdc1b88d7722cafe6519" />
 		<property name="authorities">
 			<list>
 				<bean class="security.Authority">
@@ -2139,6 +2139,7 @@
 		<property name="creator" ref="filmEnthusiast3" />
 		<property name="groupMembers">
 			<list></list>
+
 		</property>
 		<property name="sagaAbout">
 			<null />
@@ -2155,7 +2156,6 @@
 	<bean id="comment1" class="domain.Comment">
 		<property name="publishedMoment" value="12/12/2017 12:12" />
 		<property name="body" value="Great job by Matt Ross as director." />
-		<property name="rating" value="8.9" />
 		<property name="forum" ref="forum1" />
 		<property name="filmEnthusiast" ref="filmEnthusiast1" />
 
@@ -2179,7 +2179,6 @@
 	<bean id="comment10" class="domain.Comment">
 		<property name="publishedMoment" value="12/12/2017 12:12" />
 		<property name="body" value="Great job by Matt Ross as director." />
-		<property name="rating" value="8.9" />
 		<property name="forum" ref="forum2" />
 		<property name="filmEnthusiast" ref="filmEnthusiast3" />
 
@@ -2200,7 +2199,6 @@
 	<bean id="comment3" class="domain.Comment">
 		<property name="publishedMoment" value="12/12/2017 12:12" />
 		<property name="body" value="Great job by Matt Ross as director." />
-		<property name="rating" value="8.9" />
 		<property name="forum" ref="forum1" />
 		<property name="filmEnthusiast" ref="filmEnthusiast1" />
 
@@ -2221,7 +2219,6 @@
 	<bean id="comment5" class="domain.Comment">
 		<property name="publishedMoment" value="12/12/2017 12:12" />
 		<property name="body" value="Great job by Matt Ross as director." />
-		<property name="rating" value="5.9" />
 		<property name="forum" ref="forum1" />
 		<property name="filmEnthusiast" ref="filmEnthusiast1" />
 

@@ -11,7 +11,7 @@
 
 <security:authorize access="hasRole('FILMENTHUSIAST')">
 	<jstl:if test="${possible == true && comment.id==0}">
-		<form:form action="comment/filmEnthusiast/createFilm.do"
+		<form:form action="comment/filmEnthusiast/createComment.do"
 			modelAttribute="comment">
 
 			<form:label path="film">
@@ -21,7 +21,6 @@
 				<form:option label="-----" value="0" />
 				<form:options items="${films}" itemLabel="title" itemValue="id" />
 			</form:select>
-			<form:errors cssClass="error" path="film" />
 			<br />
 			<br />
 
@@ -31,8 +30,9 @@
 			<form:select path="forum">
 				<form:option label="-----" value="0" />
 				<form:options items="${forums}" itemLabel="name" itemValue="id" />
-			</form:select>
+			</form:select><br><br>
 			<form:errors cssClass="error" path="forum" />
+			<form:errors cssClass="error" path="film" />
 			<br />
 			<br />
 
@@ -49,13 +49,11 @@
 			<form:input path="rating" type="number" min="0" max="10" step="any" />
 			<form:errors cssClass="error" path="rating" />
 
-			<br>
-			<br>
-
+			<br><br>
 
 			<acme:submit name="save" code="comment.save" />
 
-			<acme:cancel url="../" code="comment.back" />
+			<acme:cancel url="/comment/filmEnthusiast/list.do" code="comment.back" />
 
 
 		</form:form>

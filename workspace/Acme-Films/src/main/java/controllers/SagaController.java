@@ -53,7 +53,7 @@ public class SagaController extends AbstractController {
 			result.addObject("isPrincipal", isPrincipal);
 			result.addObject("requestURI", "saga/display.do?sagaId=" + sagaId);
 		} catch (final Throwable oops) {
-			result = new ModelAndView("redirect:../welcome/index.do");
+			result = new ModelAndView("redirect:/welcome/index.do");
 			result.addObject("messageCode", "position.commit.error");
 			result.addObject("permission", false);
 		}
@@ -117,7 +117,7 @@ public class SagaController extends AbstractController {
 			result = this.createEditModelAndView(saga);
 			result.addObject("sagaId", sagaId);
 		} catch (final Throwable oops) {
-			result = new ModelAndView("redirect:../welcome/index.do");
+			result = new ModelAndView("redirect:/welcome/index.do");
 		}
 		return result;
 	}

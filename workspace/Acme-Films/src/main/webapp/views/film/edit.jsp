@@ -21,7 +21,7 @@
 	
 			<form:hidden path="id" />
 			
-			<jstl:if test="${film.id == 0}">
+			<jstl:if test="${film.id == 0 || film.isDraft}">
 			
 				<acme:textbox code="film.title" path="title" size="100px" /><br/> <br/>
 				<acme:textbox code="film.synopsis" path="synopsis" size="100px" /><br/> <br/>

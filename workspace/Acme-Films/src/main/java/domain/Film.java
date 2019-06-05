@@ -3,14 +3,12 @@ package domain;
 import java.util.Collection;
 import java.util.Date;
 
-
 import javax.persistence.Access;
 import javax.persistence.AccessType;
-
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.Valid;
@@ -116,7 +114,7 @@ public class Film extends DomainEntity{
 	}
 
 	@Valid
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER)
 	public Collection<Genre> getGenres() {
 		return genres;
 	}
@@ -125,7 +123,7 @@ public class Film extends DomainEntity{
 	}
 	
 	@Valid
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER)
 	public Collection<Person> getPersons() {
 		return persons;
 	}
@@ -134,7 +132,7 @@ public class Film extends DomainEntity{
 	}
 	
 	@Valid
-	@ManyToMany
+	@ManyToMany(fetch=FetchType.EAGER)
 	public Collection<Saga> getSagas() {
 		return sagas;
 	}
