@@ -21,6 +21,8 @@ public interface EventRepository extends JpaRepository<Event, Integer> {
 	@Query("select e From Event e order by e.attenders.size desc")
 	Collection<Event> top3EventsWithMorePeople();
 	
+	
+	
 
 
 }

@@ -19,6 +19,7 @@ import org.springframework.validation.Validator;
 import repositories.FilmRepository;
 import domain.Actor;
 import domain.Film;
+import domain.Finder;
 import domain.Genre;
 import domain.Moderator;
 import domain.Person;
@@ -55,6 +56,9 @@ public class FilmService {
 
 	@Autowired
 	private SponsorshipService sponsorshipService;
+	
+	@Autowired
+	private FinderService FinderService;
 
 	public Film create() {
 		Actor principal;
@@ -265,11 +269,23 @@ public class FilmService {
 
 		for(Film f:	this.filmsByModerator(id)){
 			this.visualizationService.DeletevisPerFilm(f.getId());
-			this.groupService.deleteGroupPerFilm(f.getId());
+			
 			this.commentService.deleteCommentsPerFilms(f.getId());
+			if(this.filmsByModerator(id).contains(f)||f.getModerator()==this.actorService.findByPrincipal()){
+				this.groupService.deleteGroupPerFilm(f.getId());
+			}
+			
+			//this.commentService.deleteCommentsPerFilms(f.getId());
 			
 			this.reviewService.deleteReviewPerFilm(f.getId());
 			this.sponsorshipService.deleteSponsorshipsPerFilms(f);
+			for(Finder a:this.FinderService.findAll()){
+				
+				if(a.getResults().contains(f)){
+					a.getResults().remove(f);
+				}
+			}
+			
 			this.delete(f);
 
 			
@@ -326,6 +342,11 @@ public class FilmService {
 		Collection<Film> result = this.filmRepository.findFilmsPublishedAndMine(moderatorId);;
 
 		return result;
+	}
+
+	public void deleteFF(Film f) {
+		this.filmRepository.delete(f);
+		
 	}
 
 }

@@ -48,6 +48,12 @@ public class FilmEnthusiastService {
 
 	@Autowired
 	private MessageBoxService messageBoxService;
+	
+	@Autowired
+	private GroupService groupService;
+	
+	@Autowired
+	private EventService eventService;
 
 	/* Simple CRUD methods */
 
@@ -317,8 +323,8 @@ public class FilmEnthusiastService {
 	
 	public void deleteFilmEnthusiast(FilmEnthusiast f){
 		
-		//this.groupService.deleteGroupPerFilmEnthusiast(f);
-	//	this.eventService.deleteEventPerFilmEnthusiast(f);
+		this.groupService.deleteGroupPerFilmEnthusiast(f);
+
 		
 		for(Message m :this.messageService.messagesInvolved(f.getId())){
 			for(MessageBox mb:this.MessageBoxService.findAll()){
@@ -339,7 +345,7 @@ public class FilmEnthusiastService {
 			}
 		}
 
-		
+		 
 
 		this.delete(f);
 	}

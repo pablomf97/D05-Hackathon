@@ -2232,9 +2232,10 @@
 		<property name="rating" value="8.7" />
 		<property name="creationDate" value="12/12/2017 12:12" />
 		<property name="isDraft" value="true" />
-		<property name="status" value="PENDING" />
+		<property name="status" value="ACCEPTED" />
 		<property name="rejectReason" value="" />
 		<property name="critic" ref="critic1" />
+		<property name="moderator" ref="moderator1" />
 		<property name="film" ref="film1" />
 
 

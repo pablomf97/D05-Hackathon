@@ -15,6 +15,8 @@ import org.springframework.validation.Validator;
 
 import repositories.GroupRepository;
 import domain.Actor;
+import domain.Comment;
+import domain.Event;
 import domain.Film;
 import domain.FilmEnthusiast;
 import domain.Forum;
@@ -265,23 +267,80 @@ public class GroupService {
 	}
 
 	public void deleteGroupPerFilm(final int id) {
+		
+		for(Film f : this.filmService.findAll()){
+		for (final Forum g : this.findAll()) {
+			if(g.getModerator()==this.actorService.findByPrincipal() || this.filmService.filmsByModerator(this.actorService.findByPrincipal().getId()).contains(f)){
+				
+				this.commentService.deleteCommentsPerForum(g.getId());
+				for(Event e :this.eventService.findAll()){
+					if(g==e.getForum()){
+						this.eventService.deleteEventPerForum(g.getId());
+						this.groupRepository.delete(g);
+					}
+				}
+			}
+			
+		}}
+		
+		
+		
 
-		for (final Forum g : this.groupRepository.forumPerFilmDefault(id)) {
-			this.commentService.deleteCommentsPerForum(id);
-			this.eventService.deleteEventPerForum(g.getId());
+
+	/*	for (final Forum g : this.groupRepository.forumPerFilmDefault(id)) {
+		
+			this.commentService.deleteCommentsPerForum(g.getId());
+			for(Event e :this.eventService.findAll()){
+				if(g==e.getForum()){
+					this.eventService.deleteEventPerForum(g.getId());
+				}
+			}
+			
 			this.groupRepository.delete(g);
 		}
-
+*/
 	}
 
 	public void deleteGroupPerFilmEnthusiast(final FilmEnthusiast f) {
+		
+		for(Forum g:this.findAll()){
+			
+			if(g.getGroupMembers().contains(f)){
+				g.getGroupMembers().remove(f);
+				
+			}
+		}
+		for(Event e: this.eventService.findAll()){
+			if(e.getAttenders().contains(f)){
+				
+				e.getAttenders().remove(f);
+			}
+		}
+		for(Forum g : this.groupRepository.forumsPerFilmEnthusiast(f.getId())){
+		for(Comment c : this.commentService.findAll()){
+			
+			if(c.getFilmEnthusiast()== f ||c.getForum()== g){
+				this.commentService.deleteComment(c);
+			}
+			
+		}
+			}
+		
+		for (final Forum g : this.findAll()){
+			if ( g.getCreator().getId() == f.getId()){
+				
+				
+				this.eventService.deleteEventPerForum(g.getId());
+				this.groupRepository.delete(g);
+			}
+		
+		}
+	}
 
-		for (final Forum g : this.findAll())
-			if (g.getGroupMembers().contains(f) || g.getCreator().getId() == f.getId())
-				this.commentService.deleteCommentsPerForum(g.getId());
-
-		//this.groupRepository.delete(g);
-
+	public void deleteGroup(Forum f) {
+		// TODO Auto-generated method stub
+		this.groupRepository.delete(f);
+		
 	}
 	
 //	public Collection<Forum> groupsWithSaga(int sagaId) {

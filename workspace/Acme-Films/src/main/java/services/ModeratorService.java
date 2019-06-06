@@ -16,9 +16,13 @@ import repositories.ModeratorRepository;
 import security.Authority;
 import security.UserAccount;
 import domain.Actor;
+import domain.Comment;
+import domain.Film;
+import domain.Forum;
 import domain.Message;
 import domain.MessageBox;
 import domain.Moderator;
+import domain.Review;
 import domain.SocialProfile;
 import forms.EditionFormObject;
 import forms.RegisterFormObject;
@@ -47,13 +51,19 @@ public class ModeratorService {
 
 	@Autowired
 	private GroupService groupService;
-	
-	
+
+	@Autowired
+	private CommentService commentService;
+
+
 	@Autowired
 	private MessageService messageService;
-	
+
 	@Autowired
 	private MessageBoxService MessageBoxService ;
+
+	@Autowired
+	private EventService eventService;
 
 
 	/* Simple CRUD methods */
@@ -199,7 +209,7 @@ public class ModeratorService {
 		Md5PasswordEncoder encoder;
 		encoder = new Md5PasswordEncoder();
 		userAccount
-				.setPassword(encoder.encodePassword(form.getPassword(), null));
+		.setPassword(encoder.encodePassword(form.getPassword(), null));
 
 		res.setUserAccount(userAccount);
 
@@ -247,7 +257,7 @@ public class ModeratorService {
 				if ((!form.getPhoneNumber().equals(null) && !form
 						.getPhoneNumber().equals("")))
 					if (phoneArray[0] != '+'
-							&& Character.isDigit(phoneArray[0])) {
+					&& Character.isDigit(phoneArray[0])) {
 						final String cc = this.systemConfigurationService
 								.findMySystemConfiguration().getCountryCode();
 						form.setPhoneNumber(cc + " " + form.getPhoneNumber());
@@ -303,7 +313,7 @@ public class ModeratorService {
 				if ((!form.getPhoneNumber().equals(null) && !form
 						.getPhoneNumber().equals("")))
 					if (phoneArray[0] != '+'
-							&& Character.isDigit(phoneArray[0])) {
+					&& Character.isDigit(phoneArray[0])) {
 						final String cc = this.systemConfigurationService
 								.findMySystemConfiguration().getCountryCode();
 						form.setPhoneNumber(cc + " " + form.getPhoneNumber());
@@ -329,30 +339,84 @@ public class ModeratorService {
 	}
 
 	public void DeleteModerator(Moderator c) {
-
+		
+		
 		this.reviewService.deleteReviewPerModerator(c.getId());
+		/*Collection<Film> pelisModerador= this.filmService.filmsByModerator(c.getId());
+		for(Forum f:this.groupService.findAll()){
+			
+			if(!pelisModerador.contains(f)&&f.getModerator()==c){
+				
+				this.eventService.deleteEvent(f);
+				this.groupService.deleteGroup(f);
+			}
+		}*/
 		this.filmService.deleteFilms(c.getId());
 
+		//borrar eventos de los grupos?
 		
+		/*this.reviewService.deleteReviewPerModerator(c.getId());
+		//	this.filmService.deleteFilms(c.getId());
+		Collection<Film> pelisModerador= this.filmService.filmsByModerator(c.getId());
+		Collection<Forum> groupsModedaor=this.groupService.findByModerator();
+		for(Film f:pelisModerador){
+			for(Review r:this.reviewService.reviewPerFilm(f.getId())){
+
+				if(r.getFilm()!=f){
+					this.reviewService.deleteReview(r);
+				}
+			}
+		}
+
+		for(Comment co : this.commentService.findAll()){
+			for(Forum g: groupsModedaor){
+				for(Film f : pelisModerador){
+					if(g.getModerator()==c||f.getModerator()==c){
+						this.commentService.deleteComment(co);
+
+					}
+				}
+			}
+		}
+		for(Forum g: groupsModedaor){
+			for(Film f : pelisModerador){
+				if(g.getModerator()==c||g.getFilmAbout()==f){
+					this.eventService.deleteEventPerForum(g.getId());
+				}
+				
+
+			}
+			}
+		for(Film f:pelisModerador){
+
+
+			this.filmService.deleteFF(f);
+		}*/
+		/*for(Forum g :this.findAll()){
+			if(g.getFilmAbout()==pelicula moderador || g.getModerator()==moderador){
+
+			}
+		}
+		 */
 		for(Message m :this.messageService.messagesInvolved(c.getId())){
 			for(MessageBox mb:this.MessageBoxService.findAll()){
-				
+
 				if(mb.getMessages().contains(m)){
 					mb.getMessages().remove(m);
 				}
-				
+
 			}
-			
+
 			this.messageService.deleteMessage(m);
 		}
-		
+
 		for(MessageBox mb:this.MessageBoxService.findAll()){
-			
+
 			if(mb.getOwner()==c){
 				this.MessageBoxService.deleteBox(mb);
 			}
 		}
-		
+
 
 		this.delete(c);
 

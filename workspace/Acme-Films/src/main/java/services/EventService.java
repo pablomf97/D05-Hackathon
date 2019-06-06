@@ -174,4 +174,10 @@ public class EventService {
 	public void flush() {
 		this.eventRepository.flush();
 	}
+
+	public void deleteEvent(Forum f) {
+		this.eventRepository.deleteInBatch(this.eventRepository.findAllByGroup(f.getId()));
+
+		
+	}
 }

@@ -367,4 +367,12 @@ public class ReviewService {
 				.reviewPerFilm(id));
 
 	}
+	 public Collection<Review> reviewPerFilm(int id){
+		return  this.reviewRepository.reviewPerFilm(id);
+	 }
+
+	public void deleteReview(Review r) {
+	this.reviewRepository.delete(r);
+		
+	}
 }

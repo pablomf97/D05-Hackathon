@@ -152,4 +152,8 @@ public class CommentService {
 		
 		return result;
 	}
+
+	public void deleteComment(Comment c) {
+		this.commentRepository.delete(c);		
+	}
 }
