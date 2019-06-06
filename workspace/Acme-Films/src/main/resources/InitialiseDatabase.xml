@@ -18,47 +18,47 @@
 		<property name="userAccount" ref="userAdmin1" />
 		<property name="socialProfile">
 			<list>
-				<ref bean="socialProfileAdmin" />
+				
 			</list>
 		</property>
 
 	</bean>
 
-	<bean id="socialProfileAdmin" class="domain.SocialProfile">
-		<property name="nick" value="admin1" />
-		<property name="link" value="https://www.linkedin.com/" />
-		<property name="socialNetwork" value="LinkedIn" />
-	</bean>
+
 
 	<!-- SYSTEM CONFIGURATION -->
 
 	<bean id="sysConf" class="domain.SystemConfiguration">
-		<property name="systemName" value="Acme Rookies" />
+		<property name="systemName" value="Acme Films" />
 		<property name="welcomeMessage">
-			<util:map id="utilmap0" map-class="java.util.HashMap"
+			<util:map id="utilmap11" map-class="java.util.HashMap"
 				key-type="java.lang.String" value-type="java.lang.String">
 				<entry key="Español"
-					value="¡Bienvenidos a Acme Rookies¡, ¡Somos el mercado de trabajo favorito de los profesionales de las TICs!" />
+					value="¡Bienvenidos a Acme
+Films! Tu sitio para compartir opiniones sobre tus peliculas favoritas." />
 				<entry key="English"
-					value="Welcome to Acme Rookies¡, We’re IT rookie’s favourite job marketplace!" />
+					value="Welcome to Acme Films the site share opinions about your favourite films." />
 			</util:map>
 		</property>
 		<property name="breachNotification">
-			<util:map id="utilmap10" map-class="java.util.HashMap"
+			<util:map id="utilmap12" map-class="java.util.HashMap"
 				key-type="java.lang.String" value-type="java.lang.String">
 				<entry key="Español" value="" />
 				<entry key="English" value="" />
 			</util:map>
 		</property>
-		<property name="banner"
-			value="https://raw.githubusercontent.com/McAllisterDTur/grooving-project/master/rookie.png" />
+		<property name="banner" value="https://image.ibb.co/iuaDgV/Untitled.png" />
+
+
 		<property name="countryCode" value="+034" />
 		<property name="timeResultsCached" value="1" />
 		<property name="maxResults" value="10" />
+		<property name="spamWords"
+			value="sex,viagra,cialis,one million,you've been selected,nigeria,sexo,un millón,un millon,has sido seleccionado" />
 		<property name="VATTax" value="0.21" />
 		<property name="flatRate" value="2.50" />
-	</bean>
 
+	</bean>
 	<!-- User accounts -->
 
 	<bean id="userAdmin1" class="security.UserAccount">
@@ -72,4 +72,75 @@
 			</list>
 		</property>
 	</bean>
+	
+		<bean id="inBoxAdmin1" class="domain.MessageBox">
+		<property name="owner" ref="administrator1" />
+		<property name="name" value="In box" />
+		<property name="isPredefined" value="true" />
+		<property name="parentMessageBox">
+			<null />
+		</property>
+		<property name="messages">
+			<list>
+
+			</list>
+		</property>
+	</bean>
+
+	<bean id="spamBoxAdmin1" class="domain.MessageBox">
+		<property name="owner" ref="administrator1" />
+		<property name="name" value="Spam box" />
+		<property name="isPredefined" value="true" />
+		<property name="parentMessageBox">
+			<null />
+		</property>
+		<property name="messages">
+			<list>
+				<null />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="outBoxAdmin1" class="domain.MessageBox">
+		<property name="owner" ref="administrator1" />
+		<property name="name" value="Out box" />
+		<property name="isPredefined" value="true" />
+		<property name="parentMessageBox">
+			<null />
+		</property>
+		<property name="messages">
+			<list>
+	
+			</list>
+		</property>
+	</bean>
+
+	<bean id="trashBoxAdmin1" class="domain.MessageBox">
+		<property name="owner" ref="administrator1" />
+		<property name="name" value="Trash box" />
+		<property name="isPredefined" value="true" />
+		<property name="parentMessageBox">
+			<null />
+		</property>
+		<property name="messages">
+			<list>
+				<null />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="notificationBoxAdmin1" class="domain.MessageBox">
+		<property name="owner" ref="administrator1" />
+		<property name="name" value="Notification box" />
+		<property name="isPredefined" value="true" />
+		<property name="parentMessageBox">
+			<null />
+		</property>
+		<property name="messages">
+			<list>
+				<null />
+			</list>
+		</property>
+	</bean>
+	
 </beans>

@@ -2609,7 +2609,7 @@
 	<!-- **********************SYSTEM CONFIGURATION ********************** -->
 
 	<bean id="sysConf" class="domain.SystemConfiguration">
-		<property name="systemName" value="Acme Madrugá" />
+		<property name="systemName" value="Acme Films" />
 		<property name="welcomeMessage">
 			<util:map id="utilmap11" map-class="java.util.HashMap"
 				key-type="java.lang.String" value-type="java.lang.String">
