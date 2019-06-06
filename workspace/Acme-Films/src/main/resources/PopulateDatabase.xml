@@ -2627,7 +2627,7 @@ Films! Tu sitio para compartir opiniones sobre tus peliculas favoritas." />
 				<entry key="English" value="" />
 			</util:map>
 		</property>
-		<property name="banner" value="https://image.ibb.co/iuaDgV/Untitled.png" />
+		<property name="banner" value="https://raw.githubusercontent.com/pablomf97/D05-Hackathon/Pablo2/workspace/acme-banner.png" />
 
 
 		<property name="countryCode" value="+034" />
