@@ -7,7 +7,7 @@
 <%@taglib prefix="security"
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
-
+<%@taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 
 
 <h1><jstl:out value="${film.title}"/></h1>
@@ -31,7 +31,8 @@
 	
 	<tr>
 		<td><strong> <spring:message code="film.releaseDate" /> : </strong></td>
-		<td><jstl:out value="${film.releaseDate}"></jstl:out></td>
+		<td><spring:message code="date.dateFormat" var="format" /> 
+				<span><fmt:formatDate pattern="${format }" value="${film.releaseDate}" /></span></td>
 	</tr>
 	
 	<tr>
