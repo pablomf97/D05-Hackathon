@@ -44,7 +44,7 @@
 
 						<td><spring:message code="curricula.empty.data" /></td>
 						<td>
-						<jstl:if test="${not empty principal and principal.curricula.id == currentCurricula.id}">
+						<jstl:if test="${not empty principal and principal.curricula.id == curricula.id}">
 						<a
 							href="miscellaneousData/critic/create.do?curriculaId=${curricula.id}">
 								<spring:message code="curricula.miscellaneousData.create" />
@@ -69,7 +69,7 @@
 					<security:authorize access="hasRole('CRITIC')">
 
 						<td><spring:message code="curricula.empty.data" /></td>
-						<td><jstl:if test="${not empty principal and principal.curricula.id == currentCurricula.id}"><a
+						<td><jstl:if test="${not empty principal and principal.curricula.id == curricula.id}"><a
 							href="educationData/critic/create.do?curriculaId=${curricula.id}">
 								<spring:message code="curricula.educationData.create" />
 						</a></jstl:if></td>
@@ -95,7 +95,7 @@
 
 						<td><spring:message code="curricula.empty.data" /></td>
 						<td>
-								<jstl:if test="${not empty principal and principal.curricula.id == currentCurricula.id}">
+								<jstl:if test="${not empty principal and principal.curricula.id == curricula.id}">
 						
 						<a
 							href="professionalData/critic/create.do?curriculaId=${curricula.id}">
@@ -108,13 +108,6 @@
 
 
 		</table>
-		<security:authorize access="hasRole('CRITIC')">
-		<jstl:if test="${not empty principal and principal.curricula.id == currentCurricula.id}">
-		
-			<input type="submit" name="delete"
-				value="<spring:message code="curricula.delete"/>" />
-				</jstl:if>
-		</security:authorize>
 		
 	</form:form>
 </security:authorize>

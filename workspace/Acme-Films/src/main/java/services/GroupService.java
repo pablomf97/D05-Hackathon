@@ -152,9 +152,11 @@ public class GroupService {
 			result.setDescription(forum.getDescription());
 			result.setName(forum.getName());
 		}
-		Assert.notNull(result);
-
+		result.setDescription(forum.getDescription());
+		result.setName(forum.getName());
 		result = this.groupRepository.save(result);
+		Assert.notNull(result);
+		Assert.isTrue(result.getId() != 0);
 
 		return result;
 	}
@@ -200,19 +202,22 @@ public class GroupService {
 				result.setRejectReason(orig.getRejectReason());
 				result.setModerator(orig.getModerator());
 				result.setIsActive(orig.getIsActive());
+				result.setCreationDate(orig.getCreationDate());
 			}
 			result.setDescription(forum.getDescription());
 			result.setName(forum.getName());
 
 			Assert.isTrue(result.getFilmAbout() != null || result.getSagaAbout() != null);
 
+			this.validator.validate(result, binding);
 		} catch (final Throwable oops) {
 			binding.rejectValue("filmAbout", "film.error.not");
 			binding.rejectValue("sagaAbout", "saga.error.not");
 		}
-		this.validator.validate(result, binding);
+
 		return result;
 	}
+
 	public void activateGroup(final Forum group) {
 		final Forum res = this.findOne(group.getId());
 		final Actor actor = this.actorService.findByPrincipal();
@@ -259,7 +264,6 @@ public class GroupService {
 	public void flush() {
 		this.groupRepository.flush();
 	}
-
 	public void deleteGroupModerator(final int id) {
 
 		this.groupRepository.deleteInBatch(this.groupRepository.forumPerModerator(id));
@@ -267,97 +271,73 @@ public class GroupService {
 	}
 
 	public void deleteGroupPerFilm(final int id) {
-		
-		for(Film f : this.filmService.findAll()){
-		for (final Forum g : this.findAll()) {
-			if(g.getModerator()==this.actorService.findByPrincipal() || this.filmService.filmsByModerator(this.actorService.findByPrincipal().getId()).contains(f)){
-				
-				this.commentService.deleteCommentsPerForum(g.getId());
-				for(Event e :this.eventService.findAll()){
-					if(g==e.getForum()){
-						this.eventService.deleteEventPerForum(g.getId());
-						this.groupRepository.delete(g);
-					}
-				}
-			}
-			
-		}}
-		
-		
-		
 
+		for (final Film f : this.filmService.findAll())
+			for (final Forum g : this.findAll())
+				if (g.getModerator() == this.actorService.findByPrincipal() || this.filmService.filmsByModerator(this.actorService.findByPrincipal().getId()).contains(f)) {
 
-	/*	for (final Forum g : this.groupRepository.forumPerFilmDefault(id)) {
-		
-			this.commentService.deleteCommentsPerForum(g.getId());
-			for(Event e :this.eventService.findAll()){
-				if(g==e.getForum()){
-					this.eventService.deleteEventPerForum(g.getId());
+					this.commentService.deleteCommentsPerForum(g.getId());
+					for (final Event e : this.eventService.findAll())
+						if (g == e.getForum()) {
+							this.eventService.deleteEventPerForum(g.getId());
+							this.groupRepository.delete(g);
+						}
 				}
-			}
-			
-			this.groupRepository.delete(g);
-		}
-*/
+
+		/*
+		 * for (final Forum g : this.groupRepository.forumPerFilmDefault(id)) {
+		 * 
+		 * this.commentService.deleteCommentsPerForum(g.getId());
+		 * for(Event e :this.eventService.findAll()){
+		 * if(g==e.getForum()){
+		 * this.eventService.deleteEventPerForum(g.getId());
+		 * }
+		 * }
+		 * 
+		 * this.groupRepository.delete(g);
+		 * }
+		 */
 	}
 
 	public void deleteGroupPerFilmEnthusiast(final FilmEnthusiast f) {
-		
-		for(Forum g:this.findAll()){
-			
-			if(g.getGroupMembers().contains(f)){
+
+		for (final Forum g : this.findAll())
+			if (g.getGroupMembers().contains(f))
 				g.getGroupMembers().remove(f);
-				
-			}
-		}
-		for(Event e: this.eventService.findAll()){
-			if(e.getAttenders().contains(f)){
-				
+		for (final Event e : this.eventService.findAll())
+			if (e.getAttenders().contains(f))
 				e.getAttenders().remove(f);
-			}
-		}
-		for(Forum g : this.groupRepository.forumsPerFilmEnthusiast(f.getId())){
-		for(Comment c : this.commentService.findAll()){
-			
-			if(c.getFilmEnthusiast()== f ||c.getForum()== g){
-				this.commentService.deleteComment(c);
-			}
-			
-		}
-			}
-		
-		for (final Forum g : this.findAll()){
-			if ( g.getCreator().getId() == f.getId()){
-				
-				
+		for (final Forum g : this.groupRepository.forumsPerFilmEnthusiast(f.getId()))
+			for (final Comment c : this.commentService.findAll())
+				if (c.getFilmEnthusiast() == f || c.getForum() == g)
+					this.commentService.deleteComment(c);
+
+		for (final Forum g : this.findAll())
+			if (g.getCreator().getId() == f.getId()) {
+
 				this.eventService.deleteEventPerForum(g.getId());
 				this.groupRepository.delete(g);
 			}
-		
-		}
 	}
 
-	public void deleteGroup(Forum f) {
+	public void deleteGroup(final Forum f) {
 		// TODO Auto-generated method stub
 		this.groupRepository.delete(f);
-		
+
 	}
 
-
-	public Collection<Forum> getForumsToComment(int id){
-		Collection<Forum> result = this.groupRepository.getForumsToComment(id);
+	public Collection<Forum> getForumsToComment(final int id) {
+		final Collection<Forum> result = this.groupRepository.getForumsToComment(id);
 
 		return result;
 	}
 
-
-//	public Collection<Forum> groupsWithSaga(int sagaId) {
-//		Collection<Forum> result;
-//
-//		result = this.groupRepository.groupsWithSaga(sagaId);
-//
-//		return result;
-//	}
-
+	//	public Collection<Forum> groupsWithSaga(int sagaId) {
+	//		Collection<Forum> result;
+	//
+	//		result = this.groupRepository.groupsWithSaga(sagaId);
+	//
+	//		return result;
+	//	}
 
 }

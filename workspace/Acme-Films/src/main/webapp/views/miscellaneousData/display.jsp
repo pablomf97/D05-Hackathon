@@ -36,7 +36,7 @@
 
 </table>
 <security:authorize access="hasRole('CRITIC')">
-<jstl:if test="${not empty principal and principal.curricula.id == currentCurricula.id}">
+<jstl:if test="${not empty principal and principal.curricula.id == curriculaId}">
 
 	<input type="button" name="edit"
 		value="<spring:message code="miscellaneousData.edit"	/>"

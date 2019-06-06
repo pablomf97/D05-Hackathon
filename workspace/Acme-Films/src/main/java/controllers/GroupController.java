@@ -136,15 +136,16 @@ public class GroupController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST)
-	public ModelAndView save(final Forum group, final BindingResult binding) {
+	public ModelAndView save(final Forum group, final BindingResult binding) throws InterruptedException {
 		ModelAndView result;
 		Forum res = null;
 		try {
 			res = this.groupService.reconstruct(group, binding);
 			if (binding.hasErrors()) {
-				System.out.println(binding.getFieldError());
 				result = new ModelAndView("group/edit");
-				result.addObject("group", res);
+				result.addObject("name", binding.getFieldError("name"));
+				result.addObject("description", binding.getFieldError("description"));
+				result.addObject("group", group);
 			} else
 				try {
 					this.groupService.save(res);

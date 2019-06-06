@@ -17,6 +17,7 @@ import services.ActorService;
 import services.CurriculaService;
 import services.EducationDataService;
 import domain.Actor;
+import domain.Critic;
 import domain.Curricula;
 import domain.EducationData;
 
@@ -102,7 +103,8 @@ public class EducationDataController extends AbstractController {
 
 			data = this.educationDataService.findOne(dataId);
 			this.educationDataService.checkOwnerEducationData(dataId);
-
+			final Critic act = (Critic) this.actorService.findByPrincipal();
+			Assert.isTrue(act.getCurricula().getId() == curriculaId);
 			result = this.createEditModelAndView(data, curriculaId);
 
 		} catch (final Throwable oops) {
@@ -117,29 +119,40 @@ public class EducationDataController extends AbstractController {
 	public ModelAndView save(final EducationData data, final int curriculaId, final BindingResult binding) {
 		ModelAndView result;
 		try {
-			if (!(data.getEndDate() == null))
-				Assert.isTrue(data.getStartDate().before(data.getEndDate()));
-		} catch (final Throwable oops) {
-			binding.rejectValue("startDate", "date.error");
-		}
-		if (!(data.getEndDate() == null))
-			Assert.isTrue(data.getStartDate().before(data.getEndDate()));
-		this.validator.validate(data, binding);
 
-		if (binding.hasErrors())
-			result = this.createEditModelAndView(data, curriculaId, "md.commit.error");
-		else
+			this.validator.validate(data, binding);
+
 			try {
-				if (data.getId() != 0)
-					this.educationDataService.checkOwnerEducationData(data.getId());
-				this.educationDataService.save(data, curriculaId);
-				final Curricula currentCurricula = this.curriculaService.findOne(curriculaId);
-
-				result = new ModelAndView("redirect:list.do?curriculaId=" + currentCurricula.getId());
+				if (!(data.getMark() == null))
+					Assert.isTrue((data.getMark() >= 0.0 && data.getMark() <= 10.0));
 			} catch (final Throwable oops) {
-				result = new ModelAndView("redirect:list.do?curriculaId=" + curriculaId);
-				result.addObject("messageCode", "problem.commit.error");
+				binding.rejectValue("mark", "mark.error");
 			}
+			try {
+				if (!(data.getEndDate() == null))
+					Assert.isTrue((data.getStartDate().before(data.getEndDate())));
+			} catch (final Throwable oops) {
+				binding.rejectValue("startDate", "date.error");
+			}
+			if (binding.hasErrors())
+				result = this.createEditModelAndView(data, curriculaId, "md.commit.error");
+			else
+				try {
+					if (data.getId() != 0)
+						this.educationDataService.checkOwnerEducationData(data.getId());
+					this.educationDataService.save(data, curriculaId);
+					final Curricula currentCurricula = this.curriculaService.findOne(curriculaId);
+
+					result = new ModelAndView("redirect:list.do?curriculaId=" + currentCurricula.getId());
+				} catch (final Throwable oops) {
+					result = new ModelAndView("redirect:list.do?curriculaId=" + curriculaId);
+					result.addObject("messageCode", "problem.commit.error");
+				}
+		} catch (final Throwable oops) {
+			result = new ModelAndView("redirect:../../welcome/index.do");
+			result.addObject("messageCode", "problem.commit.error");
+		}
+
 		return result;
 
 	}
@@ -147,18 +160,22 @@ public class EducationDataController extends AbstractController {
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "delete")
 	public ModelAndView delete(final EducationData data, final BindingResult binding) {
 		ModelAndView result;
-
-		if (binding.hasErrors())
-			result = this.createEditModelAndView(data, null, "md.commit.error");
-		else
-			try {
-				final Curricula currentCurricula = this.curriculaService.getCurriculaByEducationData(data.getId());
-				this.educationDataService.delete(data);
-				result = new ModelAndView("redirect:list.do?curriculaId=" + currentCurricula.getId());
-			} catch (final Throwable oops) {
-				result = new ModelAndView("redirect:../../welcome/index.do");
-				result.addObject("messageCode", "problem.commit.error");
-			}
+		try {
+			if (binding.hasErrors())
+				result = this.createEditModelAndView(data, null, "md.commit.error");
+			else
+				try {
+					final Curricula currentCurricula = this.curriculaService.getCurriculaByEducationData(data.getId());
+					this.educationDataService.delete(data);
+					result = new ModelAndView("redirect:list.do?curriculaId=" + currentCurricula.getId());
+				} catch (final Throwable oops) {
+					result = new ModelAndView("redirect:../../welcome/index.do");
+					result.addObject("messageCode", "problem.commit.error");
+				}
+		} catch (final Throwable oops) {
+			result = new ModelAndView("redirect:../../welcome/index.do");
+			result.addObject("messageCode", "problem.commit.error");
+		}
 		return result;
 
 	}
@@ -168,6 +185,8 @@ public class EducationDataController extends AbstractController {
 		ModelAndView result = null;
 		try {
 			final EducationData data = this.educationDataService.create();
+			final Critic act = (Critic) this.actorService.findByPrincipal();
+			Assert.isTrue(act.getCurricula().getId() == curriculaId);
 			result = this.createEditModelAndView(data, curriculaId);
 		} catch (final Throwable oops) {
 			final EducationData data = this.educationDataService.create();

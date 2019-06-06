@@ -7,6 +7,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +19,7 @@ import services.ActorService;
 import services.CurriculaService;
 import services.MiscellaneousDataService;
 import domain.Actor;
+import domain.Critic;
 import domain.Curricula;
 import domain.MiscellaneousData;
 
@@ -104,7 +106,8 @@ public class MiscellaneousDataController extends AbstractController {
 
 			data = this.miscellaneousDataService.findOne(dataId);
 			this.miscellaneousDataService.checkOwnerMiscellaneousData(dataId);
-
+			final Critic act = (Critic) this.actorService.findByPrincipal();
+			Assert.isTrue(act.getCurricula().getId() == curriculaId);
 			result = this.createEditModelAndView(data, curriculaId);
 
 		} catch (final Throwable oops) {
@@ -118,24 +121,28 @@ public class MiscellaneousDataController extends AbstractController {
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
 	public ModelAndView save(final MiscellaneousData data, @RequestParam final int curriculaId, final BindingResult binding) {
 		ModelAndView result;
+		try {
+			this.validator.validate(data, binding);
 
-		this.validator.validate(data, binding);
+			if (binding.hasErrors())
+				result = this.createEditModelAndView(data, curriculaId, "md.commit.error");
+			else
+				try {
+					if (data.getId() != 0)
+						this.miscellaneousDataService.checkOwnerMiscellaneousData(data.getId());
 
-		if (binding.hasErrors())
-			result = this.createEditModelAndView(data, curriculaId, "md.commit.error");
-		else
-			try {
-				if (data.getId() != 0)
-					this.miscellaneousDataService.checkOwnerMiscellaneousData(data.getId());
+					this.miscellaneousDataService.save(data, curriculaId);
+					final Curricula currentCurricula = this.curriculaService.findOne(curriculaId);
 
-				this.miscellaneousDataService.save(data, curriculaId);
-				final Curricula currentCurricula = this.curriculaService.findOne(curriculaId);
-
-				result = new ModelAndView("redirect:list.do?curriculaId=" + currentCurricula.getId());
-			} catch (final Throwable oops) {
-				result = new ModelAndView("redirect:../../welcome/index.do");
-				result.addObject("messageCode", "problem.commit.error");
-			}
+					result = new ModelAndView("redirect:list.do?curriculaId=" + currentCurricula.getId());
+				} catch (final Throwable oops) {
+					result = new ModelAndView("redirect:../../welcome/index.do");
+					result.addObject("messageCode", "problem.commit.error");
+				}
+		} catch (final Throwable oops) {
+			result = new ModelAndView("redirect:../../welcome/index.do");
+			result.addObject("messageCode", "problem.commit.error");
+		}
 		return result;
 
 	}
@@ -143,18 +150,22 @@ public class MiscellaneousDataController extends AbstractController {
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "delete")
 	public ModelAndView delete(@Valid final MiscellaneousData data, final BindingResult binding) {
 		ModelAndView result;
-
-		if (binding.hasErrors())
-			result = this.createEditModelAndView(data, null, "md.commit.error");
-		else
-			try {
-				final Curricula currentCurricula = this.curriculaService.getCurriculaByMiscellaneousData(data.getId());
-				this.miscellaneousDataService.delete(data);
-				result = new ModelAndView("redirect:list.do?curriculaId=" + currentCurricula.getId());
-			} catch (final Throwable oops) {
-				result = new ModelAndView("redirect:../../welcome/index.do");
-				result.addObject("messageCode", "problem.commit.error");
-			}
+		try {
+			if (binding.hasErrors())
+				result = this.createEditModelAndView(data, null, "md.commit.error");
+			else
+				try {
+					final Curricula currentCurricula = this.curriculaService.getCurriculaByMiscellaneousData(data.getId());
+					this.miscellaneousDataService.delete(data);
+					result = new ModelAndView("redirect:list.do?curriculaId=" + currentCurricula.getId());
+				} catch (final Throwable oops) {
+					result = new ModelAndView("redirect:../../welcome/index.do");
+					result.addObject("messageCode", "problem.commit.error");
+				}
+		} catch (final Throwable oops) {
+			result = new ModelAndView("redirect:../../welcome/index.do");
+			result.addObject("messageCode", "problem.commit.error");
+		}
 		return result;
 
 	}
@@ -164,6 +175,8 @@ public class MiscellaneousDataController extends AbstractController {
 		ModelAndView result = null;
 		try {
 			final MiscellaneousData data = this.miscellaneousDataService.create();
+			final Critic act = (Critic) this.actorService.findByPrincipal();
+			Assert.isTrue(act.getCurricula().getId() == curriculaId);
 			result = this.createEditModelAndView(data, curriculaId, "md.commit.error");
 		} catch (final Throwable oops) {
 			result = new ModelAndView("redirect:../../welcome/index.do");

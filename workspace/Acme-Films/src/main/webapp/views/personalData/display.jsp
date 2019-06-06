@@ -55,14 +55,13 @@
 
 </table>
 <security:authorize access="hasRole('CRITIC')">
-<jstl:if test="${not empty principal and principal.curricula.id == currentCurricula.id}">
+	<jstl:if
+		test="${not empty principal and principal.curricula.id == curriculaId}">
 
-	<input type="button" name="edit"
-		value="<spring:message code="personalData.edit"	/>"
-		onclick="redirect: location.href = 'personalData/critic/edit.do?dataId=${data.id}&curriculaId=${curriculaId}';" />
-		</jstl:if>
+		<input type="button" name="edit"
+			value="<spring:message code="personalData.edit"	/>"
+			onclick="redirect: location.href = 'personalData/critic/edit.do?dataId=${data.id}&curriculaId=${curriculaId}';" />
+	</jstl:if>
 </security:authorize>
-	<acme:cancel
-		url="/"
-		code="personalData.cancel" />
+<acme:cancel url="/" code="personalData.cancel" />
 
