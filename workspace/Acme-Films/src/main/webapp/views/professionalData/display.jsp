@@ -10,58 +10,59 @@
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
 
-	<table class="displayStyle">
-		<tr>
+<table class="displayStyle">
+	<tr>
 
-			<td><strong><spring:message code="professionalData.title" />
-					: </strong></td>
-			<td><jstl:out value="${data.title}">
+		<td><strong><spring:message
+					code="professionalData.title" /> : </strong></td>
+		<td><jstl:out value="${data.title}">
 
-				</jstl:out></td>
-
-
-		</tr>
+			</jstl:out></td>
 
 
-		<tr>
+	</tr>
 
-			<td><strong><spring:message
-						code="professionalData.description" /> : </strong></td>
-			<td><jstl:out value="${data.description}">
 
-				</jstl:out></td>
+	<tr>
 
-		</tr>
+		<td><strong><spring:message
+					code="professionalData.description" /> : </strong></td>
+		<td><jstl:out value="${data.description}">
 
-		<tr>
+			</jstl:out></td>
 
-			<td><strong><spring:message
-						code="professionalData.startDate" /> : </strong></td>
-			<td><jstl:out value="${data.startDate}">
+	</tr>
 
-				</jstl:out></td>
+	<tr>
 
-		</tr>
+		<td><strong><spring:message
+					code="professionalData.startDate" /> : </strong></td>
+		<td><jstl:out value="${data.startDate}">
 
-		<tr>
+			</jstl:out></td>
 
-			<td><strong><spring:message code="professionalData.endDate" />
-					: </strong></td>
-			<td><jstl:out value="${data.endDate}">
+	</tr>
 
-				</jstl:out></td>
+	<tr>
 
-		</tr>
+		<td><strong><spring:message
+					code="professionalData.endDate" /> : </strong></td>
+		<td><jstl:out value="${data.endDate}">
 
-	</table>
-	<security:authorize access="hasRole('CRITIC')">
-<jstl:if test="${not empty principal and principal.curricula.id == currentCurricula.id}">
+			</jstl:out></td>
+
+	</tr>
+
+</table>
+<security:authorize access="hasRole('CRITIC')">
+	<jstl:if
+		test="${not empty principal and principal.curricula.id == curriculaId}">
 
 		<input type="button" name="edit"
 			value="<spring:message code="professionalData.edit"	/>"
 			onclick="redirect: location.href = 'professionalData/critic/edit.do?dataId=${data.id}&curriculaId=${curriculaId}';" />
-</jstl:if>
-	</security:authorize>
-	<acme:cancel
-			url="professionalData/critic/list.do?curriculaId=${curriculaId}"
-			code="professionalData.cancel" />
+	</jstl:if>
+</security:authorize>
+<acme:cancel
+	url="professionalData/critic/list.do?curriculaId=${curriculaId}"
+	code="professionalData.cancel" />

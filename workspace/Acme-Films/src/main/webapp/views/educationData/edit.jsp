@@ -21,41 +21,20 @@
 		<br>
 		<br>
 
-		<spring:message code="educationData.institution" />
-		<br>
-		<form:textarea code="educationData.institution" path="institution" />
-		<form:errors path="institution" cssClass="error" />
-
-		<br>
-		<br>
-
-		<form:label path="mark">
-			<spring:message code="educationData.mark" />:
-		</form:label>
-		<form:input path="mark" />
-		<form:errors cssClass="error" path="mark" />
+		<acme:textbox code="educationData.institution" path="institution" />
 
 		<br />
 		<br />
-
-
-
-		<form:label path="startDate">
-			<spring:message code="educationData.startDate" />:
-		</form:label>
-		<form:input path="startDate" placeholder="dd/MM/yyyy HH:mm" />
-		<form:errors cssClass="error" path="startDate" />
-
+		<acme:textbox code="educationData.mark" path="mark" />
 		<br />
 		<br />
 
+		<acme:textbox code="educationData.startDate" path="startDate" />
 
-		<form:label path="endDate">
-			<spring:message code="educationData.endDate" />:
-		</form:label>
-		<form:input path="endDate" placeholder="dd/MM/yyyy HH:mm" />
-		<form:errors cssClass="error" path="endDate" />
 
+		<br />
+		<br />
+		<acme:textbox code="educationData.endDate" path="endDate"/>
 		<br />
 		<br />
 

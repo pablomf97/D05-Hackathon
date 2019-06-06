@@ -79,7 +79,7 @@ public class EducationDataService {
 			dataDB.setInstitution(data.getInstitution());
 			dataDB.setMark(data.getMark());
 			dataDB.setStartDate(data.getStartDate());
-
+			dataDB.setEndDate(data.getEndDate());
 			result = this.educationDataRepository.save(dataDB);
 
 		} else {

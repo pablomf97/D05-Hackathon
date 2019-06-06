@@ -9,14 +9,10 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
-
-
-
 <security:authorize access="hasRole('FILMENTHUSIAST')">
 	<jstl:if test="${forum.creator eq actor }">
 
-		<form:form modelAttribute="group"
-			action="group/edit.do" id="form">
+		<form:form modelAttribute="group" action="group/edit.do" id="form">
 
 			<form:hidden path="id" />
 			<form:hidden path="sagaAbout" />
@@ -27,6 +23,9 @@
 		</form:label>
 			<form:textarea path="name" />
 			<form:errors cssClass="error" path="name" />
+			<jstl:if test="${not empty name}">
+				<a class="error"><spring:message code="error.description" /></a>
+			</jstl:if>
 
 			<br>
 			<br>
@@ -36,6 +35,9 @@
 		</form:label>
 			<form:textarea path="description" />
 			<form:errors cssClass="error" path="description" />
+			<jstl:if test="${not empty description}">
+				<a class="error"><spring:message code="error.description" /></a>
+			</jstl:if>
 
 			<br>
 			<br>

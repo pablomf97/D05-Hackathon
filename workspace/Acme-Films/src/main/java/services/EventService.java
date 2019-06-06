@@ -92,7 +92,7 @@ public class EventService {
 		Assert.notNull(event);
 		Assert.isTrue(event.getId() != 0, "wrong.id");
 		final Date d = new Date();
-		Assert.isTrue(event.getSigninDeadline().before(d), "event pass");
+		Assert.isTrue(event.getSigninDeadline().after(d), "event pass");
 		principal = this.actorService.findByPrincipal();
 		Assert.isTrue(this.actorService.checkAuthority(principal, "FILMENTHUSIAST"), "not.allowed");
 		final Event orig = this.findOne(event.getId());
@@ -128,7 +128,7 @@ public class EventService {
 		final Event event = this.findOne(Id);
 		Assert.isTrue(event.getAttenders().size() < event.getMaximumCapacity(), "capacity exceded");
 		final Date d = new Date();
-		Assert.isTrue(event.getSigninDeadline().before(d), "event pass");
+		Assert.isTrue(event.getSigninDeadline().after(d), "event pass");
 		final Actor actor = this.actorService.findByPrincipal();
 		Assert.isTrue(!event.getAttenders().contains(actor) && event.getForum().getGroupMembers().contains(actor));
 		event.getAttenders().add((FilmEnthusiast) actor);
@@ -173,11 +173,5 @@ public class EventService {
 
 	public void flush() {
 		this.eventRepository.flush();
-	}
-
-	public void deleteEvent(Forum f) {
-		this.eventRepository.deleteInBatch(this.eventRepository.findAllByGroup(f.getId()));
-
-		
 	}
 }

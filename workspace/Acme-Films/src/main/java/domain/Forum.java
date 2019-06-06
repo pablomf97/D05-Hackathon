@@ -13,9 +13,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Past;
 
-import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -48,7 +46,6 @@ public class Forum extends DomainEntity {
 	}
 
 	@NotBlank
-	@Type(type="text")
 	public String getDescription() {
 		return this.description;
 	}
@@ -57,7 +54,6 @@ public class Forum extends DomainEntity {
 	}
 
 	@NotNull
-	@Past
 	@Temporal(TemporalType.TIMESTAMP)
 	@DateTimeFormat(pattern = "dd/MM/yyyy HH:mm")
 	public Date getCreationDate() {
