@@ -30,7 +30,7 @@
 		</jstl:when>
 		<jstl:otherwise>
 			<h1><spring:message	code="position.title.list" /></h1>
-			<display:table style="width: 40%" class="displaytag" name="positions"
+			<display:table style="width: 40%" class="displaytag" name="positions" pagesize="5" 
 				requestURI="position/moderator/list.do" id="position">
 
 				<jstl:choose>
@@ -66,12 +66,6 @@
 				<display:column style="width: 15%">
 					<a href="position/moderator/edit.do?positionId=${position.id}"><spring:message
 							code="position.edit" /></a>
-				</display:column>
-				
- 				<display:column>
-					<a href="position/moderator/delete.do?positionId=${position.id}"> <spring:message
-							code="position.delete" />
-					</a>
 				</display:column>
 				
 			</display:table>

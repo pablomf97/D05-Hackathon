@@ -22,7 +22,7 @@
 	
 			<form:hidden path="id" />
 			
-			<acme:textbox code="saga.title" path="title" size="100px" /><br> <br>
+			<acme:textbox code="saga.title" path="title" size="50px" /><br> <br>
 			
 			<acme:submit code="saga.save" name="save" />&nbsp;
 			<acme:cancel url="saga/list.do" code="saga.cancel" />

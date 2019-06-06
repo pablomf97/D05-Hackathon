@@ -72,6 +72,8 @@
 					<li class="arrow"></li>
 					<li><a href="saga/list.do"><spring:message
 								code="master.page.saga.list" /></a></li>
+					<li><a href="saga/create.do"><spring:message
+								code="master.page.saga.create" /></a></li>
 				</ul></li>
 
 			<security:authorize access="hasRole('MODERATOR')">
@@ -90,6 +92,8 @@
 						<li class="arrow"></li>
 						<li><a href="genre/moderator/list.do"><spring:message
 									code="master.page.genre.list" /></a></li>
+						<li><a href="genre/moderator/create.do"><spring:message
+									code="master.page.genre.create" /></a></li>
 					</ul></li>
 
 			</security:authorize>
@@ -198,6 +202,22 @@
 		</security:authorize>
 
 		<security:authorize access="isAuthenticated()">
+		
+			<li><a class="fNiv"><spring:message code="master.page.message.header" /></a>
+				<ul>
+					<li class="arrow"/>
+					<li><a href="message/actor/create.do"><spring:message
+								code="master.page.message.new" /></a></li>
+					<li><a href="messagebox/list.do"><spring:message
+								code="master.page.profile.message.boxes" /></a></li>
+					<li><a href="messagebox/create.do"><spring:message
+								code="master.page.box.new" /></a></li>
+					
+					<li><a href="message/administrator/broadcast.do"><spring:message
+								code="master.page.message.broadcast" /></a></li>
+				</ul>
+			</li>
+		
 			<li><a class="fNiv"> <spring:message
 						code="master.page.profile" /> (<security:authentication
 						property="principal.username" />)
@@ -207,11 +227,9 @@
 					<security:authorize access="hasRole('ADMIN')">
 						<li><a href="statistics/administrator/display.do"><spring:message
 									code="master.page.dashboard" /></a></li>
-						<li><a href="message/administrator/broadcast.do"><spring:message
-								code="master.page.message.broadcast" /></a></li>
+						
 						<li><a href="sysconfig/administrator/display.do"><spring:message
 									code="master.page.system" /></a></li>
-
 						<li><a href="administrator/display.do"><spring:message
 									code="actor.view" /></a></li>
 						<li><a href="administrator/export.do"><spring:message
@@ -264,16 +282,6 @@
 						<li><a href="critic/export.do"><spring:message
 									code="export" /></a></li>
 					</security:authorize>
-
-
-					<li><a href="messagebox/list.do"><spring:message
-								code="master.page.profile.message.boxes" /></a></li>
-					<li><a href="messagebox/create.do"><spring:message
-								code="master.page.box.new" /></a></li>
-					<li><a href="message/actor/create.do"><spring:message
-								code="master.page.message.new" /></a></li>
-
-
 
 					<li><a href="j_spring_security_logout"><spring:message
 								code="master.page.logout" /> </a></li>

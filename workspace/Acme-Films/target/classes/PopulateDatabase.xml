@@ -2050,7 +2050,7 @@
 		<property name="siteName" value="Carmona" />
 		<property name="link" value="http://www.carmona.com" />
 		<property name="price" value="12.2" />
-		<property name="film" ref="film4" />
+		<property name="film" ref="film2" />
 	</bean>
 
 	<!-- **************************** FORUM **************************** -->
@@ -2163,17 +2163,6 @@
 
 	</bean>
 
-	<bean id="comment9" class="domain.Comment">
-		<property name="publishedMoment" value="12/12/2017 12:12" />
-		<property name="body" value="Great job by Matt Ross as director." />
-		<property name="rating" value="8.9" />
-		<property name="film" ref="film4" />
-		<property name="filmEnthusiast" ref="filmEnthusiast2" />
-
-
-
-
-	</bean>
 
 	<bean id="comment10" class="domain.Comment">
 		<property name="publishedMoment" value="12/12/2017 12:12" />
@@ -2627,7 +2616,7 @@ Films! Tu sitio para compartir opiniones sobre tus peliculas favoritas." />
 				<entry key="English" value="" />
 			</util:map>
 		</property>
-		<property name="banner" value="https://image.ibb.co/iuaDgV/Untitled.png" />
+		<property name="banner" value="https://raw.githubusercontent.com/pablomf97/D05-Hackathon/Pablo2/workspace/acme-banner.png" />
 
 
 		<property name="countryCode" value="+034" />

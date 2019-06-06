@@ -31,7 +31,7 @@
 		<jstl:otherwise>
 			<h1><spring:message	code="genre.title.list" /></h1>
 			<display:table style="width: 40%" class="displaytag" name="genres"
-				requestURI="genre/moderator/list.do" id="genre">
+				requestURI="genre/moderator/list.do" id="genre" pagesize="5">
 
 				<jstl:choose>
 					<jstl:when test="${pageContext.response.locale.language == 'es'}">
