@@ -8,6 +8,7 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 
 <table class="displayStyle">
@@ -37,9 +38,8 @@
 
 		<td><strong><spring:message
 					code="professionalData.startDate" /> : </strong></td>
-		<td><jstl:out value="${data.startDate}">
-
-			</jstl:out></td>
+		<td><spring:message code="date.dateFormat" var="format" /> <span><fmt:formatDate
+					pattern="${format }" value="${data.startDate}" /></span></td>
 
 	</tr>
 
@@ -47,9 +47,8 @@
 
 		<td><strong><spring:message
 					code="professionalData.endDate" /> : </strong></td>
-		<td><jstl:out value="${data.endDate}">
-
-			</jstl:out></td>
+		<td><spring:message code="date.dateFormat" var="format" /> <span><fmt:formatDate
+					pattern="${format }" value="${data.endDate}" /></span></td>
 
 	</tr>
 

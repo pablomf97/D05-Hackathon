@@ -9,6 +9,7 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 
 <security:authorize access="hasAnyRole('FILMENTHUSIAST','MODERATOR')">
@@ -23,8 +24,8 @@
 
 			<td><strong><spring:message code="group.creationDate" />
 					: </strong></td>
-			<td><jstl:out value="${group.creationDate}">
-				</jstl:out></td>
+			<td><spring:message code="date.dateFormat" var="format" /> <span><fmt:formatDate
+						pattern="${format }" value="${group.creationDate}" /></span></td>
 		</tr>
 		<tr>
 
@@ -63,10 +64,10 @@
 			<td><strong><spring:message code="group.isActive" /> :
 			</strong></td>
 			<jstl:if test="${group.isActive}">
-				<td><spring:message code="group.activeGroup"/></td>
+				<td><spring:message code="group.activeGroup" /></td>
 			</jstl:if>
 			<jstl:if test="${empty group.isActive}">
-				<td><spring:message code="group.deactiveGroup"/>"</td>
+				<td><spring:message code="group.deactiveGroup" />"</td>
 			</jstl:if>
 		</tr>
 
@@ -107,9 +108,12 @@
 	</jstl:if>
 	<!-- moderator -->
 	<jstl:if test="${empty group.moderator and not group.isActive}">
-		<input type="button" name="list"
-			value="<spring:message code="group.active"	/>"
-			onclick="redirect: location.href = 'group/moderator/edit.do?Id=${group.id}';" />
+		<security:authorize access="hasRole('MODERATOR')">
+
+			<input type="button" name="list"
+				value="<spring:message code="group.active"	/>"
+				onclick="redirect: location.href = 'group/moderator/edit.do?Id=${group.id}';" />
+		</security:authorize>
 	</jstl:if>
 	<!-- Cancelar -->
 	<acme:cancel url="group/list.do" code="group.cancel" />

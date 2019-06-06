@@ -8,38 +8,38 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
 <security:authorize access="hasRole('FILMENTHUSIAST')">
 
-<display:table pagesize="10" class="displaytag" name="events"
-	requestURI="${requestURI }" id="event">
+	<display:table pagesize="5" class="displaytag" name="events"
+		requestURI="${requestURI }" id="event">
 
-	<display:column titleKey="event.title">
-		<jstl:out value="${event.title}"></jstl:out>
-	</display:column>
+		<display:column titleKey="event.title" sortable="true">
+			<jstl:out value="${event.title}"></jstl:out>
+		</display:column>
 
-	<display:column titleKey="event.eventDate">
-		<jstl:out value="${event.eventDate}"></jstl:out>
-	</display:column>
-	<display:column titleKey="event.maximumCapacity">
-		<jstl:out value="${event.maximumCapacity}"></jstl:out>
-	</display:column>
-	<display:column titleKey="event.price">
-		<jstl:out value="${event.price}"></jstl:out>
-	</display:column>
-	<display:column titleKey="event.display">
-		<a
-			href="event/display.do?Id=${event.id}">
-			<spring:message code="event.display" />
-		</a>
-	</display:column>
-</display:table>
+		<display:column titleKey="event.eventDate" sortable="true">
+		<spring:message code="date.dateFormat" var="format" />
+				<span><fmt:formatDate pattern="${format }"
+						value="${event.eventDate}" /></span>
+				
+		</display:column>
+		<display:column titleKey="event.maximumCapacity" sortable="true">
+			<jstl:out value="${event.maximumCapacity}"></jstl:out>
+		</display:column>
+		<display:column titleKey="event.price" sortable="true">
+			<jstl:out value="${event.price}"></jstl:out>
+		</display:column>
+		<display:column titleKey="event.display" sortable="true">
+			<a href="event/display.do?Id=${event.id}"> <spring:message
+					code="event.display" />
+			</a>
+		</display:column>
+	</display:table>
 	<jstl:if test="${event.forum.creator eq actor }">
-		<input type="button"
-			value="<spring:message code="event.create"	/>"
+		<input type="button" value="<spring:message code="event.create"	/>"
 			onclick="redirect: location.href = 'event/create.do?Id=${group.id}';" />
 	</jstl:if>
-<acme:cancel
-	url="group/list.do"
-	code="event.cancel" />
+	<acme:cancel url="group/list.do" code="event.cancel" />
 </security:authorize>
-	

@@ -10,17 +10,17 @@
 
 <tiles-definitions>
 	<definition name="professionalData/list" extends="master.page">
-		<put-attribute name="title" value="Lista de informacion de puestos" />
+		<put-attribute name="title" value="Lista de información profesional" />
 		<put-attribute name="body" value="/views/professionalData/list.jsp" />
 	</definition>
 	
 	<definition name="professionalData/display" extends="master.page">
-		<put-attribute name="title" value="Mostrar informacion de puestos" />
+		<put-attribute name="title" value="Mostrar informacion profesional" />
 		<put-attribute name="body" value="/views/professionalData/display.jsp" />
 	</definition>
 	
 	<definition name="professionalData/edit" extends="master.page">
-		<put-attribute name="title" value="Editar informacion de puestos" />
+		<put-attribute name="title" value="Editar informacion profesional" />
 		<put-attribute name="body" value="/views/professionalData/edit.jsp" />
 	</definition>
 	

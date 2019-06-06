@@ -9,6 +9,8 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
 <security:authorize access="hasAnyRole('FILMENTHUSIAST','MODERATOR')">
 	<table class="displayStyle">
 		<tr>
@@ -34,15 +36,16 @@
 
 			<td><strong><spring:message code="event.eventDate" />
 					: </strong></td>
-			<td><jstl:out value="${event.eventDate}">
-				</jstl:out></td>
+			<td><spring:message code="date.dateFormat" var="format" /> <span><fmt:formatDate
+						pattern="${format }" value="${event.eventDate}" /></span></td>
 		</tr>
 		<tr>
 
 			<td><strong><spring:message code="event.signinDeadline" />
 					: </strong></td>
-			<td><jstl:out value="${event.signinDeadline}">
-				</jstl:out></td>
+
+			<td><span><fmt:formatDate pattern="${format }"
+						value="${event.signinDeadline}" /></span>
 		</tr>
 		<tr>
 
@@ -70,33 +73,38 @@
 	</table>
 	<jstl:set var="contains2" value="no" />
 
-		<jstl:forEach var="item2" items="${event.forum.groupMembers}">
-			<jstl:if test="${item2.userAccount.username eq actor.userAccount.username}">
-				<jstl:set var="contains2" value="yes" />
-			</jstl:if>
-		</jstl:forEach>
-	<jstl:if test="${event.forum.creator.userAccount.username eq actor.userAccount.username or contains2}">
+	<jstl:forEach var="item2" items="${event.forum.groupMembers}">
+		<jstl:if
+			test="${item2.userAccount.username eq actor.userAccount.username}">
+			<jstl:set var="contains2" value="yes" />
+		</jstl:if>
+	</jstl:forEach>
+	<jstl:if
+		test="${event.forum.creator.userAccount.username eq actor.userAccount.username or contains2}">
 		<input type="button" name="list"
 			value="<spring:message code="event.list.members"	/>"
 			onclick="redirect: location.href = 'event/filmenthusiast/listMembers.do?Id=${event.id}';" />
 	</jstl:if>
 
-	<jstl:if test="${event.forum.creator.userAccount.username eq actor.userAccount.username and eventDate}">
+	<jstl:if
+		test="${event.forum.creator.userAccount.username eq actor.userAccount.username and eventDate}">
 
 
 		<input type="button" name="list"
 			value="<spring:message code="event.delete"	/>"
 			onclick="redirect: location.href = 'event/delete.do?Id=${event.id}';" />
 	</jstl:if>
-	<jstl:if test="${not(event.forum.creator.userAccount.username eq actor.userAccount.username) }">
+	<jstl:if
+		test="${not(event.forum.creator.userAccount.username eq actor.userAccount.username) }">
 		<jstl:set var="contains" value="no" />
 
 		<jstl:forEach var="item" items="${event.attenders}">
-			<jstl:if test="${item.userAccount.username eq actor.userAccount.username}">
+			<jstl:if
+				test="${item.userAccount.username eq actor.userAccount.username}">
 				<jstl:set var="contains" value="yes" />
 			</jstl:if>
 		</jstl:forEach>
-		
+
 	</jstl:if>
 	<jstl:if
 		test="${contains2 eq 'yes' and contains eq 'no' and event.maximumCapacity gt fn:length(event.attenders) and eventDate}">

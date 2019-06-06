@@ -8,11 +8,12 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 
 <security:authorize access="hasAnyRole('FILMENTHUSIAST','MODERATOR')">
 
-	<display:table pagesize="10" class="displaytag" name="groups"
+	<display:table pagesize="5" class="displaytag" name="groups"
 		requestURI="${requestURI }" id="group">
 
 		<display:column titleKey="group.name" sortable="true">
@@ -20,7 +21,8 @@
 		</display:column>
 
 		<display:column titleKey="group.creationDate" sortable="true">
-			<jstl:out value="${group.creationDate}"></jstl:out>
+		<spring:message code="date.dateFormat" var="format" /> <span><fmt:formatDate
+						pattern="${format }" value="${event.creationDate}" /></span>
 		</display:column>
 		<display:column titleKey="group.creator" sortable="true">
 			<jstl:if
