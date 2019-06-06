@@ -177,26 +177,33 @@ public class PersonController extends AbstractController {
 		Person aux = this.personService.create();
 		
 		try {
-			positionsToSave = this.positionService.parsePositions(positionsArray);
-			aux = this.personService.findOne(person.getId());
 			
-			aux.setBirthDate(person.getBirthDate());
-			aux.setGender(person.getGender());
-			aux.setName(person.getName());
-			aux.setNationality(person.getNationality());
-			aux.setPhoto(person.getPhoto());
-			aux.setSurname(person.getSurname());
-			aux.setPositions(positionsToSave);
+			positionsToSave = this.positionService.parsePositions(positionsArray);
+			
+			if(person.getId() != 0) {
+				aux = this.personService.findOne(person.getId());
+				
+				aux.setBirthDate(person.getBirthDate());
+				aux.setGender(person.getGender());
+				aux.setName(person.getName());
+				aux.setNationality(person.getNationality());
+				aux.setPhoto(person.getPhoto());
+				aux.setSurname(person.getSurname());
+				aux.setPositions(positionsToSave);
+			} 
 			
 		} catch (Exception e) {}
 		
+		if(person.getId() == 0 || positionsArray == null) {
+			aux = person;
+		}
 			this.validator.validate(aux, binding);
 
 		if (binding.hasErrors()) {
 			Collection<Position> positions = this.positionService.findAll();
 
 			result = new ModelAndView("person/edit");
-			result.addObject("person", aux);
+			result.addObject("person", person);
 			result.addObject("isPrincipal", true);
 			result.addObject("positions", positions);
 		} else {
@@ -204,6 +211,7 @@ public class PersonController extends AbstractController {
 				this.personService.flush();
 				aux.setId(person.getId());
 				this.personService.save(aux);
+
 				result = new ModelAndView("redirect:list.do");
 			} catch (final Throwable oops) {
 				result = new ModelAndView("person/edit");

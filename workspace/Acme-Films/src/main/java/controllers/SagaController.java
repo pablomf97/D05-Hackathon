@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -33,6 +34,9 @@ public class SagaController extends AbstractController {
 	
 	@Autowired
 	private FilmService		filmService;
+	
+	@Autowired
+	private Validator validator;
 
 	// Display
 
@@ -126,6 +130,22 @@ public class SagaController extends AbstractController {
 	public ModelAndView save(@Valid Saga saga,
 			BindingResult binding) {
 		ModelAndView result;
+		Saga aux = this.sagaService.create();
+		
+		try {
+			
+			
+			if(saga.getId() != 0) {
+				aux = this.sagaService.findOne(saga.getId());
+				
+				aux.setTitle(saga.getTitle());
+			} 
+		} catch (Exception e) {}
+		
+		if(saga.getId() == 0) {
+			aux = saga;
+		}
+			this.validator.validate(aux, binding);
 		
 		if (binding.hasErrors()) {
 			result = new ModelAndView("saga/edit");
@@ -133,11 +153,13 @@ public class SagaController extends AbstractController {
 			result.addObject("isPrincipal", true);
 		} else {
 			try {
-				this.sagaService.save(saga);
+				this.sagaService.flush();
+				aux.setId(saga.getId());
+				this.sagaService.save(aux);
 				result = new ModelAndView("redirect:list.do");
 			} catch (final Throwable oops) {
 				result = new ModelAndView("saga/edit");
-				result.addObject("saga", saga);
+				result.addObject("saga", aux);
 				result.addObject("messageCode", oops.getMessage());
 			}
 		}
