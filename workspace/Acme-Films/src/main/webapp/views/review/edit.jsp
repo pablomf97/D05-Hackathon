@@ -13,6 +13,8 @@
 	<jstl:if test="${possible && review.id==0}">
 		<form:form action="review/critic/create.do" modelAttribute="review">
 
+			<form:hidden path="id" />
+
 			<acme:textbox code="review.title" path="title" />
 			<br>
 			<br>
@@ -58,69 +60,89 @@
 
 	</jstl:if>
 
-	<jstl:if test="${review.id!=0 && review.isDraft}">
-		<form:form action="review/critic/edit.do?reviewId=${review.id}"
-			modelAttribute="review">
 
-			<form:hidden path="id" />
+	<jstl:if test="${possible && review.id!=0 && review.isDraft}">
 
-			<acme:textbox code="review.title" path="title" />
-			<br>
-			<br>
+			<form:form action="review/critic/edit.do?reviewId=${review.id}"
+				modelAttribute="review">
 
-			<acme:textbox code="review.body" path="body" />
-			<br>
-			<br>
+				<form:hidden path="id" />
 
-			<form:label path="rating">
-				<spring:message code="review.rating" />
-			</form:label>
-			<form:input path="rating" type="number" min="0" max="10" step="any" />
-			<form:errors cssClass="error" path="rating" />
+				<acme:textbox code="review.title" path="title" />
+				<br>
+				<br>
 
-			<br>
-			<br>
+				<acme:textbox code="review.body" path="body" />
+				<br>
+				<br>
 
+				<form:label path="rating">
+					<spring:message code="review.rating" />
+				</form:label>
+				<form:input path="rating" type="number" min="0" max="10" step="any" />
+				<form:errors cssClass="error" path="rating" />
 
-			<acme:submit name="saveFinal" code="review.saveFinal" />
-
-
-			<acme:submit name="saveDraft" code="review.saveDraft" />
+				<br>
+				<br>
 
 
-			<acme:delete name="delete" confirmation="review.confirmation"
-				code="review.delete" />
-
-			<acme:cancel url="review/critic/listAll.do" code="review.cancel" />
+				<acme:submit name="saveFinal" code="review.saveFinal" />
 
 
+				<acme:submit name="saveDraft" code="review.saveDraft" />
 
-		</form:form>
-	</jstl:if>
 
-	<jstl:if test="${possible && review.id!=0 && !(review.isDraft)}">
-		<h4>
-			<strong><jstl:out value="No permission" /></strong>
-		</h4>
-	</jstl:if>
+				<acme:delete name="delete" confirmation="review.confirmation"
+					code="review.delete" />
 
+				<acme:cancel url="review/critic/listAll.do" code="review.cancel" />
+
+
+
+			</form:form>
+		</jstl:if>
+
+		<jstl:if test="${!possible && review.id!=0 && (review.isDraft)}">
+			<h4>
+				<spring:message code="no.permission" var="wrong"></spring:message>
+				<strong><jstl:out value="${wrong}" /></strong>
+			</h4>
+		</jstl:if>
 </security:authorize>
 
 <security:authorize access="hasRole('MODERATOR')">
-	<form:form action="review/moderator/reject.do" modelAttribute="review">
+	<jstl:if test="${possible}">
+		<form:form action="review/moderator/reject.do" modelAttribute="review">
 
-		<form:hidden path="id" />
-		<form:hidden path="version" />
 
-		<acme:textarea code="review.rejectReason" path="rejectReason" />
-		<br>
-		<br>
 
-		<acme:submit name="reject" code="review.reject" />
+			<form:hidden path="id" />
+			<form:hidden path="version" />
 
-		<acme:cancel url="review/moderator/listMyReviews.do"
-			code="review.cancel" />
 
-	</form:form>
+			<acme:textarea code="review.rejectReason" path="rejectReason" />
+			<br>
+			<br>
 
+
+			<acme:submit name="reject" code="review.reject" />
+
+
+			<acme:cancel url="review/moderator/listMyReviews.do"
+				code="review.cancel" />
+
+		</form:form>
+
+
+
+	</jstl:if>
+
+	<jstl:if test="${!possible}">
+		<h4>
+			<spring:message code="no.permission" var="wrong"></spring:message>
+			<strong><jstl:out value="${wrong}" /></strong>
+		</h4>
+	</jstl:if>
+=======
+>>>>>>> Pablo2
 </security:authorize>

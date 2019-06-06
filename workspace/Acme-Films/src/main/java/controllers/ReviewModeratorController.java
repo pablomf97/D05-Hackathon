@@ -6,6 +6,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -162,12 +163,22 @@ public class ReviewModeratorController extends AbstractController {
 	public ModelAndView reject(@RequestParam final int reviewId) {
 
 		ModelAndView result;
+		Actor pricipal = this.actorService.findByPrincipal();
+		boolean possible = false;
+		
 
 		Review validReview = this.reviewService.findOne(reviewId);
+		
+		if(validReview.getModerator().equals(pricipal)){
+			possible = true;
+		}
 
 		result = new ModelAndView("review/edit");
 
 		result.addObject("review", validReview);
+
+		result.addObject("possible", possible);
+
 
 		return result;
 	}

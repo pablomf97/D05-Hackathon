@@ -16,6 +16,7 @@ import services.ActorService;
 import services.CommentService;
 import services.FilmService;
 import services.GroupService;
+import services.ReviewService;
 import domain.Actor;
 import domain.Comment;
 import domain.Film;
@@ -37,20 +38,23 @@ public class CommentController extends AbstractController {
 	private FilmService		filmService;
 
 	@Autowired
-	private GroupService	forumService;
+	private GroupService forumService;
 
+	@Autowired
+	private ReviewService reviewService;
 
 	// Create
 
 	@RequestMapping(value = "/createComment", method = RequestMethod.GET)
 	public ModelAndView createComment() {
 		ModelAndView result;
-		
+
 		try {
 			FilmEnthusiast principal = (FilmEnthusiast) this.actorService
 					.findByPrincipal();
 			Collection<Film> films = this.filmService.publishedFilms();
 			Collection<Forum> forums = this.forumService.findAllByFilmEnthusiast(principal.getId());
+
 
 			Comment comment = this.commentService.create();
 
@@ -64,13 +68,13 @@ public class CommentController extends AbstractController {
 			result.addObject("films", films);
 			result.addObject("comment", comment);
 			result.addObject("forums",forums);
-			
+
 		} catch (Throwable oops) {
 			result = new ModelAndView("redirect:/welcome/index.do");
 			result.addObject("messageCode", "comment.commit.error");
 			result.addObject("permission", false);
 		}
-		
+
 
 		return result;
 
@@ -81,16 +85,18 @@ public class CommentController extends AbstractController {
 	@RequestMapping(value = "/createComment", method = RequestMethod.POST, params = "save")
 	public ModelAndView saveFilm(Comment comment,
 			final BindingResult binding) {
-		ModelAndView result = new ModelAndView("redirect:/welcome/index.do");;
+
+		ModelAndView result = null;
+		FilmEnthusiast principal = (FilmEnthusiast)this.actorService.findByPrincipal();
 
 		try {
 			comment = this.commentService.reconstruct(comment, binding);
-			
+
 			if(binding.hasErrors()) {
-				
+
 				Collection<Film> films = this.filmService.publishedFilms();
 				Collection<Forum> forums = this.forumService.findAllByFilmEnthusiast(comment.getFilmEnthusiast().getId());
-				
+
 				result = new ModelAndView("comment/createComment");
 				result.addObject("comment", comment);
 				result.addObject("binding", binding);
@@ -108,7 +114,9 @@ public class CommentController extends AbstractController {
 					result.addObject("possible", false);				
 				}
 			}
-		} catch (Throwable oops) {}
+		} catch (Throwable oops) {
+
+		}
 
 		return result;
 	}
@@ -119,14 +127,14 @@ public class CommentController extends AbstractController {
 		boolean possible = false;
 		Actor principal;
 		Collection<Comment> comments = new ArrayList<>();
-		
+
 		try {
 			principal = this.actorService.findByPrincipal();
 
 			if(this.actorService.checkAuthority(principal, "FILMENTHUSIAST")) {
 				comments = this.commentService.getCommentsByOwner(principal.getId());
 				possible = true;
-				
+
 				result.addObject("requestURI", "comment/filmEnthusiast/list.do");
 				result.addObject("comments", comments);
 				result.addObject("possible", possible);
@@ -167,7 +175,7 @@ public class CommentController extends AbstractController {
 	public ModelAndView display(@RequestParam final int id) {
 		ModelAndView result;
 		Comment comment;
-		
+
 		try {
 			final Actor principal = this.actorService.findByPrincipal();
 			comment = this.commentService.findOne(id);

@@ -178,9 +178,12 @@ public class ReviewCriticController extends AbstractController {
 				.getReviewsByCritic(principal.getId());
 		boolean possible = false;
 
-		if (principal.getId() == reviews.iterator().next().getCritic().getId()) {
-			possible = true;
+		if(!reviews.isEmpty()){
+			if (principal.getId() == reviews.iterator().next().getCritic().getId()) {
+				possible = true;
+			}
 		}
+
 		result = new ModelAndView("review/listAll");
 		result.addObject("reviews", reviews);
 		result.addObject("possible", possible);
@@ -219,9 +222,12 @@ public class ReviewCriticController extends AbstractController {
 			final String messageCode) {
 		ModelAndView result;
 
+
+
 		try {
 			Collection<Film> finalFilms = this.reviewService.getFinalFilms();
 			Actor principal = this.actorService.findByPrincipal();
+
 
 			Assert.isTrue(review.getCritic().getId() == principal.getId());
 			Assert.isTrue(review.getIsDraft());

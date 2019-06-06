@@ -342,7 +342,15 @@ public class GroupService {
 		this.groupRepository.delete(f);
 		
 	}
-	
+
+
+	public Collection<Forum> getForumsToComment(int id){
+		Collection<Forum> result = this.groupRepository.getForumsToComment(id);
+
+		return result;
+	}
+
+
 //	public Collection<Forum> groupsWithSaga(int sagaId) {
 //		Collection<Forum> result;
 //
@@ -350,5 +358,6 @@ public class GroupService {
 //
 //		return result;
 //	}
+
 
 }

@@ -233,7 +233,9 @@ public class ReviewService {
 						"Wrong critic");
 				Assert.isTrue(reviewBD.getFilm().equals(review.getFilm()),
 						"Wrong film");
-
+				
+				Assert.isTrue(reviewBD.getModerator().equals(principal));
+				
 				result = this.reviewRepository.save(reviewBD);
 			}
 		}
@@ -293,6 +295,13 @@ public class ReviewService {
 		}
 
 		this.validator.validate(result, binding);
+
+		
+		if(binding.hasErrors()){
+		
+			throw new ValidationException();
+		}
+
 
 		return result;
 	}
